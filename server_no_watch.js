@@ -1,12 +1,7 @@
 /* eslint-disable no-console */
 const colors = require('colors/safe');
-const gaze = require('gaze');
 const StaticServer = require('static-server');
 
-const buildAll = require('./build');
-const buildData = require('./build_data');
-const buildSrc = require('./build_src');
-const buildCSS = require('./build_css');
 
 const CSSFILES = ['css/**/*.css'];
 const SRCFILES = ['modules/**/*.js'];
