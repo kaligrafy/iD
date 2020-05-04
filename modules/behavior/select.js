@@ -9,6 +9,8 @@ import { modeSelectError } from '../modes/select_error';
 import { osmEntity, osmNote, qaError } from '../osm';
 
 
+var _pointerPrefix = 'PointerEvent' in window ? 'pointer' : 'mouse';
+
 export function behaviorSelect(context) {
     // legacy option to show menu on every click
     var isShowAlways = +context.storage('edit-menu-show-always') === 1;
@@ -53,25 +55,25 @@ export function behaviorSelect(context) {
     }
 
 
-    function mousedown() {
+    function pointerdown() {
         if (!_p1) {
             _p1 = point();
         }
         d3_select(window)
-            .on('mouseup.select', mouseup, true);
+        .on(_pointerPrefix + 'up.select', pointerup, true);
 
         _suppressMenu = !isShowAlways;
     }
 
 
-    function mousemove() {
+    function pointermove() {
         if (d3_event) {
             _lastMouse = d3_event;
         }
     }
 
 
-    function mouseup() {
+    function pointerup() {
         click();
     }
 
@@ -99,7 +101,7 @@ export function behaviorSelect(context) {
 
     function click() {
         d3_select(window)
-            .on('mouseup.select', null, true);
+            .on(_pointerPrefix + 'up.select', null, true);
 
         if (!_p1) return;
         var p2 = point();
@@ -204,8 +206,8 @@ export function behaviorSelect(context) {
             });
 
         selection
-            .on('mousedown.select', mousedown)
-            .on('mousemove.select', mousemove)
+            .on(_pointerPrefix + 'down.select', pointerdown)
+            .on(_pointerPrefix + 'move.select', pointermove)
             .on('contextmenu.select', contextmenu);
 
         if (d3_event && d3_event.shiftKey) {
@@ -220,11 +222,11 @@ export function behaviorSelect(context) {
             .on('keydown.select', null)
             .on('keyup.select', null)
             .on('contextmenu.select-window', null)
-            .on('mouseup.select', null, true);
+            .on(_pointerPrefix + 'up.select', null, true);
 
         selection
-            .on('mousedown.select', null)
-            .on('mousemove.select', null)
+            .on(_pointerPrefix + 'down.select', pointerdown)
+            .on(_pointerPrefix + 'move.select', pointermove)
             .on('contextmenu.select', null);
 
         context.surface()

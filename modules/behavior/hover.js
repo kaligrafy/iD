@@ -9,6 +9,8 @@ import { schemaManager } from '../entities/schema_manager';
 import { osmEntity, osmNote, qaError } from '../osm';
 import { utilKeybinding, utilRebind } from '../util';
 
+var _pointerPrefix = 'PointerEvent' in window ? 'pointer' : 'mouse';
+
 /*
    The hover behavior adds the `.hover` class on mouseover to all elements to which
    the identical datum is bound, and removes it on mouseout.
@@ -68,40 +70,42 @@ export function behaviorHover(context) {
         }
 
         _selection
-            .on('mouseover.hover', mouseover)
-            .on('mouseout.hover', mouseout)
-            .on('mousedown.hover', mousedown);
+
+            .on(_pointerPrefix + 'over.hover', pointerover)
+            .on(_pointerPrefix + 'out.hover', pointerout)
+            .on(_pointerPrefix + 'down.hover', pointerdown);
+
 
         d3_select(window)
             .on('keydown.hover', keydown)
             .on('keyup.hover', keyup);
 
 
-        function mouseover() {
+        function pointerover() {
             if (_buttonDown) return;
             var target = d3_event.target;
             enter(target ? target.__data__ : null);
         }
 
 
-        function mouseout() {
+        function pointerout() {
             if (_buttonDown) return;
             var target = d3_event.relatedTarget;
             enter(target ? target.__data__ : null);
         }
 
 
-        function mousedown() {
+        function pointerdown() {
             _buttonDown = true;
             d3_select(window)
-                .on('mouseup.hover', mouseup, true);
+                .on(_pointerPrefix + 'up.hover', pointerup, true);
         }
 
 
-        function mouseup() {
+        function pointerup() {
             _buttonDown = false;
             d3_select(window)
-                .on('mouseup.hover', null, true);
+                .on(_pointerPrefix + 'up.hover', pointerup, true);
         }
 
         function allowsVertex(d) {
@@ -194,9 +198,9 @@ export function behaviorHover(context) {
             .classed('hover-disabled', false);
 
         selection
-            .on('mouseover.hover', null)
-            .on('mouseout.hover', null)
-            .on('mousedown.hover', null);
+            .on(_pointerPrefix + 'over.hover', null)
+            .on(_pointerPrefix + 'out.hover', null)
+            .on(_pointerPrefix + 'down.hover', null);
 
         d3_select(window)
             .on('keydown.hover', null)
