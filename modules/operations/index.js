@@ -1,4 +1,5 @@
 export { operationCircularize } from './circularize';
+export { operationBezierize } from './bezierize';
 export { operationContinue } from './continue';
 export { operationDelete } from './delete';
 export { operationDisconnect } from './disconnect';

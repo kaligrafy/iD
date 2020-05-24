@@ -9,7 +9,7 @@ import { modeBrowse } from '../modes/browse';
 import _debounce from 'lodash-es/debounce';
 import { operationCircularize, operationContinue, operationDelete, operationDisconnect,
     operationDowngrade, operationExtract, operationMerge, operationOrthogonalize,
-    operationReverse, operationSplit, operationStraighten } from '../operations';
+    operationReverse, operationSplit, operationStraighten, operationBezierize } from '../operations';
 import { uiToolAddFavorite, uiToolAddFeature, uiToolAddRecent, uiToolNotes, uiToolOperation, uiToolSave, uiToolUndoRedo } from './tools';
 import { uiToolAddAddablePresets } from './tools/quick_presets_addable';
 import { uiToolAddGeneric } from './tools/quick_presets_generic';
@@ -26,6 +26,7 @@ import { uiToolPowerSupport } from './tools/power_support';
 export function uiTopToolbar(context) {
 
     var circularize = uiToolOperation(context, operationCircularize),
+        bezierize = uiToolOperation(context, operationBezierize),
         continueTool = uiToolOperation(context, operationContinue),
         deleteTool = uiToolOperation(context, operationDelete),
         disconnect = uiToolOperation(context, operationDisconnect),
@@ -38,6 +39,7 @@ export function uiTopToolbar(context) {
         reverse = uiToolOperation(context, operationReverse),
         split = uiToolOperation(context, operationSplit),
         straighten = uiToolOperation(context, operationStraighten);
+        
 
     var toolbox = uiToolToolbox(context),
         addAddable = uiToolAddAddablePresets(context),
@@ -112,6 +114,7 @@ export function uiTopToolbar(context) {
                 'spacer',
                 straighten,
                 orthogonalize,
+                bezierize,
                 circularize,
                 reverse,
                 split,
