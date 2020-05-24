@@ -1,0 +1,16 @@
+{
+    "icon": "temaki-billboard",
+    "fields": [
+        "direction",
+        "lit"
+    ],
+    "geometry": [
+        "point",
+        "vertex",
+        "line"
+    ],
+    "tags": {
+        "advertising": "billboard"
+    },
+    "name": "Billboard"
+}
