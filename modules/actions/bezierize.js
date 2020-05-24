@@ -1,14 +1,19 @@
 
 
 /* Generate a bezier curve from points (minimum 3 points) */
-export function actionBezierize(nodeIDs, projection) {
+export function actionBezierize(nodeId, way, projection) {
 
+    var nodeIndex     = way.nodes.indexOf(nodeId);
+    var prevNodeIndex = nodeIndex - 1;
+    var nextNodeIndex = nodeIndex + 1;
+
+    var prevNode = way.nodes[prevNodeIndex];
+    var node     = way.nodes[nodeIndex];
+    var nextNode = way.nodes[nextNodeIndex];
 
     var action = function(graph, t) {
-        var nodes = nodeIDs.map(function(id) { return graph.entity(id); });
-        var controlPoints = nodes.map(function(n) { return projection(n.loc); });
-        console.log('controlPoints', controlPoints);
-
+        
+        console.log('controlPoints', prevNodeIndex, nodeIndex, nextNodeIndex);
 
         /*for (f = 0; f <= 1.01; f += .01 ) {
             bezier(controlPoints.length, f);
@@ -49,8 +54,8 @@ export function actionBezierize(nodeIDs, projection) {
 
 
     action.disabled = function(graph) {
-        if (nodeIDs.length !== 3)
-            return 'needs_3_points';
+        if (!prevNode || !node || !nextNode)
+            return 'needs_1_point_with_prev_and_next';
         return false;
     };
 

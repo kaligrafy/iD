@@ -5,15 +5,59 @@ import { utilGetAllNodes } from '../util';
 
 
 export function operationBezierize(selectedIDs, context) {
-    var entityID = selectedIDs[0];
-    var entity = context.entity(entityID);
-    var extent = entity.extent(context.graph());
-    var action = actionBezierize(selectedIDs, context.projection);
+
+    var _extent;
+    var type;
+    var actions = selectedIDs.map(chooseAction).filter(Boolean);
+    var amount = actions.length === 1 ? 'single' : 'multiple';
     var nodes = utilGetAllNodes(selectedIDs, context.graph());
     var coords = nodes.map(function(n) { return n.loc; });
 
+    function chooseAction(entityID) {
+
+        var entity = context.entity(entityID);
+        var geometry = context.geometry(entityID);
+
+        if (!_extent) {
+            _extent =  entity.extent(context.graph());
+        } else {
+            _extent = _extent.extend(entity.extent(context.graph()));
+        }
+
+        // bezierize a single vertex using previous and next node
+        if (geometry === 'vertex') {
+            if (type && type !== 'corner') return null;
+            type = 'corner';
+            var graph = context.graph();
+            var parents = graph.parentWays(entity);
+            if (parents.length === 1) {
+                var way = parents[0];
+                var indexOfNodeInParent = way.nodes.indexOf(entityID);
+                // must not be first or last node of way, we need a previous and a next node:
+                if (indexOfNodeInParent > 0 && indexOfNodeInParent < way.nodes.length - 1) {
+                    return actionBezierize(entityID, way, context.projection);
+                }
+            }
+        }
+
+        return null;
+    }
+
+
     var operation = function() {
-        context.perform(action, operation.annotation());
+        if (!actions.length) return;
+
+        var combinedAction = function(graph, t) {
+            actions.forEach(function(action) {
+                if (!action.disabled(graph)) {
+                    graph = action(graph, t);
+                }
+            });
+            return graph;
+        };
+        combinedAction.transitionable = true;
+
+        context.perform(combinedAction, operation.annotation());
 
         window.setTimeout(function() {
             context.validator().validate();
@@ -22,21 +66,41 @@ export function operationBezierize(selectedIDs, context) {
 
 
     operation.available = function(situation) {
-        if (nodes.length === 3) 
-            return true;
+        if (!actions.length || selectedIDs.length !== actions.length) return false;
 
         if (situation === 'toolbar' &&
-            action.disabled(context.graph())) return false;
+            actions.every(function(action) {
+                return action.disabled(context.graph()) === 'end_vertex';
+            })) return false;
 
-        return false;
+        return true;
     };
 
 
     // don't cache this because the visible extent could change
     operation.disabled = function() {
-        var actionDisabled = action.disabled(context.graph());
+        if (!actions.length) return '';
+
+        var actionDisabled;
+
+        var actionDisableds = {};
+
+        if (actions.every(function(action) {
+            var disabled = action.disabled(context.graph());
+            if (disabled) actionDisableds[disabled] = true;
+            return disabled;
+        })) {
+            actionDisabled = actions[0].disabled(context.graph());
+        }
+
         if (actionDisabled) {
+            if (Object.keys(actionDisableds).length > 1) {
+                return 'multiple_blockers';
+            }
             return actionDisabled;
+        } else if (type !== 'corner' &&
+                   _extent.percentContainedIn(context.extent()) < 0.8) {
+            return 'too_large';
         } else if (someMissing()) {
             return 'not_downloaded';
         } else if (selectedIDs.some(context.hasHiddenConnections)) {
