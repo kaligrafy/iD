@@ -281,6 +281,10 @@
               "text": "shortcuts.editing.operations.circularize"
             },
             {
+              "shortcuts": ["operations.follow.key"],
+              "text": "shortcuts.editing.operations.follow"
+            },
+            {
               "shortcuts": ["operations.bezierize.key"],
               "text": "shortcuts.editing.operations.bezierize"
             },
