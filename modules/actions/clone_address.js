@@ -13,6 +13,7 @@ export function actionCloneAddress(selectedIds) {
         const addressStreet = cloneAddressFromEntity.tags['addr:street'];
         const addressCity = cloneAddressFromEntity.tags['addr:city'];
         const addressProvince = cloneAddressFromEntity.tags['addr:province'];
+        const addressPostcode = cloneAddressFromEntity.tags['addr:postcode'];
 
         for (let i = 1; i < entities.length; i++) {
           let entity = entities[i];
@@ -28,6 +29,9 @@ export function actionCloneAddress(selectedIds) {
           }
           if (addressProvince) {
             tags['addr:province'] = addressProvince;
+          }
+          if (addressPostcode) {
+            tags['aaddr:postcode'] = addressPostcode;
           }
           entity = entity.update({tags});
           graph = graph.replace(entity);
