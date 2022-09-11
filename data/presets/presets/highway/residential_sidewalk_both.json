@@ -11,17 +11,13 @@
   ],
   "tags": {
       "highway": "residential",
-      "sidewalk": "separate",
       "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "separate"
+      "sidewalk:both": "separate"
   },
   "addTags": {
     "highway": "residential",
-      "sidewalk": "separate",
       "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "separate",
+      "sidewalk:both": "separate",
       "surface": "asphalt"
   },
   "terms": [

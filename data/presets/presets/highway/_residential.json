@@ -4,8 +4,6 @@
         "name",
         "oneway_yes",
         "sidewalk",
-        "sidewalk/separate-left",
-        "sidewalk/separate-right",
         "maxspeed",
         "lanes",
         "lanes_forward",

@@ -4,6 +4,7 @@ export * from './input';
 export * from './access';
 export * from './address';
 export * from './cycleway';
+export * from './sidewalk';
 export * from './lanes';
 export * from './localized';
 export * from './maxspeed';
@@ -44,6 +45,7 @@ import {
 import { uiFieldAccess } from './access';
 import { uiFieldAddress } from './address';
 import { uiFieldCycleway } from './cycleway';
+import { uiFieldSidewalk } from './sidewalk';
 import { uiFieldLanes } from './lanes';
 import { uiFieldLocalized } from './localized';
 import { uiFieldMaxspeed } from './maxspeed';
@@ -58,6 +60,7 @@ export var uiFields = {
     check: uiFieldCheck,
     combo: uiFieldCombo,
     cycleway: uiFieldCycleway,
+    sidewalk: uiFieldSidewalk,
     defaultCheck: uiFieldDefaultCheck,
     email: uiFieldEmail,
     identifier: uiFieldIdentifier,

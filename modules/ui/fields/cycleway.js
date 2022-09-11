@@ -78,9 +78,19 @@ export function uiFieldCycleway(field, context) {
         var right = utilGetSetValue(d3_select('.preset-input-cyclewayright'));
         var tag = {};
 
-        if (both === 'none' || both === '') { both = undefined; }
-        if (left === 'none' || left === '') { left = undefined; }
-        if (right === 'none' || right === '') { right = undefined; }
+        if (both === '') { both = undefined; }
+        if (left === '') { left = undefined; }
+        if (right === '') { right = undefined; }
+        if (left !== undefined && right !== undefined && left !== right) { 
+            both = undefined;
+        }
+        if (both !== undefined && both !== null) { 
+            left = undefined; 
+            right = undefined;
+        }
+        if (left === right && left !== undefined) {
+            both = left;
+        }
 
         // Always set both left and right as changing one can affect the other
         tag = {
@@ -89,17 +99,6 @@ export function uiFieldCycleway(field, context) {
             'cycleway:left': left,
             'cycleway:right': right
         };
-
-        // If the left and right tags match, use the cycleway tag to tag both
-        // sides the same way
-        if (left === right && left !== undefined) {
-            tag = {
-                cycleway: undefined,
-                'cycleway:both': left,
-                'cycleway:left': undefined,
-                'cycleway:right': undefined
-            };
-        }
 
         dispatch.call('change', this, tag);
     }

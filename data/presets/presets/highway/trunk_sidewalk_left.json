@@ -11,13 +11,11 @@
   ],
   "tags": {
       "highway": "trunk",
-      "sidewalk": "separate",
       "foot": "use_sidepath",
       "sidewalk:left": "separate",
       "sidewalk:right": "no"
   },"addTags": {
     "highway": "trunk",
-      "sidewalk": "separate",
       "foot": "use_sidepath",
       "sidewalk:left": "separate",
       "sidewalk:right": "no",

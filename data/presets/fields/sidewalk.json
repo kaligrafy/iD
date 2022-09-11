@@ -1,6 +1,73 @@
 {
-    "key": "sidewalk",
-    "type": "combo",
-    "label": "Sidewalk",
-    "placeholder": "both, left, right, no..."
+    "keys": ["sidewalk", "sidewalk:both", "sidewalk:left", "sidewalk:right"],
+    "reference": {"key": "sidewalk"},
+    "type": "sidewalk",
+    "label": "Sidewalk(s)",
+    "placeholder": "",
+    "strings": {
+        "types": {
+            "sidewalk": "Sidewalk"
+        },
+        "options": {
+            "no": {
+                "title": "No",
+                "description": "No sidewalk"
+            },
+            "none": {
+                "title": "None",
+                "description": "No sidewalk (deprecated)"
+            },
+            "separate_both": {
+                "title": "Separate both",
+                "description": "A sidewalk that is drawn on both sides separately as their own ways"
+            },
+            "separate_left": {
+                "title": "Separate both",
+                "description": "A sidewalk that is drawn on the left side separately as its own way"
+            },
+            "separate_right": {
+                "title": "Separate right",
+                "description": "A sidewalk that is drawn on the right side separately as its own way"
+            },
+            "shared_both": {
+                "title": "Shared both",
+                "description": "A pedestrian lane shared with vehicle on both sides, but may be separated with markings"
+            },
+            "shared_left": {
+                "title": "Shared left",
+                "description": "A pedestrian lane shared with vehicle on left side, but may be separated with markings"
+            },
+            "shared_right": {
+                "title": "Shared right",
+                "description": "A pedestrian lane shared with vehicle on right side, but may be separated with markings"
+            },
+            "both": {
+                "title": "Both",
+                "description": "Sidewalk is present on both sides but not drawn separately"
+            },
+            "left": {
+                "title": "Left",
+                "description": "Sidewalk is present on left side only  but not drawn separately"
+            },
+            "right": {
+                "title": "Right",
+                "description": "Sidewalk is present onright side only but not drawn separately"
+            },
+            "invalid": {
+                "title": "Invalid or wrong combination",
+                "description": "Please validate the sidewalk fields. Something is invalid"
+
+            },
+            "shared_left_separate_right": {
+                "title": "Shared left separate right",
+                "description": "Shared pedestrian on the left, sidewalk on the right (drawn separately)"
+
+            },
+            "shared_right_separate_left": {
+                "title": "Shared right separate left",
+                "description": "Shared pedestrian on the right, sidewalk on the left (drawn separately)"
+
+            }
+        }
+    }
 }

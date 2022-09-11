@@ -10,7 +10,7 @@ import {
 
 export function operationCloneSidewalk(selectedIDs, context) {
 
-    const cloneTags = ['sidewalk', 'sidewalk:right', 'sidewalk:left', 'foot'];
+    const cloneTags = ['sidewalk', 'sidewalk:both', 'sidewalk:right', 'sidewalk:left', 'foot'];
     var action = actionCloneRoadAttributes(selectedIDs, cloneTags);
 
     var operation = function () {

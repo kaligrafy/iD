@@ -11,17 +11,13 @@
   ],
   "tags": {
       "highway": "unclassified",
-      "sidewalk": "separate",
       "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "separate"
+      "sidewalk:both": "separate"
   },"addTags": {
     "highway": "unclassified",
-    "sidewalk": "separate",
     "foot": "use_sidepath",
-    "sidewalk:left": "separate",
-    "sidewalk:right": "separate",
-      "surface": "asphalt"
+    "sidewalk:both": "separate",
+    "surface": "asphalt"
   },
   "terms": [
       "ub",

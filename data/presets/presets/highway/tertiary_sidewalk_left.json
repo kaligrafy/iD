@@ -11,13 +11,11 @@
   ],
   "tags": {
       "highway": "tertiary",
-      "sidewalk": "separate",
       "foot": "use_sidepath",
       "sidewalk:left": "separate",
       "sidewalk:right": "no"
   },"addTags": {
     "highway": "tertiary",
-      "sidewalk": "separate",
       "foot": "use_sidepath",
       "sidewalk:left": "separate",
       "sidewalk:right": "no",
