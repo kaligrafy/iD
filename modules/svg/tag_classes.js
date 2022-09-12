@@ -386,8 +386,11 @@ export function svgTagClasses() {
                 if ((sidewalk !== 'no' && sidewalk !== null) || (sidewalk === 'no' && (sidewalkBoth !== null || sidewalkLeft !== null || sidewalkRight !== null))) {
                     classes.push('tag-sidewalk-invalid');
                 }
+                else if ((sidewalk !== null || sidewalkBoth !== null) && (sidewalkLeft !== null || sidewalkRight !== null)) {
+                    classes.push('tag-sidewalk-invalid');
+                }
                 else if (
-                    (sidewalk === null && sidewalkBoth === 'separate') ||
+                    (sidewalk === null && sidewalkBoth === 'separate' && sidewalkLeft === null && sidewalkRight === null) ||
                     (sidewalk === null && sidewalkBoth === null && sidewalkLeft === 'separate' && sidewalkRight === 'separate') ||
                     (sidewalk === null && sidewalkBoth === null && sidewalkLeft === 'separate' && sidewalkRight === 'no') ||
                     (sidewalk === null && sidewalkBoth === null && sidewalkLeft === 'no' && sidewalkRight === 'separate')
@@ -401,7 +404,7 @@ export function svgTagClasses() {
                         classes.push('tag-sidewalk-separate-both');
                     }
                 } else if (
-                    (sidewalk === null && sidewalkBoth === 'shared') ||
+                    (sidewalk === null && sidewalkBoth === 'shared' && sidewalkLeft === null && sidewalkRight === null) ||
                     (sidewalk === null && sidewalkBoth === null && sidewalkLeft === 'shared' && sidewalkRight === 'shared') ||
                     (sidewalk === null && sidewalkBoth === null && sidewalkLeft === 'shared' && sidewalkRight === 'no') ||
                     (sidewalk === null && sidewalkLeft === 'no' && sidewalkRight === 'shared')
