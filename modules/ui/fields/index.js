@@ -1,4 +1,5 @@
 export * from './check';
+export * from './buswaylanes';
 export * from './combo';
 export * from './input';
 export * from './access';
@@ -46,6 +47,7 @@ import { uiFieldAccess } from './access';
 import { uiFieldAddress } from './address';
 import { uiFieldCycleway } from './cycleway';
 import { uiFieldSidewalk } from './sidewalk';
+import { uiFieldBuswaylanes } from './buswaylanes';
 import { uiFieldLanes } from './lanes';
 import { uiFieldLocalized } from './localized';
 import { uiFieldMaxspeed } from './maxspeed';
@@ -61,6 +63,7 @@ export var uiFields = {
     combo: uiFieldCombo,
     cycleway: uiFieldCycleway,
     sidewalk: uiFieldSidewalk,
+    buswaylanes: uiFieldBuswaylanes,
     defaultCheck: uiFieldDefaultCheck,
     email: uiFieldEmail,
     identifier: uiFieldIdentifier,

@@ -1,0 +1,31 @@
+{
+    "keys": ["bus:lanes", "bus:lanes:forward", "bus:lanes:backward", "lanes:bus", "lanes:bus:forward", "lanes:bus:backward", "busway:right", "busway:left"],
+    "reference": {"key": "buswaylanes"},
+    "type": "buswaylanes",
+    "label": "Busway lanes",
+    "placeholder": "",
+    "strings": {
+        "types": {
+            "buswaylanes": "Busway lanes"
+        },
+        "options": {
+            "both": {
+                "title": "Both",
+                "description": "Bus lane on both the left and right side of way (only for bidirectional)"
+            },
+            "left": {
+                "title": "Left",
+                "description": "Bus lane on the left"
+            },
+            "right": {
+                "title": "Right",
+                "description": "Bus lane on the left"
+            },
+            "invalid_or_custom": {
+                "title": "Invalid or justom",
+                "description": "Please confirm that data is valid for custom combinations"
+
+            }
+        }
+    }
+}

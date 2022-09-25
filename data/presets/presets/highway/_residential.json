@@ -8,6 +8,7 @@
         "lanes",
         "lanes_forward",
         "lanes_backward",
+        "buswaylanes",
         "turn_lanes/5_lanes_oneway",
         "turn_lanes/5_lanes_forward",
         "turn_lanes/5_lanes_backward",
