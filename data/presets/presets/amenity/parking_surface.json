@@ -45,6 +45,6 @@
       "vehicle parking",
       "surface parking"
   ],
-  "name": "Parking Lot (Surface)",
+  "name": "Parking Lot (Surface) [⇧+p]",
   "shortcut": ["⇧+p"]
 }

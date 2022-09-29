@@ -31,7 +31,7 @@
         "crosswalk",
         "uz"
     ],
-    "name": "Uncontrolled Zebra Crosswalk (node)",
+    "name": "Uncontrolled Zebra Crosswalk (node) [⇧+k]",
     "searchable": true,
     "shortcut": ["⇧+k"]
 }

@@ -31,6 +31,6 @@
         "lines crossing",
         "ul"
     ],
-    "name": "Uncontrolled Lines Crossing (| |) (node)",
+    "name": "Uncontrolled Lines Crossing (| |) (node) [⇧+l]",
     "shortcut": ["⇧+l"]
 }

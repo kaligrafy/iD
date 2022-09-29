@@ -23,6 +23,6 @@
       "garage"
   ],
   "matchScore": 0.8,
-  "name": "Garage Entrance / Exit",
+  "name": "Garage Entrance / Exit [⌥+g]",
   "shortcut": ["⌥+g"]
 }

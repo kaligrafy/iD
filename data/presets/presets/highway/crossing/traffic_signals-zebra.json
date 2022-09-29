@@ -31,6 +31,6 @@
         "zebra crossing",
         "tsz"
     ],
-    "name": "Traffic Signals Zebra Crossing (node)",
+    "name": "Traffic Signals Zebra Crossing (node) [⇧+z]",
     "shortcut": ["⇧+z"]
 }

@@ -18,6 +18,6 @@
       "key": "service",
       "value": "parking_aisle"
   },
-  "name": "Destination Parking Aisle",    
+  "name": "Destination Parking Aisle [⌥+⇧+e]",
   "shortcut": ["⌥+⇧+e"]
 }

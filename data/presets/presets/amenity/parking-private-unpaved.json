@@ -46,6 +46,6 @@
       "truck parking",
       "vehicle parking"
   ],
-  "name": "Private Unpaved Parking Lot",
+  "name": "Private Unpaved Parking Lot [⌃+p]",
   "shortcut": ["⌃+p"]
 }

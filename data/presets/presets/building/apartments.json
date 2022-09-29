@@ -10,6 +10,6 @@
         "building": "apartments"
     },
     "matchScore": 0.5,
-    "name": "Apartment Building",
+    "name": "Apartment Building [⇧+a]",
     "shortcut": ["⇧+a"]
 }

@@ -14,6 +14,6 @@
       "entrance"
   ],
   "matchScore": 0.8,
-  "name": "Routing Entrance / Exit",
+  "name": "Routing Entrance / Exit [⌥+e]",
   "shortcut": ["⌥+e"]
 }

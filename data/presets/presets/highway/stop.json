@@ -15,6 +15,5 @@
         "halt",
         "sign"
     ],
-    "name": "Stop Sign",
-    "shortcut": ["⌥+⇧+s"]
+    "name": "Stop Sign"
 }

@@ -31,6 +31,6 @@
         "lines crossing",
         "tsl"
     ],
-    "name": "Traffic Signals Lines Crossing (| |) (node)",
+    "name": "Traffic Signals Lines Crossing (| |) (node) [⇧+t]",
     "shortcut": ["⇧+t"]
 }

@@ -11,7 +11,7 @@
     "tags": {
         "barrier": "fence"
     },
-    "name": "Fence",
+    "name": "Fence [n]",
     "matchScore": 0.25,
     "shortcut": ["n"]
 }

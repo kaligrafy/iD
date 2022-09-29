@@ -40,6 +40,6 @@
         "bike path",
         "cycling path"
     ],
-    "name": "Cycle Path (no foot)",
+    "name": "Cycle Path (no foot) [⌥+⇧+c]",
     "shortcut": ["⌥+⇧+c"]
 }
