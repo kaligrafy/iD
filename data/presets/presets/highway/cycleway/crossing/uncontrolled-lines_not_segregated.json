@@ -1,12 +1,14 @@
 {
-    "icon": "fas-biking",
+    "icon": "temaki-pedestrian",
     "fields": [
         "crossing",
+        "crossing_markings",
         "access",
-        "segregated",
         "surface",
         "tactile_paving",
-        "crossing/island"
+        "traffic_calming",
+        "crossing/island",
+        "name"
     ],
     "geometry": [
         "line"
@@ -14,7 +16,8 @@
     "tags": {
         "highway": "cycleway",
         "cycleway": "crossing",
-        "crossing": "unmarked",
+        "crossing": "uncontrolled",
+        "crossing:markings": "lines",
         "bicycle": "designated",
         "foot": "designated",
         "segregated": "no",
@@ -23,7 +26,8 @@
     "addTags": {
         "highway": "cycleway",
         "cycleway": "crossing",
-        "crossing": "unmarked",
+        "crossing": "uncontrolled",
+        "crossing:markings": "lines",
         "bicycle": "designated",
         "foot": "designated",
         "segregated": "no",
@@ -34,6 +38,14 @@
         "key": "cycleway",
         "value": "crossing"
     },
-    "terms": [],
-    "name": "Unmarked Cycle & Foot Crossing (not segregated) (deprecated)"
+    "terms": [
+        "uncontrolled foot path crossing",
+        "uncontrolled crosswalk",
+        "uncontrolled pedestrian crossing",
+        "lines crossing",
+        "ul",
+        "ulns"
+    ],
+    "name": "Uncontrolled Lines Cycleway Crossing Not Segregated (| |)",
+    "shortcut": ["⌥+l"]
 }

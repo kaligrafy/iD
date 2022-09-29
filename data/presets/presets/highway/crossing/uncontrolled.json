@@ -1,5 +1,5 @@
 {
-    "icon": "temaki-pedestrian_crosswalk",
+    "icon": "temaki-pedestrian",
     "fields": [
         "crossing",
         "crossing_markings",
@@ -12,16 +12,19 @@
     ],
     "tags": {
         "highway": "crossing",
-        "crossing": "marked"
+        "crossing": "uncontrolled",
+        "crossing:markings": "no"
     },
     "addTags": {
         "highway": "crossing",
-        "crossing": "marked"
+        "crossing": "uncontrolled",
+        "crossing:markings": "no"
     },
     "reference": {
         "key": "crossing",
-        "value": "marked"
+        "value": "uncontrolled"
     },
     "terms": [],
-    "name": "Marked (deprecated)"
+    "name": "Uncontrolled Crossing (no marking) (node)",
+    "shortcut": ["⇧+u"]
 }

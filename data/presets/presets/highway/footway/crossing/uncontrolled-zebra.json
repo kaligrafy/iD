@@ -2,33 +2,42 @@
     "icon": "temaki-pedestrian_crosswalk",
     "fields": [
         "crossing",
+        "crossing_markings",
         "access",
         "surface",
         "tactile_paving",
-        "crossing/island"
+        "traffic_calming",
+        "crossing/island",
+        "name"
     ],
     "geometry": [
         "line"
     ],
     "tags": {
+        "highway": "footway",
         "footway": "crossing",
-        "crossing": "marked"
+        "crossing": "uncontrolled",
+        "crossing:markings": "zebra"
     },
     "addTags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "marked"
+        "crossing": "uncontrolled",
+        "crossing:markings": "zebra",
+        "surface": "asphalt"
     },
     "reference": {
         "key": "footway",
         "value": "crossing"
     },
     "terms": [
-        "marked foot path crossing",
+        "zebra",
+        "zebra crossing",
         "marked crossing",
-        "marked pedestrian crosswalk",
-        "zebra crossing"
+        "crosswalk",
+        "uz"
     ],
-    "name": "Marked Crosswalk",
+    "name": "Uncontrolled Zebra Crosswalk (node)",
+    "searchable": true,
     "shortcut": ["k"]
 }

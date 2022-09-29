@@ -1,0 +1,42 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "access",
+        "surface",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "footway",
+        "footway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "lines"
+    },
+    "addTags": {
+        "highway": "footway",
+        "footway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "lines",
+        "surface": "asphalt"
+    },
+    "reference": {
+        "key": "footway",
+        "value": "crossing"
+    },
+    "terms": [
+        "traffic signals foot path crossing",
+        "traffic signals crosswalk",
+        "traffic signals pedestrian crossing",
+        "lines crossing",
+        "tsl"
+    ],
+    "name": "Traffic Signals Lines Crossing (| |)",
+    "shortcut": ["t"]
+}

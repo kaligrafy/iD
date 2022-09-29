@@ -1,0 +1,50 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "access",
+        "surface",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "lines",
+        "bicycle": "designated",
+        "foot": "designated",
+        "segregated": "yes",
+        "lcn": "yes"
+    },
+    "addTags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "lines",
+        "bicycle": "designated",
+        "foot": "designated",
+        "segregated": "yes",
+        "lcn": "yes",
+        "surface": "asphalt"
+    },
+    "reference": {
+        "key": "cycleway",
+        "value": "crossing"
+    },
+    "terms": [
+        "traffic signals cycle path crossing",
+        "traffic signals crosswalk",
+        "traffic signals bicycle crossing",
+        "lines crossing",
+        "tsl",
+        "tslns"
+    ],
+    "name": "Traffic Signals Lines Cycleway Crossing Segregated (| |)"
+}

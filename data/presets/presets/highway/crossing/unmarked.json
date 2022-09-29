@@ -2,7 +2,9 @@
     "icon": "temaki-pedestrian",
     "fields": [
         "crossing",
+        "crossing_markings",
         "tactile_paving",
+        "traffic_calming",
         "crossing/island"
     ],
     "geometry": [
@@ -15,13 +17,11 @@
     "addTags": {
         "highway": "crossing",
         "crossing": "unmarked"
-
     },
     "reference": {
         "key": "crossing",
         "value": "unmarked"
     },
     "terms": [],
-    "name": "Unmarked Crossing",
-    "shortcut": ["⇧+u"]
+    "name": "Unmarked (deprecated)"
 }

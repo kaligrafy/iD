@@ -1,0 +1,47 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "access",
+        "surface",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "no",
+        "foot": "no",
+        "lcn": "yes"
+    },
+    "addTags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "no",
+        "foot": "no",
+        "lcn": "yes",
+        "surface": "asphalt"
+    },
+    "reference": {
+        "key": "cycleway",
+        "value": "crossing"
+    },
+    "terms": [
+        "traffic signals foot path crossing",
+        "traffic signals crosswalk",
+        "traffic signals pedestrian crossing",
+        "no marking crossing",
+        "tsn",
+        "tsnnf",
+        "tsnf"
+    ],
+    "name": "Traffic Signals Cycleway Crossing No Foot (no markings)"
+}

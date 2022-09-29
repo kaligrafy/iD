@@ -1,0 +1,50 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "access",
+        "surface",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "zebra",
+        "bicycle": "designated",
+        "foot": "designated",
+        "segregated": "yes",
+        "lcn": "yes"
+    },
+    "addTags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "zebra",
+        "bicycle": "designated",
+        "foot": "designated",
+        "segregated": "yes",
+        "lcn": "yes",
+        "surface": "asphalt"
+    },
+    "reference": {
+        "key": "cycleway",
+        "value": "crossing"
+    },
+    "terms": [
+        "traffic signals foot path crossing",
+        "traffic signals crosswalk",
+        "traffic signals pedestrian crossing",
+        "zebra crossing",
+        "tsz",
+        "tszns"
+    ],
+    "name": "Traffic Signals Zebra Cycleway Crossing Segregated"
+}

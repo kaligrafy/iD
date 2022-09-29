@@ -522,21 +522,6 @@ path.line.casing.tag-highway-bridleway.tag-unpaved {
 }
 
 
-
-
-/* crossings */
-path.line.casing.tag-crossing-unmarked, path.line.casing.tag-crossing-marked, path.line.casing.tag-crossing-zebra {
-  opacity: 0.5;
-}
-path.line.stroke.tag-crossing-unmarked, path.line.stroke.tag-crossing-marked, path.line.stroke.tag-crossing-zebra {
-  opacity: 0.5;
-}
-path.line.stroke.tag-crossing-marked, path.line.stroke.tag-crossing-zebra {
-  stroke-linecap: butt;
-  stroke-dasharray: 2, 2 !important;
-  stroke-width: 6;
-}
-
 /* cycleway marked crossing with no foot */
 path.line.over-stroke.tag-crossing-marked.tag-highway-cycleway, path.line.over-stroke.tag-crossing-zebra.tag-highway-cycleway {
   stroke:rgb(182, 232, 255);
@@ -631,6 +616,106 @@ path.line.stroke.tag-highway-footway.tag-footway-access_aisle.tag-unpaved {
   stroke:rgb(255, 241, 202);
   stroke-linecap: butt;
   stroke-dasharray: 4 4;
+}
+
+
+/* crossings */
+path.line.casing.tag-crossing-uncontrolled {
+  opacity: 0.6;
+  stroke-linecap: butt;
+}
+path.line.casing.tag-crossing-unmarked,
+path.line.casing.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-designated,
+path.line.casing.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-yes {
+  opacity: 1.0;
+  stroke:rgb(255, 0, 0) !important;
+  stroke-linecap: butt;
+  stroke-dasharray: 6, 6 !important;
+}
+path.line.casing.tag-crossing-marked,
+path.line.casing.tag-crossing-marked.tag-highway-cycleway.tag-foot-designated,
+path.line.casing.tag-crossing-marked.tag-highway-cycleway.tag-foot-yes {
+  opacity: 1.0;
+  stroke:rgb(255, 0, 0) !important;
+  stroke-linecap: butt;
+  stroke-dasharray: 3,3 !important;
+}
+path.line.stroke.tag-crossing-uncontrolled {
+  opacity: 0.6;
+  stroke-linecap: butt;
+}
+path.line.casing.tag-crossing-traffic_signals {
+  opacity: 0.8;
+  stroke-linecap: butt;
+}
+path.line.stroke.tag-crossing-traffic_signals,
+path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-designated
+path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-yes {
+  stroke:rgb(129, 255, 160) !important;
+  opacity: 0.8;
+  stroke-linecap: butt;
+}
+
+
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no,
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-highway-cycleway.tag-foot-designated,
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-highway-cycleway.tag-foot-yes {
+  opacity: 0.4 !important;
+  stroke-dasharray: 6, 6 !important;
+}
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-foot-no,
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-foot-no.tag-highway-cycleway.tag-foot-designated,
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-foot-no.tag-highway-cycleway.tag-foot-yes
+{
+  stroke-dasharray: none !important;
+}
+
+
+
+
+path.line.casing.tag-crossing-uncontrolled.tag-crossing-markings-no {
+  opacity: 0.4 !important;
+}
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-lines {
+  stroke-dasharray: 16, 6 !important;
+}
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-lines.tag-foot-no {
+  stroke-dasharray: none !important;
+}
+
+
+path.line.casing.tag-crossing-uncontrolled.tag-crossing-markings-lines {
+}
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-zebra {
+  stroke-width: 6;
+  stroke-dasharray: 3, 3 !important;
+}
+path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-zebra.tag-foot-no {
+  stroke-dasharray: none !important;
+}
+path.line.casing.tag-crossing-uncontrolled.tag-crossing-markings-zebra {
+}
+
+path.line.stroke.tag-crossing-traffic_signals.tag-crossing-markings-no {
+}
+path.line.casing.tag-crossing-traffic_signals.tag-crossing-markings-no {
+}
+path.line.stroke.tag-crossing-traffic_signals.tag-crossing-markings-lines {
+  stroke-dasharray: 16, 6 !important;
+}
+path.line.stroke.tag-crossing-traffic_signals.tag-crossing-markings-lines.tag-foot-no {
+  stroke-dasharray: none !important;
+}
+path.line.casing.tag-crossing-traffic_signals.tag-crossing-markings-lines {
+}
+path.line.stroke.tag-crossing-traffic_signals.tag-crossing-markings-zebra {
+  stroke-width: 6;
+  stroke-dasharray: 3, 3 !important;
+}
+path.line.stroke.tag-crossing-traffic_signals.tag-crossing-markings-zebra.tag-foot-no {
+  stroke-dasharray: none !important;
+}
+path.line.casing.tag-crossing-traffic_signals.tag-crossing-markings-zebra {
 }
 
 
@@ -857,12 +942,9 @@ path.over-stroke.tag-sidewalk-shared-right
   stroke:  rgb(255, 124, 244);
 }
 
-/* sidewalk/cycleway no-name */
+/* sidewalk/crossings no-name */
 path.over-stroke.tag-footway-sidewalk.tag-name-no,
-path.over-stroke.tag-crossing.tag-name-no,
-path.over-stroke.tag-crossing.tag-crossing-marked.tag-highway-cycleway.tag-name-no,
-path.over-stroke.tag-crossing.tag-crossing-zebra.tag-highway-cycleway.tag-name-no,
-path.over-stroke.tag-crossing.tag-crossing-unmarked.tag-highway-cycleway.tag-name-no {
+path.over-stroke.tag-crossing.tag-name-no {
   stroke-width: 1 !important;
   stroke-dasharray: 6, 6 !important;
   stroke:  rgb(255, 81, 0) !important;
@@ -877,6 +959,23 @@ path.over-stroke.tag-turn_lanes-yes {
   stroke:  rgb(110, 65, 168) !important;
   stroke-linecap: butt !important;
 }
+
+/*
+
+tag-highway 
+tag-highway-cycleway 
+tag-surface 
+tag-surface-asphalt 
+tag-crossing 
+tag-crossing-uncontrolled 
+tag-cycleway-crossing 
+tag-crossing-uncontrolled 
+tag-crossing-markings-no 
+tag-bicycle-designated 
+tag-foot-designated 
+tag-segregated-no 
+tag-name-yes
+*/
 
 /* errors */
 path.casing.tag-highway-cycleway.tag-segregated-undefined.tag-foot-designated, 

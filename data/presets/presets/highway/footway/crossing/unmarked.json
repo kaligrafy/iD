@@ -1,5 +1,5 @@
 {
-    "icon": "temaki-pedestrian_crosswalk",
+    "icon": "temaki-pedestrian",
     "fields": [
         "crossing",
         "access",
@@ -13,19 +13,17 @@
     "tags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "zebra"
+        "crossing": "unmarked"
+    },
+    "addTags": {
+        "highway": "footway",
+        "footway": "crossing",
+        "crossing": "unmarked"
     },
     "reference": {
         "key": "footway",
         "value": "crossing"
     },
-    "terms": [
-        "zebra",
-        "zebra crossing",
-        "marked crossing",
-        "crosswalk"
-    ],
-    "name": "Marked zebra Crosswalk",
-    "searchable": true,
-    "shortcut": ["z"]
+    "terms": [],
+    "name": "Unmarked Crossing (deprecated)"
 }

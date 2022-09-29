@@ -2,7 +2,9 @@
     "icon": "temaki-pedestrian_crosswalk",
     "fields": [
         "crossing",
+        "crossing_markings",
         "tactile_paving",
+        "traffic_calming",
         "crossing/island"
     ],
     "geometry": [
@@ -10,26 +12,26 @@
     ],
     "tags": {
         "highway": "crossing",
-        "crossing": "marked",
-        "traffic_calming": "table"
+        "crossing": "uncontrolled",
+        "crossing:markings": "zebra"
     },
     "addTags": {
         "highway": "crossing",
-        "crossing": "marked",
-        "traffic_calming": "table"
+        "crossing": "uncontrolled",
+        "crossing:markings": "zebra"
     },
     "reference": {
-        "key": "traffic_calming",
-        "value": "table"
+        "key": "crossing",
+        "value": "uncontrolled"
     },
     "terms": [
+        "zebra",
         "zebra crossing",
         "marked crossing",
         "crosswalk",
-        "flat top",
-        "hump",
-        "speed",
-        "slow"
+        "uz"
     ],
-    "name": "Marked Crosswalk (Raised)"
+    "name": "Uncontrolled Zebra Crosswalk (node)",
+    "searchable": true,
+    "shortcut": ["⇧+k"]
 }

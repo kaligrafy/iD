@@ -34,15 +34,6 @@
         "key": "cycleway",
         "value": "crossing"
     },
-    "terms": [
-        "mns",
-        "cycle crosswalk",
-        "cycle path crossing",
-        "cycleway crossing",
-        "bicycle crossing",
-        "bike crossing"
-    ],
-    "matchScore": 0.95,
-    "name": "Marked Cycle & Foot Crossing (not segregated)",
-    "shortcut": ["⌥+⇧+c"]
+    "terms": [],
+    "name": "Marked Cycle & Foot Crossing (not segregated) (deprecated)"
 }

@@ -202,6 +202,7 @@ export function svgTagClasses() {
             var sidewalkRight = null;
             var cycleway = null;
             var crossing = null;
+            var crossingMarkings = null;
             var segregated = null;
             var foot = null;
             var bicycle = null;
@@ -281,6 +282,10 @@ export function svgTagClasses() {
                     crossing = v;
                     isCrossing = true;
                     classes.push('tag-crossing-' + crossing);
+                }
+                if (k === 'crossing:markings') {
+                    crossingMarkings = v.replace(':', "_");
+                    classes.push('tag-crossing-markings-' + crossingMarkings);
                 }
                 if (k === 'segregated') {
                     segregated = v;

@@ -15,6 +15,5 @@
         "stoplight",
         "traffic light"
     ],
-    "name": "Traffic Signals",
-    "shortcut": ["⌥+⇧+t"]
+    "name": "Traffic Signals"
 }

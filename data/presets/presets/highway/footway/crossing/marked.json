@@ -11,22 +11,18 @@
         "line"
     ],
     "tags": {
+        "footway": "crossing",
+        "crossing": "marked"
+    },
+    "addTags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "marked",
-        "access": "private",
-        "motor_vehicle": "no"
+        "crossing": "marked"
     },
     "reference": {
         "key": "footway",
-        "value": "marked_private_crossing"
+        "value": "crossing"
     },
-    "terms": [
-        "marked foot path crossing",
-        "marked crossing",
-        "marked pedestrian crosswalk",
-        "zebra crossing"
-    ],
-    "name": "Marked Private Crosswalk",
-    "shortcut": ["⌥+⇧+k"]
+    "terms": [],
+    "name": "Marked Crosswalk (deprecated)"
 }

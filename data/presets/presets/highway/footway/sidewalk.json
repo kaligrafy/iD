@@ -11,6 +11,7 @@
     "addTags": {
         "highway": "footway",
         "footway": "sidewalk",
+        "surface": "concrete",
         "bicycle": "no"
     },
     "reference": {

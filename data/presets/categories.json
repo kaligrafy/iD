@@ -88,7 +88,7 @@
       "members": [
         "highway/path",
         "highway/footway",
-        "highway/footway/marked",
+        "highway/footway/crossing/uncontrolled-zebra",
         "highway/footway/sidewalk",
         "highway/steps",
         "highway/cycleway",
