@@ -142,9 +142,13 @@ export function validationCrossingWays(context) {
                         return {};
                     }
                     var pathFeature = entity1IsPath ? entity1 : entity2;
-                    if (['marked', 'unmarked'].indexOf(pathFeature.tags.crossing) !== -1) {
+                    if (['marked', 'unmarked', 'uncontrolled', 'traffic_signals', 'zebra', ].indexOf(pathFeature.tags.crossing) !== -1) {
                         // if the path is a crossing, match the crossing type
-                        return { highway: 'crossing', crossing: pathFeature.tags.crossing };
+                        if (pathFeature.tags['crossing:markings'])  {
+                            return { highway: 'crossing', crossing: pathFeature.tags.crossing,  'crossing:markings': pathFeature.tags['crossing:markings'] };
+                        } else {
+                            return { highway: 'crossing', crossing: pathFeature.tags.crossing };
+                        }
                     }
                     // don't add a `crossing` subtag to ambiguous crossings
                     return { highway: 'crossing' };
