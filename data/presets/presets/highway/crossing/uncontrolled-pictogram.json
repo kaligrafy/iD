@@ -1,0 +1,36 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island"
+    ],
+    "geometry": [
+        "vertex"
+    ],
+    "tags": {
+        "highway": "crossing",
+        "crossing": "uncontrolled",
+        "crossing:markings": "pictogram"
+    },
+    "addTags": {
+        "highway": "crossing",
+        "crossing": "uncontrolled",
+        "crossing:markings": "pictogram"
+    },
+    "reference": {
+        "key": "crossing",
+        "value": "uncontrolled"
+    },
+    "terms": [
+        "uncontrolled foot path crossing",
+        "uncontrolled crosswalk",
+        "uncontrolled pedestrian crossing",
+        "lines crossing",
+        "ul"
+    ],
+    "name": "Uncontrolled Pictogram Crossing (pedestrian/bicycle) (node) [⇧+m]",
+    "shortcut": ["⇧+m"]
+}
