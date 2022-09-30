@@ -23,8 +23,7 @@
         "highway": "footway",
         "footway": "crossing",
         "crossing": "uncontrolled",
-        "crossing:markings": "no",
-        "surface": "asphalt"
+        "crossing:markings": "no"
     },
     "reference": {
         "key": "footway",
