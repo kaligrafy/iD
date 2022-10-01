@@ -7,7 +7,7 @@
         "structure",
         "access",
         "incline",
-        "crossing:markings"
+        "crossing_markings"
     ],
     "moreFields": [
         "covered",
