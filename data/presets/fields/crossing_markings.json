@@ -2,6 +2,7 @@
     "key": "crossing:markings",
     "type": "combo",
     "label": "Markings",
+    "placeholder": "Lines, Zebra...",
     "strings": {
         "options": {
             "lines": "Lines | |",

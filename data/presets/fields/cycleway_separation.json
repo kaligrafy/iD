@@ -2,6 +2,7 @@
   "key": "cycleway:both:separation",
   "type": "combo",
   "label": "Cycleway separation (both sides)",
+  "placeholder": "Solid line, Buffer...",
   "strings": {
     "options": {
       "solid_line": "Solid line",
