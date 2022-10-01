@@ -1,5 +1,6 @@
 {
     "key": "crossing:markings",
     "type": "combo",
-    "label": "Markings"
+    "label": "Markings",
+    "options": ["lines", "zebra", "no", "pictogram", "surface", "dashes", "lines:paired", "dots", "zebra:double", "zebra:paired", "zebra:bicolour", "ladder", "ladder:skewed", "ladder:paired", "yes"]
 }
