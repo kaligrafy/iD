@@ -2,5 +2,23 @@
     "key": "crossing:markings",
     "type": "combo",
     "label": "Markings",
-    "options": ["lines", "zebra", "no", "pictogram", "surface", "dashes", "lines:paired", "dots", "zebra:double", "zebra:paired", "zebra:bicolour", "ladder", "ladder:skewed", "ladder:paired", "yes"]
+    "strings": {
+        "options": {
+            "lines": "Lines | |",
+            "zebra": "Zebra |||||",
+            "no": "None",
+            "pictogram": "Pictogram (bicycle or pedestrian)",
+            "surface": "Change of surface",
+            "dashes": "Dashes ¦ ¦",
+            "lines:paired": "Paired lines ||  ||",
+            "dots": "Dots ⫶ ⫶",
+            "zebra:double": "Double zebra || || ||",
+            "zebra:paired": "Paired zebra ¦¦¦¦¦",
+            "zebra:bicolour": "Bicolor zebra",
+            "ladder": "Ladder",
+            "ladder:skewed": "Skewed ladder ///",
+            "ladder:paired": "Paired ladder",
+            "yes": "Yes (unspecified)"
+        }
+    }
 }
