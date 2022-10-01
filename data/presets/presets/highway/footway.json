@@ -6,7 +6,8 @@
         "width",
         "structure",
         "access",
-        "incline"
+        "incline",
+        "crossing:markings"
     ],
     "moreFields": [
         "covered",
