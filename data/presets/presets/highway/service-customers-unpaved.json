@@ -19,5 +19,6 @@
       "street"
   ],
   "matchScore": 0.9,
-  "name": "Customers Unpaved Service Road [⌃+x]"
+  "name": "Customers Unpaved Service Road [⌃+x]",
+  "shortcut": ["⌃+x"]
 }
