@@ -67,6 +67,8 @@
   {"pID": "highway/footway/crossing/uncontrolled-zebra", "hidden" : true},
   {"pID": "highway/footway/crossing/uncontrolled-lines", "hidden" : true},
   {"pID": "highway/footway/crossing/uncontrolled", "hidden" : true},
+  {"pID": "highway/footway/crossing/uncontrolled_customers", "hidden" : true},
+  {"pID": "highway/footway/crossing/uncontrolled_private", "hidden" : true},
   {"pID": "highway/footway/crossing/traffic_signals-zebra", "hidden" : true},
   {"pID": "highway/footway/crossing/traffic_signals-lines", "hidden" : true},
   {"pID": "highway/footway/crossing/traffic_signals", "hidden" : true},

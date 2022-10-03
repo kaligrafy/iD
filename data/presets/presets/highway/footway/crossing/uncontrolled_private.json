@@ -17,25 +17,27 @@
         "highway": "footway",
         "footway": "crossing",
         "crossing": "uncontrolled",
-        "crossing:markings": "no"
+        "crossing:markings": "no",
+        "access": "private"
     },
     "addTags": {
         "highway": "footway",
         "footway": "crossing",
         "crossing": "uncontrolled",
-        "crossing:markings": "no"
+        "crossing:markings": "no",
+        "access": "private"
     },
     "reference": {
         "key": "footway",
         "value": "crossing"
     },
     "terms": [
-        "uncontrolled foot path crossing",
-        "uncontrolled crosswalk",
-        "uncontrolled pedestrian crossing",
-        "no marking crossing",
-        "un"
+        "uncontrolled private foot path crossing",
+        "uncontrolled private crosswalk",
+        "uncontrolled private pedestrian crossing",
+        "no marking private crossing",
+        "ucn"
     ],
-    "name": "Uncontrolled Crossing (no marking) [u]",
-    "shortcut": ["u"]
+    "name": "Uncontrolled Private Crossing (no marking)[⇧+q]",
+    "shortcut": ["⇧+q"]
 }
