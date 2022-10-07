@@ -243,6 +243,11 @@ en:
       description: Clone road transition tags from the first selected entity.
       key: "!"
       annotation: Clone the road transition tags.
+    clone_maxspeed:
+      title: Clone road maxspeed tag
+      description: Clone road maxspeed tag from the first selected entity.
+      key: ")"
+      annotation: Clone the road maxspeed tag.
     clone_sidewalk:
       title: Clone sidewalk tags
       description: Clone sidewalk tags from the first selected entity.

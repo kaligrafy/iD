@@ -20,7 +20,9 @@
   },
   "terms": [
       "road",
-      "street"
+      "street",
+      "ps",
+      "private service"
   ],
   "matchScore": 0.9,
   "name": "Private Service Road [⌥+⇧+v]",

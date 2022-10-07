@@ -16,7 +16,10 @@
   },
   "terms": [
       "road",
-      "street"
+      "street",
+      "pcsu",
+      "private service",
+      "private service unpaved"
   ],
   "matchScore": 0.9,
   "name": "Private Unpaved Service Road [⌃+z]",

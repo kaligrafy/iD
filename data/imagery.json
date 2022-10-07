@@ -52,16 +52,6 @@
       "description": "Drummondville 2020 Aerial imagery (20cm/pixel)."
     },
     {
-      "id": "GoogleTest",
-      "name": "Google Test only for alignment verification",
-      "type": "tms",
-      "default": false,
-      "template": "http://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga",
-      "zoomExtent": [8, 22],
-      "offsetXY": [0,0],
-      "description": "Google Test only for alignment verification."
-    },
-    {
       "id": "MAPNIK",
       "name": "OpenStreetMap (Standard)",
       "type": "tms",

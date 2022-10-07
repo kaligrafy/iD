@@ -1,0 +1,27 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island"
+    ],
+    "geometry": [
+        "vertex"
+    ],
+    "tags": {
+        "highway": "crossing",
+        "crossing": "uncontrolled"
+    },
+    "addTags": {
+        "highway": "crossing",
+        "crossing": "uncontrolled"
+    },
+    "reference": {
+        "key": "crossing",
+        "value": "uncontrolled"
+    },
+    "terms": [],
+    "name": "Uncontrolled Crossing (other) (node)"
+}

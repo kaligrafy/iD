@@ -1,0 +1,43 @@
+{
+    "icon": "fas-biking",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "access",
+        "surface",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "uncontrolled",
+        "foot": "no",
+        "lcn": "yes"
+    },
+    "addTags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "uncontrolled",
+        "foot": "no",
+        "lcn": "yes",
+        "surface": "asphalt"
+    },
+    "reference": {
+        "key": "cycleway",
+        "value": "crossing"
+    },
+    "terms": [
+        "uncontrolled foot path crossing",
+        "uncontrolled crosswalk",
+        "uncontrolled pedestrian crossing",
+        "unnfo",
+        "unfo"
+    ],
+    "name": "Uncontrolled Cycleway Crossing No Foot (other)"
+}

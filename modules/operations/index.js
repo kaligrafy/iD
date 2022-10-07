@@ -10,6 +10,7 @@ export { operationCloneCycleway } from './clone_cycleway';
 export { operationCloneSidewalk } from './clone_sidewalk';
 export { operationCloneBusLanes } from './clone_bus_lanes';
 export { operationCloneTransition } from './clone_transition';
+export { operationCloneMaxspeed } from './clone_maxspeed';
 //export { operationCloneRoadAttributes } from './clone_road_attributes';
 export { operationContinue } from './continue';
 export { operationDelete } from './delete';

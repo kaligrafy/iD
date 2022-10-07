@@ -16,7 +16,10 @@
   },
   "terms": [
       "road",
-      "street"
+      "street",
+      "csu",
+      "customers service",
+      "customers service unpaved"
   ],
   "matchScore": 0.9,
   "name": "Customers Unpaved Service Road [⌃+x]",

@@ -1,0 +1,32 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island"
+    ],
+    "geometry": [
+        "vertex"
+    ],
+    "tags": {
+        "highway": "crossing",
+        "crossing": "traffic_signals"
+    },
+    "addTags": {
+        "highway": "crossing",
+        "crossing": "traffic_signals"
+    },
+    "reference": {
+        "key": "crossing",
+        "value": "traffic_signals"
+    },
+    "terms": [
+        "traffic signals foot path crossing",
+        "traffic signals crosswalk",
+        "traffic signals pedestrian crossing",
+        "tsno"
+    ],
+    "name": "Traffic Signals Crossing (other) (node)"
+}
