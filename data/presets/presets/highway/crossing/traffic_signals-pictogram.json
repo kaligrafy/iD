@@ -13,12 +13,12 @@
     "tags": {
         "highway": "crossing",
         "crossing": "traffic_signals",
-        "crossing:markings": "pictogram"
+        "crossing:markings": "pictograms"
     },
     "addTags": {
         "highway": "crossing",
         "crossing": "traffic_signals",
-        "crossing:markings": "pictogram"
+        "crossing:markings": "pictograms"
     },
     "reference": {
         "key": "crossing",

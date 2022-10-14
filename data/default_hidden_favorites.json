@@ -74,11 +74,11 @@
   {"pID": "highway/footway/crossing/traffic_signals", "hidden" : true},
   {"pID": "highway/crossing/uncontrolled-zebra", "hidden" : true},
   {"pID": "highway/crossing/uncontrolled-lines", "hidden" : true},
-  {"pID": "highway/crossing/uncontrolled-pictogram", "hidden" : true},
+  {"pID": "highway/crossing/uncontrolled-pictograms", "hidden" : true},
   {"pID": "highway/crossing/uncontrolled", "hidden" : true},
   {"pID": "highway/crossing/traffic_signals-zebra", "hidden" : true},
   {"pID": "highway/crossing/traffic_signals-lines", "hidden" : true},
-  {"pID": "highway/crossing/traffic_signals-pictogram", "hidden" : true},
+  {"pID": "highway/crossing/traffic_signals-pictograms", "hidden" : true},
   {"pID": "highway/crossing/traffic_signals", "hidden" : true},
 
   {"pID": "highway/service/private-driveway", "hidden" : true},
