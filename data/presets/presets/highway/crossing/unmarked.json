@@ -22,6 +22,7 @@
         "key": "crossing",
         "value": "unmarked"
     },
-    "terms": [],
-    "name": "Unmarked (deprecated)"
+    "terms": ["uc", "unmarked", "unmarked crossing"],
+    "name": "Unmarked Crossing (node) [⇧+u]",
+    "shortcut": ["⇧+u"]
 }

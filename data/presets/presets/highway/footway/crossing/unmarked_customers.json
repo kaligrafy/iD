@@ -16,26 +16,26 @@
     "tags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "uncontrolled",
-        "crossing:markings": "no"
+        "crossing": "unmarked",
+        "access": "customers"
     },
     "addTags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "uncontrolled",
-        "crossing:markings": "no"
+        "crossing": "unmarked",
+        "access": "customers"
     },
     "reference": {
         "key": "footway",
         "value": "crossing"
     },
     "terms": [
-        "uncontrolled foot path crossing",
-        "uncontrolled crosswalk",
-        "uncontrolled pedestrian crossing",
-        "no marking crossing",
-        "un"
+        "unmarked customers foot path crossing",
+        "unmarked customers crosswalk",
+        "unmarked customers pedestrian crossing",
+        "no marking customers crossing",
+        "ucn"
     ],
-    "name": "Uncontrolled Crossing (no marking) [u]",
-    "shortcut": ["u"]
+    "name": "Unmarked Customers Crossing [⌥+q]",
+    "shortcut": ["⌥+q"]
 }

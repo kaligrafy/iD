@@ -12,19 +12,16 @@
     ],
     "tags": {
         "highway": "crossing",
-        "crossing": "uncontrolled",
-        "crossing:markings": "no"
+        "crossing": "uncontrolled"
     },
     "addTags": {
         "highway": "crossing",
-        "crossing": "uncontrolled",
-        "crossing:markings": "no"
+        "crossing": "uncontrolled"
     },
     "reference": {
         "key": "crossing",
         "value": "uncontrolled"
     },
     "terms": [],
-    "name": "Uncontrolled Crossing (no marking) (node) [⇧+u]",
-    "shortcut": ["⇧+u"]
+    "name": "Uncontrolled Crossing (node)"
 }

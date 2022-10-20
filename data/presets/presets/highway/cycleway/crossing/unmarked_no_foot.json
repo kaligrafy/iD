@@ -16,21 +16,14 @@
     "tags": {
         "highway": "cycleway",
         "cycleway": "crossing",
-        "crossing": "uncontrolled",
-        "crossing:markings": "no",
-        "bicycle": "designated",
-        "foot": "designated",
-        "segregated": "yes",
-        "lcn": "yes"
+        "crossing": "unmarked",
+        "foot": "no"
     },
     "addTags": {
         "highway": "cycleway",
         "cycleway": "crossing",
-        "crossing": "uncontrolled",
-        "crossing:markings": "no",
-        "bicycle": "designated",
-        "foot": "designated",
-        "segregated": "yes",
+        "crossing": "unmarked",
+        "foot": "no",
         "lcn": "yes",
         "surface": "asphalt"
     },
@@ -39,13 +32,14 @@
         "value": "crossing"
     },
     "terms": [
-        "uncontrolled foot path crossing",
-        "uncontrolled crosswalk",
-        "uncontrolled pedestrian crossing",
+        "unmarked foot path crossing",
+        "unmarked crosswalk",
+        "unmarked pedestrian crossing",
         "no marking crossing",
         "un",
-        "uns",
-        "unns"
+        "unnf",
+        "unf"
     ],
-    "name": "Uncontrolled Cycleway Crossing Segregated (no marking)"
+    "name": "Unmarked Cycleway Crossing No Foot [⇧+⌥+u]",
+    "shortcut": ["⇧+⌥+u"]
 }

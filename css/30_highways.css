@@ -620,17 +620,9 @@ path.line.stroke.tag-highway-footway.tag-footway-access_aisle.tag-unpaved {
 
 
 /* crossings */
-path.line.casing.tag-crossing-uncontrolled {
+path.line.casing.tag-crossing-uncontrolled, path.line.casing.tag-crossing-unmarked {
   opacity: 0.6;
   stroke-linecap: butt;
-}
-path.line.casing.tag-crossing-unmarked,
-path.line.casing.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-designated,
-path.line.casing.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-yes {
-  opacity: 1.0;
-  stroke:rgb(255, 0, 0) !important;
-  stroke-linecap: butt;
-  stroke-dasharray: 6, 6 !important;
 }
 path.line.casing.tag-crossing-marked,
 path.line.casing.tag-crossing-marked.tag-highway-cycleway.tag-foot-designated,
@@ -640,7 +632,7 @@ path.line.casing.tag-crossing-marked.tag-highway-cycleway.tag-foot-yes {
   stroke-linecap: butt;
   stroke-dasharray: 3,3 !important;
 }
-path.line.stroke.tag-crossing-uncontrolled {
+path.line.stroke.tag-crossing-uncontrolled, path.line.stroke.tag-crossing-unmarked {
   opacity: 0.6;
   stroke-linecap: butt;
 }
@@ -657,15 +649,15 @@ path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-yes 
 }
 
 
-path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no,
-path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-highway-cycleway.tag-foot-designated,
-path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-highway-cycleway.tag-foot-yes {
+path.line.stroke.tag-crossing-unmarked,
+path.line.stroke.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-designated,
+path.line.stroke.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-yes {
   opacity: 0.4 !important;
   stroke-dasharray: 6, 6 !important;
 }
-path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-foot-no,
-path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-foot-no.tag-highway-cycleway.tag-foot-designated,
-path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-foot-no.tag-highway-cycleway.tag-foot-yes
+path.line.stroke.tag-crossing-unmarked.tag-foot-no,
+path.line.stroke.tag-crossing-unmarked.tag-foot-no.tag-highway-cycleway.tag-foot-designated,
+path.line.stroke.tag-crossing-unmarked.tag-foot-no.tag-highway-cycleway.tag-foot-yes
 {
   stroke-dasharray: none !important;
 }
@@ -673,7 +665,7 @@ path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-no.tag-foot-no.
 
 
 
-path.line.casing.tag-crossing-uncontrolled.tag-crossing-markings-no {
+path.line.casing.tag-crossing-unmarked {
   opacity: 0.4 !important;
 }
 path.line.stroke.tag-crossing-uncontrolled.tag-crossing-markings-lines {

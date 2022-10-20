@@ -1,0 +1,42 @@
+{
+    "icon": "fas-biking",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "access",
+        "surface",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "unmarked",
+        "foot": "no"
+    },
+    "addTags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "unmarked",
+        "foot": "no"
+    },
+    "reference": {
+        "key": "cycleway",
+        "value": "crossing"
+    },
+    "terms": [
+        "unmarked cycleway connector",
+        "unmarked connector",
+        "no marking crossing connector",
+        "con",
+        "unnf",
+        "unf"
+    ],
+    "name": "Unmarked Cycleway Connector No Foot [⇧+⌥+n]",
+    "shortcut": ["⇧+⌥+n"]
+}

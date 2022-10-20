@@ -2,10 +2,13 @@
     "icon": "temaki-pedestrian",
     "fields": [
         "crossing",
+        "crossing_markings",
         "access",
         "surface",
         "tactile_paving",
-        "crossing/island"
+        "traffic_calming",
+        "crossing/island",
+        "name"
     ],
     "geometry": [
         "line"
@@ -24,6 +27,13 @@
         "key": "footway",
         "value": "crossing"
     },
-    "terms": [],
-    "name": "Unmarked Crossing (deprecated)"
+    "terms": [
+        "unmarked foot path crossing",
+        "unmarked crosswalk",
+        "unmarked pedestrian crossing",
+        "no marking crossing",
+        "un"
+    ],
+    "name": "Unmarked Crossing [u]",
+    "shortcut": ["u"]
 }
