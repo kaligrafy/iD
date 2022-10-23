@@ -40,7 +40,9 @@
         "marked crossing",
         "crosswalk",
         "uz",
-        "uznf"
+        "uznf",
+        "znf",
+        "zunf"
     ],
     "name": "Uncontrolled Zebra Cycleway Crosswalk No Foot [⇧+⌥+k]",
     "searchable": true,

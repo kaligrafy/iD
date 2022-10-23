@@ -42,8 +42,7 @@
         "unmarked pedestrian crossing",
         "no marking crossing",
         "un",
-        "uns",
-        "unns"
+        "uns"
     ],
     "name": "Unmarked Cycleway Crossing Not Segregated [⌥+u]",
     "shortcut": ["⌥+u"]

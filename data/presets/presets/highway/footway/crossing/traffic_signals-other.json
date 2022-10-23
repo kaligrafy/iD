@@ -32,7 +32,9 @@
         "traffic signals foot path crossing",
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
-        "tsno"
+        "tzo",
+        "zto",
+        "zo"
     ],
     "name": "Traffic Signals Crossing (other)"
 }

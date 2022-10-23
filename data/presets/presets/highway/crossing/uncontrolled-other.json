@@ -22,6 +22,9 @@
         "key": "crossing",
         "value": "uncontrolled"
     },
-    "terms": [],
+    "terms": [
+        "uo",
+        "uno"
+    ],
     "name": "Uncontrolled Crossing (other) (node)"
 }

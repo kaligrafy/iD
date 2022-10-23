@@ -34,7 +34,8 @@
         "unmarked customers crosswalk",
         "unmarked customers pedestrian crossing",
         "no marking customers crossing",
-        "ucn"
+        "ucn",
+        "uc"
     ],
     "name": "Unmarked Customers Crossing [⌥+q]",
     "shortcut": ["⌥+q"]

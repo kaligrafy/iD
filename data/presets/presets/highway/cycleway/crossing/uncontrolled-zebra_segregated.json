@@ -44,7 +44,8 @@
         "marked crossing",
         "crosswalk",
         "uz",
-        "uzns"
+        "uzs",
+        "zs"
     ],
     "name": "Uncontrolled Zebra Cycleway Crosswalk Segregated",
     "searchable": true

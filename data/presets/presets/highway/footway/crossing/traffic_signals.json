@@ -35,7 +35,8 @@
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
         "no marking crossing",
-        "tsn"
+        "tsn",
+        "tr"
     ],
     "name": "Traffic Signals Crossing (no markings)"
 }

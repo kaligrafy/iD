@@ -28,8 +28,11 @@
         "traffic signals foot path crossing",
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
-        "lines crossing",
-        "tsl"
+        "pictograms crossing",
+        "tp",
+        "tpict",
+        "tspict",
+        "pict"
     ],
     "name": "Traffic Signals Pictogram Crossing (pedestrian/bicycle) (node) [⌥+⇧+m]",
     "shortcut": ["⌥+⇧+m"]

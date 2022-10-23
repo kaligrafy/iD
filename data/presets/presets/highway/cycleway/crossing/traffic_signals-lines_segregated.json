@@ -44,7 +44,10 @@
         "traffic signals bicycle crossing",
         "lines crossing",
         "tsl",
-        "tslns"
+        "tsls",
+        "lts",
+        "tl",
+        "tls"
     ],
     "name": "Traffic Signals Lines Cycleway Crossing Segregated (| |)"
 }

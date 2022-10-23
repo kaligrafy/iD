@@ -34,8 +34,8 @@
         "unmarked connector",
         "no marking crossing connector",
         "con",
-        "unnf",
-        "unf"
+        "unc",
+        "uc"
     ],
     "name": "Unmarked Cycleway Connector No Foot [⇧+⌥+n]",
     "shortcut": ["⇧+⌥+n"]

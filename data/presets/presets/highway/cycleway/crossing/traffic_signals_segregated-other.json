@@ -40,8 +40,8 @@
         "traffic signals foot path crossing",
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
-        "tsnso",
-        "tsnnso"
+        "tsso",
+        "tsso"
     ],
     "name": "Traffic Signals Cycleway Crossing Segregated (other)"
 }

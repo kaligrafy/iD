@@ -43,9 +43,9 @@
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
         "no marking crossing",
-        "tsn",
         "tsns",
-        "tsnns"
+        "tsnns",
+        "tns"
     ],
     "name": "Traffic Signals Cycleway Crossing Not Segregated (no markings)"
 }

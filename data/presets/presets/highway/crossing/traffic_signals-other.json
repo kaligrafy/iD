@@ -26,7 +26,8 @@
         "traffic signals foot path crossing",
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
-        "tsno"
+        "tso",
+        "to"
     ],
     "name": "Traffic Signals Crossing (other) (node)"
 }

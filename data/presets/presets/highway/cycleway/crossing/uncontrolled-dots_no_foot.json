@@ -16,21 +16,17 @@
     "tags": {
         "highway": "cycleway",
         "cycleway": "crossing",
-        "crossing": "traffic_signals",
-        "crossing:markings": "no",
-        "bicycle": "designated",
-        "foot": "designated",
-        "segregated": "yes",
+        "crossing": "uncontrolled",
+        "crossing:markings": "dots",
+        "foot": "no",
         "lcn": "yes"
     },
     "addTags": {
         "highway": "cycleway",
         "cycleway": "crossing",
-        "crossing": "traffic_signals",
-        "crossing:markings": "no",
-        "bicycle": "designated",
-        "foot": "designated",
-        "segregated": "yes",
+        "crossing": "uncontrolled",
+        "crossing:markings": "dots",
+        "foot": "no",
         "lcn": "yes",
         "surface": "asphalt"
     },
@@ -39,12 +35,12 @@
         "value": "crossing"
     },
     "terms": [
-        "traffic signals foot path crossing",
-        "traffic signals crosswalk",
-        "traffic signals pedestrian crossing",
-        "no marking crossing",
-        "ts",
-        "tss"
+        "uncontrolled foot path crossing",
+        "uncontrolled crosswalk",
+        "uncontrolled pedestrian crossing",
+        "dots crossing",
+        "ud",
+        "udnf"
     ],
-    "name": "Traffic Signals Cycleway Crossing Segregated (no markings)"
+    "name": "Uncontrolled Lines Cycleway Crossing No Foot (┋ ┋)"
 }

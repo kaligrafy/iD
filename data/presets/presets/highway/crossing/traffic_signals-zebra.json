@@ -29,7 +29,9 @@
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
         "zebra crossing",
-        "tsz"
+        "tsz",
+        "tz",
+        "zt"
     ],
     "name": "Traffic Signals Zebra Crossing (node) [⇧+z]",
     "shortcut": ["⇧+z"]

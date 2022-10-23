@@ -40,7 +40,10 @@
         "traffic signals bicycle crossing",
         "lines crossing",
         "tsl",
-        "tslnf"
+        "tslnf",
+        "ltnf",
+        "tl",
+        "tlnf"
     ],
     "name": "Traffic Signals Lines Cycleway Crossing No Foot (| |) [⇧+⌥+t]",
     "shortcut": ["⇧+⌥+t"]

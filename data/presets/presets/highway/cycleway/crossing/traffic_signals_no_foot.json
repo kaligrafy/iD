@@ -40,8 +40,8 @@
         "traffic signals pedestrian crossing",
         "no marking crossing",
         "tsn",
-        "tsnnf",
-        "tsnf"
+        "tsnf",
+        "tnf"
     ],
     "name": "Traffic Signals Cycleway Crossing No Foot (no markings)"
 }

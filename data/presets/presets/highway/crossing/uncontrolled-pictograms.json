@@ -28,8 +28,10 @@
         "uncontrolled foot path crossing",
         "uncontrolled crosswalk",
         "uncontrolled pedestrian crossing",
-        "lines crossing",
-        "ul"
+        "pictograms crossing",
+        "up",
+        "pict",
+        "upict"
     ],
     "name": "Uncontrolled Pictogram Crossing (pedestrian/bicycle) (node) [⇧+m]",
     "shortcut": ["⇧+m"]

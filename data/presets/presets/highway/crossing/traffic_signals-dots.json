@@ -13,12 +13,12 @@
     "tags": {
         "highway": "crossing",
         "crossing": "traffic_signals",
-        "crossing:markings": "pictograms"
+        "crossing:markings": "dots"
     },
     "addTags": {
         "highway": "crossing",
         "crossing": "traffic_signals",
-        "crossing:markings": "pictograms"
+        "crossing:markings": "dots"
     },
     "reference": {
         "key": "crossing",
@@ -28,9 +28,10 @@
         "traffic signals foot path crossing",
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
-        "lines crossing",
-        "tsl"
+        "dots crossing",
+        "td",
+        "tdots",
+        "dots"
     ],
-    "name": "Traffic Signals Pictogram Crossing (pedestrian/bicycle) (node) [⌥+⇧+m]",
-    "shortcut": ["⌥+⇧+m"]
+    "name": "Traffic Signals Dots Crossing (┋ ┋) (node)"
 }

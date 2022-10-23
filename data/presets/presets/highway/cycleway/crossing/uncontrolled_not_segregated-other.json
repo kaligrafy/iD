@@ -43,7 +43,8 @@
         "uncontrolled crosswalk",
         "uncontrolled pedestrian crossing",
         "unso",
-        "unnso"
+        "unnso",
+        "uns"
     ],
     "name": "Uncontrolled Cycleway Crossing Not Segregated (other) [⌥+u]",
     "shortcut": ["⌥+u"]

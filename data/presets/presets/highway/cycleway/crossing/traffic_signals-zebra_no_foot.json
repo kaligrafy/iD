@@ -40,7 +40,10 @@
         "traffic signals pedestrian crossing",
         "zebra crossing",
         "tsz",
-        "tsznf"
+        "tsznf",
+        "ztnf",
+        "tz",
+        "tznf"
     ],
     "name": "Traffic Signals Zebra Cycleway Crossing No Foot [⇧+⌥+z]",
     "shortcut": ["⇧+⌥+z"]

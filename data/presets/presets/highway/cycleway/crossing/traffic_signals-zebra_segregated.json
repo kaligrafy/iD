@@ -44,7 +44,11 @@
         "traffic signals pedestrian crossing",
         "zebra crossing",
         "tsz",
-        "tszns"
+        "tszs",
+        "zts",
+        "zts",
+        "tz",
+        "tzs"
     ],
     "name": "Traffic Signals Zebra Cycleway Crossing Segregated"
 }

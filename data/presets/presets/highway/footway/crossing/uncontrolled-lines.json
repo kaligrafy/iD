@@ -35,7 +35,8 @@
         "uncontrolled crosswalk",
         "uncontrolled pedestrian crossing",
         "lines crossing",
-        "ul"
+        "ul",
+        "unl"
     ],
     "name": "Uncontrolled Lines Crossing (| |) [l]",
     "shortcut": ["l"]

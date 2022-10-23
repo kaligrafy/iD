@@ -29,7 +29,9 @@
         "traffic signals crosswalk",
         "traffic signals pedestrian crossing",
         "lines crossing",
-        "tsl"
+        "tsl",
+        "tl",
+        "lt"
     ],
     "name": "Traffic Signals Lines Crossing (| |) (node) [⇧+t]",
     "shortcut": ["⇧+t"]

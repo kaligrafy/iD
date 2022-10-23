@@ -1,5 +1,5 @@
 {
-    "icon": "temaki-pedestrian_crosswalk",
+    "icon": "temaki-pedestrian",
     "fields": [
         "crossing",
         "crossing_markings",
@@ -13,28 +13,25 @@
     "tags": {
         "highway": "crossing",
         "crossing": "uncontrolled",
-        "crossing:markings": "zebra"
+        "crossing:markings": "lines"
     },
     "addTags": {
         "highway": "crossing",
         "crossing": "uncontrolled",
-        "crossing:markings": "zebra"
+        "crossing:markings": "lines"
     },
     "reference": {
         "key": "crossing",
         "value": "uncontrolled"
     },
     "terms": [
-        "zebra",
-        "zebra crossing",
-        "marked crossing",
-        "crosswalk",
-        "uz",
-        "unz",
-        "zu",
-        "zun"
+        "uncontrolled foot path crossing",
+        "uncontrolled crosswalk",
+        "uncontrolled pedestrian crossing",
+        "dots crossing",
+        "udots",
+        "ud",
+        "dots"
     ],
-    "name": "Uncontrolled Zebra Crosswalk (node) [⇧+k]",
-    "searchable": true,
-    "shortcut": ["⇧+k"]
+    "name": "Uncontrolled Dots Crossing (┋ ┋) (node)"
 }

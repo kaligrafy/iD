@@ -34,7 +34,8 @@
         "unmarked private crosswalk",
         "unmarked private pedestrian crossing",
         "no marking private crossing",
-        "ucn"
+        "unp",
+        "up"
     ],
     "name": "Unmarked Private Crossing (no marking) [⇧+q]",
     "shortcut": ["⇧+q"]
