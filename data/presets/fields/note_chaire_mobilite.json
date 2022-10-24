@@ -1,9 +1,26 @@
 {
   "key": "note:chaire_mobilite",
-  "type": "textarea",
+  "type": "combo",
   "universal": true,
   "icon": "note",
   "label": "Note Chaire Mobilité",
+  "strings": {
+    "options": {
+        "missing_sidewalk": "Missing sidewalk",
+        "missing_footpath": "Missing footpath",
+        "missing_cycleway": "Missing cycleway",
+        "missing_footpath;houses": "Missing footpath (crossing private land)",
+        "missing_footpath;bridge": "Missing footpath (needs bridge)",
+        "missing_footpath;motorway": "Missing footpath (crossing motorway)",
+        "missing_footpath;rail": "Missing footpath (crossing railway)",
+        "missing_cycleway:houses": "Missing cycleway (crossing private land)",
+        "missing_cycleway;bridge": "Missing cycleway (needs bridge)",
+        "missing_cycleway;motorway": "Missing cycleway (crossing motorway)",
+        "missing_cycleway;rail": "Missing cycleway (crossing railway)",
+        "error;stopping_line_too_far": "Error: stopping line too far",
+        "dangerous": "Dangerous"
+    }
+  },
   "terms": [
       "comment",
       "note"
