@@ -287,6 +287,9 @@ export function svgTagClasses() {
                     crossingMarkings = v.replace(':', "_");
                     classes.push('tag-crossing-markings-' + crossingMarkings);
                 }
+                if (crossing === 'uncontrolled' && !crossingMarkings) {
+                    classes.push('tag-crossing-uncontrolled-empty-crossing-markings');
+                }
                 if (k === 'segregated') {
                     segregated = v;
                     classes.push('tag-segregated-' + segregated);

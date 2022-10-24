@@ -729,6 +729,11 @@ path.line.casing.tag-highway-footway.tag-crossing.tag-bicycle-no {
   stroke-linecap: butt;
   stroke-dasharray: none;
 }
+path.line.casing.tag-crossing-uncontrolled-empty-crossing-markings {
+  stroke: rgb(255, 0, 0) !important;
+  stroke-linecap: butt;
+  stroke-dasharray: none;
+}
 
 
 /* paths */
