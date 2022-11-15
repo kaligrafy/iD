@@ -186,7 +186,7 @@ export function utilDisplayName(entity) {
             lanesStr += '>' + lanesForward;
         }
         if (lanesBackward) {
-            lanesStr += '<' + lanesForward;
+            lanesStr += '<' + lanesBackward;
         }
         if (lanesBothWays) {
             lanesStr += '<>' + lanesBothWays;
