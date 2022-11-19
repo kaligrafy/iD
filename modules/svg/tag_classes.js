@@ -437,7 +437,7 @@ export function svgTagClasses() {
                     classes.push('tag-crossing-uncontrolled-empty-crossing-markings');
                 }
             }
-
+            
             /* validate lanes */
             if (!isOneWay && hasLanes && lanes > 2 && lanes % 2 === 1) {
                 if (!hasLanesForward || !hasLanesBackward) {

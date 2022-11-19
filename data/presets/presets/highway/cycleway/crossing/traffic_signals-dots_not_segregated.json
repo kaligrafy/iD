@@ -1,0 +1,54 @@
+{
+    "icon": "temaki-pedestrian",
+    "fields": [
+        "crossing",
+        "crossing_markings",
+        "access",
+        "surface",
+        "tactile_paving",
+        "traffic_calming",
+        "crossing/island",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "dots",
+        "bicycle": "designated",
+        "foot": "designated",
+        "segregated": "no",
+        "lcn": "yes"
+    },
+    "addTags": {
+        "highway": "cycleway",
+        "cycleway": "crossing",
+        "crossing": "traffic_signals",
+        "crossing:markings": "dots",
+        "bicycle": "designated",
+        "foot": "designated",
+        "segregated": "no",
+        "lcn": "yes",
+        "surface": "asphalt"
+    },
+    "reference": {
+        "key": "cycleway",
+        "value": "crossing"
+    },
+    "terms": [
+        "traffic signals foot path crossing",
+        "traffic signals crosswalk",
+        "traffic signals pedestrian crossing",
+        "dots crossing",
+        "tsz",
+        "tsdns",
+        "dtns",
+        "dts",
+        "td",
+        "tdns"
+    ],
+    "name": "Traffic Signals Dots Cycleway Crossing Not Segregated"
+}
