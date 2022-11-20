@@ -31,7 +31,7 @@ export function actionCloneAddress(selectedIds) {
             tags['addr:province'] = addressProvince;
           }
           if (addressPostcode) {
-            tags['aaddr:postcode'] = addressPostcode;
+            tags['addr:postcode'] = addressPostcode;
           }
           entity = entity.update({tags});
           graph = graph.replace(entity);
