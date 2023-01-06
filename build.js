@@ -15,7 +15,7 @@ function buildAll() {
   return _currBuild =
     Promise.resolve()
     .then(() => buildCSS())
-    .then(() => buildData())
+    //.then(() => buildData())
     .then(() => buildSrc())
     .then(() => _currBuild = null)
     .catch((err) => {
