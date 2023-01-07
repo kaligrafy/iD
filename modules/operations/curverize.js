@@ -73,7 +73,7 @@ export function operationCurverize(selectedIDs, context) {
                 const nodeStartIdx = way.nodes.indexOf(nodeStart.id);
                 const nodeEndIdx = way.nodes.indexOf(nodeEnd.id);
     
-                // there miust be at least one node before first and one node after last:
+                // there must be at least one node before first and one node after last:
                 return nodeStartIdx >= 1 && nodeEndIdx < way.nodes.length;
             }
             
