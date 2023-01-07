@@ -16,12 +16,15 @@ import {
     geoVecScale,
     geoVecSubtract
 } from '../geo';
+import { actionMergeNodes } from './merge_nodes';
 
 export function actionCurverize(selectedIds, projection) {
 
     var action = function (graph) {
 
         //console.log('graph before', graph.entities);
+
+        const defaultWayThresholdMeters = 0.2;
 
         const entities = selectedIds.map(function (selectedID) {
             return graph.entity(selectedID);
@@ -49,8 +52,8 @@ export function actionCurverize(selectedIds, projection) {
         const nodeStartIdx = way.nodes.indexOf(nodeStart.id);
         const nodeEndIdx = way.nodes.indexOf(nodeEnd.id);
 
-        console.log('node1Idx node2Idx', node1Idx, node2Idx);
-        console.log('nodeStartIdx nodeEndIdx', nodeStartIdx, nodeEndIdx);
+        //console.log('node1Idx node2Idx', node1Idx, node2Idx);
+        //console.log('nodeStartIdx nodeEndIdx', nodeStartIdx, nodeEndIdx);
         //console.log('entities', entities);
 
         // get the way and its last node to curverize:
@@ -71,12 +74,12 @@ export function actionCurverize(selectedIds, projection) {
 
         //console.log('lastNodeIdx', lastNodeIdx);
         const countSegments = nodeEndIdx - nodeStartIdx;
+        let addedPreviousNodesCount = 0;
 
-        for (let segmentI = 0; segmentI < countSegments; segmentI++) {
+        for (let segmentI = 0; segmentI < countSegments; segmentI += 2) {
 
-            const segmentNodeStartIdx = nodeStartIdx + segmentI;
+            const segmentNodeStartIdx = nodeStartIdx + addedPreviousNodesCount;
             const segmentNodeEndIdx = segmentNodeStartIdx + 1;
-
             const segmentNodePrevious = graph.entity(way.nodes[segmentNodeStartIdx - 1]);
             const segmentNodeStart = graph.entity(way.nodes[segmentNodeStartIdx]);
             const segmentNodeEnd = graph.entity(way.nodes[segmentNodeEndIdx]);
@@ -109,17 +112,12 @@ export function actionCurverize(selectedIds, projection) {
             const tangent1PerpendicularMinifiedLine = geoRotate(tangent1MinifiedLine, -Math.PI / 2, tangent1MinifiedLine[1]);
             const tangent2PerpendicularMinifiedLine = geoRotate(tangent2MinifiedLine, Math.PI / 2, tangent2MinifiedLine[1]);
 
-            // find intersection of the tangents:
+            // find circle center:
             let circleCenter = geoInfiniteLineIntersection(tangent1PerpendicularMinifiedLine, tangent2PerpendicularMinifiedLine);
             if (!circleCenter) {
                 console.log('could not find a circle center to draw arc')
                 return graph;
             }
-            /*const nodeTangentIntersection = osmNode({ loc: projection.invert(tangentsIntersection), tags: { entrance: 'shop' } });
-            graph = graph.replace(nodeTangentIntersection);
-
-            const nodeCircleCenter = osmNode({ loc: projection.invert(circleCenter) });
-            graph = graph.replace(nodeCircleCenter);*/
 
             const radiusLineStart = [circleCenter, tangent1MinifiedLine[1]];
             const radiusLineEnd = [circleCenter, tangent2MinifiedLine[1]];
@@ -128,13 +126,20 @@ export function actionCurverize(selectedIds, projection) {
             let angleRadiusLineStart = geoVecAngle(radiusLineStart[0], radiusLineStart[1]);
             let angleRadiusLineEnd = geoVecAngle(radiusLineEnd[0], radiusLineEnd[1]);
             let arcAngleRad = Math.abs(geoVecAngleBetween(angleRadiusLineStart, angleRadiusLineEnd));
-            const tangentAngle = geoVecAngle(tangent1Line[0], tangent1Line[1]);
-            console.log('tangentAngle', tangentAngle * 180.0 / Math.PI);
+            const tangentAngle1 = geoVecAngle(tangent1Line[0], tangent1Line[1]);
+            const tangentAngle2 = geoVecAngle(tangent2Line[0], tangent2Line[1]);
+            const tangentAngleDiff = tangentAngle2 - tangentAngle1;
             const arcAngleDeg = arcAngleRad * 180.0 / Math.PI;
             const arcLength = arcAngleRad * radius;
-            console.log('segment' + (segmentI + 1), 'arcAngleRadDegLengthRadiusRadiusMeters', arcAngleRad, arcAngleDeg, arcLength, radius, radiusMeters);
 
-            let numberOfSegments = Math.max(1, Math.ceil(arcAngleDeg / 10.0));
+            // adjust number of segments according to radius: (make sure we get enough segments for large radii and lmit the number of segments for small radii)
+            let maxAngle = 3.0;
+            if (radiusMeters < 150) {
+                maxAngle = Math.sqrt((150 / radiusMeters)) * maxAngle;
+            } else if (radiusMeters > 150) {
+                maxAngle = Math.max(1, maxAngle * 150 / radiusMeters);
+            }
+            let numberOfSegments = Math.max(1, Math.ceil(arcAngleDeg / maxAngle));
             let arcSegmentLength = arcLength / numberOfSegments;
 
             if (arcSegmentLength < 4) {
@@ -142,109 +147,42 @@ export function actionCurverize(selectedIds, projection) {
                 arcSegmentLength = arcLength / numberOfSegments;
             }
 
-            console.log('numberOfSegments | arcSegmentLength', numberOfSegments, arcSegmentLength);
-
-            /*if (arcSegmentLength > 20) {
-                numberOfSegments = Math.max(2, arcLength / 20);
-            }*/
-
-            const radiusPoints = [];
             const radiusNodes = [];
 
-            const reverseAngle = true;
-
-//reverse incorrect: 163, 93, 60, 10
-//reverse correct: -36, -77, -146,
+            const reverseAngle = (tangentAngleDiff >= 0 && tangentAngleDiff <= Math.PI) || (tangentAngleDiff < 0 && tangentAngleDiff <= -Math.PI);
 
             for (let i = 0; i < numberOfSegments; i++) {
-                console.log('angle ' + i, (180.0 / Math.PI) * i * arcAngleRad / numberOfSegments);
                 const radiusSegment = geoRotate(radiusLineStart, (reverseAngle ? -i : i) * arcAngleRad / numberOfSegments, circleCenter);
                 const arcPoint = radiusSegment[1];
                 const latLonPoint = projection.invert(arcPoint);
-                //const distanceFromPreviousPoint = radiusNodes.length >= 1 ? geoVecLength(arcPoint, projection(radiusNodes[radiusNodes.length - 1].loc)) : undefined;
-                //if (distanceFromPreviousPoint === undefined) {
-                radiusNodes.push(osmNode({
-                    loc: latLonPoint
-                }));
-                //}
+                if (geoSphericalDistance(latLonPoint, segmentNodeEnd.loc) >= defaultWayThresholdMeters && geoSphericalDistance(latLonPoint, segmentNodeStart.loc) >= defaultWayThresholdMeters) {
+                    radiusNodes.push(osmNode({
+                        loc: latLonPoint
+                    }));
+                }
             }
 
-            //console.log('radiusNodes', radiusNodes);
+            
             for (let i = 0; i < radiusNodes.length; i++) {
                 graph = graph.replace(radiusNodes[i]);
             }
 
-            //console.log('graph', graph);
-
             const radiusNodesIds = radiusNodes.map(function (node) {
-                return node.id
+                return node.id;
             });
 
-
             const wayNodes = [...(way.nodes)];
-            //console.log('radiusNodesIds', radiusNodesIds);
-            wayNodes.splice(2, 0, ...(radiusNodesIds));
+            wayNodes.splice(segmentNodeStartIdx + 1, 0, ...radiusNodesIds);
+            
+            addedPreviousNodesCount += radiusNodes.length + 2;
 
             way = way.update({
                 nodes: wayNodes
             });
             graph = graph.replace(way);
 
-            // get four last nodes of way (the nodes to use for the curve):
-            /*let lastFourNodesIds = [];
-            let lastFourNodes = [];
-            let direction = 'forward';
-            if (lastNodeIdx === 0) {
-                lastFourNodesIds = [way.nodes[3], way.nodes[2], way.nodes[1], way.nodes[0]];
-                lastFourNodes = [graph.entity(way.nodes[3]), graph.entity(way.nodes[2]), graph.entity(way.nodes[1]), graph.entity(way.nodes[0])];
-            } else if (lastNodeIdx === way.nodes.length - 1 || way.nodes[lastNodeIdx - 3]) {
-                lastFourNodesIds = [way.nodes[lastNodeIdx - 3], way.nodes[lastNodeIdx - 2], way.nodes[lastNodeIdx - 1], way.nodes[lastNodeIdx]];
-                lastFourNodes = [graph.entity(lastFourNodesIds[0]), graph.entity(lastFourNodesIds[1]), graph.entity(lastFourNodesIds[2]), graph.entity(lastFourNodesIds[3])];
-                lastFourNodesIds = lastFourNodesIds.reverse();
-                lastFourNodes = lastFourNodes.reverse();
-                direction = 'backward';
-            }
-            const lastFourPoints = lastFourNodes.map(function(n) { return projection(n.loc); });*/
-
-            //console.log('lastFourNodesIds', lastFourNodesIds);
-
-
-
-
-
-            // get the angles of the first and last pairs of nodes:
-            //const angle1 = geoVecAngle(lastFourPoints[0], lastFourPoints[1]);
-            //const angle2 = geoVecAngle(lastFourPoints[2], lastFourPoints[3]);
-            //const distanceBetweenTangents = geoVecLength(lastFourPoints[1], lastFourPoints[2]);
-            //console.log('angle1', angle1, 'angle2', angle2, 'distanceBetweenTangents', distanceBetweenTangents);
-            //const tangent1Length = geoVecLength(lastFourPoints[0], lastFourPoints[1]);
-            //const tangent2Length = geoVecLength(lastFourPoints[2], lastFourPoints[3]);
-            //console.log('tangent1Length', tangent1Length, 'tangent2Length', tangent2Length);
-            //const tangent1Vector = geoVecSubtract(lastFourPoints[1], lastFourPoints[0]);
-            //const tangent2Vector = geoVecSubtract(lastFourPoints[2], lastFourPoints[3]);
-            //console.log('tangent1Vector', tangent1Vector);
-            //console.log('tangent2Vector', tangent2Vector);
-            //const tangent1UnitVector = geoVecNormalize([lastFourNodes[0].loc, lastFourNodes[1].loc]);
-            //const tangent2UnitVector = geoVecNormalize([lastFourNodes[2].loc, lastFourNodes[3].loc]);
-            //const tangent1Scaled = [lastFourPoints[1], geoVecAdd(lastFourPoints[1], geoVecScale(tangent1Vector, tangent1IntersectionScale))];
-            //const tangent2Scaled = [lastFourPoints[2], geoVecAdd(lastFourPoints[2], geoVecScale(tangent2Vector, tangent2IntersectionScale))];
-            //console.log('tangent1LineScaled', tangent1Scaled);
-            //console.log('tangent2LineScaled', tangent2Scaled);
-
-
-
-
-
-            //if (angleRadiusLineStart - geoVecAngle(tangent1MinifiedLine[0], tangent1MinifiedLine[1]))
-            //const secondRadiusSegment = geoRotate(radiusLineStart, - 1 * arcAngleRad / numberOfSegments, circleCenter);
-            //const secondArcPoint = secondRadiusSegment[1];
-            //const angleWithTangeant = 
-
-
-
-            
         }
-        
+
         return graph;
     };
 
