@@ -128,6 +128,8 @@ export function actionCurverize(selectedIds, projection) {
             let angleRadiusLineStart = geoVecAngle(radiusLineStart[0], radiusLineStart[1]);
             let angleRadiusLineEnd = geoVecAngle(radiusLineEnd[0], radiusLineEnd[1]);
             let arcAngleRad = Math.abs(geoVecAngleBetween(angleRadiusLineStart, angleRadiusLineEnd));
+            const tangentAngle = geoVecAngle(tangent1Line[0], tangent1Line[1]);
+            console.log('tangentAngle', tangentAngle * 180.0 / Math.PI);
             const arcAngleDeg = arcAngleRad * 180.0 / Math.PI;
             const arcLength = arcAngleRad * radius;
             console.log('segment' + (segmentI + 1), 'arcAngleRadDegLengthRadiusRadiusMeters', arcAngleRad, arcAngleDeg, arcLength, radius, radiusMeters);
@@ -149,9 +151,14 @@ export function actionCurverize(selectedIds, projection) {
             const radiusPoints = [];
             const radiusNodes = [];
 
+            const reverseAngle = true;
+
+//reverse incorrect: 163, 93, 60, 10
+//reverse correct: -36, -77, -146,
+
             for (let i = 0; i < numberOfSegments; i++) {
                 console.log('angle ' + i, (180.0 / Math.PI) * i * arcAngleRad / numberOfSegments);
-                const radiusSegment = geoRotate(radiusLineStart, -i * arcAngleRad / numberOfSegments, circleCenter);
+                const radiusSegment = geoRotate(radiusLineStart, (reverseAngle ? -i : i) * arcAngleRad / numberOfSegments, circleCenter);
                 const arcPoint = radiusSegment[1];
                 const latLonPoint = projection.invert(arcPoint);
                 //const distanceFromPreviousPoint = radiusNodes.length >= 1 ? geoVecLength(arcPoint, projection(radiusNodes[radiusNodes.length - 1].loc)) : undefined;
