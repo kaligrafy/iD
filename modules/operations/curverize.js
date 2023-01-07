@@ -31,7 +31,7 @@ export function operationCurverize(selectedIDs, context) {
 
     operation.available = function () {
 
-        if (selectedIDs.length < 1) {
+        if (selectedIDs.length <= 1) {
             return false;
         }
 
@@ -65,15 +65,18 @@ export function operationCurverize(selectedIDs, context) {
                 way = entitiesWays[0];
             }
 
-            const node1Idx = way.nodes.indexOf(entitiesNodes[0].id);
-            const node2Idx = way.nodes.indexOf(entitiesNodes[1].id);
-            const nodeStart = node2Idx > node1Idx ? entitiesNodes[0] : entitiesNodes[1];
-            const nodeEnd = node2Idx > node1Idx ? entitiesNodes[1] : entitiesNodes[0];
-            const nodeStartIdx = way.nodes.indexOf(nodeStart.id);
-            const nodeEndIdx = way.nodes.indexOf(nodeEnd.id);
-
-            // there miust be at least one node before first and one node after last:
-            return nodeStartIdx >= 1 && nodeEndIdx < way.nodes.length;
+            if (way) {
+                const node1Idx = way.nodes.indexOf(entitiesNodes[0].id);
+                const node2Idx = way.nodes.indexOf(entitiesNodes[1].id);
+                const nodeStart = node2Idx > node1Idx ? entitiesNodes[0] : entitiesNodes[1];
+                const nodeEnd = node2Idx > node1Idx ? entitiesNodes[1] : entitiesNodes[0];
+                const nodeStartIdx = way.nodes.indexOf(nodeStart.id);
+                const nodeEndIdx = way.nodes.indexOf(nodeEnd.id);
+    
+                // there miust be at least one node before first and one node after last:
+                return nodeStartIdx >= 1 && nodeEndIdx < way.nodes.length;
+            }
+            
 
         }
 
