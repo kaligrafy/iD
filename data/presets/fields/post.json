@@ -23,7 +23,8 @@
         "post:street",
         "post:subdistrict",
         "post:suburb",
-        "post:unit"
+        "post:unit",
+        "post:flats"
     ],
     "label": "Delivery Address"
 }

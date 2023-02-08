@@ -75,14 +75,14 @@
     {
       "countryCodes": ["ca"],
       "format": [
-        ["housenumber", "street", "unit"],
+        ["housenumber", "street", "unit", "flats"],
         ["city", "province", "postcode"]
       ]
     },
     {
       "countryCodes": ["us"],
       "format": [
-        ["housenumber", "street", "unit"],
+        ["housenumber", "street", "unit", "flats"],
         ["city", "state", "postcode"]
       ]
     },

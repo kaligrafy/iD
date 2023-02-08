@@ -23,7 +23,8 @@
         "addr:street",
         "addr:subdistrict",
         "addr:suburb",
-        "addr:unit"
+        "addr:unit",
+        "addr:flats"
     ],
     "icon": "address",
     "label": "Address",
@@ -62,7 +63,8 @@
           "subdistrict!vn": "Ward/Commune/Townlet",
           "suburb": "Suburb",
           "suburb!jp": "Ward",
-          "unit": "Unit"
+          "unit": "Unit",
+          "flats": "Flats/Units"
         }
     },
     "terms": [

@@ -19,8 +19,8 @@ export function actionCloneAddress(selectedIds) {
           let entity = entities[i];
           const tags = Object.assign({}, entity.tags);
           if (addressHouseNumber) {
-            tags['addr:housenumber'] = addressHouseNumber
-          };
+            tags['addr:housenumber'] = addressHouseNumber;
+          }
           if (addressStreet) {
             tags['addr:street'] = addressStreet;
           }
