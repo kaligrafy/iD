@@ -459,7 +459,7 @@ en:
           single: Reflect this feature across its short axis.
           multiple: Reflect these features across their short axis.
       key:
-        long: T
+        long: J
         short: Y
       annotation:
         long:
@@ -793,7 +793,6 @@ en:
   map_data:
     title: Map Data
     description: Map Data
-    key: J
     data_layers: Data Layers
     layers:
       osm:
