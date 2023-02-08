@@ -78,7 +78,6 @@
   {"pID": "highway/crossing/uncontrolled-lines", "hidden" : true},
   {"pID": "highway/crossing/uncontrolled-pictograms", "hidden" : true},
   {"pID": "highway/crossing/unmarked", "hidden" : true},
-  {"pID": "highway/crossing/unmarked", "hidden" : true},
   {"pID": "highway/crossing/traffic_signals-zebra", "hidden" : true},
   {"pID": "highway/crossing/traffic_signals-lines", "hidden" : true},
   {"pID": "highway/crossing/traffic_signals-pictograms", "hidden" : true},
