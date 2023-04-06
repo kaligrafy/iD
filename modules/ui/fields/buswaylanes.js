@@ -56,9 +56,11 @@ export function uiFieldBuswaylanes(field, context) {
         if (oneway === 'yes') {
             var busLanesRightShouldBe = computeBusLanesFromLanesCountAndSide(lanes, 'right');
             var busLanesLeftShouldBe = computeBusLanesFromLanesCountAndSide(lanes, 'left');
+            var busLanesOppositeLeftShouldBe = computeBusLanesFromLanesCountAndSide(lanes, 'opposite_left');
             var busLanesForwardRightShouldBe = computeBusLanesFromLanesCountAndSide(lanesForward, 'right');
             var busLanesBackwardRightShouldBe = computeBusLanesFromLanesCountAndSide(lanesBackward, 'right');
             var busLanesForwardLeftShouldBe = computeBusLanesFromLanesCountAndSide(lanesForward, 'left');
+            var busLanesForwardOppositeLeftShouldBe = computeBusLanesFromLanesCountAndSide(lanesBackward, 'opposite_left');
             if ((
                     buswayRight === "lane" &&
                     busLanesRightShouldBe === busLanes &&
@@ -198,7 +200,7 @@ export function uiFieldBuswaylanes(field, context) {
         if (!lanesCount || isNaN(Number(lanesCount)) || lanesCount < 2) {
             return undefined;
         }
-        if (side === 'right') {
+        if (side === 'right' || side === 'opposite_left') {
             var busLanes = '';
             for (var i = 1; i < lanesCount; i++) {
                 busLanes += 'yes|';
@@ -235,7 +237,7 @@ export function uiFieldBuswaylanes(field, context) {
         var tag = {};
         if (value === 'invalid_or_custom') {
             return;
-        } else if (value === 'both' || value === 'right' || value === 'left') {
+        } else if (value === 'both' || value === 'right' || value === 'left' || value === 'opposite_left') {
             if (!lanes || isNaN(Number(lanes)) || lanes < 2) {
                 console.log('lanes count is too low for busway lanes field or invalid (< 2)');
                 return;
@@ -282,6 +284,10 @@ export function uiFieldBuswaylanes(field, context) {
                     lanesBusBackward = '1';
                     buswayLeft = 'lane';
                 }
+            } else if (value === 'opposite_left') {
+                busLanesBackward = computeBusLanesFromLanesCountAndSide(lanesBackward, 'opposite_left');
+                lanesBusBackward = '1';
+                buswayLeft = 'lane';
             } else if (value === 'both') {
                 busLanesForward = computeBusLanesFromLanesCountAndSide(lanesForward, 'right');
                 lanesBusForward = '1';

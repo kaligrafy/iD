@@ -13,13 +13,18 @@
                 "title": "Both",
                 "description": "Bus lane on both the left and right side of way (only for bidirectional)"
             },
+            "right": {
+                "title": "Right",
+                "description": "Bus lane on the left"
+            },
             "left": {
                 "title": "Left",
                 "description": "Bus lane on the left"
             },
-            "right": {
-                "title": "Right",
-                "description": "Bus lane on the left"
+            
+            "opposite_left": {
+                "title": "Left",
+                "description": "Bus lane on the left (opposite lane)"
             },
             "invalid_or_custom": {
                 "title": "Invalid or justom",
