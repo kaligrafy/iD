@@ -321,7 +321,7 @@ export function svgTagClasses() {
                 if (!ignoreMaxSpeed && (k === 'maxspeed' || k === 'maxspeed:advisory') && v >= 10 && v <= 130) {
                     maxSpeed = Number(v);
                 }
-                if (!ignoreMaxSpeed && (k === 'surface') && v) {
+                if ((t.highway === 'cycleway' || !ignoreMaxSpeed) && (k === 'surface') && v) {
                     surface = v;
                 }
                 if (k === 'oneway' && v === 'yes') {
