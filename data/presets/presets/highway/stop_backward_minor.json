@@ -18,7 +18,7 @@
         "sign",
         "minor"
     ],
-    "name": "Stop Sign Backward (minor) [⌥+9]",
-    "shortcut": ["⌥+9"]
+    "name": "Stop Sign Backward (minor) [)]",
+    "shortcut": [")"]
   }
   

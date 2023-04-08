@@ -18,7 +18,7 @@
         "sign",
         "all"
     ],
-    "name": "Stop Sign Forward (all directions) [⌥+6]",
-    "shortcut": ["⌥+6"]
+    "name": "Stop Sign Forward (all directions) [&]",
+    "shortcut": ["&"]
   }
   

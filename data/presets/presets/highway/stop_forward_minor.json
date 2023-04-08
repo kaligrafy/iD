@@ -18,7 +18,7 @@
         "sign",
         "minor"
     ],
-    "name": "Stop Sign Forward (minor) [⌥+8]",
-    "shortcut": ["⌥+8"]
+    "name": "Stop Sign Forward (minor) [(]",
+    "shortcut": ["("]
   }
   
