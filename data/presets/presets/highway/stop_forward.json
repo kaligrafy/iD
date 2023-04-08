@@ -16,6 +16,5 @@
       "halt",
       "sign"
   ],
-  "name": "Stop Sign Forward [⌥+2]",
-  "shortcut": ["⌥+2"]
+  "name": "Stop Sign Forward"
 }

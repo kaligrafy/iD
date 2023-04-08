@@ -211,6 +211,7 @@ export function svgTagClasses() {
             var footway = null;
             var maxSpeed = null;
             var access = null;
+            var surface = null;
             var lanes = null;
             var lanesForward = null;
             var lanesBackward = null;
@@ -319,6 +320,9 @@ export function svgTagClasses() {
                 }
                 if (!ignoreMaxSpeed && (k === 'maxspeed' || k === 'maxspeed:advisory') && v >= 10 && v <= 130) {
                     maxSpeed = Number(v);
+                }
+                if (!ignoreMaxSpeed && (k === 'surface') && v) {
+                    surface = v;
                 }
                 if (k === 'oneway' && v === 'yes') {
                     isOneWay = true;
@@ -490,7 +494,14 @@ export function svgTagClasses() {
                 if (foot !== 'use_sidepath') {
                     classes.push('tag-foot-not-use_sidepath');
                 }
+                if (!surface || surface === 'paved') {
+                    classes.push('tag-surface-undefined');
+                }
 
+            }
+
+            if (t.highway === 'cycleway' && !surface || surface === 'paved') {
+                classes.push('tag-surface-undefined');
             }
 
         }

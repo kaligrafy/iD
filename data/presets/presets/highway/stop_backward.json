@@ -16,6 +16,5 @@
       "halt",
       "sign"
   ],
-  "name": "Stop Sign Backward [⌥+3]",
-  "shortcut": ["⌥+3"]
+  "name": "Stop Sign Backward"
 }

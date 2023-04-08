@@ -6,7 +6,8 @@
         "access",
         "trail_visibility",
         "smoothness",
-        "incline"
+        "incline",
+        "note_chaire_mobilite"
     ],
     "moreFields": [
         "covered",

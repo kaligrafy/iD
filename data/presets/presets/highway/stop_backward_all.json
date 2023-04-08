@@ -1,0 +1,24 @@
+{
+    "icon": "temaki-stop",
+    "fields": [
+        "stop",
+        "direction_vertex"
+    ],
+    "geometry": [
+        "vertex"
+    ],
+    "tags": {
+        "highway": "stop",
+        "direction": "backward",
+        "stop": "all"
+    },
+    "terms": [
+        "stop",
+        "halt",
+        "sign",
+        "all"
+    ],
+    "name": "Stop Sign Backward (all directions) [⌥+3]",
+    "shortcut": ["⌥+3"]
+  }
+  

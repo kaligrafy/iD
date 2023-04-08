@@ -6,7 +6,8 @@
         "width",
         "structure",
         "access",
-        "incline"
+        "incline",
+        "note_chaire_mobilite"
     ],
     "moreFields": [
         "covered",

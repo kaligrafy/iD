@@ -1,0 +1,24 @@
+{
+    "icon": "temaki-stop",
+    "fields": [
+        "stop",
+        "direction_vertex"
+    ],
+    "geometry": [
+        "vertex"
+    ],
+    "tags": {
+        "highway": "stop",
+        "direction": "forward",
+        "stop": "minor"
+    },
+    "terms": [
+        "stop",
+        "halt",
+        "sign",
+        "minor"
+    ],
+    "name": "Stop Sign Forward (minor) [⇧+⌥+2]",
+    "shortcut": ["⇧+⌥+2"]
+  }
+  
