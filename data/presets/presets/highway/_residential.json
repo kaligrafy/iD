@@ -2,6 +2,7 @@
     "icon": "iD-highway-residential",
     "fields": [
         "name",
+        "surface",
         "oneway_yes",
         "sidewalk",
         "maxspeed",
@@ -64,7 +65,6 @@
         "cycleway_right_buffer",
         "cycleway_right_separation",
         "oneway/bicycle",
-        "surface",
         "structure",
         "access"
     ],
