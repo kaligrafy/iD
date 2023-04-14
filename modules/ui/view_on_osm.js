@@ -43,6 +43,18 @@ export function uiViewOnOSM(context) {
         
         if (id && type)
         {
+            
+            var linkEnter = link.enter()
+            .append('a')
+            .attr('class', 'view-on-osm')
+            .attr('target', '_blank')
+            .attr('href', `https://www.google.com/maps/@?api=1&viewpoint=${_what.loc[1]}%2C${_what.loc[0]}&map_action=pano`)
+            .call(svgIcon('#iD-icon-out-link', 'inline'));
+
+            linkEnter
+            .append('span')
+            .text('View in streetview');
+
             var typeAndId = link.enter()
                 .append('p')
                 .text(type + '/' + id)
