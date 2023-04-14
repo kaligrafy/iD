@@ -1,10 +1,17 @@
-import { t } from '../util/locale';
-import { osmEntity, osmNote } from '../osm';
-import { svgIcon } from '../svg/icon';
+import {
+    t
+} from '../util/locale';
+import {
+    osmEntity,
+    osmNote
+} from '../osm';
+import {
+    svgIcon
+} from '../svg/icon';
 
 
 export function uiViewOnOSM(context) {
-    var _what;   // an osmEntity or osmNote
+    var _what; // an osmEntity or osmNote
 
 
     function viewOnOSM(selection) {
@@ -21,7 +28,9 @@ export function uiViewOnOSM(context) {
 
         var data = ((!_what || _what.isNew()) ? [] : [_what]);
         var link = selection.selectAll('.view-on-osm')
-            .data(data, function(d) { return d.id; });
+            .data(data, function (d) {
+                return d.id;
+            });
 
         // exit
         link.exit()
@@ -40,20 +49,22 @@ export function uiViewOnOSM(context) {
             .text(t('inspector.view_on_osm'));
 
 
-        
-        if (id && type)
-        {
-            
-            var linkEnter = link.enter()
-            .append('a')
-            .attr('class', 'view-on-osm')
-            .attr('target', '_blank')
-            .attr('href', `https://www.google.com/maps/@?api=1&viewpoint=${_what.loc[1]}%2C${_what.loc[0]}&map_action=pano`)
-            .call(svgIcon('#iD-icon-out-link', 'inline'));
 
-            linkEnter
-            .append('span')
-            .text('View in streetview');
+        if (id && type) {
+
+            if (type === 'node') {
+                var linkEnter = link.enter()
+                    .append('a')
+                    .attr('class', 'view-on-osm')
+                    .attr('target', '_blank')
+                    .attr('href', `https://www.google.com/maps/@?api=1&viewpoint=${_what.loc[1]}%2C${_what.loc[0]}&map_action=pano`)
+                    .call(svgIcon('#iD-icon-out-link', 'inline'));
+
+                linkEnter
+                    .append('span')
+                    .text('View in streetview');
+            }
+
 
             var typeAndId = link.enter()
                 .append('p')
@@ -64,17 +75,17 @@ export function uiViewOnOSM(context) {
             if (type === 'node') {
                 typeAndId
                     .append('p')
-                    .text(_what.loc[1]+','+_what.loc[0])
+                    .text(_what.loc[1] + ',' + _what.loc[0])
                     .append('p')
-                    .text('['+_what.loc[0]+','+_what.loc[1]+']')
+                    .text('[' + _what.loc[0] + ',' + _what.loc[1] + ']')
                     .append('p')
-                    .text(id+','+_what.loc[1]+','+_what.loc[0]);
+                    .text(id + ',' + _what.loc[1] + ',' + _what.loc[0]);
             }
         }
     }
 
 
-    viewOnOSM.what = function(_) {
+    viewOnOSM.what = function (_) {
         if (!arguments.length) return _what;
         _what = _;
         return viewOnOSM;
