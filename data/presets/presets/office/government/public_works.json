@@ -1,0 +1,28 @@
+{
+    "icon": "maki-suitcase",
+    "fields": [
+        "{office}",
+        "operator"
+    ],
+    "geometry": [
+        "point",
+        "area"
+    ],
+    "terms": [
+        "public works",
+        "utility",
+        "works",
+        "municipal",
+        "roads",
+        "transportation"
+    ],
+    "tags": {
+        "office": "government",
+        "government": "public_works"
+    },
+    "reference": {
+        "key": "government",
+        "value": "public_works"
+    },
+    "name": "Public works"
+}
