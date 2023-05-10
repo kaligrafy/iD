@@ -215,15 +215,21 @@ path.line.casing.tag-highway-proposed {
 
 
 /* motorways */
-.preset-icon .icon.tag-highway-motorway,
-.preset-icon .icon.tag-highway-motorway_link {
-    color: #CF2081;
+.preset-icon .icon.tag-highway-motorway {
+    color: #c1006a;
     fill: #fff;
 }
+.preset-icon .icon.tag-highway-motorway_link {
+  color: #d05699;
+  fill: #fff;
+}
 path.line.stroke.tag-highway-motorway,
-path.line.stroke.tag-highway-motorway_link,
 path.line.stroke.tag-motorway {
-    stroke: #CF2081;
+    stroke: #c1006a;
+}
+
+path.line.stroke.tag-highway-motorway_link {
+    stroke: #d05699;
 }
 path.line.casing.tag-highway-motorway,
 path.line.casing.tag-highway-motorway_link,
