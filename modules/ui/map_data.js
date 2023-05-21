@@ -96,6 +96,15 @@ export function uiMapData(context) {
         context.map().pan([0,0]);  // trigger a redraw
     }
 
+    function toggleDebugSurfaces() {
+        d3_event.preventDefault();
+        var surface = context.surface();
+        surface.classed('debug-surfaces', !surface.classed('debug-surfaces'));
+        updateVisualDiffList();
+
+        context.map().pan([0,0]);  // trigger a redraw
+    }
+
 
     function showsLayer(which) {
         var layer = layers.layer(which);
@@ -619,6 +628,7 @@ export function uiMapData(context) {
                     }
                     var key = (d === 'wireframe' ? t('area_fill.wireframe.key') : null);
                     if (d === 'highlight_edits') key = t('map_data.highlight_edits.key');
+                    if (d === 'debug_surfaces') key = t('map_data.debug_surfaces.key');
 
                     if ((name === 'feature' || name === 'keepRight') && autoHiddenFeature(d)) {
                         var msg = showsLayer('osm') ? t('map_data.autohidden') : t('map_data.osmhidden');
@@ -775,6 +785,8 @@ export function uiMapData(context) {
         _visualDiffList
             .call(drawListItems, ['highlight_edits'], 'checkbox', 'visual_diff', toggleHighlightEdited, function() {
                 return context.surface().classed('highlight-edited');
+            }).call(drawListItems, ['debug_surfaces'], 'checkbox', 'visual_diff', toggleDebugSurfaces, function() {
+                return context.surface().classed('debug-surfaces');
             });
     }
 
@@ -922,7 +934,8 @@ export function uiMapData(context) {
                 d3_event.stopPropagation();
                 toggleLayer('osm');
             })
-            .on(t('map_data.highlight_edits.key'), toggleHighlightEdited);
+            .on(t('map_data.highlight_edits.key'), toggleHighlightEdited)
+            .on(t('map_data.debug_surfaces.key'), toggleDebugSurfaces);
     };
 
     return uiMapData;

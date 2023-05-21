@@ -50,8 +50,9 @@ export function svgMidpoints(projection, context) {
         var mode = context.mode();
 
         var highlightEdited = context.surface().classed('highlight-edited');
+        var debugSurfaces = context.surface().classed('debug-surfaces');
 
-        if ((mode && mode.id !== 'select' && mode.id !== 'add-point' && !highlightEdited) || !context.map().withinEditableZoom()) {
+        if ((mode && mode.id !== 'select' && mode.id !== 'add-point' && !highlightEdited && !debugSurfaces) || !context.map().withinEditableZoom()) {
             drawLayer.selectAll('.midpoint').remove();
             touchLayer.selectAll('.midpoint.target').remove();
             return;

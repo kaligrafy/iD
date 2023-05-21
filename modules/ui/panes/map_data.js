@@ -39,6 +39,9 @@ export function uiPaneMapData(context) {
         .on(t('map_data.highlight_edits.key'), function toggleHighlightEdited() {
             d3_event.preventDefault();
             context.map().toggleHighlightEdited();
+        }).on(t('map_data.debug_surfaces.key'), function toggleDebugSurfaces() {
+            d3_event.preventDefault();
+            context.map().toggleDebugSurfaces();
         });
 
     var mapDataPane = uiPane('map-data', context)

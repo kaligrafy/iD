@@ -33,6 +33,8 @@ export function uiSectionMapStyleOptions(context) {
             .merge(container2)
             .call(drawListItems, ['highlight_edits'], 'checkbox', 'visual_diff', toggleHighlightEdited, function() {
                 return context.surface().classed('highlight-edited');
+            }).call(drawListItems, ['debug_surfaces'], 'checkbox', 'visual_diff', toggleDebugSurfaces, function() {
+                return context.surface().classed('debug-surfaces');
             });
     }
 
@@ -53,6 +55,7 @@ export function uiSectionMapStyleOptions(context) {
                     var tip = t(name + '.' + d + '.tooltip');
                     var key = (d === 'wireframe' ? t('area_fill.wireframe.key') : null);
                     if (d === 'highlight_edits') key = t('map_data.highlight_edits.key');
+                    if (d === 'debug_surfaces') key = t('map_data.debug_surfaces.key');
                     return uiTooltipHtml(tip, key);
                 })
                 .placement('top')

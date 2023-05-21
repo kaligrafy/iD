@@ -43,14 +43,14 @@ en:
     structure:
       none:
         title: None
-      key: S
+      key: None
     support:
       title: Support
       pole:
         title: Pole
       tower:
         title: Tower
-      key: S
+      key: None
     toolbox:
       title: Tools
       tooltip: Customize the toolbar.
@@ -221,12 +221,17 @@ en:
     clone_bus_lanes:
       title: Clone bus lanes tags
       description: Clone bus lanes tags from the first selected entity.
-      key: "@"
+      key: ""
+      annotation: Clone the bus lanes tags.
+    clone_surface:
+      title: Clone surface tag
+      description: Clone surface tag from the first selected entity.
+      key: "("
       annotation: Clone the bus lanes tags.
     clone_cycleway:
       title: Clone cycleway tags
       description: Clone cycleway tags from the first selected entity.
-      key: "("
+      key: ""
       annotation: Clone the cycleway tags.
     clone_turn_lanes:
       title: Clone turn lanes tags
@@ -320,7 +325,7 @@ en:
       description:
         points: Straighten these points.
         line: Straighten this line.
-      key: S
+      key: "|"
       annotation:
         points: Straightened several points.
         line: Straightened a line.
@@ -791,6 +796,7 @@ en:
     fix_misalignment: Adjust imagery offset
     offset: "Drag anywhere in the gray area below to adjust the imagery offset, or enter the offset values in meters."
   map_data:
+    key: None
     title: Map Data
     description: Map Data
     data_layers: Data Layers
@@ -814,13 +820,18 @@ en:
     style_options: Style Options
     highlight_edits:
       key: G
+    debug_surfaces:
+      key: S
     map_features: Map Features
     autohidden: "These features have been automatically hidden because too many would be shown on the screen.  You can zoom in to edit them."
     osmhidden: "These features have been automatically hidden because the OpenStreetMap layer is hidden."
   visual_diff:
     highlight_edits:
       description: Highlight Changes
-      tooltip: Outline edited features
+      tooltip: Outline edited features,
+    debug_surfaces:
+      description: Debug Surfaces
+      tooltip: Show surfaces and surface errors
   photo_overlays:
     title: Photo Overlays
     traffic_signs:
@@ -2094,6 +2105,7 @@ en:
         osm_data: "Toggle OpenStreetMap data"
         minimap: "Toggle minimap"
         highlight_edits: "Highlight unsaved edits"
+        debug_surfaces: "Debug surfaces"
       selecting:
         title: "Selecting features"
         select_one: "Select a single feature"

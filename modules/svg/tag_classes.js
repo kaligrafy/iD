@@ -321,7 +321,7 @@ export function svgTagClasses() {
                 if (!ignoreMaxSpeed && (k === 'maxspeed' || k === 'maxspeed:advisory') && v >= 10 && v <= 130) {
                     maxSpeed = Number(v);
                 }
-                if ((t.highway === 'cycleway' || !ignoreMaxSpeed) && (k === 'surface') && v) {
+                if (k === 'surface' && v) {
                     surface = v;
                 }
                 if (k === 'oneway' && v === 'yes') {
@@ -494,14 +494,13 @@ export function svgTagClasses() {
                 if (foot !== 'use_sidepath') {
                     classes.push('tag-foot-not-use_sidepath');
                 }
-                if (!surface || surface === 'paved') {
-                    classes.push('tag-surface-undefined');
-                }
 
             }
 
-            if (t.highway === 'cycleway' && !surface || surface === 'paved') {
+            if (!surface || surface === 'paved') {
                 classes.push('tag-surface-undefined');
+            } else {
+                classes.push(`tag-surface-${surface.replaceAll(':', '_').replaceAll('-','_')}`);
             }
 
         }

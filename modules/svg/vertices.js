@@ -346,7 +346,7 @@ export function svgVertices(projection, context) {
 
     function drawVertices(selection, graph, entities, filter, extent, fullRedraw) {
         var wireframe = context.surface().classed('fill-wireframe');
-        var visualDiff = context.surface().classed('highlight-edited');
+        var visualDiff = context.surface().classed('highlight-edited') || context.surface().classed('debug-surfaces');
         var zoom = geoScaleToZoom(projection.scale());
         var mode = context.mode();
         var isMoving = mode && /^(add|draw|drag|move|rotate)/.test(mode.id);
