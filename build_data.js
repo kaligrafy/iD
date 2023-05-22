@@ -353,6 +353,7 @@ function suggestionsToPresets(presets) {
       reference: preset.reference,
       countryCodes: suggestion.countryCodes,
       terms: (suggestion.matchNames || []),
+      color: preset.color,
       matchScore: 2,
       suggestion: true
     };

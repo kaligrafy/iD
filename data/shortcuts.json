@@ -82,6 +82,10 @@
             {
               "shortcuts": ["map_data.highlight_edits.key"],
               "text": "shortcuts.browsing.display_options.highlight_edits"
+            },
+            {
+              "shortcuts": ["map_data.debug_surfaces.key"],
+              "text": "shortcuts.browsing.display_options.debug_surfaces"
             }
           ]
         },

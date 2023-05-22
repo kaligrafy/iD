@@ -1,5 +1,6 @@
 {
   "icon": "temaki-stop",
+  "color": "#A2A2A2",
   "fields": [
       "stop",
       "direction_vertex"

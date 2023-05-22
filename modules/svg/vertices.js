@@ -158,6 +158,15 @@ export function svgVertices(projection, context) {
             .attr('width', '11px')
             .attr('height', '11px')
             .attr('transform', 'translate(-5.5, -5.5)')
+            .attr('color', function(entity) {
+                var preset = context.presets().match(entity, graph);
+                var color = preset && preset.color ? preset.color : undefined;
+                if (color) {
+                    return color;
+                } else {
+                    return 'default';
+                }
+            })
             .attr('xlink:href', function(d) {
                 var picon = getIcon(d);
                 var isMaki = /^maki-/.test(picon);

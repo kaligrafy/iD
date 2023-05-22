@@ -10,17 +10,11 @@ const prettyStringify = require('json-stringify-pretty-compact');
 const shell = require('shelljs');
 const YAML = require('js-yaml');
 
-<<<<<<< HEAD:build_data.js
 const fieldSchema = require('./data/presets/schema/field.json');
 const presetSchema = require('./data/presets/schema/preset.json');
 const groupSchema = require('./data/presets/schema/group.json');
 const nsi = require('name-suggestion-index');
 const deprecated = require('./data/deprecated.json').dataDeprecated;
-=======
-const fieldSchema = require('../data/presets/schema/field.json');
-const presetSchema = require('../data/presets/schema/preset.json');
-const deprecated = require('../data/deprecated.json');
->>>>>>> b7e6bb26c1c87acd3c0f800672fb5369076ecd71:scripts/build_data.js
 
 // fontawesome icons
 const fontawesome = require('@fortawesome/fontawesome-svg-core');
@@ -109,12 +103,9 @@ function buildData() {
     'dist/data/*',
     'svg/fontawesome/*.svg',
   ]);
-<<<<<<< HEAD:build_data.js
 
-  var groups = generateGroups(tstrings);
-=======
   readQAIssueIcons(faIcons, tnpIcons);
->>>>>>> b7e6bb26c1c87acd3c0f800672fb5369076ecd71:scripts/build_data.js
+  var groups = generateGroups(tstrings);
   let categories = generateCategories(tstrings, faIcons, tnpIcons);
   let fields = generateFields(tstrings, faIcons, tnpIcons, searchableFieldIDs);
   let presets = generatePresets(tstrings, faIcons, tnpIcons, searchableFieldIDs);

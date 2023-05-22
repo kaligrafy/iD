@@ -107,11 +107,14 @@ path.line.over-stroke.tag-highway-steps {
     stroke-width: 2;
 }
 
-path.line.over-stroke.tag-highway-service,
-path.line.over-stroke.tag-highway-road {
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-service,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-road {
   stroke-width: 6;
 }
-
+.debug-surfaces path.line.over-stroke.tag-highway-service,
+.debug-surfaces path.line.over-stroke.tag-highway-road {
+  stroke-width: 2;
+}
 
 
 .low-zoom path.line.shadow.tag-highway-service,
@@ -529,12 +532,14 @@ path.line.casing.tag-highway-bridleway.tag-unpaved {
 
 
 /* cycleway marked crossing with no foot */
-path.line.over-stroke.tag-crossing-marked.tag-highway-cycleway, path.line.over-stroke.tag-crossing-zebra.tag-highway-cycleway {
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing-marked.tag-highway-cycleway, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing-zebra.tag-highway-cycleway {
   stroke:rgb(182, 232, 255);
   stroke-width: 2;
 }
 /* cycleway marked crossing with foot */
-path.line.over-stroke.tag-highway-cycleway.tag-foot-designated, path.line.over-stroke.tag-highway-cycleway.tag-foot-yes {
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-foot-designated, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-foot-yes {
   stroke: none;
 }
 
@@ -564,7 +569,8 @@ path.line.casing.tag-highway-cycleway.tag-lcn-yes {
 }
 
 /* cycleway marked crossing with foot */
-path.line.over-stroke.tag-highway-cycleway.tag-foot-designated, path.line.over-stroke.tag-highway-cycleway.tag-foot-yes {
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-foot-designated, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-foot-yes {
   stroke: none;
 }
 
@@ -628,86 +634,7 @@ path.line.stroke.tag-highway-footway.tag-footway-access_aisle.tag-unpaved {
   stroke-dasharray: 4 4;
 }
 
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-asphalt,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-asphalt,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-asphalt,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-asphalt,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-asphalt,
-.debug-surfaces path.over-stroke.tag-highway-motorway.tag-surface-asphalt,
-.debug-surfaces path.over-stroke.tag-highway-motorway_link.tag-surface-asphalt {
-  stroke: rgb(0, 0, 0);
-}
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-concrete,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-concrete,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-concrete,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-concrete,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-concrete,
-.debug-surfaces path.over-stroke.tag-highway-motorway.tag-surface-concrete,
-.debug-surfaces path.over-stroke.tag-highway-motorway_link.tag-surface-concrete {
-  stroke: rgb(255, 255, 255);
-}
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-grass,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-grass,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-grass,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-grass,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-grass {
-  stroke: rgb(113, 179, 0);
-}
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-unpaved,
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-ground,
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-dirt,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-unpaved,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-ground,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-dirt,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-unpaved,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-ground,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-dirt,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-unpaved,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-ground,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-dirt,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-unpaved,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-ground,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-dirt {
-  stroke: rgb(255, 136, 0);
-}
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-fine_gravel,
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-gravel,
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-compacted,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-fine_gravel,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-gravel,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-compacted,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-fine_gravel,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-gravel,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-compacted,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-fine_gravel,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-gravel,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-compacted,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-fine_gravel,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-gravel,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-compacted {
-  stroke: rgb(183, 156, 103);
-}
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-paving_stones,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-paving_stones,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-paving_stones,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-paving_stones,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-paving_stones {
-  stroke: rgb(0, 162, 255);
-}
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-sand,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-sand,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-sand,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-sand,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-sand {
-  stroke: rgb(255, 240, 103);
-}
-.debug-surfaces path.over-stroke.tag-highway-footway.tag-surface-wood,
-.debug-surfaces path.over-stroke.tag-highway-cycleway.tag-surface-wood,
-.debug-surfaces path.over-stroke.tag-highway-path.tag-surface-wood,
-.debug-surfaces path.over-stroke.tag-highway-access_aisle.tag-surface-wood,
-.debug-surfaces path.over-stroke.tag-highway-service.tag-surface-wood {
-  stroke: rgb(167, 94, 0);
-}
+
 
 
 
@@ -866,14 +793,14 @@ path.line.casing.tag-access-customers, path.line.casing.tag-motor_vehicle-custom
 path.line.casing.tag-access-private, path.line.casing.tag-motor_vehicle-private {
   stroke: rgb(189, 0, 0) !important;
 }
-path.line.over-stroke.tag-access-private.tag-foot-yes, 
-path.line.over-stroke.tag-motor_vehicle-private.tag-foot-yes, 
-path.line.over-stroke.tag-access-customers.tag-foot-yes, 
-path.line.over-stroke.tag-motor_vehicle-customers.tag-foot-yes,
-path.line.over-stroke.tag-access-private.tag-foot-designated, 
-path.line.over-stroke.tag-motor_vehicle-private.tag-foot-designated, 
-path.line.over-stroke.tag-access-customers.tag-foot-designated, 
-path.line.over-stroke.tag-motor_vehicle-customers.tag-foot-designated {
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-access-private.tag-foot-yes, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-motor_vehicle-private.tag-foot-yes, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-access-customers.tag-foot-yes, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-motor_vehicle-customers.tag-foot-yes,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-access-private.tag-foot-designated, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-motor_vehicle-private.tag-foot-designated, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-access-customers.tag-foot-designated, 
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-motor_vehicle-customers.tag-foot-designated {
   stroke: #aedf8e !important;
   stroke-width: 2 !important;
 }
@@ -986,32 +913,32 @@ path.casing.tag-sidewalk-separate-left {
 }
 
 /* cycleway lanes/shared on road */
-path.over-stroke.tag-cycleway-lane,
-path.over-stroke.tag-cycleway-shared_lane,
-path.over-stroke.tag-cycleway_both-lane,
-path.over-stroke.tag-cycleway_both-shared_lane,
-path.over-stroke.tag-cycleway_left-lane,
-path.over-stroke.tag-cycleway_left-shared_lane,
-path.over-stroke.tag-cycleway_right-lane,
-path.over-stroke.tag-cycleway_right-shared_lane {
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway-lane,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway-shared_lane,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_both-lane,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_both-shared_lane,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_left-lane,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_left-shared_lane,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_right-lane,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_right-shared_lane {
   stroke-width: 1 !important;
   /*stroke-dasharray: 8, 4;*/
   stroke:  rgb(0, 174, 255);
 }
 
 /* cycleway lanes/shared on road */
-path.over-stroke.tag-cycleway-track,
-path.over-stroke.tag-cycleway_both-track,
-path.over-stroke.tag-cycleway_left-track,
-path.over-stroke.tag-cycleway_right-track {
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway-track,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_both-track,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_left-track,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_right-track {
   stroke-width: 1 !important;
   /*stroke-dasharray: 8, 4;*/
   stroke:  rgb(0, 4, 255);
 }
 
 /* bus designated/yes */
-path.over-stroke.tag-bus-designated,
-path.over-stroke.tag-bus-yes {
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-bus-designated,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-bus-yes {
   stroke-width: 2 !important;
   stroke-dasharray: 4, 4;
   stroke:  rgb(0, 106, 255);
@@ -1019,16 +946,16 @@ path.over-stroke.tag-bus-yes {
 
 
 /* busway/bus:lanes */
-path.over-stroke.tag-busway {
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-busway {
   stroke-width: 2 !important;
   stroke-dasharray: 10, 10;
   stroke:  rgb(0, 106, 255);
 }
 
 /* foot/bicycle shared */
-path.over-stroke.tag-sidewalk-shared-both,
-path.over-stroke.tag-sidewalk-shared-left,
-path.over-stroke.tag-sidewalk-shared-right
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-sidewalk-shared-both,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-sidewalk-shared-left,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-sidewalk-shared-right
 {
   stroke-width: 2 !important;
   /*stroke-dasharray: 8, 4;*/
@@ -1036,8 +963,8 @@ path.over-stroke.tag-sidewalk-shared-right
 }
 
 /* sidewalk/crossings no-name */
-path.over-stroke.tag-footway-sidewalk.tag-name-no,
-path.over-stroke.tag-crossing.tag-name-no {
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-footway-sidewalk.tag-name-no,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-crossing.tag-name-no {
   stroke-width: 1 !important;
   stroke-dasharray: 6, 6 !important;
   stroke:  rgb(255, 81, 0) !important;
@@ -1046,7 +973,7 @@ path.over-stroke.tag-crossing.tag-name-no {
 
 
 /* turn lanes */
-path.over-stroke.tag-turn_lanes-yes {
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-turn_lanes-yes {
   stroke-width: 2 !important;
   stroke-dasharray: none;
   stroke:  rgb(110, 65, 168) !important;
@@ -1170,3 +1097,36 @@ path.over-stroke.tag-cycleway_both-track {
   stroke-width: 1 !important;
   stroke:  rgb(255, 0, 0) !important;
 }*/
+
+.debug-surfaces path.over-stroke.tag-highway {
+  stroke: none;
+  stroke-width: 3 !important;
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-asphalt {
+  stroke: rgb(0, 0, 0);
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-concrete {
+  stroke: rgb(255, 255, 255);
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-grass {
+  stroke: rgb(113, 179, 0);
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-unpaved,
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-ground,
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-dirt {
+  stroke: rgb(129, 97, 61);
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-fine_gravel,
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-gravel,
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-compacted {
+  stroke: rgb(150, 150, 150);
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-paving_stones {
+  stroke: rgb(0, 162, 255);
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-sand {
+  stroke: rgb(255, 240, 103);
+}
+.debug-surfaces path.over-stroke.tag-highway.tag-surface-wood {
+  stroke: rgb(167, 94, 0);
+}
