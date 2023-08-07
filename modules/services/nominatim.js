@@ -74,7 +74,7 @@ export default {
 
     search: function (val, callback) {
         var searchVal = encodeURIComponent(val);
-        var url = apibase + 'search/' + searchVal + '?limit=10&format=json';
+        var url = apibase + 'search?q=' + searchVal + '&limit=10&format=json';
 
         if (_inflight[url]) return;
         var controller = new AbortController();
