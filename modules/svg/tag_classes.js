@@ -200,7 +200,7 @@ export function svgTagClasses() {
             var sidewalkBoth = null;
             var sidewalkLeft = null;
             var sidewalkRight = null;
-            var isIndoor = null;
+            var indoor = null;
             var cycleway = null;
             var crossing = null;
             var crossingMarkings = null;
@@ -240,8 +240,8 @@ export function svgTagClasses() {
             for (k in t) {
                 v = t[k];
 
-                if (k === 'indoor' && v === 'yes') {
-                    isIndoor = true;
+                if (k === 'indoor') {
+                    indoor = v;
                 }
                 if (k === 'access') {
                     access = v;
@@ -501,8 +501,10 @@ export function svgTagClasses() {
 
             }
 
-            if ((!surface || surface === 'paved') && !isIndoor) { // ignore surface for indoor paths
-                classes.push('tag-surface-undefined');
+            if ((!surface || surface === 'paved')) {
+                if (indoor !== 'yes') {
+                    classes.push('tag-surface-undefined');
+                }
             } else {
                 classes.push(`tag-surface-${surface.replaceAll(':', '_').replaceAll('-','_')}`);
             }
