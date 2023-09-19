@@ -3,7 +3,7 @@
     "fields": [
         "name",
         "surface",
-        "oneway_yes",
+        "oneway_no",
         "service",
         "sidewalk",
         "maxspeed",
