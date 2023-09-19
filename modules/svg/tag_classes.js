@@ -200,6 +200,7 @@ export function svgTagClasses() {
             var sidewalkBoth = null;
             var sidewalkLeft = null;
             var sidewalkRight = null;
+            var isIndoor = null;
             var cycleway = null;
             var crossing = null;
             var crossingMarkings = null;
@@ -239,6 +240,9 @@ export function svgTagClasses() {
             for (k in t) {
                 v = t[k];
 
+                if (k === 'indoor' && v === 'yes') {
+                    isIndoor = true;
+                }
                 if (k === 'access') {
                     access = v;
                     classes.push('tag-access-' + access);
@@ -285,7 +289,7 @@ export function svgTagClasses() {
                     classes.push('tag-crossing-' + crossing);
                 }
                 if (k === 'crossing:markings') {
-                    crossingMarkings = v.replace(':', "_");
+                    crossingMarkings = v.replace(':', '_');
                     classes.push('tag-crossing-markings-' + crossingMarkings);
                 }
                 if (k === 'segregated') {
@@ -349,7 +353,7 @@ export function svgTagClasses() {
                 if (k === 'placement' && v === 'transition') {
                     classes.push('tag-placement-transition');
                 }
-                if ((k === 'placement' && v !== 'transition') || k === 'placement:forward' || 'placement:backward') {
+                if ((k === 'placement' && v !== 'transition') || k === 'placement:forward' || k === 'placement:backward') {
                     classes.push('tag-placement-not-transition');
                 }
                 if (k === 'width:lanes') {
@@ -497,7 +501,7 @@ export function svgTagClasses() {
 
             }
 
-            if (!surface || surface === 'paved') {
+            if ((!surface || surface === 'paved') && !isIndoor) { // ignore surface for indoor paths
                 classes.push('tag-surface-undefined');
             } else {
                 classes.push(`tag-surface-${surface.replaceAll(':', '_').replaceAll('-','_')}`);
