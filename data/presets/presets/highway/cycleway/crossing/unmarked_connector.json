@@ -17,12 +17,14 @@
         "highway": "cycleway",
         "cycleway": "crossing",
         "crossing": "unmarked",
+        "crossing:markings": "no",
         "foot": "no"
     },
     "addTags": {
         "highway": "cycleway",
         "cycleway": "crossing",
         "crossing": "unmarked",
+        "crossing:markings": "no",
         "foot": "no"
     },
     "reference": {

@@ -16,12 +16,14 @@
     "tags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "unmarked"
+        "crossing": "unmarked",
+        "crossing:markings": "no"
     },
     "addTags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "unmarked"
+        "crossing": "unmarked",
+        "crossing:markings": "no"
     },
     "reference": {
         "key": "footway",
@@ -34,6 +36,5 @@
         "no marking crossing",
         "un"
     ],
-    "name": "Unmarked Crossing [u]",
-    "shortcut": ["u"]
+    "name": "Unmarked Crossing"
 }

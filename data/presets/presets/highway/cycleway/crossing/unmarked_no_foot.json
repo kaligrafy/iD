@@ -17,6 +17,7 @@
         "highway": "cycleway",
         "cycleway": "crossing",
         "crossing": "unmarked",
+        "crossing:markings": "no",
         "foot": "no",
         "lcn": "yes"
     },
@@ -24,6 +25,7 @@
         "highway": "cycleway",
         "cycleway": "crossing",
         "crossing": "unmarked",
+        "crossing:markings": "no",
         "foot": "no",
         "lcn": "yes",
         "surface": "asphalt"

@@ -16,28 +16,27 @@
     "tags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "unmarked",
-        "crossing:markings": "no",
-        "surface": "concrete"
+        "crossing": "uncontrolled",
+        "crossing:markings": "surface"
     },
     "addTags": {
         "highway": "footway",
         "footway": "crossing",
-        "crossing": "unmarked",
-        "crossing:markings": "no",
-        "surface": "concrete"
+        "crossing": "uncontrolled",
+        "crossing:markings": "surface",
+        "surface": "asphalt"
     },
     "reference": {
         "key": "footway",
         "value": "crossing"
     },
     "terms": [
-        "unmarked foot path crossing",
-        "unmarked crosswalk",
-        "unmarked pedestrian crossing",
-        "no marking crossing",
-        "un"
+        "uncontrolled surface foot path crossing",
+        "uncontrolled surface crosswalk",
+        "uncontrolled surface pedestrian crossing",
+        "surface crossing",
+        "us",
+        "uns"
     ],
-    "name": "Unmarked Crossing (concrete) [⇧+o]",
-    "shortcut": ["⇧+o"]
+    "name": "Uncontrolled Change of Surface Crossing"
 }

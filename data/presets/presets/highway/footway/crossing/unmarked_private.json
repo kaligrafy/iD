@@ -17,12 +17,14 @@
         "highway": "footway",
         "footway": "crossing",
         "crossing": "unmarked",
+        "crossing:markings": "no",
         "access": "private"
     },
     "addTags": {
         "highway": "footway",
         "footway": "crossing",
         "crossing": "unmarked",
+        "crossing:markings": "no",
         "access": "private"
     },
     "reference": {
