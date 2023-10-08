@@ -20,7 +20,7 @@
         }
     },
     "prerequisiteTag": {
-        "key": "cycleway:right",
+        "key": "cycleway:both",
         "value": "lane"
     }
 }

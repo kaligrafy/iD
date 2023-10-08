@@ -1,0 +1,22 @@
+{
+    "key": "cycleway:both:marking",
+    "type": "combo",
+    "label": "Cycleway marking (both sides)",
+    "placeholder": "Solid line, Dashed line...",
+    "strings": {
+        "options": {
+            "solid_line": "Solid line",
+            "dashed_line": "Dashed line",
+            "dotted_line": "Dooted line",
+            "double_solid_line": "Double solid line",
+            "barred_area": "Buffer / Barred area",
+            "pictogram": "Pictogram",
+            "surface": "Change of surface",
+            "no": "None"
+        }
+    },
+    "prerequisiteTag": {
+        "key": "cycleway:both",
+        "value": "lane"
+    }
+}

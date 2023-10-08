@@ -1,0 +1,11 @@
+{
+    "key": "cycleway:left:buffer",
+    "type": "number",
+    "minValue": 0,
+    "label": "Cycleway left buffer width (m)",
+    "prerequisiteTag": {
+      "key": "cycleway:both",
+      "value": "lane"
+    }
+  }
+  

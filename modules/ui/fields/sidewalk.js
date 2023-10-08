@@ -64,7 +64,7 @@ export function uiFieldSidewalk(field, context) {
                 fieldValue = 'separate_right';
             } else if (tags["sidewalk:left"] === 'none' && tags["sidewalk:right"] === 'separate') {
                 fieldValue = 'separate_right';
-            }else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'no') {
+            } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'no') {
                 fieldValue = 'separate_left';
             } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'none') {
                 fieldValue = 'separate_left';

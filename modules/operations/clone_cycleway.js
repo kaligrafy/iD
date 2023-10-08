@@ -10,7 +10,7 @@ import {
 
 export function operationCloneCycleway(selectedIDs, context) {
 
-    const cloneTags = ['routing:bicycle', 'bicycle', 'cycleway:both', 'cycleway:right', 'cycleway:buffer', 'cycleway:separation', 'cycleway:right:separation', 'cycleway:right:buffer', 'cycleway:right:oneway', 'cycleway:left:separation', 'cycleway:left:buffer', 'cycleway:left:oneway', 'cycleway:left', 'oneway:bicycle', 'lcn']
+    const cloneTags = ['routing:bicycle', 'bicycle', 'cycleway:both', 'cycleway:right', 'cycleway:buffer', 'cycleway:marking', 'cycleway:right:marking', 'cycleway:left:marking', 'cycleway:separation', 'cycleway:right:separation', 'cycleway:right:buffer', 'cycleway:right:oneway', 'cycleway:left:separation', 'cycleway:left:buffer', 'cycleway:left:oneway', 'cycleway:left', 'oneway:bicycle', 'lcn']
     var action = actionCloneRoadAttributes(selectedIDs, cloneTags);
 
     var operation = function () {

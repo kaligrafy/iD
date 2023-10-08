@@ -1,7 +1,7 @@
 {
-    "key": "cycleway:right:separation",
+    "key": "cycleway:left:separation",
     "type": "combo",
-    "label": "Cycleway right separation",
+    "label": "Cycleway left separation",
     "placeholder": "Flex posts, Bollards...",
     "strings": {
         "options": {
@@ -20,7 +20,7 @@
         }
     },
     "prerequisiteTag": {
-        "key": "cycleway:right",
+        "key": "cycleway:both",
         "value": "lane"
     }
 }

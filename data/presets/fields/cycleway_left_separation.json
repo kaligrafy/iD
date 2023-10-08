@@ -2,26 +2,25 @@
     "key": "cycleway:left:separation",
     "type": "combo",
     "label": "Cycleway left separation",
-    "placeholder": "Solid line, Buffer...",
+    "placeholder": "Flex posts, Bollards...",
     "strings": {
-      "options": {
-        "solid_line": "Solid line",
-        "dashed_line": "Dashed line",
-        "buffer": "Buffer",
-        "flex_post": "Flex posts",
-        "parking_lane": "parking lane",
-        "bollard": "Bollards (fixed)",
-        "bump": "Bumps",
-        "fence": "Fence",
-        "planter": "Planters (flower boxes)",
-        "jersey_barrier": "Jersey concrete barriers",
-        "guard_rail": "Guard rail",
-        "structure": "Structure (bridge)",
-        "no": "None"
-      }
+        "options": {
+            "flex_post": "Flex posts",
+            "parking_lane": "parking lane",
+            "bollard": "Bollards (fixed)",
+            "bump": "Bumps",
+            "studs": "Studs",
+            "fence": "Fence",
+            "planter": "Planters (flower boxes)",
+            "jersey_barrier": "Jersey concrete barriers",
+            "guard_rail": "Guard rail",
+            "structure": "Structure (bridge)",
+            "vertical_panel": "Vertical panel",
+            "no": "None"
+        }
     },
     "prerequisiteTag": {
-      "key": "cycleway:left",
-      "value": "lane"
+        "key": "cycleway:left",
+        "value": "lane"
     }
 }
