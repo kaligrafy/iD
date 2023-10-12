@@ -1,7 +1,7 @@
 {
   "dataImagery": [
     {
-      "id": "GeodesieQuebec",
+      "id": "GeodesieQuebec1",
       "name": "Géodésie Québec (Cached, faster)",
       "type": "tms",
       "template": "https://geoegl.msp.gouv.qc.ca/carto/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orthos&STYLE=default&TILEMATRIXSET=EPSG_3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
@@ -11,7 +11,7 @@
       "description": "Portail cartographique Québec"
     },
     {
-      "id": "GeodesieQuebec",
+      "id": "GeodesieQuebec2",
       "name": "Géodésie Québec (Live, slower)",
       "type": "tms",
       "template": "https://servicesmatriciels.mern.gouv.qc.ca/erdas-iws/ogc/wmts/Imagerie_Continue/Imagerie_GQ/default/GoogleMapsCompatibleExt2:epsg:3857/{zoom}/{y}/{x}.jpg",
