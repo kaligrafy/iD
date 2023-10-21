@@ -98,7 +98,7 @@ export function actionCurverize(selectedIds, projection) {
             // find intersection of the tangents:
             let tangentsIntersection = geoInfiniteLineIntersection(tangent1Line, tangent2Line);
             if (!tangentsIntersection) {
-                console.log('could not find line segments intersection, they may be parallel')
+                console.log('could not find line segments intersection, they may be parallel');
                 return graph;
             }
 
@@ -115,7 +115,7 @@ export function actionCurverize(selectedIds, projection) {
             // find circle center:
             let circleCenter = geoInfiniteLineIntersection(tangent1PerpendicularMinifiedLine, tangent2PerpendicularMinifiedLine);
             if (!circleCenter) {
-                console.log('could not find a circle center to draw arc')
+                console.log('could not find a circle center to draw arc');
                 return graph;
             }
 

@@ -10,6 +10,7 @@ export { actionFollow } from './follow';
 export { actionFollowOld } from './follow_old';
 export { actionConnect } from './connect';
 export { actionCurverize } from './curverize';
+export { actionSmooth } from './smooth';
 export { actionCloneAddress } from './clone_address';
 export { actionCloneRoadAttributes } from './clone_road_attributes';
 export { actionCopyEntities } from './copy_entities';
