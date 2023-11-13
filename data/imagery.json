@@ -7,7 +7,7 @@
       "template": "https://geoegl.msp.gouv.qc.ca/carto/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orthos&STYLE=default&TILEMATRIXSET=EPSG_3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
       "zoomExtent": [8, 22],
       "offsetXY": [0,0],
-      "default": true,
+      "default": false,
       "description": "Portail cartographique Québec"
     },
     {
@@ -17,7 +17,7 @@
       "template": "https://servicesmatriciels.mern.gouv.qc.ca/erdas-iws/ogc/wmts/Imagerie_Continue/Imagerie_GQ/default/GoogleMapsCompatibleExt2:epsg:3857/{zoom}/{y}/{x}.jpg",
       "zoomExtent": [8, 22],
       "offsetXY": [0,0],
-      "default": false,
+      "default": true,
       "description": "Portail cartographique Québec"
     },
     {
