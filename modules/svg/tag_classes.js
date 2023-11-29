@@ -445,7 +445,7 @@ export function svgTagClasses() {
                     classes.push('tag-crossing-uncontrolled-empty-crossing-markings');
                 }
             }
-            
+
             /* validate lanes */
             if (!isOneWay && hasLanes && lanes > 2 && lanes % 2 === 1) {
                 if (!hasLanesForward || !hasLanesBackward) {
@@ -501,14 +501,17 @@ export function svgTagClasses() {
 
             }
 
-            // don't show surface error for private footways
-            if ((!surface || surface === 'paved')) {
-                if (indoor !== 'yes' || (access === 'private' && !('path', 'footway', 'steps').includes(t.highway))) {
-                    classes.push('tag-surface-undefined');
+            if (!(access === 'private' && ('path', 'footway', 'steps').includes(t.highway))) {
+                // don't show surface error for private footways
+                if ((!surface || surface === 'paved')) {
+                    if (indoor !== 'yes') {
+                        classes.push('tag-surface-undefined');
+                    }
+                } else if (surface) {
+                    classes.push(`tag-surface-${surface.replaceAll(':', '_').replaceAll('-', '_')}`);
                 }
-            } else if (surface) {
-                classes.push(`tag-surface-${surface.replaceAll(':', '_').replaceAll('-','_')}`);
             }
+
 
         }
 
