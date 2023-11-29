@@ -94,6 +94,11 @@ export function uiSectionMapStyleOptions(context) {
         context.map().toggleHighlightEdited();
     }
 
+    function toggleDebugSurfaces() {
+        d3_event.preventDefault();
+        context.map().toggleDebugSurfaces();
+    }
+
     function setFill(d) {
         context.map().activeAreaFill(d);
     }
