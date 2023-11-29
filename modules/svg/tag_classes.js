@@ -506,7 +506,7 @@ export function svgTagClasses() {
                 if (indoor !== 'yes' || (access === 'private' && !('path', 'footway', 'steps').includes(t.highway))) {
                     classes.push('tag-surface-undefined');
                 }
-            } else {
+            } else if (surface) {
                 classes.push(`tag-surface-${surface.replaceAll(':', '_').replaceAll('-','_')}`);
             }
 
