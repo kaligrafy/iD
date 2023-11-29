@@ -501,7 +501,7 @@ export function svgTagClasses() {
 
             }
 
-            if (!(access === 'private' && ('path', 'footway', 'steps').includes(t.highway))) {
+            if (!(access === 'private' && ['path', 'footway', 'steps'].includes(t.highway))) {
                 // don't show surface error for private footways
                 if ((!surface || surface === 'paved')) {
                     if (indoor !== 'yes') {
