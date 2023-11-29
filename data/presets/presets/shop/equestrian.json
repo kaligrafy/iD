@@ -1,0 +1,22 @@
+{
+    "icon": "maki-shop",
+    "fields": [
+        "{shop}"
+    ],
+    "geometry": [
+        "point",
+        "area"
+    ],
+    "terms": [
+        "horse",
+        "horseback",
+        "equestrian",
+        "tack",
+        "stable",
+        "riding"
+    ],
+    "tags": {
+        "shop": "equestrian"
+    },
+    "name": "Equestrian supply store"
+}
