@@ -1068,12 +1068,6 @@ path.stroke.tag-highway.tag-sidewalk-invalid:not(.tag-maxspeed-undefined):not(.t
   stroke-dasharray: 2, 2 !important;
   stroke-linecap: butt !important;
 }
-
-.debug-surfaces path.stroke.tag-highway.tag-surface-undefined {
-  stroke: rgb(0, 128, 255) !important;
-  stroke-dasharray: 2, 2 !important;
-  stroke-linecap: butt !important;
-}
 path.stroke.tag-highway.tag-lanes-undefined {
   stroke: rgb(255, 230, 0) !important;
   stroke-dasharray: 2, 2 !important;
@@ -1097,7 +1091,11 @@ path.over-stroke.tag-cycleway_both-track {
   stroke-width: 1 !important;
   stroke:  rgb(255, 0, 0) !important;
 }*/
-
+.debug-surfaces path.stroke.tag-highway.tag-surface-undefined {
+  stroke: rgb(0, 128, 255) !important;
+  stroke-dasharray: 2, 2 !important;
+  stroke-linecap: butt !important;
+}
 .debug-surfaces path.over-stroke.tag-highway {
   stroke: none;
   stroke-width: 3 !important;

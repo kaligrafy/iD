@@ -501,7 +501,8 @@ export function svgTagClasses() {
 
             }
 
-            if ((!surface || surface === 'paved')) {
+            // don't show surface error for private footways
+            if ((!surface || surface === 'paved') && (access !== 'private' || !('path', 'footway', 'steps').includes(t.highway))) {
                 if (indoor !== 'yes') {
                     classes.push('tag-surface-undefined');
                 }
