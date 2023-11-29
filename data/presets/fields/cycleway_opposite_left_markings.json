@@ -1,0 +1,22 @@
+{
+    "key": "cycleway:left:marking",
+    "type": "combo",
+    "label": "Cycleway marking (left side opposite)",
+    "placeholder": "Solid line, Dashed line...",
+    "strings": {
+        "options": {
+            "solid_line": "Solid line",
+            "dashed_line": "Dashed line",
+            "dotted_line": "Dotted line",
+            "double_solid_line": "Double solid line",
+            "barred_area": "Buffer / Barred area",
+            "pictogram": "Pictogram",
+            "surface": "Change of surface",
+            "no": "None"
+        }
+    },
+    "prerequisiteTag": {
+        "key": "cycleway:left",
+        "value": "opposite_lane"
+    }
+}

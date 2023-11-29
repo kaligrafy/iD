@@ -1,0 +1,26 @@
+{
+    "key": "cycleway:left:separation",
+    "type": "combo",
+    "label": "Cycleway left (opposite) separation",
+    "placeholder": "Flex posts, Bollards...",
+    "strings": {
+        "options": {
+            "flex_post": "Flex posts",
+            "parking_lane": "parking lane",
+            "bollard": "Bollards (fixed)",
+            "bump": "Bumps",
+            "studs": "Studs",
+            "fence": "Fence",
+            "planter": "Planters (flower boxes)",
+            "jersey_barrier": "Jersey concrete barriers",
+            "guard_rail": "Guard rail",
+            "structure": "Structure (bridge)",
+            "vertical_panel": "Vertical panel",
+            "no": "None"
+        }
+    },
+    "prerequisiteTag": {
+        "key": "cycleway:left",
+        "value": "opposite_lane"
+    }
+}

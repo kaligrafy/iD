@@ -1,0 +1,16 @@
+{
+    "key": "cycleway:left:oneway",
+    "type": "radio",
+    "strings": {
+        "options": {
+            "yes": "Yes",
+            "no": "No"
+        }
+    },
+    "label": "One Way (Bicycles left opposite lane)",
+    "prerequisiteTag": {
+      "key": "cycleway:left",
+      "value": "opposite_lane"
+    }
+  }
+  
