@@ -1,0 +1,17 @@
+{
+    "fields": [
+        "tactile_paving"
+    ],
+    "geometry": [
+        "vertex"
+    ],
+    "tags": {
+        "tactile_paving": "no"
+    },
+    "reference": {
+        "key": "tactile_paving",
+        "value": "no"
+    },
+    "terms": ["tactile_paving", "no", "tp"],
+    "name": "Tactile paving (no)"
+}
