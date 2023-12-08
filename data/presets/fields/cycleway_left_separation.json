@@ -5,6 +5,7 @@
     "placeholder": "Flex posts, Bollards...",
     "strings": {
         "options": {
+            "no": "None",
             "flex_post": "Flex posts",
             "parking_lane": "parking lane",
             "bollard": "Bollards (fixed)",
@@ -15,8 +16,7 @@
             "jersey_barrier": "Jersey concrete barriers",
             "guard_rail": "Guard rail",
             "structure": "Structure (bridge)",
-            "vertical_panel": "Vertical panel",
-            "no": "None"
+            "vertical_panel": "Vertical panel"
         }
     },
     "prerequisiteTag": {
