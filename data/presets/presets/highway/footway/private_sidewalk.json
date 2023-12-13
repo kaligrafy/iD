@@ -1,0 +1,31 @@
+{
+    "icon": "temaki-pedestrian",
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "footway",
+        "footway": "sidewalk",
+        "bicycle": "no",
+        "access": "private"
+    },
+    "addTags": {
+        "highway": "footway",
+        "footway": "sidewalk",
+        "surface": "concrete",
+        "bicycle": "no",
+        "access": "private"
+    },
+    "reference": {
+        "key": "footway",
+        "value": "sidewalk"
+    },
+    "terms": [
+        "pavement",
+        "sidepath",
+        "sidewalk",
+        "private",
+        "psw"
+    ],
+    "name": "Private Sidewalk"
+}

@@ -74,15 +74,18 @@ export function uiFieldAccess(field, context) {
 
     access.options = function(type) {
         /* kaligrafy START */
-        var options = ["private", "destination", "use_sidepath", "customers", "delivery", "no", "yes", "designated", "dismount", "emergency", "permissive", "permit"];
+        var options = ["private", "customers", "no", "destination", "use_sidepath", "designated", "permissive", "yes", "delivery", "emergency", "permit"];
 
+        if (type === 'bicycle' || type === 'routing:bicycle') {
+            options = ["dismount", "no", "yes", "use_sidepath", "designated", "permissive", "private", "customers", "destination", "delivery", "emergency", "permit"];
+        } else if (type === 'foot') {
+            options = ["no", "yes", "use_sidepath", "designated", "permissive", "private", "customers", "destination", "delivery", "emergency", "permit"];
+        }
         /*if (type !== 'access') {
             options.push('yes');
             options.push('designated');
 
-            if (type === 'bicycle') {
-                options.push('dismount');
-            }
+            
         }*/
 
         /* kaligrafy END */

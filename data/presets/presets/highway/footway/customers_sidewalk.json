@@ -1,0 +1,31 @@
+{
+    "icon": "temaki-pedestrian",
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "footway",
+        "footway": "sidewalk",
+        "bicycle": "no",
+        "access": "customers"
+    },
+    "addTags": {
+        "highway": "footway",
+        "footway": "sidewalk",
+        "surface": "concrete",
+        "bicycle": "no",
+        "access": "customers"
+    },
+    "reference": {
+        "key": "footway",
+        "value": "sidewalk"
+    },
+    "terms": [
+        "pavement",
+        "sidepath",
+        "sidewalk",
+        "customers",
+        "csw"
+    ],
+    "name": "Customers Sidewalk"
+}
