@@ -18,8 +18,7 @@
         "cycleway": "crossing",
         "crossing": "uncontrolled",
         "crossing:markings": "zebra",
-        "foot": "no",
-        "lcn": "yes"
+        "foot": "no"
     },
     "addTags": {
         "highway": "cycleway",

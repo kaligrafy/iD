@@ -18,8 +18,7 @@
         "cycleway": "crossing",
         "crossing": "traffic_signals",
         "crossing:markings": "no",
-        "foot": "no",
-        "lcn": "yes"
+        "foot": "no"
     },
     "addTags": {
         "highway": "cycleway",

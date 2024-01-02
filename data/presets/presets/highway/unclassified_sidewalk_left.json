@@ -1,35 +1,39 @@
 {
-  "icon": "iD-highway-unclassified",
-  "fields": [
-      "{highway/unclassified}"
-  ],
-  "moreFields": [
-      "{highway/unclassified}"
-  ],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "unclassified",
-      "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "no"
-  },"addTags": {
-    "highway": "unclassified",
-      "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "no",
-      "surface": "asphalt"
-  },
-  "terms": [
-      "ul",
-      "unc",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "left"
-  ],
-  "name": "UL-Unclassified Road Sidewalk Left Separate"
+    "icon": "iD-highway-unclassified",
+    "fields": [
+        "{highway/unclassified}"
+    ],
+    "moreFields": [
+        "{highway/unclassified}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "unclassified",
+        "foot": "use_sidepath",
+        "sidewalk:left": "separate",
+        "sidewalk:right": "no"
+    },
+    "addTags": {
+        "highway": "unclassified",
+        "foot": "use_sidepath",
+        "sidewalk:left": "separate",
+        "sidewalk:right": "no",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "ul",
+        "unc",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "left"
+    ],
+    "name": "UL-Unclassified Road Sidewalk Left Separate"
 }

@@ -1,0 +1,35 @@
+{
+    "icon": "iD-highway-service",
+    "fields": [
+      "{highway/service}"
+  ],
+  "moreFields": [
+      "{highway/service}"
+  ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "service",
+        "access": "customers",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate"
+    },
+    "addTags": {
+      "highway": "service",
+        "access": "customers",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "cssb",
+        "customers service sidewalk both"
+    ],
+    "matchScore": 0.9,
+    "name": "Customers Service Road Sidewalk Both Separate"
+  }
+  

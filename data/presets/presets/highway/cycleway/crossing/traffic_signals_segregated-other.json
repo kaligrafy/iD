@@ -19,8 +19,7 @@
         "crossing": "traffic_signals",
         "bicycle": "designated",
         "foot": "designated",
-        "segregated": "yes",
-        "lcn": "yes"
+        "segregated": "yes"
     },
     "addTags": {
         "highway": "cycleway",

@@ -1,35 +1,39 @@
 {
-  "icon": "iD-highway-tertiary",
-  "fields": [
-    "{highway/tertiary}"
-],
-"moreFields": [
-    "{highway/tertiary}"
-],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "tertiary",
-      "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "no"
-  },"addTags": {
-    "highway": "tertiary",
-      "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "no",
-      "surface": "asphalt"
-  },
-  "terms": [
-      "tl",
-      "ter",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "left"
-  ],
-  "name": "TL-Tertiary Road Sidewalk Left Separate"
+    "icon": "iD-highway-tertiary",
+    "fields": [
+        "{highway/tertiary}"
+    ],
+    "moreFields": [
+        "{highway/tertiary}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "tertiary",
+        "foot": "use_sidepath",
+        "sidewalk:left": "separate",
+        "sidewalk:right": "no"
+    },
+    "addTags": {
+        "highway": "tertiary",
+        "foot": "use_sidepath",
+        "sidewalk:left": "separate",
+        "sidewalk:right": "no",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "tl",
+        "ter",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "left"
+    ],
+    "name": "TL-Tertiary Road Sidewalk Left Separate"
 }

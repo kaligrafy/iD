@@ -1,33 +1,37 @@
 {
-  "icon": "iD-highway-trunk",
-  "fields": [
-      "{highway/trunk}"
-  ],
-  "moreFields": [
-      "{highway/trunk}"
-  ],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "trunk",
-      "foot": "use_sidepath",
-      "sidewalk:both": "separate"
-  },"addTags": {
-    "highway": "trunk",
-      "foot": "use_sidepath",
-      "sidewalk:both": "separate",
-      "surface": "asphalt"
-  },
-  "terms": [
-      "trb",
-      "trunk",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "both"
-  ],
-  "name": "TRB-Trunk Road Sidewalk Both Separate"
+    "icon": "iD-highway-trunk",
+    "fields": [
+        "{highway/trunk}"
+    ],
+    "moreFields": [
+        "{highway/trunk}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "trunk",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate"
+    },
+    "addTags": {
+        "highway": "trunk",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "trb",
+        "trunk",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "both"
+    ],
+    "name": "TRB-Trunk Road Sidewalk Both Separate"
 }

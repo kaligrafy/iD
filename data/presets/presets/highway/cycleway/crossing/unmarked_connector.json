@@ -25,7 +25,8 @@
         "cycleway": "crossing",
         "crossing": "unmarked",
         "crossing:markings": "no",
-        "foot": "no"
+        "foot": "no",
+        "surface": "asphalt"
     },
     "reference": {
         "key": "cycleway",

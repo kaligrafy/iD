@@ -17,8 +17,7 @@
         "highway": "cycleway",
         "cycleway": "crossing",
         "crossing": "uncontrolled",
-        "foot": "no",
-        "lcn": "yes"
+        "foot": "no"
     },
     "addTags": {
         "highway": "cycleway",

@@ -1,0 +1,34 @@
+{
+    "icon": "iD-highway-service",
+    "fields": [
+        "{highway/service}"
+    ],
+    "moreFields": [
+        "{highway/service}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "service",
+        "foot": "use_sidepath",
+        "motor_vehicle": "destination",
+        "sidewalk:left": "separate"
+    },
+    "addTags": {
+        "highway": "service",
+        "motor_vehicle": "destination",
+        "foot": "use_sidepath",
+        "sidewalk:left": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "dssb",
+        "destination service sidewalk left"
+    ],
+    "matchScore": 0.9,
+    "name": "Destination Service Road Sidewalk Left Separate"
+}

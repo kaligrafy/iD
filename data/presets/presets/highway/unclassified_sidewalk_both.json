@@ -1,33 +1,37 @@
 {
-  "icon": "iD-highway-unclassified",
-  "fields": [
-      "{highway/unclassified}"
-  ],
-  "moreFields": [
-      "{highway/unclassified}"
-  ],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "unclassified",
-      "foot": "use_sidepath",
-      "sidewalk:both": "separate"
-  },"addTags": {
-    "highway": "unclassified",
-    "foot": "use_sidepath",
-    "sidewalk:both": "separate",
-    "surface": "asphalt"
-  },
-  "terms": [
-      "ub",
-      "unc",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "both"
-  ],
-  "name": "UB-Unclassified Road Sidewalk Both Separate"
+    "icon": "iD-highway-unclassified",
+    "fields": [
+        "{highway/unclassified}"
+    ],
+    "moreFields": [
+        "{highway/unclassified}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "unclassified",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate"
+    },
+    "addTags": {
+        "highway": "unclassified",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "ub",
+        "unc",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "both"
+    ],
+    "name": "UB-Unclassified Road Sidewalk Both Separate"
 }

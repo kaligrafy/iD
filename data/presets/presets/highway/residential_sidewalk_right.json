@@ -1,36 +1,39 @@
 {
-  "icon": "iD-highway-residential",
-  "fields": [
-      "{highway/residential}"
-  ],
-  "moreFields": [
-      "{highway/residential}"
-  ],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "residential",
-      "foot": "use_sidepath",
-      "sidewalk:left": "no",
-      "sidewalk:right": "separate"
-  },
-  "addTags": {
-    "highway": "residential",
-      "foot": "use_sidepath",
-      "sidewalk:left": "no",
-      "sidewalk:right": "separate",
-      "surface": "asphalt"
-  },
-  "terms": [
-      "rr",
-      "res",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "right"
-  ],
-  "name": "RR-Residential Road Sidewalk Right Separate"
+    "icon": "iD-highway-residential",
+    "fields": [
+        "{highway/residential}"
+    ],
+    "moreFields": [
+        "{highway/residential}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "residential",
+        "foot": "use_sidepath",
+        "sidewalk:left": "no",
+        "sidewalk:right": "separate"
+    },
+    "addTags": {
+        "highway": "residential",
+        "foot": "use_sidepath",
+        "sidewalk:left": "no",
+        "sidewalk:right": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "rr",
+        "res",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "right"
+    ],
+    "name": "RR-Residential Road Sidewalk Right Separate"
 }

@@ -1,33 +1,37 @@
 {
-  "icon": "iD-highway-secondary",
-  "fields": [
-      "{highway/secondary}"
-  ],
-  "moreFields": [
-      "{highway/secondary}"
-  ],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "secondary",
-      "foot": "use_sidepath",
-      "sidewalk:both": "separate"
-  },"addTags": {
-    "highway": "secondary",
-      "foot": "use_sidepath",
-      "sidewalk:both": "separate",
-      "surface": "asphalt"
-  },
-  "terms": [
-      "sb",
-      "sec",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "both"
-  ],
-  "name": "SB-Secondary Road Sidewalk Both Separate"
+    "icon": "iD-highway-secondary",
+    "fields": [
+        "{highway/secondary}"
+    ],
+    "moreFields": [
+        "{highway/secondary}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "secondary",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate"
+    },
+    "addTags": {
+        "highway": "secondary",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "sb",
+        "sec",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "both"
+    ],
+    "name": "SB-Secondary Road Sidewalk Both Separate"
 }

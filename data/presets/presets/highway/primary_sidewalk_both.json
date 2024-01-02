@@ -1,34 +1,38 @@
 {
-  "icon": "iD-highway-primary",
-  "fields": [
-      "{highway/primary}"
-  ],
-  "moreFields": [
-      "{highway/primary}"
-  ],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "primary",
-      "foot": "use_sidepath",
-      "sidewalk:both": "separate"
-  },"addTags": {
-    "highway": "primary",
-      "foot": "use_sidepath",
-      "sidewalk:both": "separate",
-      "surface": "asphalt"
-  },
-  "terms": [
-      "pb",
-      "pri",
-      "primary",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "both"
-  ],
-  "name": "PB-Primary Road Sidewalk Both Separate"
+    "icon": "iD-highway-primary",
+    "fields": [
+        "{highway/primary}"
+    ],
+    "moreFields": [
+        "{highway/primary}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "primary",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate"
+    },
+    "addTags": {
+        "highway": "primary",
+        "foot": "use_sidepath",
+        "sidewalk:both": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "pb",
+        "pri",
+        "primary",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "both"
+    ],
+    "name": "PB-Primary Road Sidewalk Both Separate"
 }

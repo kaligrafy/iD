@@ -1,21 +1,23 @@
 {
-    "icon": "iD-highway-residential",
+    "icon": "iD-highway-service",
     "fields": [
-        "{highway/residential}"
+        "{highway/service}"
     ],
     "moreFields": [
-        "{highway/residential}"
+        "{highway/service}"
     ],
     "geometry": [
         "line"
     ],
     "tags": {
-        "highway": "residential",
+        "highway": "service",
         "foot": "use_sidepath",
+        "motor_vehicle": "destination",
         "sidewalk:both": "separate"
     },
     "addTags": {
-        "highway": "residential",
+        "highway": "service",
+        "motor_vehicle": "destination",
         "foot": "use_sidepath",
         "sidewalk:both": "separate",
         "surface": "asphalt"
@@ -24,14 +26,9 @@
         "foot": "use_sidepath"
     },
     "terms": [
-        "rb",
-        "res",
-        "road",
-        "street",
-        "separate",
-        "sidewalk",
-        "sidepath",
-        "both"
+        "dssb",
+        "destination service sidewalk both"
     ],
-    "name": "RB-Residential Road Sidewalk Both Separate"
+    "matchScore": 0.9,
+    "name": "Destination Service Road Sidewalk Both Separate"
 }

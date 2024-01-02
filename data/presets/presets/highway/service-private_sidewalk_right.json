@@ -1,0 +1,35 @@
+{
+    "icon": "iD-highway-service",
+    "fields": [
+      "{highway/service}"
+  ],
+  "moreFields": [
+      "{highway/service}"
+  ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "service",
+        "access": "private",
+        "foot": "use_sidepath",
+        "sidewalk:right": "separate"
+    },
+    "addTags": {
+      "highway": "service",
+        "access": "private",
+        "foot": "use_sidepath",
+        "sidewalk:right": "separate",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "cssr",
+        "private service sidewalk right"
+    ],
+    "matchScore": 0.9,
+    "name": "Private Service Road Sidewalk Right Separate"
+  }
+  

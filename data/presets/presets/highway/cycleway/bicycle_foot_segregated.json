@@ -10,8 +10,7 @@
     "highway": "cycleway",
     "foot": "designated",
     "bicycle": "designated",
-    "segregated": "yes",
-    "lcn": "yes"
+    "segregated": "yes"
   },
   "addTags": {
     "highway": "cycleway",

@@ -14,8 +14,7 @@
     "tags": {
         "highway": "cycleway",
         "cycleway": "crossing",
-        "foot": "designated",
-        "lcn": "yes"
+        "foot": "designated"
     },
     "addTags": {
         "highway": "cycleway",

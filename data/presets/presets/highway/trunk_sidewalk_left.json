@@ -1,35 +1,39 @@
 {
-  "icon": "iD-highway-trunk",
-  "fields": [
-      "{highway/trunk}"
-  ],
-  "moreFields": [
-      "{highway/trunk}"
-  ],
-  "geometry": [
-      "line"
-  ],
-  "tags": {
-      "highway": "trunk",
-      "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "no"
-  },"addTags": {
-    "highway": "trunk",
-      "foot": "use_sidepath",
-      "sidewalk:left": "separate",
-      "sidewalk:right": "no",
-      "surface": "asphalt"
-  },
-  "terms": [
-      "trl",
-      "trunk",
-      "road",
-      "street",
-      "separate",
-      "sidewalk",
-      "sidepath",
-      "left"
-  ],
-  "name": "TRL-Trunk Road Sidewalk Left Separate"
+    "icon": "iD-highway-trunk",
+    "fields": [
+        "{highway/trunk}"
+    ],
+    "moreFields": [
+        "{highway/trunk}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "trunk",
+        "foot": "use_sidepath",
+        "sidewalk:left": "separate",
+        "sidewalk:right": "no"
+    },
+    "addTags": {
+        "highway": "trunk",
+        "foot": "use_sidepath",
+        "sidewalk:left": "separate",
+        "sidewalk:right": "no",
+        "surface": "asphalt"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "trl",
+        "trunk",
+        "road",
+        "street",
+        "separate",
+        "sidewalk",
+        "sidepath",
+        "left"
+    ],
+    "name": "TRL-Trunk Road Sidewalk Left Separate"
 }
