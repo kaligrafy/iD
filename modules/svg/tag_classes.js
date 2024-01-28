@@ -206,10 +206,10 @@ export function svgTagClasses() {
             var crossingMarkings = null;
             var segregated = null;
             var foot = null;
-            var bicycle = 'unknown'; // default for sidewalk, so wwe can detect sidewalks without bicycle=no
+            var bicycle = 'unknown'; // default for sidewalk, so we can detect sidewalks without bicycle=no
             var motor_vehicle = null;
             var bus = null;
-            var footway = null;
+            var footway = 'unknown';
             var maxSpeed = null;
             var access = null;
             var surface = null;
@@ -298,7 +298,6 @@ export function svgTagClasses() {
                 if (k === 'footway') {
                     footway = v;
                     isSidewalk = true;
-                    classes.push('tag-footway-' + footway);
                 }
                 if (!ignoreSidewalk && k === 'sidewalk') {
                     sidewalk = v;
@@ -393,6 +392,7 @@ export function svgTagClasses() {
             }
 
             classes.push('tag-bicycle-' + bicycle);
+            classes.push('tag-footway-' + footway);
 
             /* validate and classify sidewalk presence: */
             if (!ignoreSidewalk) {
