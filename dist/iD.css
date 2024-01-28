@@ -1697,6 +1697,12 @@ path.line.casing.tag-highway-footway.tag-crossing.tag-bicycle-yes {
   stroke-linecap: butt;
   stroke-dasharray: none;
 }
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-bicycle-unknown:not(.tag-crossing),
+path.line.casing.tag-highway-footway.tag-bicycle-unknown:not(.tag-crossing) {
+  stroke: rgb(181, 120, 120);
+  stroke-linecap: butt;
+  stroke-dasharray: none;
+}
 path.line.casing.tag-highway-footway.tag-crossing.tag-bicycle-no,
 path.line.casing.tag-highway-footway.tag-bicycle-no {
   stroke: rgb(255, 83, 83);
