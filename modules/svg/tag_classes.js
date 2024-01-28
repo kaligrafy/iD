@@ -448,10 +448,8 @@ export function svgTagClasses() {
             }
 
             /* validate lanes */
-            if (!isOneWay && hasLanes && lanes > 2 && lanes % 2 === 1) {
-                if (!hasLanesForward || !hasLanesBackward) {
-                    classes.push('tag-lanes-error-count-lanes');
-                }
+            if (!isOneWay && hasLanes && lanes > 2 && (!hasLanesForward || !hasLanesBackward)) {
+                classes.push('tag-lanes-error-count-lanes');
             }
             if (hasLanesForward && hasLanesBackward && lanes !== lanesForward + lanesBackward) {
                 if (hasLanesBothWays && lanes !== lanesForward + lanesBackward + lanesBothWays) {
