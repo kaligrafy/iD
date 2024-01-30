@@ -55519,11 +55519,12 @@
 	    return action;
 	}
 
-	function actionCloneRoadAttributes(selectedIds, cloneTags) {
+	function actionCloneRoadAttributes(selectedIds, cloneTags, languageSuffixes) {
 	    if ( cloneTags === void 0 ) cloneTags = [];
+	    if ( languageSuffixes === void 0 ) languageSuffixes = [];
 
 
-	    var action = function (graph) {
+	    var action = function (graph) { 
 
 	        //console.log('graph before', graph.entities);
 
@@ -55551,6 +55552,14 @@
 	              var cloneTag = cloneTags[j];
 	              if (cloneRoadAttributesFromEntityTags[cloneTag] !== undefined) {
 	                tags[cloneTag] = cloneRoadAttributesFromEntityTags[cloneTag];
+	              }
+	              if (languageSuffixes.length > 0) {
+	                for (var k = 0, countK = languageSuffixes.length; k < countK; k++) {
+	                  var languageSuffix = languageSuffixes[k];
+	                  if (cloneRoadAttributesFromEntityTags[cloneTag + ':' + languageSuffix] !== undefined) {
+	                    tags[cloneTag + ':' + languageSuffix] = cloneRoadAttributesFromEntityTags[cloneTag + ':' + languageSuffix];
+	                  }
+	                }
 	              }
 	          }
 	          entity = entity.update({tags: tags});
@@ -78682,8 +78691,8 @@
 
 	function operationCloneName(selectedIDs, context) {
 
-	    var cloneTags = ['name', 'operator', 'name_alt', 'name:fr', 'name:en'];
-	    var action = actionCloneRoadAttributes(selectedIDs, cloneTags);
+	    var cloneTags = ['name', 'operator', 'alt_name', 'old_name', 'short_name', 'official_name', 'int_name', 'loc_name', 'name:left', 'name:right', 'nat_name', 'ref_name', 'reg_name', 'sorting_name', 'nickname'];
+	    var action = actionCloneRoadAttributes(selectedIDs, cloneTags, ['fr', 'en']);
 
 	    var operation = function () {
 	        context.perform(action, operation.annotation());
@@ -78699,7 +78708,7 @@
 	        if (selectedIDs.length >= 2) {
 	            var entity = context.entity(selectedIDs[0]);
 	            for (var i = 0, count = cloneTags.length; i < count; i++) {
-	                if (entity.tags[cloneTags[i]] !== undefined) {
+	                if (entity.tags[cloneTags[i]] !== undefined || entity.tags[cloneTags[i]+':fr'] !== undefined || entity.tags[cloneTags[i]+':en'] !== undefined) {
 	                    return true;
 	                }
 	            }

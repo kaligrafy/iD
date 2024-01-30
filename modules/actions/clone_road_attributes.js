@@ -1,6 +1,6 @@
-export function actionCloneRoadAttributes(selectedIds, cloneTags = []) {
+export function actionCloneRoadAttributes(selectedIds, cloneTags = [], languageSuffixes = []) {
 
-    var action = function (graph) {
+    var action = function (graph) { 
 
         //console.log('graph before', graph.entities);
 
@@ -28,6 +28,14 @@ export function actionCloneRoadAttributes(selectedIds, cloneTags = []) {
               const cloneTag = cloneTags[j];
               if (cloneRoadAttributesFromEntityTags[cloneTag] !== undefined) {
                 tags[cloneTag] = cloneRoadAttributesFromEntityTags[cloneTag];
+              }
+              if (languageSuffixes.length > 0) {
+                for (let k = 0, countK = languageSuffixes.length; k < countK; k++) {
+                  const languageSuffix = languageSuffixes[k];
+                  if (cloneRoadAttributesFromEntityTags[cloneTag + ':' + languageSuffix] !== undefined) {
+                    tags[cloneTag + ':' + languageSuffix] = cloneRoadAttributesFromEntityTags[cloneTag + ':' + languageSuffix];
+                  }
+                }
               }
           }
           entity = entity.update({tags});

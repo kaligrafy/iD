@@ -10,8 +10,8 @@ import {
 
 export function operationCloneName(selectedIDs, context) {
 
-    const cloneTags = ['name', 'operator', 'name_alt', 'name:fr', 'name:en']
-    var action = actionCloneRoadAttributes(selectedIDs, cloneTags);
+    const cloneTags = ['name', 'operator', 'alt_name', 'old_name', 'short_name', 'official_name', 'int_name', 'loc_name', 'name:left', 'name:right', 'nat_name', 'ref_name', 'reg_name', 'sorting_name', 'nickname'];
+    var action = actionCloneRoadAttributes(selectedIDs, cloneTags, ['fr', 'en']);
 
     var operation = function () {
         context.perform(action, operation.annotation());
@@ -27,7 +27,7 @@ export function operationCloneName(selectedIDs, context) {
         if (selectedIDs.length >= 2) {
             const entity = context.entity(selectedIDs[0]);
             for (let i = 0, count = cloneTags.length; i < count; i++) {
-                if (entity.tags[cloneTags[i]] !== undefined) {
+                if (entity.tags[cloneTags[i]] !== undefined || entity.tags[cloneTags[i]+':fr'] !== undefined || entity.tags[cloneTags[i]+':en'] !== undefined) {
                     return true;
                 }
             }
