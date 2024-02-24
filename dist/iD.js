@@ -68436,10 +68436,12 @@
 	var oauth = osmAuth({
 	    client_id: '2691x1tXF09xopP7f3iCMhmfZF3VxCFrD5XoRMSu6m4',
 	    url: urlroot,
+	    apiUrl: 'https://api.openstreetmap.org',
 	    //apiUrl: apiUrlroot,
 	    client_secret: 'ZCgotEzx8_2V_hQLzdvQ9DXs8LuziQugOCvDhLU0E0A',
 	    scope: 'read_prefs write_prefs write_api read_gpx write_notes',
 	    redirect_uri: redirectPath,
+	    singlepage: true,
 	    loading: authLoading,
 	    done: authDone
 	});
