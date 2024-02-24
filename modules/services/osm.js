@@ -4,7 +4,7 @@ import { dispatch as d3_dispatch } from 'd3-dispatch';
 import { xml as d3_xml } from 'd3-fetch';
 import { json as d3_json } from 'd3-fetch';
 
-import osmAuth from 'osm-auth';
+import { osmAuth } from 'osm-auth';
 import RBush from 'rbush';
 
 import { JXON } from '../util/jxon';
@@ -12,14 +12,17 @@ import { geoExtent, geoRawMercator, geoVecAdd, geoZoomToScale } from '../geo';
 import { osmEntity, osmNode, osmNote, osmRelation, osmWay } from '../osm';
 import { utilArrayChunk, utilArrayGroupBy, utilArrayUniq, utilRebind, utilTiler, utilQsString } from '../util';
 
-
+var redirectPath = 'https://projets.chaire.transition.city/';//window.location.origin + window.location.pathname;
 var tiler = utilTiler();
 var dispatch = d3_dispatch('apiStatusChange', 'authLoading', 'authDone', 'change', 'loading', 'loaded', 'loadedNotes');
 var urlroot = 'https://www.openstreetmap.org';
 var oauth = osmAuth({
+    client_id: '2691x1tXF09xopP7f3iCMhmfZF3VxCFrD5XoRMSu6m4',
     url: urlroot,
-    oauth_consumer_key: '5A043yRSEugj4DJ5TljuapfnrflWDte8jTOcWLlT',
-    oauth_secret: 'aB3jKq1TRsCOUrfOIZ6oQMEDmv2ptV76PA54NGLL',
+    //apiUrl: apiUrlroot,
+    client_secret: 'ZCgotEzx8_2V_hQLzdvQ9DXs8LuziQugOCvDhLU0E0A',
+    scope: 'read_prefs write_prefs write_api read_gpx write_notes',
+    redirect_uri: redirectPath,
     loading: authLoading,
     done: authDone
 });
