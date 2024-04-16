@@ -38,5 +38,6 @@
         "tsn",
         "tr"
     ],
-    "name": "Traffic Signals Crossing (no markings)"
+    "name": "Traffic Signals Crossing (no markings)",
+    "shortcut": ["⌃+t"]
 }
