@@ -1,0 +1,32 @@
+{
+    "icon": "temaki-car_structure",
+    "fields": [
+        "{amenity/parking}",
+        "layer"
+    ],
+    "geometry": [
+        "point"
+    ],
+    "tags": {
+        "amenity": "parking",
+        "parking": "underground",
+        "access": "customers",
+        "entrance": "garage",
+        "layer": "-1"
+    },
+    "reference": {
+        "key": "parking",
+        "value": "underground"
+    },
+    "terms": [
+        "automobile parking",
+        "car lot",
+        "car parking",
+        "rv parking",
+        "subsurface parking",
+        "truck parking",
+        "vehicle parking",
+        "customers parking"
+    ],
+    "name": "Underground Parking Garage entrance for customers"
+}

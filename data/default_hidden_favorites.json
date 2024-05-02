@@ -45,6 +45,9 @@
   {"pID": "highway/footway/private", "hidden" : true},
   {"pID": "highway/footway/customers", "hidden" : true},
   
+  {"pID": "highway/cycleway"},
+  {"pID": "highway/cycleway/crossing/no_foot_unmarked"},
+  {"pID": "highway/cycleway/crossing/no_foot_marked"},
   {"pID": "highway/cycleway/crossing/uncontrolled-zebra_no_foot", "hidden" : true},
   {"pID": "highway/cycleway/crossing/uncontrolled-lines_no_foot", "hidden" : true},
   {"pID": "highway/cycleway/crossing/unmarked_no_foot", "hidden" : true},

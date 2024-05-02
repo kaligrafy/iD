@@ -2,12 +2,11 @@
   {"pID": "highway/informal_path"},
   {"pID": "highway/steps_concrete_dismount"},
   {"pID": "amenity/loading_dock"},
-  {"pID": "amenity/parking/underground"},
-  {"pID": "amenity/parking/underground"},
+  {"pID": "amenity/parking/underground_private_parking_entrance_residents"},
   {"pID": "highway/crossing/tactile_paving"},
-  {"pID": "highway/cycleway"},
-  {"pID": "highway/cycleway/crossing/no_foot_unmarked"},
-  {"pID": "highway/cycleway/crossing/no_foot_marked"},
+  {"pID": "amenity/parking/underground_customers_parking_entrance"},
+  {"pID": "amenity/parking/underground_private_parking_entrance_employees"},
+  {"pID": "traffic_calming/choker"},
   {"pID": "highway/footway/private-informal"},
   {"pID": "highway/footway/customers-informal"},
   {"pID": "amenity/parking_entrance"},
@@ -26,5 +25,7 @@
   {"pID": "barrier/lift_gate"},
   {"pID": "building/service"},
   {"pID": "amenity/bench"},
-  {"pID": "leisure/picnic_table"}
+  {"pID": "leisure/picnic_table"},
+  {"pID": "building_part"},
+  {"pID": "man_made/bridge"}
 ]
