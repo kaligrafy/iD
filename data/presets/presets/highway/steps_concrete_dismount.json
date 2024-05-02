@@ -26,10 +26,15 @@
     "tags": {
         "highway": "steps"
     },
+    "addTags": {
+        "highway": "steps",
+        "bicycle": "dismount",
+        "surface": "concrete"
+    },
     "terms": [
         "stairs",
         "staircase",
         "stairway"
     ],
-    "name": "Steps"
+    "name": "Steps dismount"
 }

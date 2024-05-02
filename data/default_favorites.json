@@ -1,8 +1,10 @@
 [
   {"pID": "highway/informal_path"},
-  {"pID": "highway/steps"},
+  {"pID": "highway/steps_concrete_dismount"},
   {"pID": "amenity/loading_dock"},
   {"pID": "amenity/parking/underground"},
+  {"pID": "amenity/parking/underground"},
+  {"pID": "highway/crossing/tactile_paving"},
   {"pID": "highway/cycleway"},
   {"pID": "highway/cycleway/crossing/no_foot_unmarked"},
   {"pID": "highway/cycleway/crossing/no_foot_marked"},
@@ -22,5 +24,7 @@
   {"pID": "noexit/yes"},
   {"pID": "highway/give_way"},
   {"pID": "barrier/lift_gate"},
-  {"pID": "building/service"}
+  {"pID": "building/service"},
+  {"pID": "amenity/bench"},
+  {"pID": "leisure/picnic_table"}
 ]

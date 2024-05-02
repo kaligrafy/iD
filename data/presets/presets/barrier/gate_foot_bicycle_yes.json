@@ -20,5 +20,11 @@
     "tags": {
         "barrier": "gate"
     },
-    "name": "Gate"
+    "addTags": {
+        "barrier": "gate",
+        "foot": "yes",
+        "bicycle": "yes"
+    },
+    "name": "Gate public for foot and bicycle [⌥+⇧+g]",
+    "shortcut": ["⌥+⇧+g"]
 }

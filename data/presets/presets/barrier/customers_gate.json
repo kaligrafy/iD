@@ -1,0 +1,17 @@
+{
+    "icon": "maki-barrier",
+    "fields": [
+        "access",
+        "opening_hours"
+    ],
+    "geometry": [
+        "vertex",
+        "line"
+    ],
+    "tags": {
+        "barrier": "gate",
+        "access": "customers"
+    },
+    "name": "Customers Gate"
+  }
+  

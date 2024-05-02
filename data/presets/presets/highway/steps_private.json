@@ -24,12 +24,18 @@
         "line"
     ],
     "tags": {
-        "highway": "steps"
+        "highway": "steps",
+        "access": "private"
+    },
+    "addTags": {
+        "highway": "steps",
+        "access": "private",
+        "surface": "concrete"
     },
     "terms": [
         "stairs",
         "staircase",
         "stairway"
     ],
-    "name": "Steps"
+    "name": "Steps private"
 }

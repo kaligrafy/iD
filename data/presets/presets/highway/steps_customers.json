@@ -24,12 +24,18 @@
         "line"
     ],
     "tags": {
-        "highway": "steps"
+        "highway": "steps",
+        "access": "customers"
+    },
+    "addTags": {
+        "highway": "steps",
+        "access": "customers",
+        "surface": "concrete"
     },
     "terms": [
         "stairs",
         "staircase",
         "stairway"
     ],
-    "name": "Steps"
+    "name": "Steps customers"
 }
