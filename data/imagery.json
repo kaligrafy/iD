@@ -80,7 +80,7 @@
       "type": "tms",
       "template": "https://d.tiles.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}@2x.jpg?access_token=pk.eyJ1Ijoia2FsaWdyYWZ5IiwiYSI6ImNrOHl1NmFsMDAwOTMzZ21nbm4wcnZ5cXIifQ.5qKEEgjNRH8nuggg3X5IWw",
       "tileSize": 512,
-      "offsetXY": [0.6,-1.54],
+      "offsetXY": [0.9,-3],
       "zoomExtent": [0, 22],
       "terms_url": "https://www.mapbox.com/about/maps",
       "terms_text": "Terms & Feedback",
