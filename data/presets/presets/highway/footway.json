@@ -36,6 +36,8 @@
         "bicycle": "yes"
     },
     "addTags": {
+        "highway": "footway",
+        "bicycle": "yes",
         "surface": "asphalt"
     },
     "name": "Foot Path [f]",
