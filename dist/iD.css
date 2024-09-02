@@ -1928,6 +1928,13 @@ svg#surface:not(.debug-surfaces) path.over-stroke.tag-crossing.tag-name-no {
   stroke-linecap: butt !important;
 }
 
+/* cycleway separate (no biicycle access) */
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway-separate,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-cycleway_both-separate {
+  stroke-width: 1 !important;
+  stroke:  rgb(255, 0, 0) !important;
+  stroke-linecap: butt !important;
+}
 
 /* turn lanes */
 svg#surface:not(.debug-surfaces) path.over-stroke.tag-turn_lanes-yes {

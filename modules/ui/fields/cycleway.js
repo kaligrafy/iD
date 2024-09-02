@@ -34,7 +34,7 @@ export function uiFieldCycleway(field, context) {
             .attr('class', 'rows')
             .merge(div);
 
-        var keys = ['cycleway:both', 'cycleway:left', 'cycleway:right'];
+        var keys = ['cycleway', 'cycleway:both', 'cycleway:left', 'cycleway:right'];
 
         items = div.selectAll('li')
             .data(keys);
@@ -73,28 +73,51 @@ export function uiFieldCycleway(field, context) {
 
 
     function change() {
+        var cycleway = utilGetSetValue(d3_select('.preset-input-cycleway'));
         var both = utilGetSetValue(d3_select('.preset-input-cyclewayboth'));
         var left = utilGetSetValue(d3_select('.preset-input-cyclewayleft'));
         var right = utilGetSetValue(d3_select('.preset-input-cyclewayright'));
         var tag = {};
 
-        if (both === '') { both = undefined; }
-        if (left === '') { left = undefined; }
-        if (right === '') { right = undefined; }
+        // cycleway=separate means in osrm from transition: no access, use sidepath.
+        // cycleway:both=separate would mean the same
+
+
+        if (cycleway === '' || cycleway === null) { cycleway = undefined; }
+        if (both === '' || both === null) { both = undefined; }
+        if (left === '' || left === null) { left = undefined; }
+        if (right === '' || right === null) { right = undefined; }
         if (left !== undefined && right !== undefined && left !== right) { 
             both = undefined;
+            if (cycleway !== 'separate') {
+                cycleway = undefined;
+            }
         }
-        if (both !== undefined && both !== null) { 
-            left = undefined; 
+        if (both !== undefined) { 
+            left = undefined;
             right = undefined;
         }
         if (left === right && left !== undefined) {
             both = left;
+            if (left === 'separate') {
+                cycleway = left;
+                left = undefined;
+                right = undefined;
+                both = undefined;
+            }
+        }
+        if (both === 'separate') {
+            cycleway = 'separate';
+            both = undefined;
+        }
+        if (left === 'separate' && right === 'no' || left === 'no' && right === 'separate') {
+            cycleway = 'separate';
+            both = undefined;
         }
 
         // Always set both left and right as changing one can affect the other
         tag = {
-            cycleway: undefined,
+            'cycleway': cycleway,
             'cycleway:both': both,
             'cycleway:left': left,
             'cycleway:right': right

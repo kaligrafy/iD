@@ -15,7 +15,7 @@ export function operationCloneRoadAttributes(selectedIDs, context) {
         'bus:lanes:forward', 'lanes:bus:forward', 'bus:lanes:backward', 'lanes:bus:backward',
         'lanes', 'lanes:forward', 'lanes:backward',
         'sidewalk', 'sidewalk:both', 'sidewalk:right', 'sidewalk:left', 'foot',
-        'routing:bicycle', 'bicycle', 'cycleway:both', 'cycleway:right', 'cycleway:left',
+        'routing:bicycle', 'bicycle', 'cycleway', 'cycleway:both', 'cycleway:right', 'cycleway:left',
         'turn:lanes', 'turn:lanes:forward', 'turn:lanes:backward',
         'placement', 'placement:start', 'placement:end', 'width:lanes:start', 'width:lanes:end',
         'placement:forward', 'width:lanes:forward:start', 'width:lanes:forward:end',

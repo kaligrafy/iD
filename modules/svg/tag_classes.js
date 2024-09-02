@@ -202,6 +202,8 @@ export function svgTagClasses() {
             var sidewalkRight = null;
             var indoor = null;
             var cycleway = null;
+            var cyclewayLeft = null;
+            var cyclewayRight = null;
             var crossing = null;
             var crossingMarkings = null;
             var segregated = null;
@@ -271,11 +273,11 @@ export function svgTagClasses() {
                     classes.push('tag-cycleway-' + cycleway);
                 }
                 if (k === 'cycleway:left') {
-                    cycleway = v;
+                    cyclewayLeft = v;
                     classes.push('tag-cycleway_left-' + cycleway);
                 }
                 if (k === 'cycleway:right') {
-                    cycleway = v;
+                    cyclewayRight = v;
                     classes.push('tag-cycleway_right-' + cycleway);
                 }
                 if (k === 'cycleway:both') {
@@ -475,6 +477,15 @@ export function svgTagClasses() {
             /* undefined and reverses */
             if (t.highway === 'cycleway' && !segregated) {
                 classes.push('tag-segregated-undefined');
+            }
+            if (cyclewayLeft === 'separate' && cyclewayRight === 'separate') {
+                classes.push('tag-cycleway-separate');
+            }
+            if (cyclewayLeft === 'no' && cyclewayRight === 'separate') {
+                classes.push('tag-cycleway-separate');
+            }
+            if (cyclewayLeft === 'separate' && cyclewayRight === 'no') {
+                classes.push('tag-cycleway-separate');
             }
             if (!hasName && (isSidewalk || isCycleway || isCrossing)) {
                 classes.push('tag-name-no');
