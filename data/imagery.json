@@ -1,23 +1,23 @@
 {
   "dataImagery": [
     {
-      "id": "GeodesieQuebec1",
-      "name": "Géodésie Québec (Cached, faster)",
-      "type": "tms",
-      "template": "https://geoegl.msp.gouv.qc.ca/carto/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orthos&STYLE=default&TILEMATRIXSET=EPSG_3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
-      "zoomExtent": [8, 22],
-      "offsetXY": [0,0],
-      "default": false,
-      "description": "Portail cartographique Québec"
-    },
-    {
-      "id": "GeodesieQuebec2",
-      "name": "Géodésie Québec (Live, slower)",
+      "id": "GeodesieQuebec",
+      "name": "Géodésie Québec",
       "type": "tms",
       "template": "https://servicesmatriciels.mern.gouv.qc.ca/erdas-iws/ogc/wmts/Imagerie_Continue/Imagerie_GQ/default/GoogleMapsCompatibleExt2:epsg:3857/{zoom}/{y}/{x}.jpg",
       "zoomExtent": [8, 22],
       "offsetXY": [0,0],
       "default": true,
+      "description": "Portail cartographique Québec"
+    },
+    {
+      "id": "GeodesieQuebecCached",
+      "name": "Géodésie Québec (Cached)",
+      "type": "tms",
+      "template": "https://geoegl.msp.gouv.qc.ca/carto/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orthos&STYLE=default&TILEMATRIXSET=EPSG_3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
+      "zoomExtent": [8, 22],
+      "offsetXY": [0,0],
+      "default": false,
       "description": "Portail cartographique Québec"
     },
     {
@@ -40,26 +40,6 @@
       "zoomExtent": [8, 22],
       "offsetXY": [0,0],
       "description": "Here Satellite"
-    },
-    {
-      "id": "CMM2018",
-      "name": "CMM Montreal 2018/Drummondville 2018/Gatineau 2017/Saint-Hyacinthe et Sorel 2020",
-      "type": "tms",
-      "template": "https://projets.chaire.transition.city/cmm2018tiles/{zoom}/{x}/{y}",
-      "zoomExtent": [8, 22],
-      "offsetXY": [0,0],
-      "default": false,
-      "description": "CMM (Montreal)/Drummondville/Gatineau 2017-2018/Saint-Hyacinthe Sorel 2020 Aerial imagery."
-    },
-    {
-      "id": "Drummondville2020",
-      "name": "Drummondville 2020",
-      "type": "tms",
-      "template": "https://chaire-mobilite.civil.polymtl.ca/drummondville2020tiles/{zoom}/{x}/{y}",
-      "zoomExtent": [8, 22],
-      "offsetXY": [0,0],
-      "default": false,
-      "description": "Drummondville 2020 Aerial imagery (20cm/pixel)."
     },
     {
       "id": "MAPNIK",
