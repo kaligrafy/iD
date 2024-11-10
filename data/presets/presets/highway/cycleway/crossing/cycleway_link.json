@@ -15,18 +15,13 @@
     ],
     "tags": {
         "highway": "cycleway",
-        "cycleway": "crossing",
-        "crossing": "unmarked",
-        "crossing:markings": "no",
+        "cycleway": "link",
         "foot": "no"
     },
     "addTags": {
         "highway": "cycleway",
-        "cycleway": "crossing",
-        "crossing": "unmarked",
-        "crossing:markings": "no",
+        "cycleway": "link",
         "foot": "no",
-        "lcn": "yes",
         "surface": "asphalt"
     },
     "reference": {
@@ -34,13 +29,10 @@
         "value": "crossing"
     },
     "terms": [
-        "unmarked cycleway crossing",
-        "unmarked crosswalk",
-        "unmarked no foot cycleway crossing",
-        "no marking crossing",
-        "un",
-        "unf"
+        "cycleway link",
+        "link",
+        "cl"
     ],
-    "name": "Unmarked Cycleway Crossing No Foot [⇧+⌥+u]",
-    "shortcut": ["⇧+⌥+u"]
+    "name": "Cycleway link [⇧+⌥+n]",
+    "shortcut": ["⇧+⌥+n"]
 }

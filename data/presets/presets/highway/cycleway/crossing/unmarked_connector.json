@@ -14,22 +14,22 @@
         "line"
     ],
     "tags": {
-        "highway": "cycleway",
-        "cycleway": "crossing",
+        "highway": "footway",
+        "footway": "crossing",
         "crossing": "unmarked",
         "crossing:markings": "no",
-        "foot": "no"
+        "bicycle": "yes"
     },
     "addTags": {
-        "highway": "cycleway",
-        "cycleway": "crossing",
+        "highway": "footway",
+        "footway": "crossing",
         "crossing": "unmarked",
         "crossing:markings": "no",
-        "foot": "no",
+        "bicycle": "yes",
         "surface": "asphalt"
     },
     "reference": {
-        "key": "cycleway",
+        "key": "footway",
         "value": "crossing"
     },
     "terms": [
@@ -40,6 +40,6 @@
         "unc",
         "uc"
     ],
-    "name": "Unmarked Cycleway Connector No Foot [⇧+⌥+n]",
-    "shortcut": ["⇧+⌥+n"]
+    "name": "Unmarked footway bicycle connector[⌃+c]",
+    "shortcut": ["⌃+c"]
 }

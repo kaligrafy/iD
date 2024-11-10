@@ -671,13 +671,13 @@ path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-yes 
 
 path.line.stroke.tag-crossing-unmarked,
 path.line.stroke.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-designated,
-path.line.stroke.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-yes {
+path.line.stroke.tag-highway-cycleway.tag-cycleway-link {
   opacity: 0.4 !important;
   stroke-dasharray: 6, 6 !important;
 }
 path.line.stroke.tag-crossing-unmarked.tag-foot-no,
 path.line.stroke.tag-crossing-unmarked.tag-foot-no.tag-highway-cycleway.tag-foot-designated,
-path.line.stroke.tag-crossing-unmarked.tag-foot-no.tag-highway-cycleway.tag-foot-yes
+path.line.stroke.tag-foot-no.tag-highway-cycleway.tag-cycleway-link
 {
   stroke-dasharray: none !important;
 }
