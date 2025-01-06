@@ -75,7 +75,8 @@
     "countryCodes": ["ca"],
     "format": [
       ["housenumber", "street", "unit", "flats"],
-      ["city", "province", "postcode"]
+      ["city", "borough"],
+      ["province", "postcode"]
     ]
   },
   {
