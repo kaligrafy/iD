@@ -2064,6 +2064,7 @@
                 "neighbourhood": "<value for addr:neighbourhood>",
                 "postcode": "96300",
                 "province": "<value for addr:province>",
+                "borough": "<value for addr:borough>",
                 "quarter": "<value for addr:quarter>",
                 "state": "<value for addr:state>",
                 "subdistrict": "<value for addr:subdistrict>",
