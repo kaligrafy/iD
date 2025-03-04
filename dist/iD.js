@@ -87763,7 +87763,7 @@
 	        'oneway', 'bridge', 'tunnel', 'embankment', 'cutting', 'barrier',
 	        'surface', 'tracktype', 'footway', 'crossing', 'service', 'sport',
 	        'public_transport', 'location', 'parking', 'golf', 'type', 'leisure',
-	        'man_made', 'indoor'
+	        'man_made', 'indoor', 'fixme', 'note'
 	    ];
 	    var _tags = function (entity) {
 	        return entity.tags;
