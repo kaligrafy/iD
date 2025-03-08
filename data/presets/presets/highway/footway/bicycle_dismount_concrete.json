@@ -1,0 +1,25 @@
+{
+    "icon": "temaki-pedestrian",
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "footway",
+        "bicycle": "dismount",
+        "surface": "concrete"
+    },
+    "addTags": {
+        "highway": "footway",
+        "bicycle": "dismount",
+        "surface": "concrete"
+    },
+    "terms": [
+        "footway",
+        "dismount"
+    ],
+    "reference": {
+        "key": "footway",
+        "value": "footway_bicycle_dismount"
+    },
+    "name": "Foot path (bicycle dismount concrete)"
+}

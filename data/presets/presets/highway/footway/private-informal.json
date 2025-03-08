@@ -40,8 +40,13 @@
   "tags": {
       "highway": "path",
       "informal": "yes",
+      "access": "private"
+  },
+  "addTags": {
+      "highway": "path",
+      "informal": "yes",
       "access": "private",
       "motor_vehicle": "no"
   },
-  "name": "Private InformalPath"
+  "name": "Private Informal Path"
 }

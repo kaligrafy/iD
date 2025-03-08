@@ -1,0 +1,27 @@
+{
+    "icon": "temaki-pedestrian",
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "footway",
+        "footway": "traffic_island",
+        "bicycle": "no"
+    },
+    "addTags": {
+        "highway": "footway",
+        "footway": "traffic_island",
+        "surface": "concrete",
+        "bicycle": "no"
+    },
+    "reference": {
+        "key": "footway",
+        "value": "traffic_island"
+    },
+    "terms": [
+        "pavement",
+        "sidepath",
+        "traffic island"
+    ],
+    "name": "Sidewalk (Traffic Island)"
+}

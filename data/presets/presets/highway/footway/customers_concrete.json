@@ -33,9 +33,15 @@
   "tags": {
       "highway": "footway",
       "access": "customers",
-      "motor_vehicle": "no"
+      "surface": "concrete"
+  },
+  "addTags": {
+       "highway": "footway",
+       "access": "customers",
+       "surface": "concrete",
+       "motor_vehicle": "no"
   },
   "matchScore": 0.9,
-  "name": "Customers Foot Path [⌥+f]",
+  "name": "Customers Foot Path (concrete) [⌥+f]",
   "shortcut": ["⌥+f"]
 }

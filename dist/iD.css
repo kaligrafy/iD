@@ -1684,20 +1684,24 @@ path.line.casing.tag-crossing-traffic_signals.tag-crossing-markings-zebra {
 
 /* sidewalks */
 path.line.casing.tag-highway-footway.tag-footway-sidewalk, 
+path.line.casing.tag-highway-footway.tag-footway-traffic_island, 
 path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-unpaved,
-path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-bicycle-no {
+path.line.casing.tag-highway-footway.tag-footway-traffic_island.tag-unpaved,
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-bicycle-no,
+path.line.casing.tag-highway-footway.tag-footway-traffic_island.tag-bicycle-no {
   stroke: rgb(206, 178, 136);
   stroke-linecap: butt;
   stroke-dasharray: none;
 }
 path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-bicycle-yes,
-path.line.casing.tag-highway-footway.tag-bicycle-yes
+path.line.casing.tag-highway-footway.tag-footway-traffic_island.tag-bicycle-yes,
 path.line.casing.tag-highway-footway.tag-crossing.tag-bicycle-yes {
   stroke: rgb(22, 96, 255);
   stroke-linecap: butt;
   stroke-dasharray: none;
 }
 path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-bicycle-unknown:not(.tag-crossing),
+path.line.casing.tag-highway-footway.tag-footway-traffic_island.tag-bicycle-unknown:not(.tag-crossing)
 path.line.casing.tag-highway-footway.tag-bicycle-unknown:not(.tag-crossing) {
   stroke: rgb(181, 120, 120);
   stroke-linecap: butt;
@@ -1921,6 +1925,7 @@ svg#surface:not(.debug-surfaces) path.over-stroke.tag-sidewalk-shared-right
 
 /* sidewalk/crossings no-name */
 svg#surface:not(.debug-surfaces) path.over-stroke.tag-footway-sidewalk.tag-name-no,
+svg#surface:not(.debug-surfaces) path.over-stroke.tag-footway-traffic_island.tag-name-no,
 svg#surface:not(.debug-surfaces) path.over-stroke.tag-crossing.tag-name-no {
   stroke-width: 1 !important;
   stroke-dasharray: 6, 6 !important;

@@ -36,8 +36,7 @@
     ],
     "tags": {
         "highway": "footway",
-        "footway": "access_aisle",
-        "motor_vehicle": "no"
+        "footway": "access_aisle"
     },
     "addTags": {
         "highway": "footway",

@@ -40,8 +40,13 @@
   "tags": {
       "highway": "path",
       "informal": "yes",
+      "access": "customers"
+  },
+  "addTags": {
+      "highway": "path",
+      "informal": "yes",
       "access": "customers",
       "motor_vehicle": "no"
   },
-  "name": "Customers InformalPath"
+  "name": "Customers Informal Path"
 }
