@@ -1,0 +1,29 @@
+{
+    "icon": "fas-biking",
+    "fields": [
+        "access",
+        "surface",
+        "name"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "path",
+        "cycleway": "link"
+    },
+    "addTags": {
+        "highway": "path",
+        "cycleway": "link",
+        "surface": "asphalt"
+    },
+    "reference": {
+        "key": "cycleway",
+        "value": "link"
+    },
+    "terms": [
+        "unmarked bicycle connector"
+    ],
+    "name": "Unmarked bicycle connector[⌃+c]",
+    "shortcut": ["⌃+c"]
+}

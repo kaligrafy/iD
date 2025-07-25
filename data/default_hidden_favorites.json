@@ -51,7 +51,7 @@
   {"pID": "highway/cycleway/crossing/uncontrolled-zebra_no_foot", "hidden" : true},
   {"pID": "highway/cycleway/crossing/uncontrolled-lines_no_foot", "hidden" : true},
   {"pID": "highway/cycleway/crossing/unmarked_no_foot", "hidden" : true},
-  {"pID": "highway/cycleway/crossing/unmarked_connector", "hidden" : true},
+  {"pID": "highway/cycleway/crossing/unmarked_bicycle_connector", "hidden" : true},
   {"pID": "highway/cycleway/crossing/unmarked_no_foot", "hidden" : true},
   {"pID": "highway/cycleway/crossing/cycleway_link", "hidden" : true},
 
