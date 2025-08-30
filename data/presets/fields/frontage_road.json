@@ -1,0 +1,15 @@
+{
+    "key": "frontage_road",
+    "type": "radio",
+    "strings": {
+        "options": {
+            "yes": "Yes",
+            "no": "No"
+        }
+    },
+    "label": "Frontage Road",
+    "prerequisiteTag": {
+        "key": "oneway",
+        "value": "yes"
+    }
+}

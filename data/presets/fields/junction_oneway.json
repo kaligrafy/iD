@@ -1,7 +1,7 @@
 {
     "key": "junction",
     "type": "combo",
-    "label": "Junction",
+    "label": "Junction Oneway",
     "strings": {
         "options": {
             "roundabout": "Roundabout",
@@ -9,5 +9,9 @@
             "jughandle": "Jughandle",
             "turning_loop": "Turning Loop"
         }
+    },
+    "prerequisiteTag": {
+        "key": "oneway",
+        "value": "yes"
     }
 }

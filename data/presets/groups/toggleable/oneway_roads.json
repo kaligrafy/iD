@@ -1,0 +1,13 @@
+{
+    "name": "oneway_roads",
+    "description": "Oneway roads",
+    "toggleable": true,
+    "matches": {
+        "geometry": "line",
+        "anyTags": {
+            "oneway": {
+                "yes": true
+            }
+        }
+    }
+}

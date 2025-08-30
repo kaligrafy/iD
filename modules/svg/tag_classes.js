@@ -21,7 +21,7 @@ export function svgTagClasses() {
         'oneway', 'bridge', 'tunnel', 'embankment', 'cutting', 'barrier',
         'surface', 'tracktype', 'footway', 'crossing', 'service', 'sport',
         'public_transport', 'location', 'parking', 'golf', 'type', 'leisure',
-        'man_made', 'indoor', 'fixme', 'note'
+        'man_made', 'indoor', 'fixme', 'note', 'dual_carriageway', 'junction'
     ];
     var _tags = function (entity) {
         return entity.tags;
@@ -238,6 +238,9 @@ export function svgTagClasses() {
             var isSidewalk = false;
             var isCycleway = false;
             var isCrossing = false;
+            var isDualCarriageway = false;
+            var isJunction = false;
+            var isFrontageRoad = false;
 
             for (k in t) {
                 v = t[k];
@@ -330,6 +333,15 @@ export function svgTagClasses() {
                 }
                 if (k === 'oneway' && v === 'yes') {
                     isOneWay = true;
+                }
+                if (k === 'dual_carriageway' && v === 'yes') {
+                    isDualCarriageway = true;
+                }
+                if (k === 'junction' && (v === 'circular' || v === 'roundabout' || v === 'turning_loop' || v === 'jughandle')) {
+                    isJunction = true;
+                }
+                if (k === 'frontage_road' && v === 'yes') {
+                    isFrontageRoad = true;
                 }
                 if (k === 'lanes' && v >= 1 && v <= 8) {
                     lanes = Number(v);
@@ -447,6 +459,18 @@ export function svgTagClasses() {
                 if (crossing === 'uncontrolled' && !crossingMarkings) {
                     classes.push('tag-crossing-uncontrolled-empty-crossing-markings');
                 }
+            }
+
+            if (isDualCarriageway) {
+                classes.push('tag-dual_carriageway-yes');
+            }
+
+            if (isJunction) {
+                classes.push('tag-junction-yes');
+            }
+
+            if (isFrontageRoad) {
+                classes.push('tag-frontage_road-yes');
             }
 
             /* validate lanes */

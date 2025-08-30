@@ -7,6 +7,7 @@ export { operationCloneAddress } from './clone_address';
 export { operationCloneName } from './clone_name';
 export { operationCloneTurnLanes } from './clone_turn_lanes';
 export { operationCloneLanes } from './clone_lanes';
+export { operationCloneDualCarriageway } from './clone_dual_carriageway';
 export { operationCloneCycleway } from './clone_cycleway';
 export { operationCloneSidewalk } from './clone_sidewalk';
 export { operationCloneBusLanes } from './clone_bus_lanes';

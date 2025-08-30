@@ -4,6 +4,8 @@
         "name",
         "surface",
         "oneway_no",
+        "dual_carriageway",
+        "junction_oneway",
         "sidewalk",
         "maxspeed",
         "lanes",
@@ -81,7 +83,8 @@
         "cycleway_opposite_right_marking",
         "oneway/bicycle",
         "structure",
-        "access"
+        "access",
+        "frontage_road"
     ],
     "moreFields": [
         "covered",

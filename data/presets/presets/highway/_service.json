@@ -4,6 +4,8 @@
         "name",
         "surface",
         "oneway_no",
+        "dual_carriageway",
+        "junction_oneway",
         "service",
         "sidewalk",
         "maxspeed",

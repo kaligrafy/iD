@@ -253,6 +253,11 @@ en:
       description: Clone lanes tags from the first selected entity.
       key: "#"
       annotation: Clone the lanes tags.
+    clone_dual_carriageway:
+      title: Clone dual carriageway tags
+      description: Clone dual carriageway tags from the first selected entity.
+      key: "@"
+      annotation: Clone the dual carriageway tags.
     clone_transition:
       title: Clone road transition tags
       description: Clone road transition tags from the first selected entity.

@@ -5,6 +5,7 @@
         "surface",
         "ref_road_number",
         "oneway_yes",
+        "dual_carriageway",
         "maxspeed",
         "maxspeed/advisory",
         "minspeed",

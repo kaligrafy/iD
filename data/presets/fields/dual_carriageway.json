@@ -1,0 +1,15 @@
+{
+    "key": "dual_carriageway",
+    "type": "radio",
+    "strings": {
+        "options": {
+            "yes": "Yes",
+            "no": "No"
+        }
+    },
+    "label": "Dual Carriageway",
+    "prerequisiteTag": {
+        "key": "oneway",
+        "value": "yes"
+    }
+}
