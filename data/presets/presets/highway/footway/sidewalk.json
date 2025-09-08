@@ -6,13 +6,13 @@
     "tags": {
         "highway": "footway",
         "footway": "sidewalk",
-        "bicycle": "no"
+        "bicycle": "dismount"
     },
     "addTags": {
         "highway": "footway",
         "footway": "sidewalk",
         "surface": "concrete",
-        "bicycle": "no"
+        "bicycle": "dismount"
     },
     "reference": {
         "key": "footway",

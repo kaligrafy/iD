@@ -750,6 +750,12 @@ path.line.casing.tag-highway-footway.tag-footway-traffic_island.tag-bicycle-no {
   stroke-linecap: butt;
   stroke-dasharray: none;
 }
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-bicycle-dismount,
+path.line.casing.tag-highway-footway.tag-footway-traffic_island.tag-bicycle-dismount {
+  stroke: rgb(184, 139, 221) !important;
+  stroke-linecap: butt;
+  stroke-dasharray: none;
+}
 path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-bicycle-yes,
 path.line.casing.tag-highway-footway.tag-footway-traffic_island.tag-bicycle-yes,
 path.line.casing.tag-highway-footway.tag-crossing.tag-bicycle-yes {
