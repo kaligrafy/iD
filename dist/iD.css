@@ -1388,6 +1388,17 @@ path.line.casing.tag-highway-bus_guideway {
   stroke: #fff;
 }
 
+.preset-icon .icon.tag-highway-busway {
+  color:rgb(126, 214, 255);
+  fill: #fff;
+}
+path.line.stroke.tag-highway-busway {
+  stroke: rgb(126, 214, 255);
+}
+path.line.casing.tag-highway-busway {
+  stroke: #fff;
+}
+
 path.line.stroke.tag-highway-service.tag-service,
 path.line.stroke.tag-service.tag-service {
   stroke: rgb(235, 223, 200);

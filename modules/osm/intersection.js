@@ -44,7 +44,9 @@ export function osmIntersection(graph, startVertexId, maxDistance) {
             'living_street': true,
             'service': true,
             'road': true,
-            'track': true
+            'track': true,
+            'bus_guideway': true,
+            'busway': true
         };
         return roads[way.tags.highway];
     }
