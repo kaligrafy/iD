@@ -69,7 +69,7 @@ export function uiFieldCombo(field, context) {
                 return o.key && clean(o.value) === dval;
             });
             if (found) {
-                return found.key;
+                return found.key.replace(/<TX_DOT>/g, '.');
             }
         }
 

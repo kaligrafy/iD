@@ -14,11 +14,21 @@
     ],
     "strings": {
         "options": {
-            "no|no|no": "] | | [",
-            "yes|only_left|no": "] ⋮ | [",
-            "no|only_right|yes": "] | ⋮ [",
-            "yes|no|no": "] ⋮| | [",
-            "no|no|yes": "] | |⋮ ["
+            "no|no|no": " | | ",
+            "yes|not_right|no": " ⋮ | ",
+            "no|not_left|yes": " | ⋮ ",
+            "yes|no|no": " ⋮| | ",
+            "no|no|yes": " | |⋮ ",
+            "no|yes|no": " |⋮ ⋮| ",
+            "no|yes|yes": " |⋮ ⋮ ",
+            "no|not_right|no": " |⋮ | ",
+            "no|not_right|yes": " |⋮ |⋮ ",
+            "no|not_left|no": " | ⋮| ",
+            "yes|no|yes": " ⋮| |⋮ ",
+            "yes|yes|no": " ⋮ ⋮| ",
+            "yes|not_right|yes": " ⋮ |⋮ ",
+            "yes|not_left|no": " ⋮| ⋮| ",
+            "yes|not_left|yes": " ⋮| ⋮ "
         }
     }
 }

@@ -20,11 +20,21 @@
             "left;through|through|through|through;right": "↰↑ | ↑ | ↑ | ↑↱",
             "left|through|through|through": "↰ | ↑ | ↑ | ↑",
             "through|through|through|right": "↑ | ↑ | ↑ | ↱",
+            "through|through|through|through": "↑ | ↑ | ↑ | ↑",
             "left|||right": "↰ | | | ↱",
             "left|||": "↰ | | |",
             "|||right": "| | | ↱",
             "|||merge_to_left": "| | | ↖︎",
-            "merge_to_right|||": "↗︎ | | |"
+            "merge_to_right|||": "↗︎ | | |",
+            "slight_left|||": "↖︎ | | |",
+            "|||slight_right": "| | | ↗︎",
+            "through|through|through|slight_right": "↑ | ↑ | ↑ | ↗︎",
+            "slight_left|through|through|through": "↖︎ | ↑ | ↑ | ↑",
+            "through|through|slight_right|slight_right": "↑ | ↑ | ↗︎ | ↗︎",
+            "slight_left|slight_left|through|through": "↖︎ | ↖︎ | ↑ | ↑",
+            "slight_left|slight_left|slight_right|slight_right": "↖︎ | ↖︎ | ↗︎ | ↗︎",
+            "slight_left|slight_right|slight_right|slight_right": "↖︎ | ↗︎ | ↗︎ | ↗︎",
+            "slight_left|slight_left|slight_left|slight_right": "↖︎ | ↖︎ | ↖︎ | ↗︎"
         }
     }
 }

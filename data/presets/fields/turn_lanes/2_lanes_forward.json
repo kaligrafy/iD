@@ -19,6 +19,7 @@
             "left|right": "↰ | ↱",
             "left|through": "↰ | ↑",
             "through|right": "↑ | ↱",
+            "through|through": "↑ | ↑",
             "left|through;right": "↰ | ↑↱",
             "left;through|right": "↰↑ | ↱",
             "left;through|through;right": "↰↑ | ↑↱",
@@ -27,7 +28,13 @@
             "left|left": "↰ | ↰",
             "right|right": "↱ | ↱",
             "|merge_to_left": "| ↖︎",
-            "merge_to_right|": "↗︎ |"
+            "merge_to_right|": "↗︎ |",
+            "through|merge_to_left": "↑ | ↖︎",
+            "merge_to_right|through": "↗︎ | ↑",
+            "|slight_right": "| ↗︎",
+            "slight_left|": "↖︎ |",
+            "through|slight_right": "↑ | ↗︎",
+            "slight_left|through": "↖︎ | ↑"
         }
     }
 }

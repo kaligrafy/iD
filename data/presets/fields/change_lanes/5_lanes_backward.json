@@ -14,14 +14,14 @@
     ],
     "strings": {
         "options": {
-            "no|no|no|no|no": "] | | | | [",
-            "yes|only_left|no|no|no": "] ⋮ | | | [",
-            "no|no|no|only_right|yes": "] | | | ⋮ [",
-            "yes|no|no|no|no": "] ⋮| | | | [",
-            "no|no|no|no|yes": "] | | | |⋮ [",
-            "yes|yes|yes|only_left|no": "] ⋮ ⋮ ⋮ | [",
-            "no|only_right|yes|yes|yes": "] | ⋮ ⋮ ⋮ [",
-            "no|only_right|yes|only_left|no": "] | ⋮ ⋮ | ["
+            "no|no|no|no|no": " | | | | ",
+            "yes|not_right|no|no|no": " ⋮ | | | ",
+            "no|no|no|not_left|yes": " | | | ⋮ ",
+            "yes|no|no|no|no": " ⋮| | | | ",
+            "no|no|no|no|yes": " | | | |⋮ ",
+            "yes|yes|yes|not_right|no": " ⋮ ⋮ ⋮ | ",
+            "no|not_left|yes|yes|yes": " | ⋮ ⋮ ⋮ ",
+            "no|not_left|yes|not_right|no": " | ⋮ ⋮ | "
         }
     }
 }
