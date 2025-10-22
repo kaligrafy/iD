@@ -53,6 +53,27 @@ export function svgDefs(context) {
                 .attr('stroke', 'none')
                 .attr('fill', color);
         }
+        
+        // Custom marker for dual carriageways with circle/dot shape
+        function addDualCarriagewayMarker(name, color, offset) {
+            defs
+                .append('marker')
+                .attr('id', 'sided-marker-' + name)
+                .attr('viewBox', '0 0 2 2')
+                .attr('refX', 1)
+                .attr('refY', -offset)
+                .attr('markerWidth', 1)
+                .attr('markerHeight', 1)
+                .attr('markerUnits', 'strokeWidth')
+                .attr('orient', 'auto')
+                .append('circle')
+                .attr('class', 'sided-marker-path sided-marker-' + name + '-path')
+                .attr('cx', 1)
+                .attr('cy', 1)
+                .attr('r', 0.7)
+                .attr('stroke', 'none')
+                .attr('fill', color);
+        }
         addSidedMarker('natural', 'rgb(170, 170, 170)', 0);
         // for a coastline, the arrows are (somewhat unintuitively) on
         // the water side, so let's color them blue (with a gap) to
@@ -63,6 +84,8 @@ export function svgDefs(context) {
         // from the line visually suits that
         addSidedMarker('barrier', '#ddd', 1);
         addSidedMarker('man_made', '#fff', 0);
+        // dual carriageways - use rectangle shape for dashed line, offset further from road
+        addDualCarriagewayMarker('dual_carriageway', 'rgba(255, 255, 255, 0.5)', 2);
 
         defs
             .append('marker')

@@ -1,0 +1,37 @@
+{
+    "icon": "iD-highway-service",
+    "fields": [
+      "{highway/service}"
+  ],
+  "moreFields": [
+      "{highway/service}"
+  ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "service",
+        "access": "private",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "dual_carriageway": "yes"
+    },
+    "addTags": {
+      "highway": "service",
+        "access": "private",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "surface": "asphalt",
+        "dual_carriageway": "yes"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "cssr",
+        "private service no sidewalk opposite use sidewalk"
+    ],
+    "matchScore": 0.9,
+    "name": "Private Service Road No Sidewalk Opposite Use Sidepath"
+  }
+  

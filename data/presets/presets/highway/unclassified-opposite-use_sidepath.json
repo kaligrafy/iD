@@ -1,0 +1,38 @@
+{
+    "icon": "iD-highway-unclassified",
+    "fields": [
+        "{highway/unclassified}"
+    ],
+    "moreFields": [
+        "{highway/unclassified}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "unclassified",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "dual_carriageway": "yes"
+    },
+    "addTags": {
+        "highway": "unclassified",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "surface": "asphalt",
+        "dual_carriageway": "yes"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "ur",
+        "unc",
+        "road",
+        "street",
+        "opposite",
+        "sidewalk",
+        "sidepath"
+    ],
+    "name": "Unclassified Road No Sidewalk Opposite Use Sidepath"
+}

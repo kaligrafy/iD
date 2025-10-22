@@ -259,13 +259,22 @@ export function svgLines(projection, context) {
             );
             onewaydata[k] = utilArrayFlatten(onewayArr.map(onewaySegments));
 
-            var sidedArr = v.filter(function(d) { return d.isSided(); });
+            var sidedArr = v.filter(function(d) { return d.isSided() && d.tags.dual_carriageway !== 'yes'; });
             var sidedSegments = svgMarkerSegments(
                 projection, graph, 30,
-                function shouldReverse() { return false; },
+                function shouldReverse(entity) { return false; },
                 function bothDirections() { return false; }
             );
             sideddata[k] = utilArrayFlatten(sidedArr.map(sidedSegments));
+            
+            // Handle dual carriageways separately with different spacing (6px = 2px square + 2px gap + 2px square)
+            var dualCarriagewayArr = v.filter(function(d) { return d.tags.dual_carriageway === 'yes'; });
+            var dualCarriagewaySegments = svgMarkerSegments(
+                projection, graph, 6,
+                function shouldReverse(entity) { return true; },
+                function bothDirections() { return false; }
+            );
+            sideddata[k] = sideddata[k].concat(utilArrayFlatten(dualCarriagewayArr.map(dualCarriagewaySegments)));
         });
 
 

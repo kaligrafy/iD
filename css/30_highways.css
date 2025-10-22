@@ -938,13 +938,13 @@ path.stroke.tag-sidewalk-separate {
   stroke-width: 8 !important;
 }
 path.casing.tag-sidewalk-separate-both {
-  stroke: rgb(0, 121, 16) !important;
+  stroke: rgb(26, 173, 46) !important;
 }
 path.casing.tag-sidewalk-separate-right {
   stroke: rgb(190, 139, 255) !important;
 }
 path.casing.tag-sidewalk-separate-left {
-  stroke: rgb(152, 179, 31) !important;
+  stroke: rgb(190, 196, 21) !important;
 }
 
 /* cycleway lanes/shared on road */

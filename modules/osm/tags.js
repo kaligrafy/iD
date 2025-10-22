@@ -113,6 +113,9 @@ export var osmRightSideIsInsideTags = {
     },
     'waterway': {
         'weir': true
+    },
+    'dual_carriageway': {
+        'yes': true
     }
 };
 

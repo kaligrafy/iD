@@ -1,5 +1,5 @@
 {
-    "keys": ["sidewalk", "sidewalk:both", "sidewalk:left", "sidewalk:right"],
+    "keys": ["sidewalk", "sidewalk:both", "sidewalk:left", "sidewalk:right", "dual_carriageway", "foot"],
     "reference": {"key": "sidewalk"},
     "type": "sidewalk",
     "label": "Sidewalk(s)",
@@ -28,6 +28,10 @@
             "separate_right": {
                 "title": "Separate right",
                 "description": "A sidewalk that is drawn on the right side separately as its own way"
+            },
+            "opposite_use_sidepath": {
+                "title": "Opposite use sidepath",
+                "description": "A sidewalk that is drawn on the opposite side of the dual carriageway"
             },
             "shared_both": {
                 "title": "Shared both",

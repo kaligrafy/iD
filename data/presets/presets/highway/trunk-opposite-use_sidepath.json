@@ -1,0 +1,38 @@
+{
+    "icon": "iD-highway-trunk",
+    "fields": [
+        "{highway/trunk}"
+    ],
+    "moreFields": [
+        "{highway/trunk}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "trunk",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "dual_carriageway": "yes"
+    },
+    "addTags": {
+        "highway": "trunk",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "surface": "asphalt",
+        "dual_carriageway": "yes"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "trr",
+        "trunk",
+        "road",
+        "street",
+        "opposite",
+        "sidewalk",
+        "sidepath"
+    ],
+    "name": "Trunk Road No Sidewalk Opposite Use Sidepath"
+}

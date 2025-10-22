@@ -18,12 +18,16 @@ export function uiFieldSidewalk(field, context) {
             sidewalk: entityTags.sidewalk,
             "sidewalk:both": entityTags["sidewalk:both"],
             "sidewalk:left": entityTags["sidewalk:left"],
-            "sidewalk:right": entityTags["sidewalk:right"]
+            "sidewalk:right": entityTags["sidewalk:right"],
+            "dual_carriageway": entityTags["dual_carriageway"],
+            "foot": entityTags["foot"]
         };
 
         var fieldValue = undefined;
         if (tags.sidewalk) {
-            if (tags.sidewalk === 'no') {
+            if (tags["sidewalk"] === 'no' && tags["foot"] === 'use_sidepath' && tags["dual_carriageway"] === 'yes') {
+                fieldValue = 'opposite_use_sidepath';
+            } else if (tags.sidewalk === 'no') {
                 fieldValue = 'no';
             } else if (tags.sidewalk === 'left') {
                 fieldValue = 'left';
@@ -35,13 +39,10 @@ export function uiFieldSidewalk(field, context) {
                 fieldValue = 'none';
             } else if (tags.sidewalk === 'yes') {
                 fieldValue = 'invalid';
-            } else if (tags.sidewalk === 'separate') {
-                fieldValue = 'invalid';
             } else {
                 fieldValue = 'invalid';
             }
-        }
-        if (tags["sidewalk:both"]) {
+        } else if (tags["sidewalk:both"]) {
             if (tags["sidewalk:both"] === 'separate') {
                 fieldValue = 'separate_both';
             } else if (tags["sidewalk:both"] === 'no') {
@@ -55,18 +56,18 @@ export function uiFieldSidewalk(field, context) {
             } else {
                 fieldValue = 'invalid';
             }
-        } if (tags["sidewalk:left"] && tags["sidewalk:right"]) {
+        } else if (tags["sidewalk:left"] && tags["sidewalk:right"]) {
             if (tags["sidewalk:both"] || tags["sidewalk"]) {
                 fieldValue = 'invalid';
-            } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'separate') {
+            } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'separate' && tags["foot"] === 'use_sidepath') {
                 fieldValue = 'separate_both';
-            } else if (tags["sidewalk:left"] === 'no' && tags["sidewalk:right"] === 'separate') {
+            } else if (tags["sidewalk:left"] === 'no' && tags["sidewalk:right"] === 'separate' && tags["foot"] === 'use_sidepath') {
                 fieldValue = 'separate_right';
-            } else if (tags["sidewalk:left"] === 'none' && tags["sidewalk:right"] === 'separate') {
+            } else if (tags["sidewalk:left"] === 'none' && tags["sidewalk:right"] === 'separate' && tags["foot"] === 'use_sidepath') {
                 fieldValue = 'separate_right';
-            } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'no') {
+            } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'no' && tags["foot"] === 'use_sidepath') {
                 fieldValue = 'separate_left';
-            } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'none') {
+            } else if (tags["sidewalk:left"] === 'separate' && tags["sidewalk:right"] === 'none' && tags["foot"] === 'use_sidepath') {
                 fieldValue = 'separate_left';
             } else if (tags["sidewalk:left"] === 'shared' && tags["sidewalk:right"] === 'shared') {
                 fieldValue = 'shared_both';
@@ -93,16 +94,12 @@ export function uiFieldSidewalk(field, context) {
             } else {
                 fieldValue = 'invalid';
             }
-        } 
+        }
         if ((tags["sidewalk:left"] || tags["sidewalk:right"]) && (tags["sidewalk:both"] || tags["sidewalk"])) {
             fieldValue = 'invalid';
         } else if (tags["sidewalk"] && tags["sidewalk:both"]) {
             fieldValue = 'invalid';
         }
-
-        /*function stripcolon(s) {
-            return s.replace(':', '');
-        }*/
 
         wrap = selection.selectAll('.form-field-input-wrap')
             .data([0]);
@@ -120,38 +117,6 @@ export function uiFieldSidewalk(field, context) {
             .append('ul')
             .attr('class', 'rows')
             .merge(div);
-
-        /*var keys = ["sidewalk", "sidewalk:both", "sidewalk:left", "sidewalk:right"];
-
-        items = div.selectAll('li')
-            .data(keys);
-
-        var enter = items.enter()
-            .append('li')
-            .attr('class', function(d) { return 'labeled-input preset-sidewalk-' + stripcolon(d); });
-
-        enter
-            .append('span')
-            .attr('class', 'label preset-label-sidewalk')
-            .attr('for', function(d) { return 'preset-input-sidewalk-' + stripcolon(d); })
-            .text(function(d) { return field.t('types.' + d); });
-
-        enter
-            .append('div')
-            .attr('class', 'preset-input-sidewalk-wrap')
-            .append('input')
-            .attr('type', 'text')
-            .attr('class', function(d) { return 'preset-input-sidewalk preset-input-' + stripcolon(d); })
-            //.attr('value', fieldValue)
-            .call(utilNoAuto)
-            .each(function(d) {
-                d3_select(this)
-                    .call(uiCombobox(context, 'sidewalk-' + stripcolon(d))
-                        .data(sidewalk.options(d))
-                    );
-            });
-
-        items = items.merge(enter);*/
 
         var multiKey = ["sidewalk"];
 
@@ -198,10 +163,18 @@ export function uiFieldSidewalk(field, context) {
         var left = undefined;
         var right = undefined;
         var foot = undefined;
+        var dual_carriageway = undefined;
         var value = utilGetSetValue(d3_select('.preset-input-sidewalk__multi'));
         var tag = {};
 
-        if (value === 'separate_both') {
+        if (value === 'opposite_use_sidepath') {
+            sidewalk = 'no';
+            both = undefined;
+            left = undefined;
+            right = undefined;
+            foot = 'use_sidepath';
+            dual_carriageway = 'yes';
+        } else if (value === 'separate_both') {
             sidewalk = undefined;
             both = 'separate';
             left = undefined;
@@ -212,6 +185,7 @@ export function uiFieldSidewalk(field, context) {
             both = 'shared';
             left = undefined;
             right = undefined;
+            foot = undefined;
         } else if (value === 'separate_left') {
             sidewalk = undefined;
             both = undefined;
@@ -223,11 +197,13 @@ export function uiFieldSidewalk(field, context) {
             both = undefined;
             left = 'shared';
             right = 'no';
+            foot = undefined;
         } else if (value === 'left') {
             sidewalk = 'left';
             both = undefined;
             left = undefined;
             right = undefined;
+            foot = undefined;
         } else if (value === 'separate_right') {
             sidewalk = undefined;
             both = undefined;
@@ -239,36 +215,43 @@ export function uiFieldSidewalk(field, context) {
             both = undefined;
             left = 'no';
             right = 'shared';
+            foot = undefined;
         } else if (value === 'right') {
             sidewalk = 'right';
             both = undefined;
             left = undefined;
             right = undefined;
+            foot = undefined;
         } else if (value === 'both') {
             sidewalk = 'both';
             both = undefined;
             left = undefined;
             right = undefined;
+            foot = undefined;
         } else if (value === 'no') {
             sidewalk = 'no';
             both = undefined;
             left = undefined;
             right = undefined;
+            foot = undefined;
         } else if (value === 'none') {
             sidewalk = 'none';
             both = undefined;
             left = undefined;
             right = undefined;
+            foot = undefined;
         } else if (value === 'shared_left_separate_right') {
             sidewalk = undefined;
             both = undefined;
             left = 'shared';
             right = 'separate';
+            foot = undefined;
         } else if (value === 'shared_right_separate_left') {
             sidewalk = undefined;
             both = undefined;
             left = 'separate';
             right = 'shared';
+            foot = undefined;
         }
 
         if (value !== 'invalid') {
@@ -277,10 +260,11 @@ export function uiFieldSidewalk(field, context) {
                 'sidewalk': sidewalk,
                 'sidewalk:both': both,
                 'sidewalk:left': left,
-                'sidewalk:right': right
+                'sidewalk:right': right,
+                'foot': foot,
             };
-            if (foot) {
-                tag.foot = foot;
+            if (dual_carriageway) {
+                tag.dual_carriageway = dual_carriageway;
             }
     
             dispatch.call('change', this, tag);

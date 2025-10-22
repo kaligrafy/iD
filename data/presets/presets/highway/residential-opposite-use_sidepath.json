@@ -1,0 +1,38 @@
+{
+    "icon": "iD-highway-residential",
+    "fields": [
+        "{highway/residential}"
+    ],
+    "moreFields": [
+        "{highway/residential}"
+    ],
+    "geometry": [
+        "line"
+    ],
+    "tags": {
+        "highway": "residential",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "dual_carriageway": "yes"
+    },
+    "addTags": {
+        "highway": "residential",
+        "foot": "use_sidepath",
+        "sidewalk": "no",
+        "surface": "asphalt",
+        "dual_carriageway": "yes"
+    },
+    "removeTags": {
+        "foot": "use_sidepath"
+    },
+    "terms": [
+        "rr",
+        "res",
+        "road",
+        "street",
+        "opposite",
+        "sidewalk",
+        "sidepath"
+    ],
+    "name": "Residential Road No Sidewalk Opposite Use Sidepath"
+}
