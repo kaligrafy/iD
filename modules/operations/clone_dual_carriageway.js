@@ -10,7 +10,7 @@ import {
 
 export function operationCloneDualCarriageway(selectedIDs, context) {
 
-    const cloneTags = ['dual_carriageway']
+    const cloneTags = ['dual_carriageway'];
     var action = actionCloneRoadAttributes(selectedIDs, cloneTags);
 
     var operation = function () {

@@ -96,6 +96,7 @@ export function uiFieldCycleway(field, context) {
         if (both !== undefined) { 
             left = undefined;
             right = undefined;
+            cycleway = undefined;
         }
         if (left === right && left !== undefined) {
             both = left;
@@ -105,10 +106,6 @@ export function uiFieldCycleway(field, context) {
                 right = undefined;
                 both = undefined;
             }
-        }
-        if (both === 'separate') {
-            cycleway = 'separate';
-            both = undefined;
         }
         if (left === 'separate' && right === 'no' || left === 'no' && right === 'separate') {
             cycleway = 'separate';

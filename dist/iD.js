@@ -56661,17 +56661,30 @@
 
 	        var cloneAddressFromEntity = entities[0];
 	        var addressHouseNumber = cloneAddressFromEntity.tags['addr:housenumber'];
+	        var addressHouseName = cloneAddressFromEntity.tags['addr:housename'];
 	        var addressStreet = cloneAddressFromEntity.tags['addr:street'];
 	        var addressCity = cloneAddressFromEntity.tags['addr:city'];
 	        var addressProvince = cloneAddressFromEntity.tags['addr:province'];
 	        var addressBorough = cloneAddressFromEntity.tags['addr:borough'];
 	        var addressPostcode = cloneAddressFromEntity.tags['addr:postcode'];
+	        var addressSource = cloneAddressFromEntity.tags['addr:source'];
+	        var addressSuburb = cloneAddressFromEntity.tags['addr:suburb'];
+	        var addressState = cloneAddressFromEntity.tags['addr:state'];
+	        var addressPlace = cloneAddressFromEntity.tags['addr:place'];
+	        var addressFull = cloneAddressFromEntity.tags['addr:full'];
+	        var addressCounty = cloneAddressFromEntity.tags['addr:county'];
+	        var addressDistrict = cloneAddressFromEntity.tags['addr:district'];
+	        var addressHamlet = cloneAddressFromEntity.tags['addr:hamlet'];
+	        var addressSubdistrict = cloneAddressFromEntity.tags['addr:subdistrict'];
 
 	        for (var i = 1; i < entities.length; i++) {
 	          var entity = entities[i];
 	          var tags = Object.assign({}, entity.tags);
 	          if (addressHouseNumber) {
 	            tags['addr:housenumber'] = addressHouseNumber;
+	          }
+	          if (addressHouseName) {
+	            tags['addr:housename'] = addressHouseName;
 	          }
 	          if (addressStreet) {
 	            tags['addr:street'] = addressStreet;
@@ -56687,6 +56700,33 @@
 	          }
 	          if (addressPostcode) {
 	            tags['addr:postcode'] = addressPostcode;
+	          }
+	          if (addressSource) {
+	            tags['addr:source'] = addressSource;
+	          }
+	          if (addressSuburb) {
+	            tags['addr:suburb'] = addressSuburb;
+	          }
+	          if (addressState) {
+	            tags['addr:state'] = addressState;
+	          }
+	          if (addressPlace) {
+	            tags['addr:place'] = addressPlace;
+	          }
+	          if (addressFull) {
+	            tags['addr:full'] = addressFull;
+	          }
+	          if (addressCounty) {
+	            tags['addr:county'] = addressCounty;
+	          }
+	          if (addressDistrict) {
+	            tags['addr:district'] = addressDistrict;
+	          }
+	          if (addressHamlet) {
+	            tags['addr:hamlet'] = addressHamlet;
+	          }
+	          if (addressSubdistrict) {
+	            tags['addr:subdistrict'] = addressSubdistrict;
 	          }
 	          entity = entity.update({tags: tags});
 	          graph = graph.replace(entity);
@@ -77435,7 +77475,7 @@
 
 	function operationCloneCycleway(selectedIDs, context) {
 
-	    var cloneTags = ['routing:bicycle', 'bicycle', 'cycleway', 'cycleway:both', 'cycleway:right', 'cycleway:buffer', 'cycleway:marking', 'cycleway:right:marking', 'cycleway:left:marking', 'cycleway:separation', 'cycleway:right:separation', 'cycleway:right:buffer', 'cycleway:right:oneway', 'cycleway:left:separation', 'cycleway:left:buffer', 'cycleway:left:oneway', 'cycleway:left', 'oneway:bicycle', 'lcn'];
+	    var cloneTags = ['bicycle', 'cycleway', 'cycleway:both', 'cycleway:right', 'cycleway:buffer', 'cycleway:marking', 'cycleway:right:marking', 'cycleway:left:marking', 'cycleway:separation', 'cycleway:right:separation', 'cycleway:right:buffer', 'cycleway:right:oneway', 'cycleway:left:separation', 'cycleway:left:buffer', 'cycleway:left:oneway', 'cycleway:left', 'oneway:bicycle', 'lcn'];
 	    var action = actionCloneRoadAttributes(selectedIDs, cloneTags);
 
 	    var operation = function () {
@@ -110433,6 +110473,7 @@
 	        if (both !== undefined) { 
 	            left = undefined;
 	            right = undefined;
+	            cycleway = undefined;
 	        }
 	        if (left === right && left !== undefined) {
 	            both = left;
@@ -110442,10 +110483,6 @@
 	                right = undefined;
 	                both = undefined;
 	            }
-	        }
-	        if (both === 'separate') {
-	            cycleway = 'separate';
-	            both = undefined;
 	        }
 	        if (left === 'separate' && right === 'no' || left === 'no' && right === 'separate') {
 	            cycleway = 'separate';
