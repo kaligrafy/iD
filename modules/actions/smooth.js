@@ -7,7 +7,7 @@ import { actionDeleteNode } from './delete_node';
 // CONFIGURATION - Units explanation:
 // - Distances are in DEGREES (lat/lon). At mid-latitudes:
 //   0.00001° ≈ 1 meter, 0.0001° ≈ 10 meters, 0.001° ≈ 100 meters
-// - CURVATURE_SENSITIVITY is dimensionless (multiplier)
+// - Angles are in DEGREES
 // =============================================================================
 
 // Maximum error allowed before splitting into multiple Bezier curves
@@ -17,18 +17,30 @@ var MAX_FITTING_ERROR = 0.000005;
 
 // Curvature-adaptive sampling parameters:
 // Maximum spacing between points (on straight sections)
-// 0.0008° ≈ 80 meters - large value = fewer points on straights
-var MAX_POINT_SPACING = 0.01;
+// 0.0008° ≈ 80 meters
+var MAX_POINT_SPACING = 0.0002; // 0.0004° ≈ 40 meters
 // Minimum spacing between points (on very tight curves)
-// 0.00006° ≈ 6 meters - prevents too many points on tight curves
-var MIN_POINT_SPACING = 0.0001;
-// Curvature sensitivity - dimensionless multiplier
-// Higher value = more points on curves (formula: spacing = MAX / (1 + sensitivity * curvature))
-var CURVATURE_SENSITIVITY = 450;
+// 0.00004° ≈ 4 meters
+var MIN_POINT_SPACING = 0.00005; // 0.00005° ≈ 10 meters - for tight 90° curves
+// Curvature sensitivity - higher value = more points on curves
+var CURVATURE_SENSITIVITY = 1000; // Higher = more points on curves
+
+// Angle-based cleanup: remove points where angle between segments is less than this
+// Points on nearly-straight sections will be removed
+// This is the MAXIMUM threshold - actual threshold may be lower based on original node density
+// 0.5 degree = moderate cleanup
+var MIN_ANGLE_THRESHOLD_DEGREES = 0.5;
+// Maximum allowed segment length after cleanup (prevents too few points on long motorways)
+// 0.003° ≈ 300 meters - ensures at least one point every ~300m
+var MAX_SEGMENT_LENGTH = 0.003;
+// Multiplier for adaptive angle threshold based on original node density
+// The cleanup threshold = min(MIN_ANGLE_THRESHOLD, originalMedianAngle * this multiplier)
+// Lower value = more conservative (keeps more points)
+var ADAPTIVE_ANGLE_MULTIPLIER = 0.7;
 
 // Douglas-Peucker simplification settings
 // Set to true to enable simplification of straight sections
-var ENABLE_SIMPLIFICATION = true;
+var ENABLE_SIMPLIFICATION = false;
 // Points closer than this to a straight line are removed (when enabled)
 // 0.000006° ≈ 0.6 meters
 var SIMPLIFICATION_TOLERANCE = 0.000006;
@@ -265,7 +277,7 @@ function fitBezierCurves(points, leftTangent, rightTangent, maxError) {
 
 // Sample Bezier curves with curvature-adaptive spacing
 // More points on curves, fewer on straight sections
-// Returns { points: [], curvatures: [] } - curvatures array has max curvature at each point
+// Returns { points: [], curvatures: [] }
 function sampleBezierCurvesAdaptive(bezierSegments) {
     var result = [];
     var resultCurvatures = [];
@@ -315,8 +327,6 @@ function sampleBezierCurvesAdaptive(bezierSegments) {
 
         // Calculate adaptive spacing based on curvature
         // Higher curvature = smaller spacing (more points)
-        // spacing = MAX_SPACING / (1 + sensitivity * curvature)
-        // But clamped to MIN_SPACING to prevent too many points on tight curves
         var adaptiveSpacing = MAX_POINT_SPACING / (1 + CURVATURE_SENSITIVITY * maxCurvature);
         adaptiveSpacing = Math.max(MIN_POINT_SPACING, adaptiveSpacing);
 
@@ -336,6 +346,112 @@ function sampleBezierCurvesAdaptive(bezierSegments) {
         result.push(lastPoint);
         resultCurvatures.push(lastCurvature);
     }
+
+    return { points: result, curvatures: resultCurvatures };
+}
+
+// Calculate the median angle between consecutive segments in a set of points
+function calculateMedianAngle(points) {
+    if (points.length < 3) return Math.PI; // No angles to calculate
+
+    var angles = [];
+    for (var i = 1; i < points.length - 1; i++) {
+        var prev = points[i - 1];
+        var curr = points[i];
+        var next = points[i + 1];
+
+        var v1x = curr[0] - prev[0];
+        var v1y = curr[1] - prev[1];
+        var v2x = next[0] - curr[0];
+        var v2y = next[1] - curr[1];
+
+        var len1 = Math.sqrt(v1x * v1x + v1y * v1y);
+        var len2 = Math.sqrt(v2x * v2x + v2y * v2y);
+
+        if (len1 < 1e-10 || len2 < 1e-10) continue;
+
+        var dot = v1x * v2x + v1y * v2y;
+        var cross = v1x * v2y - v1y * v2x;
+        var turnAngle = Math.abs(Math.atan2(Math.abs(cross), dot));
+        angles.push(turnAngle);
+    }
+
+    if (angles.length === 0) return Math.PI;
+
+    // Sort and return median
+    angles.sort(function(a, b) { return a - b; });
+    var mid = Math.floor(angles.length / 2);
+    return angles.length % 2 === 0 ? (angles[mid - 1] + angles[mid]) / 2 : angles[mid];
+}
+
+// Remove points where the angle between incoming and outgoing segments is too small
+// BUT keep points if removing them would create segments longer than MAX_SEGMENT_LENGTH
+// The angle threshold is ADAPTIVE based on the original node density
+function removeSmallAnglePoints(points, curvatures, minAngleDegrees, originalPoints) {
+    if (points.length <= 2) return { points: points, curvatures: curvatures };
+
+    // Calculate adaptive threshold based on original points
+    var baseThresholdRad = minAngleDegrees * Math.PI / 180;
+    var adaptiveThresholdRad = baseThresholdRad;
+
+    if (originalPoints && originalPoints.length >= 3) {
+        // Get median angle from original points
+        var originalMedianAngle = calculateMedianAngle(originalPoints);
+        // Use the more conservative (smaller) threshold
+        // This preserves the density of carefully placed nodes on motorways
+        var adaptedFromOriginal = originalMedianAngle * ADAPTIVE_ANGLE_MULTIPLIER;
+        adaptiveThresholdRad = Math.min(baseThresholdRad, adaptedFromOriginal);
+    }
+
+    var result = [points[0]];
+    var resultCurvatures = [curvatures[0]];
+
+    for (var i = 1; i < points.length - 1; i++) {
+        var prev = result[result.length - 1];
+        var curr = points[i];
+        var next = points[i + 1];
+
+        // Calculate vectors
+        var v1x = curr[0] - prev[0];
+        var v1y = curr[1] - prev[1];
+        var v2x = next[0] - curr[0];
+        var v2y = next[1] - curr[1];
+
+        // Calculate distances
+        var len1 = Math.sqrt(v1x * v1x + v1y * v1y);
+        var len2 = Math.sqrt(v2x * v2x + v2y * v2y);
+
+        if (len1 < 1e-10 || len2 < 1e-10) {
+            // Skip degenerate points
+            continue;
+        }
+
+        // Check if removing this point would create a segment that's too long
+        var combinedLength = len1 + len2;
+        if (combinedLength > MAX_SEGMENT_LENGTH) {
+            // Keep point to prevent overly long segments (important for motorways)
+            result.push(curr);
+            resultCurvatures.push(curvatures[i]);
+            continue;
+        }
+
+        // Dot product and cross product for angle
+        var dot = v1x * v2x + v1y * v2y;
+        var cross = v1x * v2y - v1y * v2x;
+
+        // Calculate turn angle
+        var turnAngle = Math.abs(Math.atan2(Math.abs(cross), dot));
+
+        // Keep point if turn angle is significant (using adaptive threshold)
+        if (turnAngle >= adaptiveThresholdRad) {
+            result.push(curr);
+            resultCurvatures.push(curvatures[i]);
+        }
+    }
+
+    // Always include last point
+    result.push(points[points.length - 1]);
+    resultCurvatures.push(curvatures[curvatures.length - 1]);
 
     return { points: result, curvatures: resultCurvatures };
 }
@@ -610,8 +726,12 @@ function smoothAcrossWaysCommon(graph, node1, node2, pathNodeIds, waySegments) {
 
         var bezierSegments = fitBezierCurves(segmentCoords, leftTangent, rightTangent, MAX_FITTING_ERROR);
         var sampleResult = sampleBezierCurvesAdaptive(bezierSegments);
-        var sampledPoints = sampleResult.points;
-        var sampledCurvatures = sampleResult.curvatures;
+
+        // Clean up points where angle is too small (nearly straight sections)
+        // Pass original segment coords to adapt threshold based on original node density
+        var cleanedResult = removeSmallAnglePoints(sampleResult.points, sampleResult.curvatures, MIN_ANGLE_THRESHOLD_DEGREES, segmentCoords);
+        var sampledPoints = cleanedResult.points;
+        var sampledCurvatures = cleanedResult.curvatures;
 
         if (s === 0) {
             intersectionPointIndices.push(0);
@@ -1087,8 +1207,12 @@ export function actionSmooth(selectedIds, projection) {
 
             var bezierSegments = fitBezierCurves(segmentPoints, leftTangent, rightTangent, MAX_FITTING_ERROR);
             var sampleResult = sampleBezierCurvesAdaptive(bezierSegments);
-            var sampledPoints = sampleResult.points;
-            var sampledCurvatures = sampleResult.curvatures;
+
+            // Clean up points where angle is too small (nearly straight sections)
+            // Pass original segment points to adapt threshold based on original node density
+            var cleanedResult = removeSmallAnglePoints(sampleResult.points, sampleResult.curvatures, MIN_ANGLE_THRESHOLD_DEGREES, segmentPoints);
+            var sampledPoints = cleanedResult.points;
+            var sampledCurvatures = cleanedResult.curvatures;
 
             // First point of this segment is an intersection (except first segment's start is already added)
             if (s === 0) {
