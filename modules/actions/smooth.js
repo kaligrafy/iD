@@ -2,93 +2,750 @@ import {
     osmNode
 } from '../osm/node';
 import { actionDeleteNode } from './delete_node';
-import _smooth from 'to-smooth';
+
+// =============================================================================
+// CONFIGURATION - Units explanation:
+// - Distances are in DEGREES (lat/lon). At mid-latitudes:
+//   0.00001° ≈ 1 meter, 0.0001° ≈ 10 meters, 0.001° ≈ 100 meters
+// - CURVATURE_SENSITIVITY is dimensionless (multiplier)
+// =============================================================================
+
+// Maximum error allowed before splitting into multiple Bezier curves
+// Smaller value = curve stays closer to original points (but more Bezier segments)
+// 0.000005° ≈ 0.5 meters
+var MAX_FITTING_ERROR = 0.000005;
+
+// Curvature-adaptive sampling parameters:
+// Maximum spacing between points (on straight sections)
+// 0.0008° ≈ 80 meters - large value = fewer points on straights
+var MAX_POINT_SPACING = 0.01;
+// Minimum spacing between points (on very tight curves)
+// 0.00006° ≈ 6 meters - prevents too many points on tight curves
+var MIN_POINT_SPACING = 0.0001;
+// Curvature sensitivity - dimensionless multiplier
+// Higher value = more points on curves (formula: spacing = MAX / (1 + sensitivity * curvature))
+var CURVATURE_SENSITIVITY = 450;
+
+// Douglas-Peucker simplification settings
+// Set to true to enable simplification of straight sections
+var ENABLE_SIMPLIFICATION = true;
+// Points closer than this to a straight line are removed (when enabled)
+// 0.000006° ≈ 0.6 meters
+var SIMPLIFICATION_TOLERANCE = 0.000006;
+// Curvature threshold - points with curvature above this are protected from simplification
+// Points on curves won't be removed, only points on straight sections
+var CURVATURE_PROTECTION_THRESHOLD = 50;
+
+// Spacing balance ratio around intersections
+// If one side is more than this ratio closer than the other, remove the closer point
+// e.g., 0.4 means if dist_before < 0.4 * dist_after, remove the point before
+var INTERSECTION_SPACING_RATIO = 0.4;
+
+// Evaluate cubic Bezier at parameter t
+function evaluateBezier(P0, P1, P2, P3, t) {
+    var mt = 1 - t;
+    var mt2 = mt * mt;
+    var mt3 = mt2 * mt;
+    var t2 = t * t;
+    var t3 = t2 * t;
+    return [
+        mt3 * P0[0] + 3 * mt2 * t * P1[0] + 3 * mt * t2 * P2[0] + t3 * P3[0],
+        mt3 * P0[1] + 3 * mt2 * t * P1[1] + 3 * mt * t2 * P2[1] + t3 * P3[1]
+    ];
+}
+
+// Approximate arc length of a cubic Bezier curve using subdivision
+function approximateBezierLength(P0, P1, P2, P3, subdivisions) {
+    subdivisions = subdivisions || 20;
+    var length = 0;
+    var prevPoint = P0;
+    for (var i = 1; i <= subdivisions; i++) {
+        var t = i / subdivisions;
+        var point = evaluateBezier(P0, P1, P2, P3, t);
+        var dx = point[0] - prevPoint[0];
+        var dy = point[1] - prevPoint[1];
+        length += Math.sqrt(dx * dx + dy * dy);
+        prevPoint = point;
+    }
+    return length;
+}
+
+// Compute first derivative of cubic Bezier at parameter t
+function evaluateBezierDerivative(P0, P1, P2, P3, t) {
+    var mt = 1 - t;
+    var mt2 = mt * mt;
+    var t2 = t * t;
+    return [
+        3 * mt2 * (P1[0] - P0[0]) + 6 * mt * t * (P2[0] - P1[0]) + 3 * t2 * (P3[0] - P2[0]),
+        3 * mt2 * (P1[1] - P0[1]) + 6 * mt * t * (P2[1] - P1[1]) + 3 * t2 * (P3[1] - P2[1])
+    ];
+}
+
+// Compute second derivative of cubic Bezier at parameter t
+function evaluateBezierSecondDerivative(P0, P1, P2, P3, t) {
+    var mt = 1 - t;
+    return [
+        6 * mt * (P2[0] - 2 * P1[0] + P0[0]) + 6 * t * (P3[0] - 2 * P2[0] + P1[0]),
+        6 * mt * (P2[1] - 2 * P1[1] + P0[1]) + 6 * t * (P3[1] - 2 * P2[1] + P1[1])
+    ];
+}
+
+// Compute curvature of cubic Bezier at parameter t
+// Curvature = |r' × r''| / |r'|³
+function computeBezierCurvature(P0, P1, P2, P3, t) {
+    var d1 = evaluateBezierDerivative(P0, P1, P2, P3, t);
+    var d2 = evaluateBezierSecondDerivative(P0, P1, P2, P3, t);
+
+    var cross = d1[0] * d2[1] - d1[1] * d2[0]; // 2D cross product
+    var d1Mag = Math.sqrt(d1[0] * d1[0] + d1[1] * d1[1]);
+
+    if (d1Mag < 1e-10) return 0;
+
+    return Math.abs(cross) / (d1Mag * d1Mag * d1Mag);
+}
+
+// Compute the tangent at a point (using neighboring points)
+function computeTangent(points, idx) {
+    var prev, next;
+    if (idx === 0) {
+        prev = points[0];
+        next = points[Math.min(1, points.length - 1)];
+    } else if (idx === points.length - 1) {
+        prev = points[Math.max(0, points.length - 2)];
+        next = points[points.length - 1];
+    } else {
+        prev = points[idx - 1];
+        next = points[idx + 1];
+    }
+    var dx = next[0] - prev[0];
+    var dy = next[1] - prev[1];
+    var len = Math.sqrt(dx * dx + dy * dy);
+    if (len === 0) return [1, 0];
+    return [dx / len, dy / len];
+}
+
+// Compute chord-length parameterization
+function chordLengthParameterize(points) {
+    var u = [0];
+    for (var i = 1; i < points.length; i++) {
+        var dx = points[i][0] - points[i - 1][0];
+        var dy = points[i][1] - points[i - 1][1];
+        u.push(u[i - 1] + Math.sqrt(dx * dx + dy * dy));
+    }
+    var totalLen = u[u.length - 1];
+    if (totalLen === 0) return u.map(function() { return 0; });
+    return u.map(function(v) { return v / totalLen; });
+}
+
+// Fit a single cubic Bezier curve to points using least squares
+// Returns [P0, P1, P2, P3]
+function fitCubicBezier(points, leftTangent, rightTangent) {
+    if (points.length === 2) {
+        var dist = Math.sqrt(
+            Math.pow(points[1][0] - points[0][0], 2) +
+            Math.pow(points[1][1] - points[0][1], 2)
+        ) / 3;
+        return [
+            points[0],
+            [points[0][0] + leftTangent[0] * dist, points[0][1] + leftTangent[1] * dist],
+            [points[1][0] - rightTangent[0] * dist, points[1][1] - rightTangent[1] * dist],
+            points[1]
+        ];
+    }
+
+    var u = chordLengthParameterize(points);
+    var P0 = points[0];
+    var P3 = points[points.length - 1];
+
+    // Compute A matrix components for least squares
+    var C = [[0, 0], [0, 0]];
+    var X = [0, 0];
+
+    for (var i = 0; i < points.length; i++) {
+        var t = u[i];
+        var mt = 1 - t;
+        var b0 = mt * mt * mt;
+        var b1 = 3 * mt * mt * t;
+        var b2 = 3 * mt * t * t;
+        var b3 = t * t * t;
+
+        var a1 = [leftTangent[0] * b1, leftTangent[1] * b1];
+        var a2 = [rightTangent[0] * b2, rightTangent[1] * b2];
+
+        C[0][0] += a1[0] * a1[0] + a1[1] * a1[1];
+        C[0][1] += a1[0] * a2[0] + a1[1] * a2[1];
+        C[1][0] = C[0][1];
+        C[1][1] += a2[0] * a2[0] + a2[1] * a2[1];
+
+        var tmp = [
+            points[i][0] - (b0 * P0[0] + b3 * P3[0]),
+            points[i][1] - (b0 * P0[1] + b3 * P3[1])
+        ];
+
+        X[0] += a1[0] * tmp[0] + a1[1] * tmp[1];
+        X[1] += a2[0] * tmp[0] + a2[1] * tmp[1];
+    }
+
+    // Solve 2x2 system for alpha values
+    var det = C[0][0] * C[1][1] - C[0][1] * C[1][0];
+    var alpha1, alpha2;
+    var segDist = Math.sqrt(Math.pow(P3[0] - P0[0], 2) + Math.pow(P3[1] - P0[1], 2)) / 3;
+
+    if (Math.abs(det) < 1e-12) {
+        // Fallback: use simple distance-based control points
+        alpha1 = segDist;
+        alpha2 = segDist;
+    } else {
+        alpha1 = (C[1][1] * X[0] - C[0][1] * X[1]) / det;
+        alpha2 = (C[0][0] * X[1] - C[1][0] * X[0]) / det;
+
+        // If alphas are negative, use heuristic
+        if (alpha1 < 0 || alpha2 < 0) {
+            alpha1 = segDist;
+            alpha2 = segDist;
+        }
+    }
+
+    var P1 = [P0[0] + leftTangent[0] * alpha1, P0[1] + leftTangent[1] * alpha1];
+    var P2 = [P3[0] - rightTangent[0] * alpha2, P3[1] - rightTangent[1] * alpha2];
+
+    return [P0, P1, P2, P3];
+}
+
+// Compute maximum error between Bezier curve and points
+// Returns { maxError, splitIndex }
+function computeMaxError(points, bezier, u) {
+    var maxError = 0;
+    var splitIndex = Math.floor(points.length / 2);
+
+    for (var i = 1; i < points.length - 1; i++) {
+        var p = evaluateBezier(bezier[0], bezier[1], bezier[2], bezier[3], u[i]);
+        var dx = points[i][0] - p[0];
+        var dy = points[i][1] - p[1];
+        var error = dx * dx + dy * dy;
+        if (error > maxError) {
+            maxError = error;
+            splitIndex = i;
+        }
+    }
+
+    return { maxError: Math.sqrt(maxError), splitIndex: splitIndex };
+}
+
+// Fit Bezier curves to points, recursively splitting if error is too high
+// Returns array of Bezier segments, each is [P0, P1, P2, P3]
+function fitBezierCurves(points, leftTangent, rightTangent, maxError) {
+    if (points.length === 2) {
+        return [fitCubicBezier(points, leftTangent, rightTangent)];
+    }
+
+    var u = chordLengthParameterize(points);
+    var bezier = fitCubicBezier(points, leftTangent, rightTangent);
+    var errorResult = computeMaxError(points, bezier, u);
+
+    if (errorResult.maxError < maxError) {
+        return [bezier];
+    }
+
+    // Error too high - split at the point of maximum error
+    var splitIndex = errorResult.splitIndex;
+    if (splitIndex <= 0) splitIndex = 1;
+    if (splitIndex >= points.length - 1) splitIndex = points.length - 2;
+
+    var centerTangent = computeTangent(points, splitIndex);
+
+    var leftPoints = points.slice(0, splitIndex + 1);
+    var rightPoints = points.slice(splitIndex);
+
+    var leftCurves = fitBezierCurves(leftPoints, leftTangent, centerTangent, maxError);
+    var rightCurves = fitBezierCurves(rightPoints, centerTangent, rightTangent, maxError);
+
+    return leftCurves.concat(rightCurves);
+}
+
+// Sample Bezier curves with curvature-adaptive spacing
+// More points on curves, fewer on straight sections
+// Returns { points: [], curvatures: [] } - curvatures array has max curvature at each point
+function sampleBezierCurvesAdaptive(bezierSegments) {
+    var result = [];
+    var resultCurvatures = [];
+
+    // First, densely sample all Bezier segments to get points with curvature
+    var densePoints = [];
+    var DENSE_SAMPLES_PER_SEGMENT = 30;
+
+    for (var i = 0; i < bezierSegments.length; i++) {
+        var seg = bezierSegments[i];
+        var startJ = (i === 0) ? 0 : 1;
+
+        for (var j = startJ; j <= DENSE_SAMPLES_PER_SEGMENT; j++) {
+            var t = j / DENSE_SAMPLES_PER_SEGMENT;
+            var point = evaluateBezier(seg[0], seg[1], seg[2], seg[3], t);
+            var curvature = computeBezierCurvature(seg[0], seg[1], seg[2], seg[3], t);
+            densePoints.push({ point: point, curvature: curvature });
+        }
+    }
+
+    if (densePoints.length === 0) {
+        return { points: [bezierSegments[0][0]], curvatures: [0] };
+    }
+
+    // Always include first point
+    result.push(densePoints[0].point);
+    resultCurvatures.push(densePoints[0].curvature);
+    var lastAddedIdx = 0;
+
+    // Walk through dense points and decide which to keep based on curvature
+    for (var k = 1; k < densePoints.length - 1; k++) {
+        var prevPoint = densePoints[lastAddedIdx].point;
+        var currPoint = densePoints[k].point;
+
+        // Distance from last added point
+        var dx = currPoint[0] - prevPoint[0];
+        var dy = currPoint[1] - prevPoint[1];
+        var distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Get max curvature in the span since last added point
+        var maxCurvature = 0;
+        for (var c = lastAddedIdx; c <= k; c++) {
+            if (densePoints[c].curvature > maxCurvature) {
+                maxCurvature = densePoints[c].curvature;
+            }
+        }
+
+        // Calculate adaptive spacing based on curvature
+        // Higher curvature = smaller spacing (more points)
+        // spacing = MAX_SPACING / (1 + sensitivity * curvature)
+        // But clamped to MIN_SPACING to prevent too many points on tight curves
+        var adaptiveSpacing = MAX_POINT_SPACING / (1 + CURVATURE_SENSITIVITY * maxCurvature);
+        adaptiveSpacing = Math.max(MIN_POINT_SPACING, adaptiveSpacing);
+
+        // If we've traveled far enough, add this point
+        if (distance >= adaptiveSpacing) {
+            result.push(currPoint);
+            resultCurvatures.push(maxCurvature);
+            lastAddedIdx = k;
+        }
+    }
+
+    // Always include last point
+    var lastPoint = densePoints[densePoints.length - 1].point;
+    var lastCurvature = densePoints[densePoints.length - 1].curvature;
+    var prevLast = result[result.length - 1];
+    if (lastPoint[0] !== prevLast[0] || lastPoint[1] !== prevLast[1]) {
+        result.push(lastPoint);
+        resultCurvatures.push(lastCurvature);
+    }
+
+    return { points: result, curvatures: resultCurvatures };
+}
+
+// Calculate perpendicular distance from point to line segment
+function perpendicularDistance(point, lineStart, lineEnd) {
+    var dx = lineEnd[0] - lineStart[0];
+    var dy = lineEnd[1] - lineStart[1];
+    var lineLengthSq = dx * dx + dy * dy;
+
+    if (lineLengthSq === 0) {
+        dx = point[0] - lineStart[0];
+        dy = point[1] - lineStart[1];
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    var t = ((point[0] - lineStart[0]) * dx + (point[1] - lineStart[1]) * dy) / lineLengthSq;
+    t = Math.max(0, Math.min(1, t));
+
+    var nearestX = lineStart[0] + t * dx;
+    var nearestY = lineStart[1] + t * dy;
+
+    dx = point[0] - nearestX;
+    dy = point[1] - nearestY;
+
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+// Douglas-Peucker line simplification
+// Removes points that are close to a straight line between endpoints
+function douglasPeuckerSimplify(points, tolerance, mustKeepIndices) {
+    if (points.length <= 2) {
+        return points;
+    }
+
+    var firstPoint = points[0];
+    var lastPoint = points[points.length - 1];
+
+    // Find the point with maximum distance from the line
+    var maxDist = 0;
+    var maxIdx = 0;
+
+    for (var i = 1; i < points.length - 1; i++) {
+        // Must-keep points are treated as having infinite distance
+        if (mustKeepIndices && mustKeepIndices.has(i)) {
+            maxDist = Infinity;
+            maxIdx = i;
+            break;
+        }
+
+        var dist = perpendicularDistance(points[i], firstPoint, lastPoint);
+        if (dist > maxDist) {
+            maxDist = dist;
+            maxIdx = i;
+        }
+    }
+
+    // If max distance exceeds tolerance, recursively simplify
+    if (maxDist > tolerance) {
+        var leftPoints = points.slice(0, maxIdx + 1);
+        var rightPoints = points.slice(maxIdx);
+
+        // Adjust mustKeepIndices for sub-arrays
+        var leftMustKeep = null;
+        var rightMustKeep = null;
+        if (mustKeepIndices) {
+            leftMustKeep = new Set();
+            rightMustKeep = new Set();
+            mustKeepIndices.forEach(function(idx) {
+                if (idx <= maxIdx) leftMustKeep.add(idx);
+                if (idx >= maxIdx) rightMustKeep.add(idx - maxIdx);
+            });
+        }
+
+        var leftResult = douglasPeuckerSimplify(leftPoints, tolerance, leftMustKeep);
+        var rightResult = douglasPeuckerSimplify(rightPoints, tolerance, rightMustKeep);
+
+        // Combine results (remove duplicate middle point)
+        return leftResult.slice(0, leftResult.length - 1).concat(rightResult);
+    } else {
+        // All intermediate points can be removed (except must-keep)
+        var result = [firstPoint];
+
+        if (mustKeepIndices) {
+            for (var k = 1; k < points.length - 1; k++) {
+                if (mustKeepIndices.has(k)) {
+                    result.push(points[k]);
+                }
+            }
+        }
+
+        result.push(lastPoint);
+        return result;
+    }
+}
 
 export function actionSmooth(selectedIds, projection) {
 
     var action = function (graph) {
 
-        const entities = selectedIds.map(function (selectedID) {
+        var entities = selectedIds.map(function (selectedID) {
             return graph.entity(selectedID);
         });
 
-        const entitiesNodes = entities.filter((entity) => entity.type === 'node');
-        const entitiesWays = entities.filter((entity) => entity.type === 'way');
-        let way = null;
+        var entitiesNodes = entities.filter(function(entity) { return entity.type === 'node'; });
+        var entitiesWays = entities.filter(function(entity) { return entity.type === 'way'; });
+        var way = null;
 
         if (entitiesWays.length === 0) {
-            const node1ParentWays = graph.parentWays(entitiesNodes[0]);
-            const node2ParentWays = graph.parentWays(entitiesNodes[1]);
-            const parentWaysIntersection = node1ParentWays.filter(way => {
-                return node2ParentWays.includes(way);
+            var node1ParentWays = graph.parentWays(entitiesNodes[0]);
+            var node2ParentWays = graph.parentWays(entitiesNodes[1]);
+            var parentWaysIntersection = node1ParentWays.filter(function(w) {
+                return node2ParentWays.includes(w);
             });
             way = parentWaysIntersection[0];
         } else {
             way = entitiesWays[0];
         }
 
-        const wayNodes = way.nodes;
+        var wayNodes = way.nodes;
 
-        const node1Idx = wayNodes.indexOf(entitiesNodes[0].id);
-        const node2Idx = wayNodes.indexOf(entitiesNodes[1].id);
-        const nodeStart = node2Idx > node1Idx ? entitiesNodes[0] : entitiesNodes[1];
-        const nodeEnd = node2Idx > node1Idx ? entitiesNodes[1] : entitiesNodes[0];
-        const nodeStartIdx = wayNodes.indexOf(nodeStart.id);
-        const nodeEndIdx = wayNodes.indexOf(nodeEnd.id);
+        var node1Idx = wayNodes.indexOf(entitiesNodes[0].id);
+        var node2Idx = wayNodes.indexOf(entitiesNodes[1].id);
+        var nodeStart = node2Idx > node1Idx ? entitiesNodes[0] : entitiesNodes[1];
+        var nodeEnd = node2Idx > node1Idx ? entitiesNodes[1] : entitiesNodes[0];
+        var nodeStartIdx = wayNodes.indexOf(nodeStart.id);
+        var nodeEndIdx = wayNodes.indexOf(nodeEnd.id);
 
-        const nodesToSmoothIds = wayNodes.slice(nodeStartIdx, nodeEndIdx + 1);
-        const nodesBeforeIds = wayNodes.slice(0, nodeStartIdx);
-        const nodesAfterIds = wayNodes.slice(nodeEndIdx + 1);
+        // Include one point before and after for smoother transitions at extremities
+        var hasPointBefore = nodeStartIdx > 0;
+        var hasPointAfter = nodeEndIdx < wayNodes.length - 1;
+        var extendedStartIdx = hasPointBefore ? nodeStartIdx - 1 : nodeStartIdx;
+        var extendedEndIdx = hasPointAfter ? nodeEndIdx + 1 : nodeEndIdx;
 
-        const nodesToSmoothCoords = nodesToSmoothIds.map((nodeId) => { return graph.entity(nodeId).loc; });
-        const smoothedCoords = _smooth(nodesToSmoothCoords, { iteration: 2, factor: 0.75 });
+        var nodesToSmoothIds = wayNodes.slice(nodeStartIdx, nodeEndIdx + 1);
+        var extendedNodeIds = wayNodes.slice(extendedStartIdx, extendedEndIdx + 1);
+        var nodesBeforeIds = wayNodes.slice(0, extendedStartIdx);
+        var nodesAfterIds = wayNodes.slice(extendedEndIdx + 1);
 
-        // reduce number of points:
-        const reducedSmoothedCoords = [];
-        for (let i = 0, countI = smoothedCoords.length; i < countI; i++) {
-            if (i % 2 === 1) {
-                reducedSmoothedCoords.push(smoothedCoords[i]);
+        // Identify intersection nodes (nodes connected to other ways or with tags)
+        // These must be preserved with their original IDs and positions
+        var intersectionNodeIds = new Set();
+        var intersectionOriginalCoords = {}; // nodeId -> coord
+        var intersectionIdxInExtended = []; // indices in extendedNodeIds that are intersections
+
+        for (var j = 0; j < extendedNodeIds.length; j++) {
+            var nodeId = extendedNodeIds[j];
+            var node = graph.entity(nodeId);
+            var parentWays = graph.parentWays(node);
+            if (parentWays.length > 1 || node.hasNonGeometryTags()) {
+                intersectionNodeIds.add(nodeId);
+                intersectionOriginalCoords[nodeId] = node.loc;
+                intersectionIdxInExtended.push(j);
             }
         }
 
-        const smoothedNodes = reducedSmoothedCoords.map((coord) => {
-            return osmNode({
-                loc: coord
-            });
-        });
-
-        const smoothedNodesIds = smoothedNodes.map((node) => { return node.id; });
-        const newWayNodesIds = [...nodesBeforeIds, ...smoothedNodesIds, ...nodesAfterIds];
-
-        for (let k = 0; k < smoothedNodes.length; k++) {
-            graph = graph.replace(smoothedNodes[k]);
+        // Also preserve the extended boundary points (before/after the selection)
+        if (hasPointBefore && !intersectionNodeIds.has(wayNodes[extendedStartIdx])) {
+            var beforeNodeId = wayNodes[extendedStartIdx];
+            intersectionNodeIds.add(beforeNodeId);
+            intersectionOriginalCoords[beforeNodeId] = graph.entity(beforeNodeId).loc;
+            if (intersectionIdxInExtended.indexOf(0) === -1) {
+                intersectionIdxInExtended.unshift(0);
+            }
         }
-        
-        //const wayNodes = [...(way.nodes)];
-        //wayNodes.splice(segmentNodeStartIdx + 1, 0, ...newPointsIds);
+        if (hasPointAfter && !intersectionNodeIds.has(wayNodes[extendedEndIdx])) {
+            var afterNodeId = wayNodes[extendedEndIdx];
+            intersectionNodeIds.add(afterNodeId);
+            intersectionOriginalCoords[afterNodeId] = graph.entity(afterNodeId).loc;
+            var lastIdx = extendedNodeIds.length - 1;
+            if (intersectionIdxInExtended.indexOf(lastIdx) === -1) {
+                intersectionIdxInExtended.push(lastIdx);
+            }
+        }
+
+        // Sort intersection indices
+        intersectionIdxInExtended.sort(function(a, b) { return a - b; });
+
+        // Get original coordinates
+        var extendedNodeCoords = extendedNodeIds.map(function(nId) { return graph.entity(nId).loc; });
+
+        // Fit Bezier curves between intersection points
+        var allSampledPoints = [];
+        var allCurvatures = []; // curvature at each sampled point
+        var intersectionPointIndices = []; // indices in allSampledPoints that are intersection nodes
+        var intersectionNodeIdAtIndex = {}; // index -> nodeId for intersection nodes
+
+        // Add first intersection point if it exists
+        if (intersectionIdxInExtended.length === 0) {
+            // No intersections - fit entire curve
+            intersectionIdxInExtended = [0, extendedNodeIds.length - 1];
+        }
+
+        // Ensure we have start and end
+        if (intersectionIdxInExtended[0] !== 0) {
+            intersectionIdxInExtended.unshift(0);
+        }
+        if (intersectionIdxInExtended[intersectionIdxInExtended.length - 1] !== extendedNodeIds.length - 1) {
+            intersectionIdxInExtended.push(extendedNodeIds.length - 1);
+        }
+
+        // Process each segment between intersection points
+        for (var s = 0; s < intersectionIdxInExtended.length - 1; s++) {
+            var startIdx = intersectionIdxInExtended[s];
+            var endIdx = intersectionIdxInExtended[s + 1];
+            var segmentPoints = extendedNodeCoords.slice(startIdx, endIdx + 1);
+
+            if (segmentPoints.length < 2) continue;
+
+            var leftTangent = computeTangent(extendedNodeCoords, startIdx);
+            var rightTangent = computeTangent(extendedNodeCoords, endIdx);
+
+            var bezierSegments = fitBezierCurves(segmentPoints, leftTangent, rightTangent, MAX_FITTING_ERROR);
+            var sampleResult = sampleBezierCurvesAdaptive(bezierSegments);
+            var sampledPoints = sampleResult.points;
+            var sampledCurvatures = sampleResult.curvatures;
+
+            // First point of this segment is an intersection (except first segment's start is already added)
+            if (s === 0) {
+                intersectionPointIndices.push(0);
+                intersectionNodeIdAtIndex[0] = extendedNodeIds[startIdx];
+            }
+
+            // Skip first point if not the first segment (it's the same as last segment's end)
+            var startI = (s === 0) ? 0 : 1;
+            for (var i = startI; i < sampledPoints.length; i++) {
+                allSampledPoints.push(sampledPoints[i]);
+                allCurvatures.push(sampledCurvatures[i] || 0);
+            }
+
+            // Last point of this segment is an intersection
+            var lastPointIdx = allSampledPoints.length - 1;
+            intersectionPointIndices.push(lastPointIdx);
+            intersectionNodeIdAtIndex[lastPointIdx] = extendedNodeIds[endIdx];
+        }
+
+        // Restore exact original coordinates for intersection nodes
+        for (var p = 0; p < intersectionPointIndices.length; p++) {
+            var idx = intersectionPointIndices[p];
+            var origNodeId = intersectionNodeIdAtIndex[idx];
+            if (origNodeId && intersectionOriginalCoords[origNodeId]) {
+                allSampledPoints[idx] = intersectionOriginalCoords[origNodeId];
+            }
+        }
+
+        // Optionally apply Douglas-Peucker to remove unnecessary points on straight sections
+        if (ENABLE_SIMPLIFICATION) {
+            var mustKeepIndices = new Set();
+
+            // Protect intersection nodes
+            for (var m = 0; m < intersectionPointIndices.length; m++) {
+                mustKeepIndices.add(intersectionPointIndices[m]);
+            }
+
+            // Protect points on curves (high curvature) - only simplify straight sections
+            for (var c = 0; c < allCurvatures.length; c++) {
+                if (allCurvatures[c] > CURVATURE_PROTECTION_THRESHOLD) {
+                    mustKeepIndices.add(c);
+                }
+            }
+
+            var simplifiedPoints = douglasPeuckerSimplify(allSampledPoints, SIMPLIFICATION_TOLERANCE, mustKeepIndices);
+
+            // Rebuild intersection tracking for simplified points
+            var finalIntersectionIndices = [];
+            var finalIntersectionNodeIdAtIndex = {};
+
+            for (var q = 0; q < simplifiedPoints.length; q++) {
+                var pt = simplifiedPoints[q];
+                // Check if this point matches an intersection coordinate
+                for (var intIdx = 0; intIdx < intersectionPointIndices.length; intIdx++) {
+                    var origIdx = intersectionPointIndices[intIdx];
+                    var intNodeId = intersectionNodeIdAtIndex[origIdx];
+                    if (intNodeId && intersectionOriginalCoords[intNodeId]) {
+                        var intCoord = intersectionOriginalCoords[intNodeId];
+                        if (pt[0] === intCoord[0] && pt[1] === intCoord[1]) {
+                            finalIntersectionIndices.push(q);
+                            finalIntersectionNodeIdAtIndex[q] = intNodeId;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Use simplified points for final output
+            allSampledPoints = simplifiedPoints;
+            intersectionPointIndices = finalIntersectionIndices;
+            intersectionNodeIdAtIndex = finalIntersectionNodeIdAtIndex;
+        }
+
+        // Balance spacing around intersection nodes
+        // If spacing is uneven (one side much closer), remove the closer point
+        var pointsToRemove = new Set();
+        for (var intP = 0; intP < intersectionPointIndices.length; intP++) {
+            var nearIntIdx = intersectionPointIndices[intP];
+            var nearIntCoord = allSampledPoints[nearIntIdx];
+
+            // Get point before intersection (if exists and not an intersection itself)
+            var prevIdx = nearIntIdx - 1;
+            var prevIsValid = prevIdx >= 0 &&
+                              intersectionPointIndices.indexOf(prevIdx) === -1 &&
+                              !pointsToRemove.has(prevIdx);
+
+            // Get point after intersection (if exists and not an intersection itself)
+            var nextIdx = nearIntIdx + 1;
+            var nextIsValid = nextIdx < allSampledPoints.length &&
+                              intersectionPointIndices.indexOf(nextIdx) === -1 &&
+                              !pointsToRemove.has(nextIdx);
+
+            if (prevIsValid && nextIsValid) {
+                // Calculate distances
+                var prevCoord = allSampledPoints[prevIdx];
+                var dxPrev = prevCoord[0] - nearIntCoord[0];
+                var dyPrev = prevCoord[1] - nearIntCoord[1];
+                var distPrev = Math.sqrt(dxPrev * dxPrev + dyPrev * dyPrev);
+
+                var nextCoord = allSampledPoints[nextIdx];
+                var dxNext = nextCoord[0] - nearIntCoord[0];
+                var dyNext = nextCoord[1] - nearIntCoord[1];
+                var distNext = Math.sqrt(dxNext * dxNext + dyNext * dyNext);
+
+                // Check for uneven spacing - remove the closer point
+                if (distPrev > 0 && distNext > 0) {
+                    var ratio = distPrev / distNext;
+                    if (ratio < INTERSECTION_SPACING_RATIO) {
+                        // Point before is much closer - remove it
+                        pointsToRemove.add(prevIdx);
+                    } else if (ratio > 1 / INTERSECTION_SPACING_RATIO) {
+                        // Point after is much closer - remove it
+                        pointsToRemove.add(nextIdx);
+                    }
+                }
+            }
+        }
+
+        // Filter out points to remove and rebuild intersection indices
+        if (pointsToRemove.size > 0) {
+            var filteredPoints = [];
+            var newIntersectionIndices = [];
+            var newIntersectionNodeIdAtIndex = {};
+
+            for (var fp = 0; fp < allSampledPoints.length; fp++) {
+                if (!pointsToRemove.has(fp)) {
+                    var newIdx = filteredPoints.length;
+                    filteredPoints.push(allSampledPoints[fp]);
+
+                    // Update intersection tracking
+                    if (intersectionPointIndices.indexOf(fp) !== -1) {
+                        newIntersectionIndices.push(newIdx);
+                        newIntersectionNodeIdAtIndex[newIdx] = intersectionNodeIdAtIndex[fp];
+                    }
+                }
+            }
+
+            allSampledPoints = filteredPoints;
+            intersectionPointIndices = newIntersectionIndices;
+            intersectionNodeIdAtIndex = newIntersectionNodeIdAtIndex;
+        }
+
+        // Build the final list of nodes
+        var smoothedNodes = [];
+        var smoothedNodesIds = [];
+
+        for (var k = 0; k < allSampledPoints.length; k++) {
+            var isIntersection = intersectionPointIndices.indexOf(k) !== -1;
+            var origId = intersectionNodeIdAtIndex[k];
+
+            if (isIntersection && origId && intersectionNodeIds.has(origId)) {
+                // Reuse original intersection node ID
+                smoothedNodesIds.push(origId);
+            } else {
+                // Create new node
+                var newNode = osmNode({ loc: allSampledPoints[k] });
+                smoothedNodes.push(newNode);
+                smoothedNodesIds.push(newNode.id);
+            }
+        }
+
+        var newWayNodesIds = nodesBeforeIds.concat(smoothedNodesIds).concat(nodesAfterIds);
+
+        // Add new smoothed nodes to graph
+        for (var n = 0; n < smoothedNodes.length; n++) {
+            graph = graph.replace(smoothedNodes[n]);
+        }
 
         way = way.update({
             nodes: newWayNodesIds
         });
         graph = graph.replace(way);
 
-        // remove unconnected tagless nodes in between:
-        for (let i = 0, countI = nodesToSmoothIds.length; i < countI; i++) {
-            const oldNode = graph.entity(nodesToSmoothIds[i]);
+        // Remove unconnected tagless nodes that were part of the original smoothing segment
+        for (var r = 0, countR = nodesToSmoothIds.length; r < countR; r++) {
+            var oldNodeId = nodesToSmoothIds[r];
+            // Skip if this was an intersection node - it's still needed
+            if (intersectionNodeIds.has(oldNodeId)) continue;
+            // Skip if this node is still in the new way
+            if (newWayNodesIds.indexOf(oldNodeId) !== -1) continue;
+
+            var oldNode = graph.entity(oldNodeId);
             if (!oldNode.hasNonGeometryTags() && !graph.isShared(oldNode) && graph.parentWays(oldNode).length === 0) {
-                const deleteAction = actionDeleteNode(oldNode.id);
+                var deleteAction = actionDeleteNode(oldNode.id);
                 graph = deleteAction(graph);
             }
         }
-
 
         return graph;
     };
 
     action.disabled = function (graph) {
-
         return false;
-
     };
 
     action.transitionable = true;
