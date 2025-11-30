@@ -120004,6 +120004,114 @@
 	    };
 	}
 
+	function uiCoordinates(context) {
+	    var _selection = d3_select(null);
+	    var _pixelCoords = [0, 0];
+	    var _geoCoords = [0, 0];
+	    var _initialized = false;
+
+	    function update() {
+	        // Always get a fresh reference to the element
+	        var coordsElement = d3_select('.coordinates-display');
+	        if (coordsElement.empty()) {
+	            return;
+	        }
+	        
+	        // Verify the element is still in the DOM
+	        var node = coordsElement.node();
+	        if (!node || !node.parentNode) {
+	            return;
+	        }
+
+	        var lat = _geoCoords[1].toFixed(6);
+	        var lon = _geoCoords[0].toFixed(6);
+	        var x = Math.round(_pixelCoords[0]);
+	        var y = Math.round(_pixelCoords[1]);
+
+	        var displayText = 'Lat: ' + lat + ' Lon: ' + lon + ' | Pixel: ' + x + ', ' + y;
+	        coordsElement.text(displayText);
+	    }
+
+	    function coordinates(selection) {
+	        _selection = selection;
+	        
+	        // Initialize with default text
+	        _selection.text('Lat: 0.000000 Lon: 0.000000 | Pixel: 0, 0');
+
+	        // Wait for map to be ready before setting up event handler
+	        if (!_initialized) {
+	            _initialized = true;
+	            
+	            // Use a small delay to ensure map is ready
+	            var setupHandler = function() {
+	                var surface = context.surface();
+	                if (surface.empty()) {
+	                    setTimeout(setupHandler, 100);
+	                    return;
+	                }
+	                
+	                // Listen to mouse move events on the map surface
+	                // Use a unique namespace to avoid conflicts
+	                surface.on('mousemove.coordinates-display', function() {
+	                    // Re-select the element each time to ensure we have a valid reference
+	                    var coordsElement = d3_select('.coordinates-display');
+	                    if (coordsElement.empty()) {
+	                        return;
+	                    }
+	                    _selection = coordsElement;
+	                    
+	                    var containerNode = context.container().node();
+	                    if (!containerNode) {
+	                        return;
+	                    }
+
+	                    // Get mouse position relative to container
+	                    var rect = containerNode.getBoundingClientRect();
+	                    var event$1 = event;
+	                    if (!event$1) {
+	                        return;
+	                    }
+
+	                    _pixelCoords[0] = event$1.clientX - rect.left - (containerNode.clientLeft || 0);
+	                    _pixelCoords[1] = event$1.clientY - rect.top - (containerNode.clientTop || 0);
+
+	                    // Convert to geographic coordinates using map's mouseCoordinates
+	                    try {
+	                        var geo = context.map().mouseCoordinates();
+	                        if (geo && geo.length === 2 && !isNaN(geo[0]) && !isNaN(geo[1])) {
+	                            _geoCoords = geo;
+	                        }
+	                    } catch (e) {
+	                        // If mouseCoordinates fails, try using projection directly
+	                        try {
+	                            var projection = context.projection;
+	                            var map = context.map();
+	                            var dimensions = map.dimensions();
+	                            
+	                            // Convert pixel coords to map coordinates
+	                            var px = [
+	                                _pixelCoords[0] - dimensions[0] / 2,
+	                                _pixelCoords[1] - dimensions[1] / 2
+	                            ];
+	                            _geoCoords = projection.invert(px);
+	                        } catch (e2) {
+	                            // If all else fails, keep previous coordinates
+	                        }
+	                    }
+
+	                    update();
+	                });
+	            };
+	            
+	            setTimeout(setupHandler, 100);
+	        }
+
+	        update();
+	    }
+
+	    return coordinates;
+	}
+
 	function uiFeatureInfo(context) {
 	    function update(selection) {
 	        var features = context.features();
@@ -128056,6 +128164,11 @@
 	            .attr('tabindex', -1)
 	            .call(uiContributors(context));
 
+	        aboutList
+	            .append('li')
+	            .attr('class', 'coordinates-display')
+	            .call(uiCoordinates(context));
+
 	        footerWrap
 	            .append('div')
 	            .attr('id', 'scale-block')
@@ -128918,6 +129031,97 @@
 	    context.zoomOutFurther = map.zoomOutFurther;
 	    context.redrawEnable = map.redrawEnable;
 
+	    // Programmatic click at pixel coordinates (for AI agents)
+	    // x, y are pixel coordinates relative to the container
+	    context.clickAtPixel = function(x, y, options) {
+	        options = options || {};
+	        var containerNode = container.node();
+	        var surfaceNode = context.surface().node();
+	        if (!containerNode) {
+	            if (options.debug) { console.log('clickAtPixel: container not found'); }
+	            return false;
+	        }
+	        if (!surfaceNode) {
+	            if (options.debug) { console.log('clickAtPixel: surface not found'); }
+	            return false;
+	        }
+
+	        // Get container's bounding rect to convert pixel coords to client coords
+	        var rect = containerNode.getBoundingClientRect();
+	        var clientX = rect.left + x + (containerNode.clientLeft || 0);
+	        var clientY = rect.top + y + (containerNode.clientTop || 0);
+
+	        if (options.debug) {
+	            console.log('clickAtPixel: container rect:', rect);
+	            console.log('clickAtPixel: pixel coords:', x, y);
+	            console.log('clickAtPixel: client coords:', clientX, clientY);
+	        }
+
+	        // Find the element at these coordinates (this will be the SVG element with __data__)
+	        var element = document.elementFromPoint(clientX, clientY);
+	        if (!element) {
+	            if (options.debug) { console.log('clickAtPixel: no element found at coordinates'); }
+	            return false;
+	        }
+
+	        if (options.debug) {
+	            console.log('clickAtPixel: found element:', element.tagName, element.className);
+	            console.log('clickAtPixel: element __data__:', element.__data__);
+	        }
+
+	        // For multi-select (shift key), set the CSS class that indicates multi-select mode
+	        // This matches the behavior when a human presses Shift before clicking
+	        if (options.shiftKey) {
+	            context.surface().classed('behavior-multiselect', true);
+	        }
+
+	        // Create synthetic mouse events with proper coordinates
+	        var mouseEventInit = {
+	            bubbles: true,
+	            cancelable: true,
+	            view: window,
+	            detail: 1,
+	            screenX: clientX + (window.screenX || 0),
+	            screenY: clientY + (window.screenY || 0),
+	            clientX: clientX,
+	            clientY: clientY,
+	            button: 0,
+	            buttons: 1,
+	            shiftKey: options.shiftKey || false,
+	            ctrlKey: options.ctrlKey || false,
+	            altKey: options.altKey || false,
+	            metaKey: options.metaKey || false
+	        };
+
+	        // Dispatch mousedown on the surface element (where D3 handlers are attached)
+	        // Set the target to the actual clicked element so __data__ is accessible
+	        var mousedownEvent = new MouseEvent('mousedown', mouseEventInit);
+	        Object.defineProperty(mousedownEvent, 'target', { value: element, writable: false });
+	        surfaceNode.dispatchEvent(mousedownEvent);
+
+	        // Small delay to allow mousedown handler to set up the window-level mouseup handler
+	        setTimeout(function() {
+	            // Dispatch mouseup on the window (where the handler was registered by mousedown)
+	            // The target should still point to the clicked element
+	            var mouseupEvent = new MouseEvent('mouseup', mouseEventInit);
+	            Object.defineProperty(mouseupEvent, 'target', { value: element, writable: false });
+	            window.dispatchEvent(mouseupEvent);
+	        }, 10);
+
+	        // Clean up: if shift key was used, remove the multi-select class after a short delay
+	        // This matches the behavior when a human releases Shift after clicking
+	        if (options.shiftKey) {
+	            setTimeout(function() {
+	                // Only remove if shift is not actually pressed (in case user is holding it)
+	                if (!(window.event && window.event.shiftKey)) {
+	                    context.surface().classed('behavior-multiselect', false);
+	                }
+	            }, 100);
+	        }
+
+	        return true;
+	    };
+
 	    Object.values(services$1).forEach(function(service) {
 	        if (service && typeof service.init === 'function') {
 	            service.init(context);
@@ -129340,6 +129544,7 @@
 		uiConfirm: uiConfirm,
 		uiConflicts: uiConflicts,
 		uiContributors: uiContributors,
+		uiCoordinates: uiCoordinates,
 		uiCurtain: uiCurtain,
 		uiDataEditor: uiDataEditor,
 		uiDisclosure: uiDisclosure,

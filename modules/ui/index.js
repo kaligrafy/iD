@@ -13,6 +13,7 @@ export { uiCommitWarnings } from './commit_warnings';
 export { uiConfirm } from './confirm';
 export { uiConflicts } from './conflicts';
 export { uiContributors } from './contributors';
+export { uiCoordinates } from './coordinates';
 export { uiCurtain } from './curtain';
 export { uiDataEditor } from './data_editor';
 export { uiDisclosure } from './disclosure';

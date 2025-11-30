@@ -17,6 +17,7 @@ import { uiAssistant } from './assistant';
 import { uiAttribution } from './attribution';
 import { uiBackground } from './background';
 import { uiContributors } from './contributors';
+import { uiCoordinates } from './coordinates';
 import { uiFeatureInfo } from './feature_info';
 import { uiFullScreen } from './full_screen';
 import { uiGeolocate } from './geolocate';
@@ -217,6 +218,11 @@ export function uiInit(context) {
             .attr('class', 'user-list')
             .attr('tabindex', -1)
             .call(uiContributors(context));
+
+        aboutList
+            .append('li')
+            .attr('class', 'coordinates-display')
+            .call(uiCoordinates(context));
 
         footerWrap
             .append('div')
