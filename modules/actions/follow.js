@@ -1,6 +1,60 @@
 import {
     geoSphericalDistance
 } from '../geo';
+import { actionDeleteNode } from './delete_node';
+
+// Find the closest point on a line segment to a given point
+// Returns { point: [lon, lat], t: 0-1, distance: number }
+function closestPointOnSegment(point, segStart, segEnd) {
+    var dx = segEnd[0] - segStart[0];
+    var dy = segEnd[1] - segStart[1];
+    var lengthSq = dx * dx + dy * dy;
+
+    if (lengthSq === 0) {
+        // Segment is a point
+        var d = Math.sqrt(Math.pow(point[0] - segStart[0], 2) + Math.pow(point[1] - segStart[1], 2));
+        return { point: segStart, t: 0, distance: d };
+    }
+
+    var t = ((point[0] - segStart[0]) * dx + (point[1] - segStart[1]) * dy) / lengthSq;
+    t = Math.max(0, Math.min(1, t));
+
+    var closestPoint = [
+        segStart[0] + t * dx,
+        segStart[1] + t * dy
+    ];
+
+    var dist = Math.sqrt(
+        Math.pow(point[0] - closestPoint[0], 2) +
+        Math.pow(point[1] - closestPoint[1], 2)
+    );
+
+    return { point: closestPoint, t: t, distance: dist };
+}
+
+// Find the closest point on a path (array of node IDs) to a given point
+// Returns { point: [lon, lat], segmentIndex: number, t: 0-1 }
+function closestPointOnPath(graph, point, nodeIds) {
+    var bestResult = null;
+    var bestDistance = Infinity;
+
+    for (var i = 0; i < nodeIds.length - 1; i++) {
+        var segStart = graph.entity(nodeIds[i]).loc;
+        var segEnd = graph.entity(nodeIds[i + 1]).loc;
+        var result = closestPointOnSegment(point, segStart, segEnd);
+
+        if (result.distance < bestDistance) {
+            bestDistance = result.distance;
+            bestResult = {
+                point: result.point,
+                segmentIndex: i,
+                t: result.t
+            };
+        }
+    }
+
+    return bestResult;
+}
 
 export function actionFollow(selectedIDs, projection, reverse = false, customGraph = null) {
 
@@ -90,7 +144,71 @@ export function actionFollow(selectedIDs, projection, reverse = false, customGra
         }
         const srcNodesUsedReversed = [...srcNodesUsed].reverse(); // need to clone because reverse modifies the original array
 
-        //console.log('srcNodesUsed and reversed', srcNodesUsed, srcNodesUsedReversed);
+        // Identify intersection nodes in the segment being replaced (excluding start/end)
+        // These are nodes connected to other ways that we need to preserve
+        var intersectionNodes = [];
+        for (var intIdx = startNodeIdxInTgt + 1; intIdx < endNodeIdxInTgt; intIdx++) {
+            var nodeId = tgtNodes[intIdx];
+            var node = graph.entity(nodeId);
+            var parentWays = graph.parentWays(node);
+            // Check if this node is connected to other ways (not just the target way)
+            if (parentWays.length > 1 || node.hasNonGeometryTags()) {
+                intersectionNodes.push({
+                    id: nodeId,
+                    loc: node.loc,
+                    originalIndex: intIdx
+                });
+            }
+        }
+
+        // Determine which direction the source nodes should be used
+        var srcNodesForPath = (tgtNodes[startNodeIdxInTgt] === srcNodesUsed[0])
+            ? srcNodesUsed
+            : srcNodesUsedReversed;
+
+        // If there are intersection nodes, find where they should be placed on the new path
+        // and move them to the closest point on the new path
+        var intersectionsToInsert = []; // { afterIndex: number, nodeId: string }
+        for (var i = 0; i < intersectionNodes.length; i++) {
+            var intNode = intersectionNodes[i];
+            var closest = closestPointOnPath(graph, intNode.loc, srcNodesForPath);
+
+            if (closest) {
+                // Move the intersection node to the closest point on the new path
+                var movedNode = graph.entity(intNode.id).move(closest.point);
+                graph = graph.replace(movedNode);
+
+                // Record where to insert this node in the final path
+                // It should go after segmentIndex in the srcNodesForPath
+                intersectionsToInsert.push({
+                    segmentIndex: closest.segmentIndex,
+                    t: closest.t,
+                    nodeId: intNode.id
+                });
+            }
+        }
+
+        // Sort intersections by their position along the path
+        intersectionsToInsert.sort(function(a, b) {
+            if (a.segmentIndex !== b.segmentIndex) {
+                return a.segmentIndex - b.segmentIndex;
+            }
+            return a.t - b.t;
+        });
+
+        // Build the source nodes path with intersection nodes inserted
+        var srcNodesWithIntersections = [];
+        var insertIdx = 0;
+        for (var srcIdx = 0; srcIdx < srcNodesForPath.length; srcIdx++) {
+            srcNodesWithIntersections.push(srcNodesForPath[srcIdx]);
+
+            // Insert any intersection nodes that belong after this segment
+            while (insertIdx < intersectionsToInsert.length &&
+                   intersectionsToInsert[insertIdx].segmentIndex === srcIdx) {
+                srcNodesWithIntersections.push(intersectionsToInsert[insertIdx].nodeId);
+                insertIdx++;
+            }
+        }
 
         const updatedTgtWayNodes = [];
         //if (!srcWayIsClosed) {
@@ -99,11 +217,8 @@ export function actionFollow(selectedIDs, projection, reverse = false, customGra
                 updatedTgtWayNodes.push(tgtNodes[nodeIdx]);
                 nodeIdx++;
             }
-            if (tgtNodes[startNodeIdxInTgt] === srcNodesUsed[0]) {
-                updatedTgtWayNodes.push(...srcNodesUsed);
-            } else {
-                updatedTgtWayNodes.push(...srcNodesUsedReversed);
-            }
+            // Use the source nodes with intersection nodes inserted
+            updatedTgtWayNodes.push(...srcNodesWithIntersections);
             nodeIdx = endNodeIdxInTgt + 1;
             while (nodeIdx < tgtNodes.length) {
                 updatedTgtWayNodes.push(tgtNodes[nodeIdx]);
@@ -135,14 +250,29 @@ export function actionFollow(selectedIDs, projection, reverse = false, customGra
                 }
             }
             graph = graph.replace(tgtWay);
-            // remove unconnected tagless nodes in between:
+
+            // Build a set of preserved intersection node IDs
+            var preservedNodeIds = {};
+            for (var pIdx = 0; pIdx < intersectionNodes.length; pIdx++) {
+                preservedNodeIds[intersectionNodes[pIdx].id] = true;
+            }
+
+            // remove unconnected tagless nodes in between (skip preserved intersection nodes):
             nodeIdx = startNodeIdxInTgt + 1;
             while (nodeIdx < endNodeIdxInTgt) {
-                const node = graph.entity(tgtNodes[nodeIdx]);
-                //console.log('checking node: ', node.id, graph.isShared(node), node.hasNonGeometryTags(), graph.parentWays(node).length);
+                var nodeIdToCheck = tgtNodes[nodeIdx];
+                // Skip if this node was preserved as an intersection
+                if (preservedNodeIds[nodeIdToCheck]) {
+                    nodeIdx++;
+                    continue;
+                }
+                if (!graph.hasEntity(nodeIdToCheck)) {
+                    nodeIdx++;
+                    continue;
+                }
+                const node = graph.entity(nodeIdToCheck);
                 if (!node.hasNonGeometryTags() && !graph.isShared(node) && graph.parentWays(node).length === 0) {
-                    //console.log('removing node: ', node.id);
-                    const deleteAction = iD.actionDeleteNode(node.id);
+                    const deleteAction = actionDeleteNode(node.id);
                     graph = deleteAction(graph);
                 }
                 nodeIdx++;
