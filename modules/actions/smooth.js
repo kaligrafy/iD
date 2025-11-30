@@ -432,6 +432,510 @@ function douglasPeuckerSimplify(points, tolerance, mustKeepIndices) {
     }
 }
 
+// Smooth across multiple connected ways with explicit way order
+function smoothAcrossWaysWithOrder(graph, node1, node2, orderedWays) {
+    if (!orderedWays || orderedWays.length === 0) return graph;
+
+    // Build way segments from ordered ways
+    var waySegments = [];
+    var pathNodeIds = [];
+    var currentNodeId = node1.id;
+
+    for (var w = 0; w < orderedWays.length; w++) {
+        var way = orderedWays[w];
+        var currentIdx = way.nodes.indexOf(currentNodeId);
+
+        // Find next connecting node (or end node for last way)
+        var nextNodeId;
+        var nextIdx;
+
+        if (w === orderedWays.length - 1) {
+            nextNodeId = node2.id;
+            nextIdx = way.nodes.indexOf(node2.id);
+        } else {
+            // Find connecting node to next way
+            var nextWay = orderedWays[w + 1];
+            var wayNodesSet = new Set(way.nodes);
+            for (var n = 0; n < nextWay.nodes.length; n++) {
+                if (wayNodesSet.has(nextWay.nodes[n]) && nextWay.nodes[n] !== currentNodeId) {
+                    nextNodeId = nextWay.nodes[n];
+                    nextIdx = way.nodes.indexOf(nextNodeId);
+                    break;
+                }
+            }
+        }
+
+        if (nextNodeId === undefined) return graph;
+
+        var reversed = currentIdx > nextIdx;
+        var startIdx = reversed ? nextIdx : currentIdx;
+        var endIdx = reversed ? currentIdx : nextIdx;
+
+        waySegments.push({
+            way: way,
+            startIdx: startIdx,
+            endIdx: endIdx,
+            reversed: reversed
+        });
+
+        // Add nodes to path
+        var segmentNodes;
+        if (currentIdx <= nextIdx) {
+            segmentNodes = way.nodes.slice(currentIdx, nextIdx + 1);
+        } else {
+            segmentNodes = way.nodes.slice(nextIdx, currentIdx + 1).reverse();
+        }
+
+        if (w === 0) {
+            pathNodeIds = pathNodeIds.concat(segmentNodes);
+        } else {
+            pathNodeIds = pathNodeIds.concat(segmentNodes.slice(1)); // Skip duplicate connecting node
+        }
+
+        currentNodeId = nextNodeId;
+    }
+
+    // Call the common smoothing logic
+    return smoothAcrossWaysCommon(graph, node1, node2, pathNodeIds, waySegments);
+}
+
+// Common smoothing logic for multi-way smoothing
+function smoothAcrossWaysCommon(graph, node1, node2, pathNodeIds, waySegments) {
+    // Extend path with one node before and after for smooth transitions
+    var firstWay = waySegments[0].way;
+    var lastWay = waySegments[waySegments.length - 1].way;
+
+    var firstNodeIdx = firstWay.nodes.indexOf(node1.id);
+    var lastNodeIdx = lastWay.nodes.indexOf(node2.id);
+
+    // Determine extension direction based on path direction
+    var extendedPathNodeIds = pathNodeIds.slice();
+    var nodeBefore = null;
+    var nodeAfter = null;
+
+    // Find node before (on first way, in opposite direction of path)
+    if (waySegments[0].reversed) {
+        // Path goes backwards on this way, so "before" is at higher index
+        if (firstNodeIdx < firstWay.nodes.length - 1) {
+            nodeBefore = firstWay.nodes[firstNodeIdx + 1];
+        }
+    } else {
+        // Path goes forward, so "before" is at lower index
+        if (firstNodeIdx > 0) {
+            nodeBefore = firstWay.nodes[firstNodeIdx - 1];
+        }
+    }
+
+    // Find node after (on last way, in path direction)
+    if (waySegments[waySegments.length - 1].reversed) {
+        if (lastNodeIdx > 0) {
+            nodeAfter = lastWay.nodes[lastNodeIdx - 1];
+        }
+    } else {
+        if (lastNodeIdx < lastWay.nodes.length - 1) {
+            nodeAfter = lastWay.nodes[lastNodeIdx + 1];
+        }
+    }
+
+    if (nodeBefore) {
+        extendedPathNodeIds.unshift(nodeBefore);
+    }
+    if (nodeAfter) {
+        extendedPathNodeIds.push(nodeAfter);
+    }
+
+    // Get coordinates
+    var combinedCoords = extendedPathNodeIds.map(function(nId) {
+        return graph.entity(nId).loc;
+    });
+
+    // Identify intersection/boundary nodes to preserve
+    var intersectionNodeIds = new Set();
+    var intersectionOriginalCoords = {};
+
+    for (var j = 0; j < extendedPathNodeIds.length; j++) {
+        var nodeId = extendedPathNodeIds[j];
+        var node = graph.entity(nodeId);
+        var parentWays = graph.parentWays(node);
+        if (parentWays.length > 1 || node.hasNonGeometryTags()) {
+            intersectionNodeIds.add(nodeId);
+            intersectionOriginalCoords[nodeId] = node.loc;
+        }
+    }
+
+    // Preserve boundary points (nodeBefore and nodeAfter if they exist)
+    intersectionNodeIds.add(extendedPathNodeIds[0]);
+    intersectionOriginalCoords[extendedPathNodeIds[0]] = graph.entity(extendedPathNodeIds[0]).loc;
+    intersectionNodeIds.add(extendedPathNodeIds[extendedPathNodeIds.length - 1]);
+    intersectionOriginalCoords[extendedPathNodeIds[extendedPathNodeIds.length - 1]] =
+        graph.entity(extendedPathNodeIds[extendedPathNodeIds.length - 1]).loc;
+
+    // Also preserve node1 and node2 - they are the actual selection boundaries
+    intersectionNodeIds.add(node1.id);
+    intersectionOriginalCoords[node1.id] = node1.loc;
+    intersectionNodeIds.add(node2.id);
+    intersectionOriginalCoords[node2.id] = node2.loc;
+
+    // Build intersection indices
+    var intersectionIdxInPath = [];
+    for (var k = 0; k < extendedPathNodeIds.length; k++) {
+        if (intersectionNodeIds.has(extendedPathNodeIds[k])) {
+            intersectionIdxInPath.push(k);
+        }
+    }
+    intersectionIdxInPath.sort(function(a, b) { return a - b; });
+
+    if (intersectionIdxInPath[0] !== 0) {
+        intersectionIdxInPath.unshift(0);
+    }
+    if (intersectionIdxInPath[intersectionIdxInPath.length - 1] !== extendedPathNodeIds.length - 1) {
+        intersectionIdxInPath.push(extendedPathNodeIds.length - 1);
+    }
+
+    // Fit Bezier curves and sample
+    var allSampledPoints = [];
+    var allCurvatures = [];
+    var intersectionPointIndices = [];
+    var intersectionNodeIdAtIndex = {};
+
+    for (var s = 0; s < intersectionIdxInPath.length - 1; s++) {
+        var startIdx = intersectionIdxInPath[s];
+        var endIdx = intersectionIdxInPath[s + 1];
+        var segmentCoords = combinedCoords.slice(startIdx, endIdx + 1);
+
+        if (segmentCoords.length < 2) continue;
+
+        var leftTangent = computeTangent(combinedCoords, startIdx);
+        var rightTangent = computeTangent(combinedCoords, endIdx);
+
+        var bezierSegments = fitBezierCurves(segmentCoords, leftTangent, rightTangent, MAX_FITTING_ERROR);
+        var sampleResult = sampleBezierCurvesAdaptive(bezierSegments);
+        var sampledPoints = sampleResult.points;
+        var sampledCurvatures = sampleResult.curvatures;
+
+        if (s === 0) {
+            intersectionPointIndices.push(0);
+            intersectionNodeIdAtIndex[0] = extendedPathNodeIds[startIdx];
+        }
+
+        var startI = (s === 0) ? 0 : 1;
+        for (var p = startI; p < sampledPoints.length; p++) {
+            allSampledPoints.push(sampledPoints[p]);
+            allCurvatures.push(sampledCurvatures[p] || 0);
+        }
+
+        var lastPointIdx = allSampledPoints.length - 1;
+        intersectionPointIndices.push(lastPointIdx);
+        intersectionNodeIdAtIndex[lastPointIdx] = extendedPathNodeIds[endIdx];
+    }
+
+    // Restore intersection coordinates
+    for (var r = 0; r < intersectionPointIndices.length; r++) {
+        var idx = intersectionPointIndices[r];
+        var origNodeId = intersectionNodeIdAtIndex[idx];
+        if (origNodeId && intersectionOriginalCoords[origNodeId]) {
+            allSampledPoints[idx] = intersectionOriginalCoords[origNodeId];
+        }
+    }
+
+    // Apply Douglas-Peucker if enabled
+    if (ENABLE_SIMPLIFICATION) {
+        var mustKeepIndices = new Set();
+        for (var m = 0; m < intersectionPointIndices.length; m++) {
+            mustKeepIndices.add(intersectionPointIndices[m]);
+        }
+        for (var c = 0; c < allCurvatures.length; c++) {
+            if (allCurvatures[c] > CURVATURE_PROTECTION_THRESHOLD) {
+                mustKeepIndices.add(c);
+            }
+        }
+
+        var simplifiedPoints = douglasPeuckerSimplify(allSampledPoints, SIMPLIFICATION_TOLERANCE, mustKeepIndices);
+
+        var finalIntersectionIndices = [];
+        var finalIntersectionNodeIdAtIndex = {};
+
+        for (var q = 0; q < simplifiedPoints.length; q++) {
+            var pt = simplifiedPoints[q];
+            for (var intIdx = 0; intIdx < intersectionPointIndices.length; intIdx++) {
+                var origIdx = intersectionPointIndices[intIdx];
+                var intNodeId = intersectionNodeIdAtIndex[origIdx];
+                if (intNodeId && intersectionOriginalCoords[intNodeId]) {
+                    var intCoord = intersectionOriginalCoords[intNodeId];
+                    if (pt[0] === intCoord[0] && pt[1] === intCoord[1]) {
+                        finalIntersectionIndices.push(q);
+                        finalIntersectionNodeIdAtIndex[q] = intNodeId;
+                        break;
+                    }
+                }
+            }
+        }
+
+        allSampledPoints = simplifiedPoints;
+        intersectionPointIndices = finalIntersectionIndices;
+        intersectionNodeIdAtIndex = finalIntersectionNodeIdAtIndex;
+    }
+
+    // Balance spacing around intersections
+    var pointsToRemove = new Set();
+    for (var intP = 0; intP < intersectionPointIndices.length; intP++) {
+        var nearIntIdx = intersectionPointIndices[intP];
+        var nearIntCoord = allSampledPoints[nearIntIdx];
+
+        var prevIdx = nearIntIdx - 1;
+        var prevIsValid = prevIdx >= 0 &&
+                          intersectionPointIndices.indexOf(prevIdx) === -1 &&
+                          !pointsToRemove.has(prevIdx);
+
+        var nextIdx = nearIntIdx + 1;
+        var nextIsValid = nextIdx < allSampledPoints.length &&
+                          intersectionPointIndices.indexOf(nextIdx) === -1 &&
+                          !pointsToRemove.has(nextIdx);
+
+        if (prevIsValid && nextIsValid) {
+            var prevCoord = allSampledPoints[prevIdx];
+            var dxPrev = prevCoord[0] - nearIntCoord[0];
+            var dyPrev = prevCoord[1] - nearIntCoord[1];
+            var distPrev = Math.sqrt(dxPrev * dxPrev + dyPrev * dyPrev);
+
+            var nextCoord = allSampledPoints[nextIdx];
+            var dxNext = nextCoord[0] - nearIntCoord[0];
+            var dyNext = nextCoord[1] - nearIntCoord[1];
+            var distNext = Math.sqrt(dxNext * dxNext + dyNext * dyNext);
+
+            if (distPrev > 0 && distNext > 0) {
+                var ratio = distPrev / distNext;
+                if (ratio < INTERSECTION_SPACING_RATIO) {
+                    pointsToRemove.add(prevIdx);
+                } else if (ratio > 1 / INTERSECTION_SPACING_RATIO) {
+                    pointsToRemove.add(nextIdx);
+                }
+            }
+        }
+    }
+
+    if (pointsToRemove.size > 0) {
+        var filteredPoints = [];
+        var newIntersectionIndices = [];
+        var newIntersectionNodeIdAtIndex = {};
+
+        for (var fp = 0; fp < allSampledPoints.length; fp++) {
+            if (!pointsToRemove.has(fp)) {
+                var newIdx = filteredPoints.length;
+                filteredPoints.push(allSampledPoints[fp]);
+
+                if (intersectionPointIndices.indexOf(fp) !== -1) {
+                    newIntersectionIndices.push(newIdx);
+                    newIntersectionNodeIdAtIndex[newIdx] = intersectionNodeIdAtIndex[fp];
+                }
+            }
+        }
+
+        allSampledPoints = filteredPoints;
+        intersectionPointIndices = newIntersectionIndices;
+        intersectionNodeIdAtIndex = newIntersectionNodeIdAtIndex;
+    }
+
+    // Build a map of connecting node indices in smoothed points
+    var connectingNodeIndices = {};
+    for (var ci = 0; ci < intersectionPointIndices.length; ci++) {
+        var ptIdx = intersectionPointIndices[ci];
+        var connNodeId = intersectionNodeIdAtIndex[ptIdx];
+        if (connNodeId) {
+            connectingNodeIndices[connNodeId] = ptIdx;
+        }
+    }
+
+    // Split smoothed points back to each way
+    var allNewNodes = [];
+    var wayUpdates = []; // { way, newNodeIds, extStart, extEnd }
+
+    for (var ws = 0; ws < waySegments.length; ws++) {
+        var seg = waySegments[ws];
+        var segWay = seg.way;
+
+        // Find the connecting nodes at boundaries of this way segment
+        var wayStartNodeId = seg.reversed ?
+            segWay.nodes[seg.endIdx] : segWay.nodes[seg.startIdx];
+        var wayEndNodeId = seg.reversed ?
+            segWay.nodes[seg.startIdx] : segWay.nodes[seg.endIdx];
+
+        // For first way, include nodeBefore if it exists
+        if (ws === 0 && nodeBefore) {
+            wayStartNodeId = nodeBefore;
+        }
+
+        // For last way, include nodeAfter if it exists
+        if (ws === waySegments.length - 1 && nodeAfter) {
+            wayEndNodeId = nodeAfter;
+        }
+
+        // Get indices in smoothed points
+        var smoothStartIdx = connectingNodeIndices[wayStartNodeId];
+        var smoothEndIdx = connectingNodeIndices[wayEndNodeId];
+
+        if (smoothStartIdx === undefined || smoothEndIdx === undefined) {
+            // Fallback: find by intersection indices
+            for (var ii = 0; ii < intersectionPointIndices.length; ii++) {
+                var intPtId = intersectionNodeIdAtIndex[intersectionPointIndices[ii]];
+                if (intPtId === wayStartNodeId) smoothStartIdx = intersectionPointIndices[ii];
+                if (intPtId === wayEndNodeId) smoothEndIdx = intersectionPointIndices[ii];
+            }
+        }
+
+        if (smoothStartIdx === undefined || smoothEndIdx === undefined) continue;
+
+        // Extract points for this way
+        var wayPoints;
+        if (smoothStartIdx <= smoothEndIdx) {
+            wayPoints = allSampledPoints.slice(smoothStartIdx, smoothEndIdx + 1);
+        } else {
+            wayPoints = allSampledPoints.slice(smoothEndIdx, smoothStartIdx + 1).reverse();
+        }
+
+        // Create nodes
+        var wayNewNodeIds = [];
+        for (var wp = 0; wp < wayPoints.length; wp++) {
+            var globalPtIdx = smoothStartIdx <= smoothEndIdx ?
+                smoothStartIdx + wp : smoothStartIdx - wp;
+
+            var isIntersection = intersectionPointIndices.indexOf(globalPtIdx) !== -1;
+            var origId = intersectionNodeIdAtIndex[globalPtIdx];
+
+            if (isIntersection && origId && intersectionNodeIds.has(origId)) {
+                wayNewNodeIds.push(origId);
+            } else {
+                var newNode = osmNode({ loc: wayPoints[wp] });
+                allNewNodes.push(newNode);
+                wayNewNodeIds.push(newNode.id);
+            }
+        }
+
+        // Reverse if needed to match original way direction
+        if (seg.reversed) {
+            wayNewNodeIds = wayNewNodeIds.slice().reverse();
+        }
+
+        // Calculate extended indices
+        var extStart = Math.max(0, seg.startIdx - (ws === 0 && nodeBefore ? 1 : 0));
+        var extEnd = Math.min(segWay.nodes.length - 1,
+            seg.endIdx + (ws === waySegments.length - 1 && nodeAfter ? 1 : 0));
+
+        wayUpdates.push({
+            way: segWay,
+            newNodeIds: wayNewNodeIds,
+            extStart: extStart,
+            extEnd: extEnd
+        });
+    }
+
+    // Collect old node IDs for cleanup
+    var allOldNodeIds = [];
+    for (var wo = 0; wo < wayUpdates.length; wo++) {
+        var upd = wayUpdates[wo];
+        var oldIds = upd.way.nodes.slice(upd.extStart, upd.extEnd + 1);
+        allOldNodeIds = allOldNodeIds.concat(oldIds);
+    }
+
+    // Add new nodes to graph
+    for (var nn = 0; nn < allNewNodes.length; nn++) {
+        graph = graph.replace(allNewNodes[nn]);
+    }
+
+    // Update each way
+    var allNewNodeIdsSet = new Set();
+    for (var wu = 0; wu < wayUpdates.length; wu++) {
+        var update = wayUpdates[wu];
+        var wayObj = update.way;
+
+        var nodesBeforeIds = wayObj.nodes.slice(0, update.extStart);
+        var nodesAfterIds = wayObj.nodes.slice(update.extEnd + 1);
+
+        var newWayNodeIds = nodesBeforeIds.concat(update.newNodeIds).concat(nodesAfterIds);
+
+        for (var nni = 0; nni < newWayNodeIds.length; nni++) {
+            allNewNodeIdsSet.add(newWayNodeIds[nni]);
+        }
+
+        wayObj = wayObj.update({ nodes: newWayNodeIds });
+        graph = graph.replace(wayObj);
+    }
+
+    // Remove old unused nodes
+    for (var oldN = 0; oldN < allOldNodeIds.length; oldN++) {
+        var oldNodeId = allOldNodeIds[oldN];
+        if (intersectionNodeIds.has(oldNodeId)) continue;
+        if (allNewNodeIdsSet.has(oldNodeId)) continue;
+
+        var oldNode = graph.hasEntity(oldNodeId);
+        if (oldNode && !oldNode.hasNonGeometryTags() && graph.parentWays(oldNode).length === 0) {
+            graph = actionDeleteNode(oldNode.id)(graph);
+        }
+    }
+
+    return graph;
+}
+
+// Check if two ways share exactly one node
+function findSingleConnectingNode(way1, way2) {
+    var way1NodesSet = new Set(way1.nodes);
+    var commonNodes = [];
+    for (var i = 0; i < way2.nodes.length; i++) {
+        if (way1NodesSet.has(way2.nodes[i])) {
+            commonNodes.push(way2.nodes[i]);
+        }
+    }
+    return commonNodes.length === 1 ? commonNodes[0] : null;
+}
+
+// Order selected ways into a chain from node1 to node2
+function orderWaysAsChain(graph, ways, node1Id, node2Id) {
+    if (ways.length === 0) return null;
+    if (ways.length === 1) {
+        if (ways[0].nodes.indexOf(node1Id) !== -1 && ways[0].nodes.indexOf(node2Id) !== -1) {
+            return [ways[0]];
+        }
+        return null;
+    }
+
+    // Find way containing node1
+    var startWay = null;
+    for (var i = 0; i < ways.length; i++) {
+        if (ways[i].nodes.indexOf(node1Id) !== -1) {
+            startWay = ways[i];
+            break;
+        }
+    }
+    if (!startWay) return null;
+
+    var orderedWays = [startWay];
+    var usedWays = new Set([startWay.id]);
+    var currentWay = startWay;
+
+    while (orderedWays.length < ways.length) {
+        var foundNext = false;
+        for (var j = 0; j < ways.length; j++) {
+            var nextWay = ways[j];
+            if (usedWays.has(nextWay.id)) continue;
+
+            var connectNode = findSingleConnectingNode(currentWay, nextWay);
+            if (connectNode && connectNode !== node1Id) {
+                orderedWays.push(nextWay);
+                usedWays.add(nextWay.id);
+                currentWay = nextWay;
+                foundNext = true;
+                break;
+            }
+        }
+        if (!foundNext) return null;
+    }
+
+    // Verify last way contains node2
+    if (orderedWays[orderedWays.length - 1].nodes.indexOf(node2Id) === -1) return null;
+
+    return orderedWays;
+}
+
 export function actionSmooth(selectedIds, projection) {
 
     var action = function (graph) {
@@ -442,18 +946,51 @@ export function actionSmooth(selectedIds, projection) {
 
         var entitiesNodes = entities.filter(function(entity) { return entity.type === 'node'; });
         var entitiesWays = entities.filter(function(entity) { return entity.type === 'way'; });
-        var way = null;
 
-        if (entitiesWays.length === 0) {
-            var node1ParentWays = graph.parentWays(entitiesNodes[0]);
-            var node2ParentWays = graph.parentWays(entitiesNodes[1]);
-            var parentWaysIntersection = node1ParentWays.filter(function(w) {
-                return node2ParentWays.includes(w);
-            });
-            way = parentWaysIntersection[0];
+        var node1 = entitiesNodes[0];
+        var node2 = entitiesNodes[1];
+
+        // Check if nodes are on the same way
+        var node1ParentWays = graph.parentWays(node1);
+        var node2ParentWays = graph.parentWays(node2);
+        var commonWays = node1ParentWays.filter(function(w) {
+            return node2ParentWays.includes(w);
+        });
+
+        // Determine which ways to use for smoothing
+        var waysToSmooth = [];
+
+        if (entitiesWays.length > 0) {
+            // Ways are explicitly selected - use those (ordered as chain)
+            waysToSmooth = orderWaysAsChain(graph, entitiesWays, node1.id, node2.id);
+        } else if (commonWays.length > 0) {
+            // Both nodes on same way
+            waysToSmooth = [commonWays[0]];
         } else {
-            way = entitiesWays[0];
+            // Nodes on different ways - find a pair of ways that are directly connected
+            var foundWayPair = false;
+            for (var w1 = 0; w1 < node1ParentWays.length && !foundWayPair; w1++) {
+                for (var w2 = 0; w2 < node2ParentWays.length && !foundWayPair; w2++) {
+                    var way1 = node1ParentWays[w1];
+                    var way2 = node2ParentWays[w2];
+                    if (way1.id === way2.id) continue; // Same way, skip
+                    var connectNode = findSingleConnectingNode(way1, way2);
+                    if (connectNode && connectNode !== node1.id && connectNode !== node2.id) {
+                        waysToSmooth = [way1, way2];
+                        foundWayPair = true;
+                    }
+                }
+            }
         }
+
+        // Multi-way smoothing
+        if (waysToSmooth && waysToSmooth.length > 1) {
+            return smoothAcrossWaysWithOrder(graph, node1, node2, waysToSmooth);
+        }
+
+        // Single way smoothing
+        var way = waysToSmooth ? waysToSmooth[0] : null;
+        if (!way) return graph;
 
         var wayNodes = way.nodes;
 

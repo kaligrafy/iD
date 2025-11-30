@@ -29,53 +29,161 @@ export function operationSmooth(selectedIDs, context) {
     };
 
 
+    // Check if two ways are directly connected at exactly one node
+    function findSingleConnectingNode(way1, way2) {
+        var way1NodesSet = new Set(way1.nodes);
+        var commonNodes = [];
+        for (var i = 0; i < way2.nodes.length; i++) {
+            if (way1NodesSet.has(way2.nodes[i])) {
+                commonNodes.push(way2.nodes[i]);
+            }
+        }
+        return commonNodes.length === 1 ? commonNodes[0] : null;
+    }
+
+    // Check if a list of ways forms a valid chain (each connected to next at single node)
+    // Returns ordered array of ways from node1 to node2, or null if invalid
+    function validateWayChain(graph, ways, node1Id, node2Id) {
+        if (ways.length === 0) return null;
+        if (ways.length === 1) {
+            // Single way - check both nodes are on it
+            var way = ways[0];
+            if (way.nodes.indexOf(node1Id) !== -1 && way.nodes.indexOf(node2Id) !== -1) {
+                return [way];
+            }
+            return null;
+        }
+
+        // Multiple ways - need to order them as a chain
+        // Find which way contains node1
+        var startWay = null;
+        for (var i = 0; i < ways.length; i++) {
+            if (ways[i].nodes.indexOf(node1Id) !== -1) {
+                startWay = ways[i];
+                break;
+            }
+        }
+        if (!startWay) return null;
+
+        // Build chain from startWay
+        var orderedWays = [startWay];
+        var usedWays = new Set([startWay.id]);
+        var currentWay = startWay;
+
+        while (orderedWays.length < ways.length) {
+            var foundNext = false;
+            for (var j = 0; j < ways.length; j++) {
+                var nextWay = ways[j];
+                if (usedWays.has(nextWay.id)) continue;
+
+                var connectNode = findSingleConnectingNode(currentWay, nextWay);
+                if (connectNode && connectNode !== node1Id) {
+                    orderedWays.push(nextWay);
+                    usedWays.add(nextWay.id);
+                    currentWay = nextWay;
+                    foundNext = true;
+                    break;
+                }
+            }
+            if (!foundNext) return null; // Chain is broken
+        }
+
+        // Verify last way contains node2
+        var lastWay = orderedWays[orderedWays.length - 1];
+        if (lastWay.nodes.indexOf(node2Id) === -1) return null;
+
+        // Verify each consecutive pair connects at exactly one node
+        for (var k = 0; k < orderedWays.length - 1; k++) {
+            var connNode = findSingleConnectingNode(orderedWays[k], orderedWays[k + 1]);
+            if (!connNode) return null;
+        }
+
+        return orderedWays;
+    }
+
     operation.available = function () {
 
         if (selectedIDs.length <= 1) {
             return false;
         }
 
+        var graph = context.graph();
         var entities = selectedIDs.map(function (selectedID) {
             return context.entity(selectedID);
         });
 
-        //const entitiesTypes = entities.map((entity) => entity.type);
-        const entitiesNodes = entities.filter((entity) => entity.type === 'node');
-        const entitiesWays = entities.filter((entity) => entity.type === 'way');
+        var entitiesNodes = entities.filter(function(entity) { return entity.type === 'node'; });
+        var entitiesWays = entities.filter(function(entity) { return entity.type === 'way'; });
 
-        if ((selectedIDs.length === 2 && entitiesNodes.length === 2) || (selectedIDs.length === 3 && entitiesNodes.length === 2 && entitiesWays.length === 1)) {
-            let way = null;
+        // Must have exactly 2 nodes selected
+        if (entitiesNodes.length !== 2) {
+            return false;
+        }
 
-            if (entitiesWays.length === 0) {
-                const node1ParentWays = context.graph().parentWays(entitiesNodes[0]);
-                const node2ParentWays = context.graph().parentWays(entitiesNodes[1]);
-                const parentWaysIntersection = node1ParentWays.filter(way => {
-                    return node2ParentWays.includes(way);
-                });
-                way = parentWaysIntersection[0];
-            } else {
-                way = entitiesWays[0];
-            }
+        var node1 = entitiesNodes[0];
+        var node2 = entitiesNodes[1];
+        var node1ParentWays = graph.parentWays(node1);
+        var node2ParentWays = graph.parentWays(node2);
+
+        // Find ways that contain both nodes (same way case)
+        var commonWays = node1ParentWays.filter(function(w) {
+            return node2ParentWays.includes(w);
+        });
+
+        // CASE 1: Two nodes only (no ways selected) - or two nodes + one way that contains both
+        if (entitiesWays.length === 0 || (entitiesWays.length === 1 && commonWays.indexOf(entitiesWays[0]) !== -1)) {
+            var way = entitiesWays.length === 1 ? entitiesWays[0] : commonWays[0];
 
             if (way) {
-                const node1Idx = way.nodes.indexOf(entitiesNodes[0].id);
-                const node2Idx = way.nodes.indexOf(entitiesNodes[1].id);
+                // Both nodes on same way
+                var node1Idx = way.nodes.indexOf(node1.id);
+                var node2Idx = way.nodes.indexOf(node2.id);
+                var nodeStartIdx = Math.min(node1Idx, node2Idx);
+                var nodeEndIdx = Math.max(node1Idx, node2Idx);
 
-                // there must be no other node between selected nodes:
-                /*if (node2Idx - node1Idx !== 1 && node2Idx - node1Idx !== -1) {
-                    return false;
-                }*/
-
-                const nodeStart = node2Idx > node1Idx ? entitiesNodes[0] : entitiesNodes[1];
-                const nodeEnd = node2Idx > node1Idx ? entitiesNodes[1] : entitiesNodes[0];
-                const nodeStartIdx = way.nodes.indexOf(nodeStart.id);
-                const nodeEndIdx = way.nodes.indexOf(nodeEnd.id);
-    
-                // there must be at least one node before first and one node after last:
-                return nodeStartIdx >= 1 && nodeEndIdx < way.nodes.length;
+                // Must have at least one node before and after for smooth transition
+                return nodeStartIdx >= 1 && nodeEndIdx < way.nodes.length - 1;
             }
-            
 
+            // Nodes not on same way - find a pair of ways that are directly connected
+            if (commonWays.length === 0 && node1ParentWays.length > 0 && node2ParentWays.length > 0) {
+                for (var w1 = 0; w1 < node1ParentWays.length; w1++) {
+                    for (var w2 = 0; w2 < node2ParentWays.length; w2++) {
+                        var way1 = node1ParentWays[w1];
+                        var way2 = node2ParentWays[w2];
+                        if (way1.id === way2.id) continue;
+                        var connectingNode = findSingleConnectingNode(way1, way2);
+
+                        if (connectingNode && connectingNode !== node1.id && connectingNode !== node2.id) {
+                            // Two ways directly connected at single node
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        // CASE 2: Two nodes + one or more ways selected
+        // All selected ways must form a connected chain between the two nodes
+        if (entitiesWays.length >= 1) {
+            var orderedWays = validateWayChain(graph, entitiesWays, node1.id, node2.id);
+
+            if (orderedWays) {
+                // Valid chain - check there's room for smooth transition at endpoints
+                var firstWay = orderedWays[0];
+                var lastWay = orderedWays[orderedWays.length - 1];
+
+                var n1Idx = firstWay.nodes.indexOf(node1.id);
+                var n2Idx = lastWay.nodes.indexOf(node2.id);
+
+                // For multi-way, we need room on the outer ends
+                var hasRoomAtStart = n1Idx > 0 || n1Idx < firstWay.nodes.length - 1;
+                var hasRoomAtEnd = n2Idx > 0 || n2Idx < lastWay.nodes.length - 1;
+
+                return hasRoomAtStart && hasRoomAtEnd;
+            }
         }
 
         return false;
