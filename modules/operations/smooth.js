@@ -101,9 +101,63 @@ export function operationSmooth(selectedIDs, context) {
         return orderedWays;
     }
 
+    // Check if a list of ways forms a valid chain (without requiring specific start/end nodes)
+    function validateWayChainNoNodes(ways) {
+        if (ways.length === 0) return null;
+        if (ways.length === 1) return ways;
+
+        // Find a way that connects to only one other way (endpoint of chain)
+        var startWay = null;
+        for (var i = 0; i < ways.length; i++) {
+            var connectionCount = 0;
+            for (var j = 0; j < ways.length; j++) {
+                if (i === j) continue;
+                if (findSingleConnectingNode(ways[i], ways[j])) {
+                    connectionCount++;
+                }
+            }
+            // An endpoint should connect to exactly 1 other way
+            if (connectionCount === 1) {
+                startWay = ways[i];
+                break;
+            }
+        }
+        if (!startWay) return null; // No clear endpoint found (might be a loop)
+
+        var orderedWays = [startWay];
+        var usedWays = new Set([startWay.id]);
+        var currentWay = startWay;
+
+        while (orderedWays.length < ways.length) {
+            var foundNext = false;
+            for (var wi = 0; wi < ways.length; wi++) {
+                var nextWay = ways[wi];
+                if (usedWays.has(nextWay.id)) continue;
+
+                var connectNode = findSingleConnectingNode(currentWay, nextWay);
+                if (connectNode) {
+                    orderedWays.push(nextWay);
+                    usedWays.add(nextWay.id);
+                    currentWay = nextWay;
+                    foundNext = true;
+                    break;
+                }
+            }
+            if (!foundNext) return null;
+        }
+
+        // Verify all consecutive ways are connected
+        for (var ck = 0; ck < orderedWays.length - 1; ck++) {
+            var chkConnNode = findSingleConnectingNode(orderedWays[ck], orderedWays[ck + 1]);
+            if (!chkConnNode) return null;
+        }
+
+        return orderedWays;
+    }
+
     operation.available = function () {
 
-        if (selectedIDs.length <= 1) {
+        if (selectedIDs.length < 1) {
             return false;
         }
 
@@ -115,7 +169,34 @@ export function operationSmooth(selectedIDs, context) {
         var entitiesNodes = entities.filter(function(entity) { return entity.type === 'node'; });
         var entitiesWays = entities.filter(function(entity) { return entity.type === 'way'; });
 
-        // Must have exactly 2 nodes selected
+        // CASE 0a: Only a single way selected (no nodes) - smooth the entire way
+        if (entitiesNodes.length === 0 && entitiesWays.length === 1) {
+            var singleWay = entitiesWays[0];
+            // Need at least 3 nodes to smooth
+            if (singleWay.nodes.length >= 3) {
+                return true;
+            }
+            return false;
+        }
+
+        // CASE 0b: Multiple ways selected (no nodes) - smooth all connected ways
+        if (entitiesNodes.length === 0 && entitiesWays.length > 1) {
+            // Check if ways form a valid chain
+            var orderedWaysNoNodes = validateWayChainNoNodes(entitiesWays);
+            if (orderedWaysNoNodes) {
+                // Count total nodes across all ways
+                var totalNodes = 0;
+                for (var wni = 0; wni < orderedWaysNoNodes.length; wni++) {
+                    totalNodes += orderedWaysNoNodes[wni].nodes.length;
+                    // Subtract 1 for each connecting node (except first way)
+                    if (wni > 0) totalNodes -= 1;
+                }
+                return totalNodes >= 3;
+            }
+            return false;
+        }
+
+        // Must have exactly 2 nodes selected for other cases
         if (entitiesNodes.length !== 2) {
             return false;
         }
@@ -132,17 +213,17 @@ export function operationSmooth(selectedIDs, context) {
 
         // CASE 1: Two nodes only (no ways selected) - or two nodes + one way that contains both
         if (entitiesWays.length === 0 || (entitiesWays.length === 1 && commonWays.indexOf(entitiesWays[0]) !== -1)) {
-            var way = entitiesWays.length === 1 ? entitiesWays[0] : commonWays[0];
+            var theWay = entitiesWays.length === 1 ? entitiesWays[0] : commonWays[0];
 
-            if (way) {
+            if (theWay) {
                 // Both nodes on same way
-                var node1Idx = way.nodes.indexOf(node1.id);
-                var node2Idx = way.nodes.indexOf(node2.id);
+                var node1Idx = theWay.nodes.indexOf(node1.id);
+                var node2Idx = theWay.nodes.indexOf(node2.id);
                 var nodeStartIdx = Math.min(node1Idx, node2Idx);
                 var nodeEndIdx = Math.max(node1Idx, node2Idx);
 
                 // Must have at least one node before and after for smooth transition
-                return nodeStartIdx >= 1 && nodeEndIdx < way.nodes.length - 1;
+                return nodeStartIdx >= 1 && nodeEndIdx < theWay.nodes.length - 1;
             }
 
             // Nodes not on same way - find a pair of ways that are directly connected

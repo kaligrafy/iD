@@ -915,20 +915,71 @@ function smoothAcrossWaysCommon(graph, node1, node2, pathNodeIds, waySegments) {
 
         // Create nodes
         var wayNewNodeIds = [];
+        var wayNodeCoords = []; // Track coordinates for distance checking
+        var wayNodeHasTags = []; // Track if node has tags
+        var intersectionNodeIdArray = Array.from(intersectionNodeIds);
+        var MIN_NODE_DISTANCE = 0.000005; // ~0.5 meters - merge nodes closer than this
+
         for (var wp = 0; wp < wayPoints.length; wp++) {
-            var globalPtIdx = smoothStartIdx <= smoothEndIdx ?
-                smoothStartIdx + wp : smoothStartIdx - wp;
+            var coord = wayPoints[wp];
 
-            var isIntersection = intersectionPointIndices.indexOf(globalPtIdx) !== -1;
-            var origId = intersectionNodeIdAtIndex[globalPtIdx];
+            // Check if this coordinate matches any intersection node
+            var matchedIntersectionId = null;
+            var matchedHasTags = false;
+            for (var ini = 0; ini < intersectionNodeIdArray.length; ini++) {
+                var checkNodeId = intersectionNodeIdArray[ini];
+                var checkCoord = intersectionOriginalCoords[checkNodeId];
+                if (!checkCoord) continue;
 
-            if (isIntersection && origId && intersectionNodeIds.has(origId)) {
-                wayNewNodeIds.push(origId);
-            } else {
-                var newNode = osmNode({ loc: wayPoints[wp] });
+                var dx = coord[0] - checkCoord[0];
+                var dy = coord[1] - checkCoord[1];
+                var dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 1e-9) {
+                    matchedIntersectionId = checkNodeId;
+                    var matchedNode = graph.entity(checkNodeId);
+                    matchedHasTags = matchedNode.hasNonGeometryTags();
+                    break;
+                }
+            }
+
+            // Check if too close to the previous node
+            var tooCloseToPrevious = false;
+            var previousHasTags = false;
+            if (wayNodeCoords.length > 0) {
+                var lastWayCoord = wayNodeCoords[wayNodeCoords.length - 1];
+                var dxLast = coord[0] - lastWayCoord[0];
+                var dyLast = coord[1] - lastWayCoord[1];
+                var distLast = Math.sqrt(dxLast * dxLast + dyLast * dyLast);
+                if (distLast < MIN_NODE_DISTANCE) {
+                    tooCloseToPrevious = true;
+                    previousHasTags = wayNodeHasTags[wayNodeHasTags.length - 1];
+                }
+            }
+
+            if (matchedIntersectionId) {
+                // Always add intersection nodes (they're important)
+                if (wayNewNodeIds.length === 0 || wayNewNodeIds[wayNewNodeIds.length - 1] !== matchedIntersectionId) {
+                    wayNewNodeIds.push(matchedIntersectionId);
+                    wayNodeCoords.push(coord);
+                    wayNodeHasTags.push(matchedHasTags);
+                }
+            } else if (!tooCloseToPrevious) {
+                // Only add if not too close to previous node
+                var newNode = osmNode({ loc: coord });
                 allNewNodes.push(newNode);
                 wayNewNodeIds.push(newNode.id);
+                wayNodeCoords.push(coord);
+                wayNodeHasTags.push(false); // New nodes don't have tags
+            } else if (tooCloseToPrevious && matchedHasTags && !previousHasTags) {
+                // Current point matches a tagged node, previous doesn't have tags
+                // Replace previous with this tagged node
+                wayNewNodeIds[wayNewNodeIds.length - 1] = matchedIntersectionId;
+                wayNodeCoords[wayNodeCoords.length - 1] = coord;
+                wayNodeHasTags[wayNodeHasTags.length - 1] = true;
             }
+            // If both have tags, keep both (don't merge)
+            // If only previous has tags, skip current (already handled by tooCloseToPrevious)
         }
 
         // Reverse if needed to match original way direction
@@ -1056,6 +1107,250 @@ function orderWaysAsChain(graph, ways, node1Id, node2Id) {
     return orderedWays;
 }
 
+// Order ways as a connected chain (without requiring specific start/end nodes)
+function orderWaysAsChainNoNodes(ways) {
+    if (ways.length === 0) return null;
+    if (ways.length === 1) return ways;
+
+    // Find a way that connects to only one other way (endpoint of chain)
+    var startWay = null;
+    for (var i = 0; i < ways.length; i++) {
+        var connectionCount = 0;
+        for (var j = 0; j < ways.length; j++) {
+            if (i === j) continue;
+            if (findSingleConnectingNode(ways[i], ways[j])) {
+                connectionCount++;
+            }
+        }
+        // An endpoint should connect to exactly 1 other way
+        if (connectionCount === 1) {
+            startWay = ways[i];
+            break;
+        }
+    }
+    if (!startWay) return null; // No clear endpoint found (might be a loop)
+
+    var orderedWays = [startWay];
+    var usedWays = new Set([startWay.id]);
+    var currentWay = startWay;
+
+    while (orderedWays.length < ways.length) {
+        var foundNext = false;
+        for (var wi = 0; wi < ways.length; wi++) {
+            var nextWay = ways[wi];
+            if (usedWays.has(nextWay.id)) continue;
+
+            var connectNode = findSingleConnectingNode(currentWay, nextWay);
+            if (connectNode) {
+                orderedWays.push(nextWay);
+                usedWays.add(nextWay.id);
+                currentWay = nextWay;
+                foundNext = true;
+                break;
+            }
+        }
+        if (!foundNext) return null;
+    }
+
+    // If we couldn't connect all ways, return null
+    if (orderedWays.length !== ways.length) return null;
+
+    return orderedWays;
+}
+
+// Smooth an entire way (when only the way is selected, no nodes)
+function smoothEntireWay(graph, way, projection) {
+    var wayNodes = way.nodes;
+    var isClosed = way.isClosed();
+
+    // Identify intersection nodes (connected to other ways or have tags)
+    var intersectionNodeIds = [];
+    var intersectionOriginalCoords = {};
+
+    for (var i = 0; i < wayNodes.length; i++) {
+        var nodeId = wayNodes[i];
+        var node = graph.entity(nodeId);
+        var parentWays = graph.parentWays(node);
+        if (parentWays.length > 1 || node.hasNonGeometryTags()) {
+            intersectionNodeIds.push(nodeId);
+            intersectionOriginalCoords[nodeId] = node.loc;
+        }
+    }
+
+    // Get coordinates for all nodes
+    // For closed ways, exclude the duplicate closing node
+    var nodeCoords;
+    if (isClosed) {
+        nodeCoords = wayNodes.slice(0, -1).map(function(nId) {
+            return graph.entity(nId).loc;
+        });
+    } else {
+        nodeCoords = wayNodes.map(function(nId) {
+            return graph.entity(nId).loc;
+        });
+    }
+
+    // Compute tangents for the endpoints
+    var leftTangent = computeTangent(nodeCoords, 0);
+    var rightTangent = computeTangent(nodeCoords, nodeCoords.length - 1);
+
+    // Fit Bezier curves - treat the loop closing point as a boundary
+    var bezierCurves = fitBezierCurves(nodeCoords, leftTangent, rightTangent, MAX_FITTING_ERROR);
+
+    // Sample the curves with curvature-based sampling
+    var sampledResult = sampleBezierCurvesAdaptive(bezierCurves);
+    var sampledPoints = sampledResult.points;
+    var sampledCurvatures = sampledResult.curvatures;
+
+    // For closed ways, add the closing point back
+    if (isClosed) {
+        sampledPoints.push(sampledPoints[0].slice());
+        sampledCurvatures.push(sampledCurvatures[0]);
+    }
+
+    // Get original segment points for adaptive angle calculation
+    var segmentPoints = nodeCoords;
+
+    // Remove small angle points (nearly straight sections)
+    var cleanedResult = removeSmallAnglePoints(sampledPoints, sampledCurvatures, MIN_ANGLE_THRESHOLD_DEGREES, segmentPoints);
+    sampledPoints = cleanedResult.points;
+
+    // Restore intersection positions - find closest sampled point for each intersection
+    // and set its coordinates to the original intersection position
+    var usedIndices = {};
+    for (var j = 0; j < intersectionNodeIds.length; j++) {
+        var intNodeId = intersectionNodeIds[j];
+        var originalCoord = intersectionOriginalCoords[intNodeId];
+
+        var closestIdx = 0;
+        var closestDist = Infinity;
+        for (var k = 0; k < sampledPoints.length; k++) {
+            var dx = sampledPoints[k][0] - originalCoord[0];
+            var dy = sampledPoints[k][1] - originalCoord[1];
+            var dist = dx * dx + dy * dy;
+            if (dist < closestDist) {
+                closestDist = dist;
+                closestIdx = k;
+            }
+        }
+
+        // Set the sampled point to the exact intersection coordinates
+        sampledPoints[closestIdx] = originalCoord;
+        usedIndices[closestIdx] = intNodeId;
+    }
+
+    // Create new nodes - with distance-based merging
+    var MIN_NODE_DISTANCE = 0.000005; // ~0.5 meters
+    var smoothedNodes = [];
+    var lastCoord = null;
+
+    // For closed ways, don't process the last coordinate (it's a duplicate of the first)
+    var pointsToProcess = isClosed ? sampledPoints.length - 1 : sampledPoints.length;
+
+    for (var pIdx = 0; pIdx < pointsToProcess; pIdx++) {
+        var coord = sampledPoints[pIdx];
+        var matchedIntId = usedIndices[pIdx];
+
+        // Check if too close to previous node (but never skip intersection nodes)
+        var tooCloseToPrevious = false;
+        if (!matchedIntId && lastCoord) {
+            var dxPrev = coord[0] - lastCoord[0];
+            var dyPrev = coord[1] - lastCoord[1];
+            var distPrev = Math.sqrt(dxPrev * dxPrev + dyPrev * dyPrev);
+            if (distPrev < MIN_NODE_DISTANCE) {
+                tooCloseToPrevious = true;
+            }
+        }
+
+        if (matchedIntId) {
+            // Reuse the intersection node
+            var intNode = graph.entity(matchedIntId);
+            var lastNode = smoothedNodes.length > 0 ? smoothedNodes[smoothedNodes.length - 1] : null;
+            if (!lastNode || lastNode.id !== intNode.id) {
+                smoothedNodes.push(intNode);
+                lastCoord = coord;
+            }
+        } else if (!tooCloseToPrevious) {
+            var newNode = osmNode({ loc: coord });
+            smoothedNodes.push(newNode);
+            lastCoord = coord;
+        }
+    }
+
+    // Ensure all intersection nodes are in the final list (in case two mapped to same index)
+    var includedIntIds = {};
+    for (var si = 0; si < smoothedNodes.length; si++) {
+        if (intersectionNodeIds.indexOf(smoothedNodes[si].id) !== -1) {
+            includedIntIds[smoothedNodes[si].id] = true;
+        }
+    }
+
+    // Add any missing intersection nodes at their closest position
+    for (var mi = 0; mi < intersectionNodeIds.length; mi++) {
+        var missingIntId = intersectionNodeIds[mi];
+        if (includedIntIds[missingIntId]) continue;
+        // For closed ways, skip the closing node (it's the same as the first)
+        if (isClosed && missingIntId === wayNodes[wayNodes.length - 1] && missingIntId === wayNodes[0]) continue;
+
+        var missingCoord = intersectionOriginalCoords[missingIntId];
+        var missingNode = graph.entity(missingIntId);
+
+        // Find where to insert based on position along way
+        var insertIdx = 0;
+        var minDistToInsert = Infinity;
+        for (var fi = 0; fi < smoothedNodes.length; fi++) {
+            var nodeCoord = smoothedNodes[fi].loc || (smoothedNodes[fi].version === undefined ? smoothedNodes[fi].loc : graph.entity(smoothedNodes[fi].id).loc);
+            if (!nodeCoord) continue;
+            var dxf = nodeCoord[0] - missingCoord[0];
+            var dyf = nodeCoord[1] - missingCoord[1];
+            var distf = dxf * dxf + dyf * dyf;
+            if (distf < minDistToInsert) {
+                minDistToInsert = distf;
+                insertIdx = fi;
+            }
+        }
+
+        // Insert the missing node
+        smoothedNodes.splice(insertIdx, 0, missingNode);
+    }
+
+    // Add new nodes to graph
+    for (var n = 0; n < smoothedNodes.length; n++) {
+        if (smoothedNodes[n].version === undefined) {
+            graph = graph.replace(smoothedNodes[n]);
+        }
+    }
+
+    // Update the way with new nodes
+    var newWayNodes = smoothedNodes.map(function(node) { return node.id; });
+    // For closed ways, add the first node again at the end
+    if (isClosed && newWayNodes.length > 0) {
+        newWayNodes.push(newWayNodes[0]);
+    }
+    graph = graph.replace(way.update({ nodes: newWayNodes }));
+
+    // Delete orphaned old nodes - track already processed to avoid duplicates
+    var deletedNodeIds = {};
+    for (var o = 0; o < wayNodes.length; o++) {
+        var oldNodeId = wayNodes[o];
+        // Skip if already processed (for closed ways, first and last are same)
+        if (deletedNodeIds[oldNodeId]) continue;
+        // Skip if reused as intersection
+        if (intersectionNodeIds.indexOf(oldNodeId) !== -1) continue;
+        // Skip if somehow still in new way
+        if (newWayNodes.indexOf(oldNodeId) !== -1) continue;
+
+        var oldNode = graph.hasEntity(oldNodeId);
+        if (oldNode && !oldNode.hasNonGeometryTags() && graph.parentWays(oldNode).length === 0) {
+            var deleteAction = actionDeleteNode(oldNodeId);
+            graph = deleteAction(graph);
+        }
+        deletedNodeIds[oldNodeId] = true;
+    }
+
+    return graph;
+}
+
 export function actionSmooth(selectedIds, projection) {
 
     var action = function (graph) {
@@ -1066,6 +1361,57 @@ export function actionSmooth(selectedIds, projection) {
 
         var entitiesNodes = entities.filter(function(entity) { return entity.type === 'node'; });
         var entitiesWays = entities.filter(function(entity) { return entity.type === 'way'; });
+
+        // CASE: Only a single way selected (no nodes) - smooth entire way
+        if (entitiesNodes.length === 0 && entitiesWays.length === 1) {
+            var selectedWay = entitiesWays[0];
+            return smoothEntireWay(graph, selectedWay, projection);
+        }
+
+        // CASE: Multiple ways selected (no nodes) - smooth all connected ways
+        if (entitiesNodes.length === 0 && entitiesWays.length > 1) {
+            var orderedWaysNoNodes = orderWaysAsChainNoNodes(entitiesWays);
+            if (orderedWaysNoNodes && orderedWaysNoNodes.length > 1) {
+                // Find the first and last nodes of the chain
+                var firstWay = orderedWaysNoNodes[0];
+                var lastWay = orderedWaysNoNodes[orderedWaysNoNodes.length - 1];
+
+                // Find which end of first way connects to the second way
+                var firstWayConnectNode = findSingleConnectingNode(firstWay, orderedWaysNoNodes[1]);
+
+                // The start node is the opposite end of the first way
+                var firstNode1Id, firstNode2Id;
+                if (firstWay.nodes[0] === firstWayConnectNode) {
+                    firstNode1Id = firstWay.nodes[firstWay.nodes.length - 1];
+                } else {
+                    firstNode1Id = firstWay.nodes[0];
+                }
+
+                // Find which end of last way connects to the previous way
+                var lastWayConnectNode = findSingleConnectingNode(lastWay, orderedWaysNoNodes[orderedWaysNoNodes.length - 2]);
+
+                // The end node is the opposite end of the last way
+                if (lastWay.nodes[0] === lastWayConnectNode) {
+                    firstNode2Id = lastWay.nodes[lastWay.nodes.length - 1];
+                } else {
+                    firstNode2Id = lastWay.nodes[0];
+                }
+
+                var chainNode1 = graph.entity(firstNode1Id);
+                var chainNode2 = graph.entity(firstNode2Id);
+                return smoothAcrossWaysWithOrder(graph, chainNode1, chainNode2, orderedWaysNoNodes);
+            }
+            // Fallback: smooth each way individually (if chain couldn't be formed)
+            for (var ewi = 0; ewi < entitiesWays.length; ewi++) {
+                graph = smoothEntireWay(graph, entitiesWays[ewi], projection);
+            }
+            return graph;
+        }
+
+        // If we have no nodes selected and we've reached here, nothing to do
+        if (entitiesNodes.length < 2) {
+            return graph;
+        }
 
         var node1 = entitiesNodes[0];
         var node2 = entitiesNodes[1];
