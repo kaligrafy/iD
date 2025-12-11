@@ -1,0 +1,24 @@
+{
+    "icon": "maki-car-repair",
+    "fields": [
+        "{shop}",
+        "service/vehicle"
+    ],
+    "geometry": [
+        "point",
+        "area"
+    ],
+    "terms": [
+        "truck",
+        "lorry",
+        "commercial vehicle",
+        "heavy vehicle",
+        "garage",
+        "service",
+        "repair"
+    ],
+    "tags": {
+        "shop": "truck_repair"
+    },
+    "name": "Truck Repair Shop"
+}

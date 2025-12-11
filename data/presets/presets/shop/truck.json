@@ -1,0 +1,25 @@
+{
+    "icon": "maki-car",
+    "fields": [
+        "name",
+        "brand",
+        "{shop}",
+        "second_hand",
+        "service/vehicle"
+    ],
+    "geometry": [
+        "point",
+        "area"
+    ],
+    "terms": [
+        "truck",
+        "lorry",
+        "commercial vehicle",
+        "heavy vehicle",
+        "automotive"
+    ],
+    "tags": {
+        "shop": "truck"
+    },
+    "name": "Truck Dealership"
+}
