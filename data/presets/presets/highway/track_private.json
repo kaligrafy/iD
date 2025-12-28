@@ -26,6 +26,10 @@
     ],
     "tags": {
         "highway": "track",
+        "access": "private"
+    },
+    "addTags": {
+        "highway": "track",
         "access": "private",
         "surface": "unpaved"
     },

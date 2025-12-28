@@ -25,6 +25,9 @@
         "line"
     ],
     "tags": {
+        "highway": "track"
+    },
+    "addTags": {
         "highway": "track",
         "surface": "unpaved"
     },
