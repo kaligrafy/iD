@@ -1078,7 +1078,7 @@ path.casing.tag-highway.tag-fixme {
 .high-zoom path.stroke.tag-highway.tag-sidewalk-separate.tag-foot-not-use_sidepath:not(.tag-sidewalk-shared):not(.tag-sidewalk_left-shared):not(.tag-sidewalk_right-shared):not(.tag-sidewalk_both-shared),
 .high-zoom path.stroke.tag-highway.tag-maxspeed-undefined
 .debug-surfaces .high-zoom path.stroke.tag-highway.tag-surface-undefined
-.high-zoom path.stroke.tag-highway.tag-maxspeed-more_than_60.tag-highway-residential,
+.high-zoom path.stroke.tag-highway.tag-maxspeed-more_than_70.tag-highway-residential,
 .high-zoom path.stroke.tag-highway.tag-lanes-undefined,
 .high-zoom path.stroke.tag-highway.tag-lanes-error-count-lanes,
 .high-zoom path.stroke.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
@@ -1131,7 +1131,7 @@ path.stroke.tag-highway.tag-sidewalk-separate.tag-foot-not-use_sidepath:not(.tag
   stroke-linecap: butt !important;
 }
 path.stroke.tag-highway.tag-maxspeed-undefined,
-path.stroke.tag-highway.tag-maxspeed-more_than_60.tag-highway-residential {
+path.stroke.tag-highway.tag-maxspeed-more_than_70.tag-highway-residential {
   stroke: rgb(255, 0, 0) !important;
   stroke-dasharray: 2, 2 !important;
   stroke-linecap: butt !important;

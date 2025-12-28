@@ -92251,8 +92251,8 @@
 	            if (!ignoreMaxSpeed) {
 	                if (maxSpeed) {
 	                    var maxSpeedRoundedToNearest10 = Math.round(maxSpeed / 10) * 10;
-	                    if (maxSpeedRoundedToNearest10 > 60) {
-	                        classes.push('tag-maxspeed-more_than_60');
+	                    if (maxSpeed > 70) {
+	                        classes.push('tag-maxspeed-more_than_70');
 	                    }
 	                    classes.push('tag-maxspeed-' + maxSpeedRoundedToNearest10);
 	                } else if (t.highway !== 'service') {
