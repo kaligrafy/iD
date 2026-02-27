@@ -58,7 +58,7 @@
       "id": "Mapbox",
       "name": "Mapbox Satellite",
       "type": "tms",
-      "template": "https://d.tiles.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}@2x.jpg?access_token=pk.eyJ1Ijoia2FsaWdyYWZ5IiwiYSI6ImNrOHl1NmFsMDAwOTMzZ21nbm4wcnZ5cXIifQ.5qKEEgjNRH8nuggg3X5IWw",
+      "template": "https://d.tiles.mapbox.com/v4/mapbox.satellite/{zoom}/{x}/{y}@2x.jpg?access_token=pk.eyJ1Ijoia2FsaWdyYWZ5IiwiYSI6ImNtbTU0d25mcDAyem4ycG9lb2Z3cG9heWQifQ.VDzch5k6nB-ax3FChmqXlA",
       "tileSize": 512,
       "offsetXY": [0.9,-3],
       "zoomExtent": [0, 22],
