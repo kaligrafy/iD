@@ -49,8 +49,5 @@
         "key": "footway",
         "value": "access_aisle"
     },
-    "name": "Access Aisle [i]",
-    "shortcut": [
-        "i"
-    ]
+    "name": "Access Aisle"
 }

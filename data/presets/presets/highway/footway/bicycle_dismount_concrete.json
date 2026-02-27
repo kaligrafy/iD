@@ -21,5 +21,6 @@
         "key": "footway",
         "value": "footway_bicycle_dismount"
     },
-    "name": "Foot path (bicycle dismount concrete)"
+    "name": "Foot path (bicycle dismount concrete) [⇧+n]",
+    "shortcut": ["⇧+n"]
 }

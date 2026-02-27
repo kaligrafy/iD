@@ -1,7 +1,6 @@
 {
     "icon": "temaki-striped_way",
     "fields": [
-        "access_aisle",
         "width",
         "surface",
         "tactile_paving",
@@ -24,31 +23,25 @@
         "line"
     ],
     "terms": [
-        "accessible van loading zone",
-        "disabled parking access zone",
-        "handicap parking access zone",
-        "parking lot aisle",
-        "striped zone",
-        "tow zone",
-        "tow-away zone",
-        "towaway zone",
-        "wheelchair aisle"
+        "footway link"
     ],
     "tags": {
         "highway": "footway",
-        "footway": "access_aisle",
-        "access": "customers"
+        "footway": "link"
     },
     "addTags": {
         "highway": "footway",
-        "footway": "access_aisle",
-        "access": "customers",
+        "footway": "link",
         "motor_vehicle": "no",
+        "bicycle": "dismount",
         "surface": "asphalt"
     },
     "reference": {
         "key": "footway",
-        "value": "access_aisle"
+        "value": "link"
     },
-    "name": "Customers Access Aisle"
+    "name": "Footway link [i]",
+    "shortcut": [
+        "i"
+    ]
 }

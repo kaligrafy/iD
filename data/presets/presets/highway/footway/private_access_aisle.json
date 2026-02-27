@@ -50,8 +50,5 @@
         "key": "footway",
         "value": "access_aisle"
     },
-    "name": "Private Access Aisle [⌥+⇧+i]",
-    "shortcut": [
-        "⌥+⇧+i"
-    ]
+    "name": "Private Access Aisle"
 }
