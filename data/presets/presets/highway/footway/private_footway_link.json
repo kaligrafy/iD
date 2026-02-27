@@ -35,7 +35,6 @@
         "highway": "footway",
         "footway": "link",
         "motor_vehicle": "no",
-        "bicycle": "dismount",
         "surface": "asphalt"
     },
     "reference": {
