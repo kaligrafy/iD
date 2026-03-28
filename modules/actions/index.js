@@ -43,3 +43,4 @@ export { actionStraightenWay } from './straighten_way';
 export { actionUnrestrictTurn } from './unrestrict_turn';
 export { actionReflect } from './reflect.js';
 export { actionUpgradeTags } from './upgrade_tags';
+export { actionInsertWaypoint } from './insert_waypoint';

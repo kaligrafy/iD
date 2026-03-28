@@ -1,12 +1,15 @@
 import { event as d3_event, mouse as d3_mouse, select as d3_select } from 'd3-selection';
 
-import { geoVecLength } from '../geo';
+import { actionInsertWaypoint } from '../actions/insert_waypoint';
+import { actionMoveNode } from '../actions/move_node';
+import { geoChooseEdge, geoSphericalClosestNode, geoSphericalDistance, geoVecLength } from '../geo';
 import { modeBrowse } from '../modes/browse';
 import { modeSelect } from '../modes/select';
 import { modeSelectData } from '../modes/select_data';
 import { modeSelectNote } from '../modes/select_note';
 import { modeSelectError } from '../modes/select_error';
-import { osmEntity, osmNote, qaError } from '../osm';
+import { osmEntity, osmNote, qaError, osmWay } from '../osm';
+import { t } from '../util/locale';
 
 
 export function behaviorSelect(context) {
@@ -22,9 +25,23 @@ export function behaviorSelect(context) {
         return d3_mouse(context.container().node());
     }
 
+    function hasSingleSelectedWay() {
+        var selectedIDs = context.selectedIDs();
+        if (selectedIDs.length !== 1) return false;
+        var entity = context.hasEntity(selectedIDs[0]);
+        return entity instanceof osmWay;
+    }
+
+    function updateInsertWaypointCursor(isCtrlPressed) {
+        var active = !!isCtrlPressed && hasSingleSelectedWay();
+        context.surface()
+            .classed('behavior-insert-waypoint', active);
+    }
+
 
     function keydown() {
         var e = d3_event;
+        updateInsertWaypointCursor(e && e.ctrlKey);
         if (e && e.shiftKey) {
             context.surface()
                 .classed('behavior-multiselect', true);
@@ -39,6 +56,7 @@ export function behaviorSelect(context) {
 
     function keyup() {
         var e = d3_event;
+        updateInsertWaypointCursor(e && e.ctrlKey);
         if (!e || !e.shiftKey) {
             context.surface()
                 .classed('behavior-multiselect', false);
@@ -114,15 +132,20 @@ export function behaviorSelect(context) {
         // and not the one that we are about to select with the click  #6028, #5878
         // (Be very careful entering modeSelect anywhere that might also blur a field!)
         var datum = d3_event.target.__data__ || (_lastMouse && _lastMouse.target.__data__);
-        var isMultiselect = d3_event.shiftKey || d3_select('#surface .lasso').node();
+        var clickPoint = p2;
+        var insertWaypoint = !!d3_event.ctrlKey;
+        var disableExistingNodeSnap = insertWaypoint && d3_event.altKey;
+        var isMultiselect = (!insertWaypoint && d3_event.shiftKey) || d3_select('#surface .lasso').node();
         window.setTimeout(function() {
-            processClick(datum, isMultiselect);
+            processClick(datum, isMultiselect, clickPoint, insertWaypoint, disableExistingNodeSnap);
         }, 20);  // delay > whatever raw_tag_editor.js `scheduleChange` does (10ms).
     }
 
 
-    function processClick(datum, isMultiselect) {
+    function processClick(datum, isMultiselect, clickPoint, insertWaypoint, disableExistingNodeSnap) {
         var mode = context.mode();
+        var selectedIDs = context.selectedIDs();
+        var selectedWay = selectedIDs.length === 1 && context.hasEntity(selectedIDs[0]);
 
         var entity = datum && datum.properties && datum.properties.entity;
         if (entity) datum = entity;
@@ -131,8 +154,31 @@ export function behaviorSelect(context) {
             datum = datum.parents[0];
         }
 
+        if (insertWaypoint && !isMultiselect && mode.id === 'select' && context.map().withinEditableZoom() &&
+            selectedWay instanceof osmWay) {
+            var clickLoc = context.projection.invert(clickPoint);
+            var wayNodes = context.childNodes(selectedWay);
+            var choice = geoChooseEdge(wayNodes, clickPoint, context.projection);
+            if (choice) {
+                if (geoSphericalDistance(clickLoc, choice.loc) > 50) {
+                    return;
+                }
+
+                var closestNodeInfo = geoSphericalClosestNode(wayNodes, choice.loc);
+                if (!disableExistingNodeSnap && closestNodeInfo && closestNodeInfo.distance <= 10) {
+                    context.perform(actionMoveNode(closestNodeInfo.node.id, clickLoc), t('operations.insert_waypoint.annotation'));
+                    context.validator().validate();
+                    return;
+                }
+
+                context.perform(actionInsertWaypoint(selectedWay, choice, clickLoc), t('operations.insert_waypoint.annotation'));
+                context.validator().validate();
+                return;
+            }
+        }
+
         if (datum instanceof osmEntity) {    // clicked an entity..
-            var selectedIDs = context.selectedIDs();
+            selectedIDs = context.selectedIDs();
 
             if (!isMultiselect) {
                 if (selectedIDs.length > 1 && (!_suppressMenu && !isShowAlways)) {
@@ -188,6 +234,7 @@ export function behaviorSelect(context) {
         _lastMouse = null;
         _suppressMenu = true;
         _p1 = null;
+        updateInsertWaypointCursor(d3_event && d3_event.ctrlKey);
 
         d3_select(window)
             .on('keydown.select', keydown)
@@ -228,7 +275,8 @@ export function behaviorSelect(context) {
             .on('contextmenu.select', null);
 
         context.surface()
-            .classed('behavior-multiselect', false);
+            .classed('behavior-multiselect', false)
+            .classed('behavior-insert-waypoint', false);
     };
 
 

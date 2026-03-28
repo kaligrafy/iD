@@ -173,6 +173,11 @@ en:
       annotation:
         line: Continued a line.
         area: Continued an area.
+    insert_waypoint:
+      title: Insert waypoint
+      description: Hold Control and click near this way to insert a waypoint.
+      annotation: Inserted a waypoint.
+      connected_to_hidden: This can't be edited because it is connected to a hidden feature.
     cancel_draw:
       annotation: Canceled drawing.
     change_role:
@@ -2169,6 +2174,7 @@ en:
       operations:
         title: "Operations"
         continue_line: "Continue a line at the selected node"
+        insert_waypoint: "Insert a waypoint by holding Control and clicking near the selected way"
         merge: "Combine (merge) selected features"
         disconnect: "Disconnect features at the selected node"
         extract: "Extract a point from a feature"

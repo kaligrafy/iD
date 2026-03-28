@@ -54,6 +54,16 @@
     cursor: url(img/cursor-select-remove.png), pointer; /* FF */
 }
 
+.mode-select .behavior-insert-waypoint #map,
+.mode-select .behavior-insert-waypoint .point,
+.mode-select .behavior-insert-waypoint .vertex,
+.mode-select .behavior-insert-waypoint .line,
+.mode-select .behavior-insert-waypoint .area,
+.mode-select .behavior-insert-waypoint .midpoint {
+    cursor: crosshair !important; /* Opera */
+    cursor: url(img/cursor-draw.png) 9 9, crosshair !important; /* FF */
+}
+
 .mode-add-preset #map,
 .mode-draw-line #map,
 .mode-draw-area #map,

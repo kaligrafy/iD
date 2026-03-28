@@ -374,6 +374,16 @@ path.shadow.selected {
     stroke-opacity: 0.7;
 }
 
+/* Insert waypoint mode (Ctrl + one selected way):
+   make selected way pale so aerial details remain visible */
+.mode-select .behavior-insert-waypoint path.line.selected {
+    opacity: 0.1;
+}
+
+.mode-select .behavior-insert-waypoint path.shadow.selected {
+    stroke-opacity: 0.05;
+}
+
 path.line.stroke {
     stroke: #fff;
     stroke-width: 2;
@@ -2988,6 +2998,16 @@ path.stroke.tag-building-house {
 .mode-select .behavior-multiselect .selected {
     cursor: pointer; /* Opera */
     cursor: url(img/cursor-select-remove.png), pointer; /* FF */
+}
+
+.mode-select .behavior-insert-waypoint #map,
+.mode-select .behavior-insert-waypoint .point,
+.mode-select .behavior-insert-waypoint .vertex,
+.mode-select .behavior-insert-waypoint .line,
+.mode-select .behavior-insert-waypoint .area,
+.mode-select .behavior-insert-waypoint .midpoint {
+    cursor: crosshair !important; /* Opera */
+    cursor: url(img/cursor-draw.png) 9 9, crosshair !important; /* FF */
 }
 
 .mode-add-preset #map,
