@@ -36,6 +36,10 @@
                 "title": "Bike lane shared with bus",
                 "description": "A bike lane shared with a bus lane"
             },
+            "shoulder": {
+                "title": "Bikes can use the shoulder",
+                "description": "There is a shoulder large enough to fit a bike but without proper signage"
+            },
             "opposite_lane": {
                 "title": "Opposite bike lane",
                 "description": "A bike lane that travels in the opposite direction of traffic"

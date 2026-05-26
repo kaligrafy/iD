@@ -213,11 +213,11 @@ path.shadow.selected {
 
 /* Insert waypoint mode (Ctrl + one selected way):
    make selected way pale so aerial details remain visible */
-.mode-select .behavior-insert-waypoint path.line.selected {
+.mode-select.behavior-insert-waypoint path.line.selected {
     opacity: 0.1;
 }
 
-.mode-select .behavior-insert-waypoint path.shadow.selected {
+.mode-select.behavior-insert-waypoint path.shadow.selected {
     stroke-opacity: 0.05;
 }
 

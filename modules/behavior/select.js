@@ -34,7 +34,7 @@ export function behaviorSelect(context) {
 
     function updateInsertWaypointCursor(isCtrlPressed) {
         var active = !!isCtrlPressed && hasSingleSelectedWay();
-        context.surface()
+        context.container()
             .classed('behavior-insert-waypoint', active);
     }
 
@@ -275,7 +275,9 @@ export function behaviorSelect(context) {
             .on('contextmenu.select', null);
 
         context.surface()
-            .classed('behavior-multiselect', false)
+            .classed('behavior-multiselect', false);
+
+        context.container()
             .classed('behavior-insert-waypoint', false);
     };
 
