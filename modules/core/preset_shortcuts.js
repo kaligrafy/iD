@@ -1,6 +1,7 @@
 import { prefs } from './preferences';
 import { dispatch as d3_dispatch } from 'd3-dispatch';
 import { utilRebind } from '../util';
+import _defaultShortcutsByPreset from '../../data/preset_shortcuts_defaults.json';
 
 /**
  * Core Preset Shortcuts Manager
@@ -11,6 +12,8 @@ import { utilRebind } from '../util';
  *
  * Features:
  * - Store shortcuts in localStorage for persistence across sessions
+ * - Ship default shortcuts via the data/preset_shortcuts_defaults.json config
+ *   (presetId -> shortcut); user-defined shortcuts always take precedence
  * - Support numeric shortcuts from 8-999 (1-7 reserved for drawing modes)
  * - Validate shortcuts to ensure they're within the allowed range
  * - Handle conflicts when multiple presets try to use the same shortcut
@@ -31,6 +34,18 @@ export function corePresetShortcuts() {
 
     let _shortcuts = {};
     let _loaded = false;
+
+    // Default shortcuts shipped with the app, inverted from the config
+    // (presetId -> shortcut) into shortcut -> presetId for lookups.
+    // Out-of-range (not 8-999) entries are ignored; first definition wins on conflict.
+    const _defaults = {};
+    Object.keys(_defaultShortcutsByPreset).forEach(presetId => {
+        const shortcut = String(_defaultShortcutsByPreset[presetId]);
+        const num = parseInt(shortcut, 10);
+        if (isNaN(num) || num < 8 || num > 999) return;
+        if (_defaults[shortcut]) return;
+        _defaults[shortcut] = presetId;
+    });
 
     // Load shortcuts from localStorage
     function loadShortcuts() {
@@ -57,17 +72,29 @@ export function corePresetShortcuts() {
         }
     }
 
+    // Merge default and user shortcuts into a single shortcut -> presetId map.
+    // User shortcuts win; a default is dropped when the user gave its preset a custom shortcut.
+    function effectiveShortcuts() {
+        loadShortcuts();
+        const merged = {};
+        const overriddenPresets = new Set(Object.keys(_shortcuts).map(sc => _shortcuts[sc]));
+        Object.keys(_defaults).forEach(sc => {
+            if (!overriddenPresets.has(_defaults[sc])) merged[sc] = _defaults[sc];
+        });
+        Object.keys(_shortcuts).forEach(sc => { merged[sc] = _shortcuts[sc]; });
+        return merged;
+    }
+
     const presetShortcuts = {
-        // Get shortcut number for a preset ID
+        // Get shortcut number for a preset ID (user shortcut or shipped default)
         getShortcut: function(presetId) {
-            loadShortcuts();
-            return Object.keys(_shortcuts).find(shortcut => _shortcuts[shortcut] === presetId);
+            const merged = effectiveShortcuts();
+            return Object.keys(merged).find(shortcut => merged[shortcut] === presetId);
         },
 
-        // Get preset ID for a shortcut number
+        // Get preset ID for a shortcut number (user shortcut or shipped default)
         getPreset: function(shortcut) {
-            loadShortcuts();
-            return _shortcuts[shortcut];
+            return effectiveShortcuts()[shortcut];
         },
 
         // Set a shortcut for a preset
@@ -114,16 +141,14 @@ export function corePresetShortcuts() {
             return this;
         },
 
-        // Check if shortcut is available
+        // Check if shortcut is available (considers user shortcuts and shipped defaults)
         isShortcutAvailable: function(shortcut) {
-            loadShortcuts();
-            return !_shortcuts[shortcut];
+            return !effectiveShortcuts()[shortcut];
         },
 
-        // Get all shortcuts
+        // Get all effective shortcuts (shipped defaults merged with user shortcuts)
         getAllShortcuts: function() {
-            loadShortcuts();
-            return { ..._shortcuts };
+            return { ...effectiveShortcuts() };
         },
 
         // Clear all shortcuts
