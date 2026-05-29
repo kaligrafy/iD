@@ -1,6 +1,7 @@
 export { operationCircularize } from './circularize';
 export { operationContinue } from './continue';
 export { operationCopy } from './copy';
+export { operationCurverize } from './curverize';
 export { operationDelete } from './delete';
 export { operationDisconnect } from './disconnect';
 export { operationDowngrade } from './downgrade';
