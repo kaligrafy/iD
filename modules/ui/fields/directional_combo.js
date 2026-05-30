@@ -22,6 +22,13 @@ export function uiFieldDirectionalCombo(field, context) {
         };
     }
 
+    // Optional extra "both" row (opt-in via `field.bothRow`): lets the user set
+    // both sides at once. Writes the `*:both` tag and clears the per-side tags.
+    const bothTagKey = field.key.includes(':both') ? field.key : `${field.key}:both`;
+    const bareCommonKey = bothTagKey.replace(/:both(:|$)/, '$1');
+    const showBothRow = !!field.bothRow;
+    let _bothCombo = null;
+
     function directionalCombo(selection) {
 
         function stripcolon(s) {
@@ -46,8 +53,10 @@ export function uiFieldDirectionalCombo(field, context) {
             .attr('class', 'rows rows-table')
             .merge(div);
 
+        const rowKeys = showBothRow ? [bothTagKey, ...field.keys] : field.keys;
+
         items = div.selectAll('li')
-            .data(field.keys);
+            .data(rowKeys);
 
         var enter = items.enter()
             .append('li')
@@ -71,8 +80,13 @@ export function uiFieldDirectionalCombo(field, context) {
                     key
                 };
                 const combo = uiFieldCombo(subField, context);
-                combo.on('change', t => change(key, t[key]));
-                _combos[key] = combo;
+                if (showBothRow && key === bothTagKey) {
+                    combo.on('change', t => changeBoth(t[key]));
+                    _bothCombo = combo;
+                } else {
+                    combo.on('change', t => change(key, t[key]));
+                    _combos[key] = combo;
+                }
                 d3_select(this).call(combo);
             });
 
@@ -124,6 +138,22 @@ export function uiFieldDirectionalCombo(field, context) {
                 delete tags[otherCommonKey];
                 tags[otherKey] = otherValue;
             }
+            return tags;
+        });
+    }
+
+
+    // Set both sides at once from the "both" row: write `*:both` and clear the
+    // per-side tags (and the bare common tag) so the value is unambiguous.
+    function changeBoth(newValue) {
+        dispatch.call('change', this, tags => {
+            if (newValue) {
+                tags[bothTagKey] = newValue;
+            } else {
+                delete tags[bothTagKey];
+            }
+            field.keys.forEach(key => delete tags[key]);
+            if (bareCommonKey !== bothTagKey) delete tags[bareCommonKey];
             return tags;
         });
     }
@@ -185,6 +215,15 @@ export function uiFieldDirectionalCombo(field, context) {
         for (const key in _combos) {
             const uniqueValues = [...combinedTags[key]];
             _combos[key].tags({ [key]: uniqueValues.length > 1 ? uniqueValues : uniqueValues[0] });
+        }
+
+        if (_bothCombo) {
+            // the "both" row shows a value only when every side has the same single value
+            const sideValues = field.keys.map(key => [...combinedTags[key]]);
+            const common = sideValues[0][0];
+            const allEqual = common !== undefined &&
+                sideValues.every(values => values.length === 1 && values[0] === common);
+            _bothCombo.tags({ [bothTagKey]: allEqual ? common : '' });
         }
     };
 
