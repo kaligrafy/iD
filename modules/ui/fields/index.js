@@ -9,6 +9,7 @@ export * from './localized';
 export * from './roadheight';
 export * from './roadspeed';
 export * from './radio';
+export * from './sidewalk';
 export * from './restrictions';
 export * from './textarea';
 export * from './wikidata';
@@ -53,6 +54,7 @@ import { uiFieldLocalized } from './localized';
 import { uiFieldRoadheight } from './roadheight';
 import { uiFieldRoadspeed } from './roadspeed';
 import { uiFieldRestrictions } from './restrictions';
+import { uiFieldSidewalk } from './sidewalk';
 import { uiFieldTextarea } from './textarea';
 import { uiFieldWikidata } from './wikidata';
 import { uiFieldWikipedia } from './wikipedia';
@@ -82,6 +84,7 @@ export var uiFields = {
     restrictions: uiFieldRestrictions,
     schedule: uiFieldSchedule,
     semiCombo: uiFieldSemiCombo,
+    sidewalk: uiFieldSidewalk,
     structureRadio: uiFieldStructureRadio,
     tel: uiFieldTel,
     text: uiFieldText,
