@@ -28,6 +28,12 @@ export function uiEditMenu(context) {
     var _menuTop = false;
     var _menuHeight;
     var _menuWidth;
+    // whether the menu is displayed on the left of the anchor (near the right edge)
+    var _menuLeft = false;
+
+    // the cascading submenu flyout (e.g. clone types) and its delayed-close timer
+    var _submenu = d3_select(null);
+    var _submenuTimer;
 
     // hardcode these values to make menu positioning easier
     var _verticalPadding = 4;
@@ -44,13 +50,14 @@ export function uiEditMenu(context) {
 
         var isTouchMenu = _triggerType.includes('touch') || _triggerType.includes('pen');
 
-        var ops = _operations.filter(function(op) {
-            return !isTouchMenu || !op.mouseOnly;
+        // Operations flagged `hiddenFromEditMenu` don't appear at the top level;
+        // they are surfaced inside a submenu opened by a container operation
+        // (e.g. the clone types under the `clone` operation).
+        var topOps = _operations.filter(function(op) {
+            return !op.hiddenFromEditMenu && (!isTouchMenu || !op.mouseOnly);
         });
 
-        if (!ops.length) return;
-
-        _tooltips = [];
+        if (!topOps.length) return;
 
         // Position the menu above the anchor for stylus and finger input
         // since the mapper's hand likely obscures the screen below the anchor
@@ -58,18 +65,18 @@ export function uiEditMenu(context) {
 
         // Show labels for touch input since there aren't hover tooltips
         var showLabels = isTouchMenu;
-
         var buttonHeight = showLabels ? 32 : 34;
         if (showLabels) {
             // Get a general idea of the width based on the length of the label
-            _menuWidth = 52 + Math.min(120, 6 * Math.max.apply(Math, ops.map(function(op) {
-                return op.title.length;
+            _menuWidth = 52 + Math.min(120, 6 * Math.max.apply(Math, topOps.map(function(op) {
+                return (op.title && op.title.length) || 10;
             })));
         } else {
             _menuWidth = 44;
         }
 
-        _menuHeight = _verticalPadding * 2 + ops.length * buttonHeight;
+        _menuHeight = _verticalPadding * 2 + topOps.length * buttonHeight;
+        _tooltips = [];
 
         _menu = selection
             .append('div')
@@ -77,70 +84,7 @@ export function uiEditMenu(context) {
             .classed('touch-menu', isTouchMenu)
             .style('padding', _verticalPadding + 'px 0');
 
-        var buttons = _menu.selectAll('.edit-menu-item')
-            .data(ops);
-
-        // enter
-        var buttonsEnter = buttons.enter()
-            .append('button')
-            .attr('class', function (d) { return 'edit-menu-item edit-menu-item-' + d.id; })
-            .style('height', buttonHeight + 'px')
-            .on('click', click)
-            // don't listen for `mouseup` because we only care about non-mouse pointer types
-            .on('pointerup', pointerup)
-            .on('pointerdown mousedown', function pointerdown(d3_event) {
-                // don't let button presses also act as map input - #1869
-                d3_event.stopPropagation();
-            })
-            .on('mouseenter.highlight', function(d3_event, d) {
-                if (d3_select(this).classed('disabled')) return;
-
-                if (d.relatedEntityIds) {
-                    utilHighlightEntities(d.relatedEntityIds(), true, context);
-                }
-
-                if (d.getAuxiliaryGeometry) {
-                    drawAuxiliaryGeometry(context, d.getAuxiliaryGeometry());
-                }
-            })
-            .on('mouseleave.highlight', function(d3_event, d) {
-                if (d.relatedEntityIds) {
-                    utilHighlightEntities(d.relatedEntityIds(), false, context);
-                }
-
-                if (d.getAuxiliaryGeometry) {
-                    drawAuxiliaryGeometry(context, []);
-                }
-            });
-
-        buttonsEnter.each(function(d) {
-            var tooltip = uiTooltip()
-                .scrollContainer(context.container().select('.over-map'))
-                .heading(() => d.title)
-                .title(d.tooltip)
-                .keys([d.keys[0]]);
-
-            _tooltips.push(tooltip);
-
-            d3_select(this)
-                .call(tooltip)
-                .append('div')
-                .attr('class', 'icon-wrap')
-                .call(svgIcon(d.icon && d.icon() || '#iD-operation-' + d.id, 'operation'));
-        });
-
-        if (showLabels) {
-            buttonsEnter.append('span')
-                .attr('class', 'label')
-                .each(function(d) {
-                    d3_select(this).call(d.title);
-                });
-        }
-
-        // update
-        buttonsEnter
-            .merge(buttons)
-            .classed('disabled', function(d) { return d.disabled(); });
+        renderButtons(_menu, topOps, showLabels, true);
 
         updatePosition();
 
@@ -155,6 +99,147 @@ export function uiEditMenu(context) {
                 if (info.full) updatePosition();
             });
 
+        dispatch.call('toggled', this, true);
+
+
+        // Render operation buttons into `container`. `withLabels` adds text
+        // labels; `isMainMenu` adds tooltips and the submenu hover handling.
+        function renderButtons(container, ops, withLabels, isMainMenu) {
+
+            var height = withLabels ? 32 : 34;
+
+            var buttons = container.selectAll('.edit-menu-item')
+                .data(ops, function(d) { return d.id; });
+
+            buttons.exit().remove();
+
+            // enter
+            var buttonsEnter = buttons.enter()
+                .append('button')
+                .attr('class', function (d) { return 'edit-menu-item edit-menu-item-' + d.id; })
+                .style('height', height + 'px')
+                .on('click', click)
+                // don't listen for `mouseup` because we only care about non-mouse pointer types
+                .on('pointerup', pointerup)
+                .on('pointerdown mousedown', function pointerdown(d3_event) {
+                    // don't let button presses also act as map input - #1869
+                    d3_event.stopPropagation();
+                })
+                .on('mouseenter.highlight', function(d3_event, d) {
+                    if (d3_select(this).classed('disabled')) return;
+
+                    if (d.relatedEntityIds) {
+                        utilHighlightEntities(d.relatedEntityIds(), true, context);
+                    }
+
+                    if (d.getAuxiliaryGeometry) {
+                        drawAuxiliaryGeometry(context, d.getAuxiliaryGeometry());
+                    }
+                })
+                .on('mouseleave.highlight', function(d3_event, d) {
+                    if (d.relatedEntityIds) {
+                        utilHighlightEntities(d.relatedEntityIds(), false, context);
+                    }
+
+                    if (d.getAuxiliaryGeometry) {
+                        drawAuxiliaryGeometry(context, []);
+                    }
+                });
+
+            if (isMainMenu) {
+                buttonsEnter.on('mouseenter.submenu', function(d3_event, d) {
+                    // Container ops (e.g. clone) open a flyout beside the menu;
+                    // other items close any open flyout.
+                    if (d.subOperations) {
+                        openSubmenu(this, d);
+                    } else {
+                        closeSubmenu();
+                    }
+                });
+            }
+
+            buttonsEnter.each(function(d) {
+                var sel = d3_select(this);
+
+                // Container ops show their title/description in the submenu header
+                // instead of a hover tooltip that would overlap the flyout.
+                if (isMainMenu && !d.subOperations) {
+                    var tooltip = uiTooltip()
+                        .scrollContainer(context.container().select('.over-map'))
+                        .heading(() => d.title)
+                        .title(d.tooltip)
+                        .keys(d.keys && d.keys.length ? [d.keys[0]] : []);
+
+                    _tooltips.push(tooltip);
+                    sel.call(tooltip);
+                }
+
+                sel.append('div')
+                    .attr('class', 'icon-wrap')
+                    .call(svgIcon(d.icon && d.icon() || '#iD-operation-' + d.id, 'operation'));
+            });
+
+            if (withLabels) {
+                buttonsEnter.append('span')
+                    .attr('class', 'label')
+                    .each(function(d) {
+                        d3_select(this).call(d.title);
+                    });
+            }
+
+            // update
+            buttonsEnter
+                .merge(buttons)
+                .classed('disabled', function(d) { return d.disabled(); });
+        }
+
+
+        // Open the cascading flyout for a container operation, anchored to the
+        // right (or left near the viewport edge) of the hovered button.
+        function openSubmenu(buttonNode, operation) {
+            closeSubmenu();
+
+            _submenu = _menu
+                .append('div')
+                .attr('class', 'edit-menu edit-menu-submenu')
+                .style('padding', _verticalPadding + 'px 0')
+                .style('top', (buttonNode.offsetTop - _verticalPadding) + 'px')
+                .on('mouseenter', cancelCloseSubmenu)
+                .on('mouseleave', scheduleCloseSubmenu);
+
+            // grow rightward when the menu sits on the right of the anchor, else leftward
+            _submenu.style(_menuLeft ? 'right' : 'left', _menuWidth + 'px');
+
+            // header: container title + description (replaces the hover tooltip)
+            var header = _submenu.append('div').attr('class', 'edit-menu-submenu-header');
+            header.append('div').attr('class', 'edit-menu-submenu-title').call(operation.title);
+            header.append('div').attr('class', 'edit-menu-submenu-description').call(operation.tooltip());
+
+            renderButtons(_submenu, operation.subOperations(), true, false);
+        }
+
+        function closeSubmenu() {
+            cancelCloseSubmenu();
+            if (!_submenu.empty()) {
+                _submenu.remove();
+                _submenu = d3_select(null);
+            }
+        }
+
+        // Delay closing so the pointer can travel from the button to the flyout.
+        function scheduleCloseSubmenu() {
+            cancelCloseSubmenu();
+            _submenuTimer = window.setTimeout(closeSubmenu, 120);
+        }
+
+        function cancelCloseSubmenu() {
+            if (_submenuTimer) {
+                window.clearTimeout(_submenuTimer);
+                _submenuTimer = null;
+            }
+        }
+
+
         var lastPointerUpType;
         // `pointerup` is always called before `click`
         function pointerup(d3_event) {
@@ -163,6 +248,13 @@ export function uiEditMenu(context) {
 
         function click(d3_event, operation) {
             d3_event.stopPropagation();
+
+            // Container operation: open its flyout submenu instead of performing
+            // (handles touch input, where there is no hover).
+            if (operation.subOperations) {
+                openSubmenu(this, operation);
+                return;
+            }
 
             if (operation.relatedEntityIds) {
                 utilHighlightEntities(operation.relatedEntityIds(), false, context);
@@ -193,8 +285,6 @@ export function uiEditMenu(context) {
             }
             lastPointerUpType = null;
         }
-
-        dispatch.call('toggled', this, true);
     };
 
     function updatePosition() {
@@ -216,6 +306,8 @@ export function uiEditMenu(context) {
         }
 
         var menuLeft = displayOnLeft(viewport);
+        // remember the side so the submenu flyout grows away from the viewport edge
+        _menuLeft = menuLeft;
 
         var offset = [0, 0];
 
@@ -304,7 +396,13 @@ export function uiEditMenu(context) {
             .on('move.edit-menu', null)
             .on('drawn.edit-menu', null);
 
+        if (_submenuTimer) {
+            window.clearTimeout(_submenuTimer);
+            _submenuTimer = null;
+        }
+        // the submenu is a child of _menu, so removing _menu drops it too
         _menu.remove();
+        _submenu = d3_select(null);
         _tooltips = [];
 
         // Clean up any auxiliary overlays
