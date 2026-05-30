@@ -13,5 +13,6 @@ export { operationPaste } from './paste';
 export { operationReflectShort, operationReflectLong } from './reflect';
 export { operationReverse } from './reverse';
 export { operationRotate } from './rotate';
+export { operationSmooth } from './smooth';
 export { operationSplit } from './split';
 export { operationStraighten } from './straighten';
