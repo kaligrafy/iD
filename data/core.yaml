@@ -135,6 +135,58 @@ en:
       already_circular:
         single: This can't be made more circular than it already is.
         multiple: These can't be made more circular than they already are.
+    clone:
+      title: Clone tags
+      description: Clone tags from the first selected feature onto the others.
+      annotation: Clone tags.
+    clone_address:
+      title: Clone address tags
+      description: Clone address tags from the first selected feature.
+      annotation: Clone the address tags.
+    clone_name:
+      title: Clone name and operator tags
+      description: Clone name and operator tags from the first selected feature.
+      annotation: Clone the name and operator tags.
+    clone_lanes:
+      title: Clone lanes tags
+      description: Clone lanes tags from the first selected feature.
+      annotation: Clone the lanes tags.
+    clone_turn_lanes:
+      title: Clone turn lanes tags
+      description: Clone turn lanes tags from the first selected feature.
+      annotation: Clone the turn lanes tags.
+    clone_sidewalk:
+      title: Clone sidewalk tags
+      description: Clone sidewalk tags from the first selected feature.
+      annotation: Clone the sidewalk tags.
+    clone_cycleway:
+      title: Clone cycleway tags
+      description: Clone cycleway tags from the first selected feature.
+      annotation: Clone the cycleway tags.
+    clone_bicycle_tag:
+      title: Clone bicycle tag
+      description: Clone bicycle tag from the first selected feature.
+      annotation: Clone the bicycle tag.
+    clone_bus_lanes:
+      title: Clone bus lanes tags
+      description: Clone bus lanes tags from the first selected feature.
+      annotation: Clone the bus lanes tags.
+    clone_transition:
+      title: Clone road transition tags
+      description: Clone road transition tags from the first selected feature.
+      annotation: Clone the road transition tags.
+    clone_maxspeed:
+      title: Clone maxspeed tag
+      description: Clone maxspeed tag from the first selected feature.
+      annotation: Clone the maxspeed tag.
+    clone_surface:
+      title: Clone surface tag
+      description: Clone surface tag from the first selected feature.
+      annotation: Clone the surface tag.
+    clone_dual_carriageway:
+      title: Clone dual carriageway tags
+      description: Clone dual carriageway tags from the first selected feature.
+      annotation: Clone the dual carriageway tags.
     curverize:
       title: Curve
       description:

@@ -1,4 +1,19 @@
 export { operationCircularize } from './circularize';
+export {
+    operationClone,
+    operationCloneAddress,
+    operationCloneName,
+    operationCloneLanes,
+    operationCloneTurnLanes,
+    operationCloneSidewalk,
+    operationCloneCycleway,
+    operationCloneBicycleTag,
+    operationCloneBusLanes,
+    operationCloneTransition,
+    operationCloneMaxspeed,
+    operationCloneSurface,
+    operationCloneDualCarriageway
+} from './clone';
 export { operationContinue } from './continue';
 export { operationCopy } from './copy';
 export { operationCurverize } from './curverize';
