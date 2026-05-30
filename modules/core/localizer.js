@@ -44,6 +44,12 @@ export function coreLocalizer() {
     // }
     let _localeStrings = {};
 
+    // Custom strings registered via `localizer.addStrings`, kept separately so
+    // they can be re-applied on top of `_localeStrings` whenever a locale loads
+    // (load order between `addStrings` and `loadLocale` is not guaranteed).
+    // Same shape as `_localeStrings`: scopeId -> locale -> nested string data.
+    let _customStrings = {};
+
     // the current locale
     let _localeCode = 'en-US';
     // `_localeCodes` must contain `_localeCode` first, optionally followed by fallbacks
@@ -226,8 +232,47 @@ export function coreLocalizer() {
             .then(d => {
                 if (!_localeStrings[scopeId]) _localeStrings[scopeId] = {};
                 _localeStrings[scopeId][locale] = d[locale];
+                applyCustomStrings(scopeId, locale);
                 return locale;
             });
+    };
+
+    // Deep-merge `_customStrings[scopeId][locale]` (if any) onto the loaded strings.
+    function applyCustomStrings(scopeId, locale) {
+        const custom = _customStrings[scopeId] && _customStrings[scopeId][locale];
+        if (custom && _localeStrings[scopeId] && _localeStrings[scopeId][locale]) {
+            mergeStrings(_localeStrings[scopeId][locale], custom);
+        }
+    }
+
+    // Recursively merge plain-object `source` into `target`, in place.
+    function mergeStrings(target, source) {
+        for (const key in source) {
+            const value = source[key];
+            if (value && typeof value === 'object' && !Array.isArray(value)) {
+                if (!target[key] || typeof target[key] !== 'object') target[key] = {};
+                mergeStrings(target[key], value);
+            } else {
+                target[key] = value;
+            }
+        }
+    }
+
+    /**
+     * Register custom translation strings for a scope/locale (e.g. to add an
+     * option label to an existing tagging-schema field). Strings are merged on
+     * top of the loaded data, and re-applied whenever the locale (re)loads, so
+     * this can be safely called before or after `loadLocale`.
+     *
+     * @param {string} scopeId - string scope, e.g. `general` or `tagging`
+     * @param {string} locale  - locale code, e.g. `en` or `fr`
+     * @param {Object} data    - nested string data, same shape as the scope's strings
+     */
+    localizer.addStrings = (scopeId, locale, data) => {
+        if (!_customStrings[scopeId]) _customStrings[scopeId] = {};
+        if (!_customStrings[scopeId][locale]) _customStrings[scopeId][locale] = {};
+        mergeStrings(_customStrings[scopeId][locale], data);
+        applyCustomStrings(scopeId, locale);
     };
 
     localizer.pluralRule = function(number) {
