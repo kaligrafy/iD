@@ -17,6 +17,7 @@ export { actionDiscardTags } from './discard_tags';
 export { actionDisconnect } from './disconnect';
 export { actionExtract } from './extract';
 export { actionFollowSegment } from './follow_segment';
+export { actionInsertWaypoint } from './insert_waypoint';
 export { actionJoin } from './join';
 export { actionMerge } from './merge';
 export { actionMergeNodes } from './merge_nodes';
