@@ -4236,10 +4236,14 @@ li.issue-fix-item button:not(.actionable) .fix-icon {
     opacity: 0.5;
     margin: 5px;
 }
-.editing-options-container .circularize-segment-length-description {
+.editing-options-container .editing-option-description {
     margin: 5px;
     opacity: 0.5;
     font-style: italic;
+}
+/* Editing preferences - allow deleting features outside the view */
+.editing-options-container .delete-outside-view-control input {
+    margin: 5px;
 }
 
 .display-control .control-wrap {
