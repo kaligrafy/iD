@@ -44,6 +44,12 @@ export function behaviorSelect(context) {
     // way's current node ids so subsequent clicks only move pre-existing vertices.
     function updateInsertWaypointMode(isCtrlPressed) {
         var way = isCtrlPressed ? singleSelectedWay() : null;
+
+        // Nothing to do when no way is selected and the mode isn't already
+        // active: Ctrl (or Ctrl+Alt) without a selected way is a no-op.
+        // _insertWaypointInitialNodeIDs is non-null exactly while the mode is on.
+        if (!way && !_insertWaypointInitialNodeIDs) return;
+
         context.surface().classed('behavior-insert-waypoint', !!way);
         if (way) {
             if (!_insertWaypointInitialNodeIDs) {
