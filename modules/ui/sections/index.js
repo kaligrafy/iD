@@ -3,6 +3,7 @@ export { uiSectionBackgroundList } from './background_list';
 export { uiSectionBackgroundOffset } from './background_offset';
 export { uiSectionChanges } from './changes';
 export { uiSectionDataLayers } from './data_layers';
+export { uiSectionEditingPreferences } from './editing_preferences';
 export { uiSectionEntityIssues } from './entity_issues';
 export { uiSectionFeatureType } from './feature_type';
 export { uiSectionMapFeatures } from './map_features';
