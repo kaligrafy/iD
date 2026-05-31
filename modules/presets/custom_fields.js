@@ -29,8 +29,9 @@ const SIDEWALK_HIGHWAYS = new Set([
 // roads where the sidewalk field is available but not shown by default
 const SIDEWALK_MORE_ONLY = new Set(['motorway', 'motorway_link']);
 
-// highway=* values that should offer the cycleway lane sub-fields (no motorway)
-const CYCLEWAY_HIGHWAYS = new Set([
+// non-motorway roads: offered the cycleway lane sub-fields and oneway:bicycle
+// (same set as the sidewalk roads, minus motorway / motorway_link)
+const NON_MOTORWAY_HIGHWAYS = new Set([
     'trunk', 'trunk_link', 'primary', 'primary_link', 'secondary', 'secondary_link',
     'tertiary', 'tertiary_link', 'unclassified', 'residential', 'living_street',
     'service', 'road', 'busway'
@@ -49,6 +50,7 @@ export function applyCustomFields(presetManager) {
     presetManager.merge({ fields: customFields });
     presetManager.merge({ fields: cyclewaySubFields });
     customizeCycleway(presetManager);
+    customizeOnewayBicycle(presetManager);
     registerCustomStrings(localizer);
 
     presetManager.collection.forEach(preset => {
@@ -77,14 +79,22 @@ export function applyCustomFields(presetManager) {
             fields.splice(fields.indexOf('structure'), 0, 'sidewalk');
         }
 
+        if (!NON_MOTORWAY_HIGHWAYS.has(highway)) return;
+
         // cycleway and its lane sub-fields: grouped right after sidewalk as default
         // fields. `cycleway` is moved out of upstream's moreFields; the sub-fields
         // stay hidden (by prerequisite) until a cycleway side is a lane.
-        if (CYCLEWAY_HIGHWAYS.has(highway)) {
-            const cyclewayBlock = ['cycleway', ...cyclewaySubFieldOrder];
-            cyclewayBlock.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
-            fields.splice(fields.indexOf('structure'), 0, ...cyclewayBlock);
-        }
+        const cyclewayBlock = ['cycleway', ...cyclewaySubFieldOrder];
+        cyclewayBlock.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
+        fields.splice(fields.indexOf('structure'), 0, ...cyclewayBlock);
+
+        // oneway:bicycle: shown right after the main `oneway` field as a default
+        // field (stays hidden until oneway=yes, see customizeOnewayBicycle).
+        removeField(fields, 'oneway/bicycle');
+        removeField(moreFields, 'oneway/bicycle');
+        const onewayIndex = fields.indexOf('oneway');
+        const insertAt = onewayIndex === -1 ? fields.indexOf('structure') : onewayIndex + 1;
+        fields.splice(insertAt, 0, 'oneway/bicycle');
     });
 }
 
@@ -121,4 +131,17 @@ function customizeCycleway(presetManager) {
         const after = field.options.indexOf('share_busway');
         field.options.splice(after === -1 ? field.options.length : after + 1, 0, 'shoulder');
     }
+}
+
+/**
+ * Restrict the upstream `oneway/bicycle` field to one-way streets: it ships with
+ * a bare `oneway` prerequisite (any value), but `oneway:bicycle` is only
+ * meaningful where `oneway=yes`. Mutates the shared field in place.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizeOnewayBicycle(presetManager) {
+    const field = presetManager.field('oneway/bicycle');
+    if (!field) return;
+    field.prerequisiteTag = { key: 'oneway', value: 'yes' };
 }
