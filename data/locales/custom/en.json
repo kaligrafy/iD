@@ -1,62 +1,74 @@
 {
-    "presets": {
-        "fields": {
-            "sidewalk": {
-                "label": "Sidewalk"
-            },
-            "cycleway": {
-                "types": {
-                    "cycleway:both": "Both Sides"
+    "tagging": {
+        "presets": {
+            "fields": {
+                "sidewalk": {
+                    "label": "Sidewalk"
                 },
-                "options": {
-                    "shoulder": {
-                        "title": "Shoulder",
-                        "description": "Bikes can use the shoulder, but it has no proper signage"
+                "cycleway": {
+                    "types": {
+                        "cycleway:both": "Both Sides"
+                    },
+                    "options": {
+                        "shoulder": {
+                            "title": "Shoulder",
+                            "description": "Bikes can use the shoulder, but it has no proper signage"
+                        }
                     }
-                }
-            },
-            "cycleway_buffer": { "label": "Both: Cycleway buffer width (m)" },
-            "cycleway_separation": {
-                "label": "Both: Cycleway separation",
-                "options": {
-                    "no": "None",
-                    "flex_post": "Flex posts",
-                    "parking_lane": "Parking lane",
-                    "bollard": "Bollards (fixed)",
-                    "bump": "Bumps",
-                    "studs": "Studs",
-                    "fence": "Fence",
-                    "planter": "Planters (flower boxes)",
-                    "jersey_barrier": "Jersey concrete barriers",
-                    "guard_rail": "Guard rail",
-                    "structure": "Structure (bridge)",
-                    "vertical_panel": "Vertical panel"
-                }
-            },
-            "cycleway_marking": {
-                "label": "Both: Cycleway marking",
-                "options": {
-                    "no": "None",
-                    "solid_line": "Solid line",
-                    "dashed_line": "Dashed line",
-                    "dotted_line": "Dotted line",
-                    "double_solid_line": "Double solid line",
-                    "barred_area": "Buffer / Barred area",
-                    "pictogram": "Pictogram",
-                    "surface": "Change of surface"
-                }
-            },
-            "cycleway_left_buffer": { "label": "Left: Cycleway buffer width (m)" },
-            "cycleway_left_separation": { "label": "Left: Cycleway separation" },
-            "cycleway_left_marking": { "label": "Left: Cycleway marking" },
-            "cycleway_left_oneway": {
-                "label": "Left: Bicycle one way",
-                "options": { "yes": "Yes", "no": "No" }
-            },
-            "cycleway_right_buffer": { "label": "Right: Cycleway buffer width (m)" },
-            "cycleway_right_separation": { "label": "Right: Cycleway separation" },
-            "cycleway_right_marking": { "label": "Right: Cycleway marking" },
-            "cycleway_right_oneway": { "label": "Right: Bicycle one way" }
+                },
+                "cycleway_buffer": { "label": "Both: Cycleway buffer width (m)" },
+                "cycleway_separation": {
+                    "label": "Both: Cycleway separation",
+                    "options": {
+                        "no": "None",
+                        "flex_post": "Flex posts",
+                        "parking_lane": "Parking lane",
+                        "bollard": "Bollards (fixed)",
+                        "bump": "Bumps",
+                        "studs": "Studs",
+                        "fence": "Fence",
+                        "planter": "Planters (flower boxes)",
+                        "jersey_barrier": "Jersey concrete barriers",
+                        "guard_rail": "Guard rail",
+                        "structure": "Structure (bridge)",
+                        "vertical_panel": "Vertical panel"
+                    }
+                },
+                "cycleway_marking": {
+                    "label": "Both: Cycleway marking",
+                    "options": {
+                        "no": "None",
+                        "solid_line": "Solid line",
+                        "dashed_line": "Dashed line",
+                        "dotted_line": "Dotted line",
+                        "double_solid_line": "Double solid line",
+                        "barred_area": "Buffer / Barred area",
+                        "pictogram": "Pictogram",
+                        "surface": "Change of surface"
+                    }
+                },
+                "cycleway_left_buffer": { "label": "Left: Cycleway buffer width (m)" },
+                "cycleway_left_separation": { "label": "Left: Cycleway separation" },
+                "cycleway_left_marking": { "label": "Left: Cycleway marking" },
+                "cycleway_left_oneway": {
+                    "label": "Left: Bicycle one way",
+                    "options": { "yes": "Yes", "no": "No" }
+                },
+                "cycleway_right_buffer": { "label": "Right: Cycleway buffer width (m)" },
+                "cycleway_right_separation": { "label": "Right: Cycleway separation" },
+                "cycleway_right_marking": { "label": "Right: Cycleway marking" },
+                "cycleway_right_oneway": { "label": "Right: Bicycle one way" }
+            }
+        }
+    },
+    "general": {
+        "issues": {
+            "redundant_directional_tag": {
+                "title": "Redundant Plain Tag",
+                "tip": "Find features where a plain tag is overridden by its directional variants.",
+                "message": "{feature} has a plain \"{tag}\" tag alongside its directional variants",
+                "reference": "The plain \"{tag}\" tag is made redundant by its directional variants (\"{tag}:both\", or \"{tag}:left\" and \"{tag}:right\"). The plain tag should be removed to avoid ambiguity."
+            }
         }
     }
 }
