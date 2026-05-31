@@ -1,15 +1,12 @@
 import { select as d3_select } from 'd3-selection';
 
-import { t } from '../core/localizer';
-import { actionInsertWaypoint } from '../actions/insert_waypoint';
-import { actionMoveNode } from '../actions/move_node';
-import { geoChooseEdge, geoSphericalClosestNode, geoSphericalDistance, geoVecLength } from '../geo';
+import { geoVecLength } from '../geo';
 import { modeBrowse } from '../modes/browse';
 import { modeSelect } from '../modes/select';
 import { modeSelectData } from '../modes/select_data';
 import { modeSelectNote } from '../modes/select_note';
 import { modeSelectError } from '../modes/select_error';
-import { osmEntity, osmNote, osmWay, QAItem } from '../osm';
+import { osmEntity, osmNote, QAItem } from '../osm';
 import { utilFastMouse } from '../util/util';
 
 
@@ -22,84 +19,9 @@ export function behaviorSelect(context) {
     var _lastInteractionType = null;
     // the id of the down pointer that's enabling multiselection while down
     var _multiselectionPointerId = null;
-    // node ids the selected way had when insert-waypoint mode was last entered;
-    // a later click only nudges a vertex that was already in this set.
-    var _insertWaypointInitialNodeIDs = null;
-    // true while the insert-waypoint key is held (see _insertWaypointKeyCode).
-    // Ctrl is avoided on purpose: Ctrl+click opens the context menu on macOS.
-    var _insertWaypointKeyDown = false;
-    var _insertWaypointKeyCode = 75;  // 'K'
 
     // use pointer events on supported platforms; fallback to mouse events
     var _pointerPrefix = 'PointerEvent' in window ? 'pointer' : 'mouse';
-
-
-    // The single selected way, or null if the selection isn't exactly one way.
-    function singleSelectedWay() {
-        var selectedIDs = context.selectedIDs();
-        if (selectedIDs.length !== 1) return null;
-        var entity = context.hasEntity(selectedIDs[0]);
-        return entity instanceof osmWay ? entity : null;
-    }
-
-
-    // Toggle the insert-waypoint affordance (crosshair cursor + paled way) while
-    // the key is held over a single selected way. On entering the mode, snapshot
-    // the way's current node ids so subsequent clicks only move pre-existing
-    // vertices.
-    function updateInsertWaypointMode(isKeyHeld) {
-        var way = isKeyHeld ? singleSelectedWay() : null;
-
-        // Nothing to do when no way is selected and the mode isn't already
-        // active: the key (or key+Alt) without a selected way is a no-op.
-        // _insertWaypointInitialNodeIDs is non-null exactly while the mode is on.
-        if (!way && !_insertWaypointInitialNodeIDs) return;
-
-        context.surface().classed('behavior-insert-waypoint', !!way);
-        if (way) {
-            if (!_insertWaypointInitialNodeIDs) {
-                _insertWaypointInitialNodeIDs = new Set(way.nodes);
-            }
-        } else {
-            _insertWaypointInitialNodeIDs = null;
-        }
-    }
-
-
-    // With the insert-waypoint key held, clicking near the selected way inserts a
-    // waypoint; holding Alt as well forces a brand-new node even next to an
-    // existing vertex. An existing vertex is moved only if it predates the mode
-    // (see updateInsertWaypointMode).
-    // `point` is in the same coordinate space as `context.projection`.
-    // Returns true when the click was handled as an insert-waypoint interaction.
-    function tryInsertWaypoint(event, point, isMultiselect) {
-        if (isMultiselect || !_insertWaypointKeyDown) return false;
-        if (context.mode().id !== 'select' || !context.map().withinEditableZoom()) return false;
-
-        var way = singleSelectedWay();
-        if (!way) return false;
-
-        var wayNodes = context.graph().childNodes(way);
-        var choice = geoChooseEdge(wayNodes, point, context.projection);
-        if (!choice) return false;
-
-        var clickLoc = context.projection.invert(point);
-        // ignore clicks that landed too far from the way
-        if (geoSphericalDistance(clickLoc, choice.loc) > 50) return true;
-
-        var annotation = t('operations.insert_waypoint.annotation');
-        var closest = geoSphericalClosestNode(wayNodes, choice.loc);
-        var moveExisting = !event.altKey && closest && closest.distance <= 10 &&
-            _insertWaypointInitialNodeIDs && _insertWaypointInitialNodeIDs.has(closest.node.id);
-
-        if (moveExisting) {
-            context.perform(actionMoveNode(closest.node.id, clickLoc), annotation);
-        } else {
-            context.perform(actionInsertWaypoint(way, choice, clickLoc), annotation);
-        }
-        context.validator().validate();
-        return true;
-    }
 
 
     function keydown(d3_event) {
@@ -119,18 +41,6 @@ export function behaviorSelect(context) {
 
         // if any key is pressed the user is probably doing something other than long-pressing
         cancelLongPress();
-
-        // Enter insert-waypoint mode while the key is held (Alt may be added to
-        // force a new node). Ignore it while typing and when combined with
-        // Ctrl/Cmd, which are reserved for other shortcuts.
-        if (d3_event.keyCode === _insertWaypointKeyCode && !d3_event.ctrlKey && !d3_event.metaKey) {
-            var typing = document.activeElement &&
-                new Set(['INPUT', 'TEXTAREA']).has(document.activeElement.nodeName);
-            if (!typing) {
-                _insertWaypointKeyDown = true;
-                updateInsertWaypointMode(true);
-            }
-        }
 
         if (d3_event.shiftKey) {
             context.surface()
@@ -153,11 +63,6 @@ export function behaviorSelect(context) {
 
     function keyup(d3_event) {
         cancelLongPress();
-
-        if (d3_event.keyCode === _insertWaypointKeyCode) {
-            _insertWaypointKeyDown = false;
-            updateInsertWaypointMode(false);
-        }
 
         if (!d3_event.shiftKey) {
             context.surface()
@@ -340,13 +245,6 @@ export function behaviorSelect(context) {
             // or a pointer is down over a selected feature
             (_multiselectionPointerId && !multiselectEntityId)
         );
-
-        // Ctrl(/Alt)+click near the selected way inserts a waypoint instead of
-        // changing the selection or opening the menu.
-        if (tryInsertWaypoint(lastEvent, p2, isMultiselect)) {
-            resetProperties();
-            return;
-        }
 
         processClick(targetDatum, isMultiselect, p2, multiselectEntityId);
 
@@ -538,11 +436,8 @@ export function behaviorSelect(context) {
             .on(_pointerPrefix + 'down.select', null)
             .on('contextmenu.select', null);
 
-        _insertWaypointKeyDown = false;
-        _insertWaypointInitialNodeIDs = null;
         context.surface()
-            .classed('behavior-multiselect', false)
-            .classed('behavior-insert-waypoint', false);
+            .classed('behavior-multiselect', false);
     };
 
 
