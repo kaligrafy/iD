@@ -232,6 +232,11 @@ path.shadow.selected {
 .ideditor.mode-insert-waypoint path.shadow.selected {
     stroke-opacity: 0.05;
 }
+/* the waypoints just inserted are shown paled, like the way, to tell them
+   apart from the way's pre-existing vertices */
+.ideditor.mode-insert-waypoint .vertex.insert-waypoint-new {
+    opacity: 0.4;
+}
 
 path.line.stroke {
     stroke: #fff;
