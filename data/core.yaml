@@ -449,6 +449,11 @@ en:
       source_or_target_way_is_closed_but_has_less_than_4_nodes: The source or target way is closed but has fewer than 4 nodes.
       connected_to_hidden: This can't be followed because it is connected to a hidden feature.
       not_downloaded: This can't be followed because parts of it have not yet been downloaded.
+    insert_waypoint:
+      title: Insert waypoint
+      description: Hold Control and click near this way to insert a waypoint. Hold Control and Alt to always add a new node.
+      annotation: Inserted a waypoint.
+      connected_to_hidden: This can't be edited because it is connected to a hidden feature.
     reflect:
       title:
         long: Flip Long
