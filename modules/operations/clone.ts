@@ -17,7 +17,7 @@ interface CloneType {
  * just add a `key` here — it is wired automatically through `behaviorOperation`.
  */
 export const cloneTypes: CloneType[] = [
-    { id: 'clone_address', tags: [
+    { id: 'clone_address', key: '&', tags: [
         'addr:housenumber', 'addr:housename', 'addr:street', 'addr:city', 'addr:province',
         'addr:borough', 'addr:postcode', 'addr:source', 'addr:suburb', 'addr:state',
         'addr:place', 'addr:full', 'addr:county', 'addr:district', 'addr:hamlet', 'addr:subdistrict',
@@ -26,14 +26,14 @@ export const cloneTypes: CloneType[] = [
         'contact:place', 'contact:full', 'contact:county', 'contact:district', 'contact:hamlet',
         'contact:subdistrict', 'contact:country'
     ] },
-    { id: 'clone_name', tags: [
+    { id: 'clone_name', key: '%', tags: [
         'name', 'operator', 'alt_name', 'old_name', 'short_name', 'official_name', 'int_name',
         'loc_name', 'name:left', 'name:right', 'nat_name', 'ref_name', 'reg_name', 'sorting_name', 'nickname'
     ], languageSuffixes: ['fr', 'en'] },
     { id: 'clone_lanes', tags: ['lanes', 'lanes:forward', 'lanes:backward'] },
     { id: 'clone_turn_lanes', tags: ['turn:lanes', 'turn:lanes:forward', 'turn:lanes:backward'] },
-    { id: 'clone_sidewalk', tags: ['sidewalk', 'sidewalk:both', 'sidewalk:right', 'sidewalk:left', 'foot'] },
-    { id: 'clone_cycleway', tags: [
+    { id: 'clone_sidewalk', key: '*', tags: ['sidewalk', 'sidewalk:both', 'sidewalk:right', 'sidewalk:left', 'foot'] },
+    { id: 'clone_cycleway', key: '@', tags: [
         'bicycle', 'cycleway', 'cycleway:both', 'cycleway:right', 'cycleway:buffer', 'cycleway:marking',
         'cycleway:right:marking', 'cycleway:left:marking', 'cycleway:separation', 'cycleway:right:separation',
         'cycleway:right:buffer', 'cycleway:right:oneway', 'cycleway:left:separation', 'cycleway:left:buffer',
@@ -44,11 +44,11 @@ export const cloneTypes: CloneType[] = [
         'bus:lanes', 'bus:lanes:forward', 'bus:lanes:backward', 'lanes:bus', 'lanes:bus:forward',
         'lanes:bus:backward', 'busway:right', 'busway:left', 'routing:bus', 'bus'
     ] },
-    { id: 'clone_transition', tags: [
+    { id: 'clone_transition', key: '!', tags: [
         'placement', 'placement:start', 'placement:end', 'placement:forward', 'placement:backward'
     ] },
-    { id: 'clone_maxspeed', tags: ['maxspeed'] },
-    { id: 'clone_surface', tags: ['surface'] },
+    { id: 'clone_maxspeed', key: ')', tags: ['maxspeed'] },
+    { id: 'clone_surface', key: '(', tags: ['surface'] },
     { id: 'clone_dual_carriageway', tags: ['dual_carriageway'] }
 ];
 
