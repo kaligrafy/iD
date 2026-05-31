@@ -6,6 +6,7 @@ import { t, localizer } from '../../core/localizer';
 import { svgIcon } from '../../svg/icon';
 import { uiSection } from '../section';
 import { SEGMENT_LENGTH, MAX_VERTICES } from '../../actions/circularize';
+import { DELETE_OUTSIDE_VIEW } from '../../operations/delete';
 
 
 /**
@@ -33,6 +34,11 @@ export function uiSectionEditingPreferences(context) {
     function setSegmentLength(val) {
         prefs(SEGMENT_LENGTH.pref, clamp(+val, SEGMENT_LENGTH.min, SEGMENT_LENGTH.default));
         section.reRender();
+    }
+
+    /** Whether deleting features extending outside the view is allowed. */
+    function deleteOutsideView() {
+        return prefs(DELETE_OUTSIDE_VIEW) === 'true';
     }
 
     function renderDisclosureContent(selection) {
@@ -88,11 +94,48 @@ export function uiSectionEditingPreferences(context) {
 
         controlEnter
             .append('div')
-            .attr('class', 'circularize-segment-length-description')
+            .attr('class', 'editing-option-description')
             .call(t.append('preferences.editing.circularize_segment_length.description'));
+
+        // delete-outside-view toggle: clicking the label flips the preference
+        const deleteControlEnter = containerEnter
+            .append('label')
+            .attr('class', 'display-control delete-outside-view-control');
+
+        deleteControlEnter
+            .append('input')
+            .attr('type', 'checkbox')
+            .attr('class', 'delete-outside-view-input')
+            .on('change', function() {
+                prefs(DELETE_OUTSIDE_VIEW, d3_select(this).property('checked') ? 'true' : 'false');
+            });
+
+        deleteControlEnter
+            .call(t.append('preferences.editing.delete_outside_view.title'));
+
+        // description and an advanced-user warning sit outside the label so they
+        // are not clickable toggles
+        containerEnter
+            .append('div')
+            .attr('class', 'editing-option-description')
+            .call(t.append('preferences.editing.delete_outside_view.description'));
+
+        const warnEnter = containerEnter
+            .append('div')
+            .attr('class', 'field-warning delete-outside-view-warning');
+
+        warnEnter
+            .call(svgIcon('#iD-icon-alert', 'inline'));
+
+        warnEnter
+            .append('span')
+            .call(t.append('preferences.editing.delete_outside_view.warning'));
 
         // update
         container = containerEnter.merge(container);
+
+        container.selectAll('.delete-outside-view-input')
+            .property('checked', deleteOutsideView());
 
         container.selectAll('.circularize-segment-length-input')
             .property('value', segmentLength());
@@ -105,6 +148,7 @@ export function uiSectionEditingPreferences(context) {
     }
 
     prefs.onChange(SEGMENT_LENGTH.pref, section.reRender);
+    prefs.onChange(DELETE_OUTSIDE_VIEW, section.reRender);
 
     return section;
 }

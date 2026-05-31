@@ -1,4 +1,5 @@
 import { t } from '../core/localizer';
+import { prefs } from '../core/preferences';
 import { actionDeleteMultiple } from '../actions/delete_multiple';
 import { behaviorOperation } from '../behavior/operation';
 import { geoSphericalDistance } from '../geo';
@@ -6,6 +7,12 @@ import { modeBrowse } from '../modes/browse';
 import { modeSelect } from '../modes/select';
 import { uiCmd } from '../ui/cmd';
 import { utilGetAllNodes, utilTotalExtent } from '../util';
+
+
+// Preference key: when set to 'true', deletion is allowed even when the feature
+// extends outside the current view (normally blocked as 'too_large'). Opt-in,
+// intended for advanced users (see the Editing preferences section).
+export const DELETE_OUTSIDE_VIEW = 'preferences.editing.delete_outside_view';
 
 
 export function operationDelete(context, selectedIDs) {
@@ -70,7 +77,8 @@ export function operationDelete(context, selectedIDs) {
 
 
     operation.disabled = function() {
-        if (extent.percentContainedIn(context.map().extent()) < 0.8) {
+        if (extent.percentContainedIn(context.map().extent()) < 0.8 &&
+            prefs(DELETE_OUTSIDE_VIEW) !== 'true') {
             return 'too_large';
         } else if (someMissing()) {
             return 'not_downloaded';

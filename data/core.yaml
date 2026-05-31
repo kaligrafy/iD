@@ -1139,6 +1139,10 @@ en:
         meters: "{distance} m"
         max_segments: "max {count} segments"
         description: "Target length of the segments created by Circularize. Shorter segments make rounder, more precise circles (more nodes). iD default: 4 m."
+      delete_outside_view:
+        title: Allow deleting features outside the view
+        description: Lets the Delete operation work even when a feature extends beyond the visible map area.
+        warning: For advanced users only. Deleting features you can't fully see may remove more than you intend.
     privacy:
       title: Privacy
       privacy_link: View the iD privacy policy
