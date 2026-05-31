@@ -23,8 +23,12 @@ export function behaviorSelect(context) {
     // the id of the down pointer that's enabling multiselection while down
     var _multiselectionPointerId = null;
     // node ids the selected way had when insert-waypoint mode was last entered;
-    // a later Ctrl+click only nudges a vertex that was already in this set.
+    // a later click only nudges a vertex that was already in this set.
     var _insertWaypointInitialNodeIDs = null;
+    // true while the insert-waypoint key is held (see _insertWaypointKeyCode).
+    // Ctrl is avoided on purpose: Ctrl+click opens the context menu on macOS.
+    var _insertWaypointKeyDown = false;
+    var _insertWaypointKeyCode = 75;  // 'K'
 
     // use pointer events on supported platforms; fallback to mouse events
     var _pointerPrefix = 'PointerEvent' in window ? 'pointer' : 'mouse';
@@ -40,13 +44,14 @@ export function behaviorSelect(context) {
 
 
     // Toggle the insert-waypoint affordance (crosshair cursor + paled way) while
-    // Ctrl is held over a single selected way. On entering the mode, snapshot the
-    // way's current node ids so subsequent clicks only move pre-existing vertices.
-    function updateInsertWaypointMode(isCtrlPressed) {
-        var way = isCtrlPressed ? singleSelectedWay() : null;
+    // the key is held over a single selected way. On entering the mode, snapshot
+    // the way's current node ids so subsequent clicks only move pre-existing
+    // vertices.
+    function updateInsertWaypointMode(isKeyHeld) {
+        var way = isKeyHeld ? singleSelectedWay() : null;
 
         // Nothing to do when no way is selected and the mode isn't already
-        // active: Ctrl (or Ctrl+Alt) without a selected way is a no-op.
+        // active: the key (or key+Alt) without a selected way is a no-op.
         // _insertWaypointInitialNodeIDs is non-null exactly while the mode is on.
         if (!way && !_insertWaypointInitialNodeIDs) return;
 
@@ -61,13 +66,14 @@ export function behaviorSelect(context) {
     }
 
 
-    // Ctrl+click near the selected way inserts a waypoint; Ctrl+Alt+click forces a
-    // brand-new node even next to an existing vertex. An existing vertex is moved
-    // only if it predates insert-waypoint mode (see updateInsertWaypointMode).
+    // With the insert-waypoint key held, clicking near the selected way inserts a
+    // waypoint; holding Alt as well forces a brand-new node even next to an
+    // existing vertex. An existing vertex is moved only if it predates the mode
+    // (see updateInsertWaypointMode).
     // `point` is in the same coordinate space as `context.projection`.
     // Returns true when the click was handled as an insert-waypoint interaction.
     function tryInsertWaypoint(event, point, isMultiselect) {
-        if (isMultiselect || !event || !event.ctrlKey) return false;
+        if (isMultiselect || !_insertWaypointKeyDown) return false;
         if (context.mode().id !== 'select' || !context.map().withinEditableZoom()) return false;
 
         var way = singleSelectedWay();
@@ -114,7 +120,17 @@ export function behaviorSelect(context) {
         // if any key is pressed the user is probably doing something other than long-pressing
         cancelLongPress();
 
-        updateInsertWaypointMode(d3_event.ctrlKey);
+        // Enter insert-waypoint mode while the key is held (Alt may be added to
+        // force a new node). Ignore it while typing and when combined with
+        // Ctrl/Cmd, which are reserved for other shortcuts.
+        if (d3_event.keyCode === _insertWaypointKeyCode && !d3_event.ctrlKey && !d3_event.metaKey) {
+            var typing = document.activeElement &&
+                new Set(['INPUT', 'TEXTAREA']).has(document.activeElement.nodeName);
+            if (!typing) {
+                _insertWaypointKeyDown = true;
+                updateInsertWaypointMode(true);
+            }
+        }
 
         if (d3_event.shiftKey) {
             context.surface()
@@ -138,7 +154,10 @@ export function behaviorSelect(context) {
     function keyup(d3_event) {
         cancelLongPress();
 
-        updateInsertWaypointMode(d3_event.ctrlKey);
+        if (d3_event.keyCode === _insertWaypointKeyCode) {
+            _insertWaypointKeyDown = false;
+            updateInsertWaypointMode(false);
+        }
 
         if (!d3_event.shiftKey) {
             context.surface()
@@ -519,6 +538,7 @@ export function behaviorSelect(context) {
             .on(_pointerPrefix + 'down.select', null)
             .on('contextmenu.select', null);
 
+        _insertWaypointKeyDown = false;
         _insertWaypointInitialNodeIDs = null;
         context.surface()
             .classed('behavior-multiselect', false)
