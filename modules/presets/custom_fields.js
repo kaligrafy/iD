@@ -6,6 +6,7 @@
 // =============================================================================
 
 import { localizer } from '../core/localizer';
+import { cyclewaySubFields, cyclewaySubFieldOrder, registerCyclewaySubFieldStrings } from './cycleway_fields';
 
 /** Custom field definitions, merged into the preset system at load time. */
 export const customFields = {
@@ -28,6 +29,13 @@ const SIDEWALK_HIGHWAYS = new Set([
 // roads where the sidewalk field is available but not shown by default
 const SIDEWALK_MORE_ONLY = new Set(['motorway', 'motorway_link']);
 
+// highway=* values that should offer the cycleway lane sub-fields (no motorway)
+const CYCLEWAY_HIGHWAYS = new Set([
+    'trunk', 'trunk_link', 'primary', 'primary_link', 'secondary', 'secondary_link',
+    'tertiary', 'tertiary_link', 'unclassified', 'residential', 'living_street',
+    'service', 'road', 'busway'
+]);
+
 /**
  * Register the custom fields and attach them to the relevant presets.
  *
@@ -39,7 +47,9 @@ const SIDEWALK_MORE_ONLY = new Set(['motorway', 'motorway_link']);
  */
 export function applyCustomFields(presetManager) {
     presetManager.merge({ fields: customFields });
+    presetManager.merge({ fields: cyclewaySubFields });
     customizeCycleway(presetManager);
+    registerCyclewaySubFieldStrings(localizer);
 
     presetManager.collection.forEach(preset => {
         const highway = preset.tags && preset.tags.highway;
@@ -65,6 +75,15 @@ export function applyCustomFields(presetManager) {
         } else {
             // other roads: shown by default, just before the Structure field
             fields.splice(fields.indexOf('structure'), 0, 'sidewalk');
+        }
+
+        // cycleway and its lane sub-fields: grouped right after sidewalk as default
+        // fields. `cycleway` is moved out of upstream's moreFields; the sub-fields
+        // stay hidden (by prerequisite) until a cycleway side is a lane.
+        if (CYCLEWAY_HIGHWAYS.has(highway)) {
+            const cyclewayBlock = ['cycleway', ...cyclewaySubFieldOrder];
+            cyclewayBlock.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
+            fields.splice(fields.indexOf('structure'), 0, ...cyclewayBlock);
         }
     });
 }
