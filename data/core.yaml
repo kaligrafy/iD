@@ -450,7 +450,11 @@ en:
       connected_to_hidden: This can't be followed because it is connected to a hidden feature.
       not_downloaded: This can't be followed because parts of it have not yet been downloaded.
     insert_waypoint:
+      title: Insert Waypoint
+      description: Insert waypoints by clicking along this way. Double-click to finish.
+      key: K
       annotation: Inserted a waypoint.
+      connected_to_hidden: This can't be edited because it is connected to a hidden feature.
     reflect:
       title:
         long: Flip Long

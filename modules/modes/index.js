@@ -7,6 +7,7 @@ export { modeDragNode } from './drag_node';
 export { modeDragNote } from './drag_note';
 export { modeDrawArea } from './draw_area';
 export { modeDrawLine } from './draw_line';
+export { modeInsertWaypoint } from './insert_waypoint';
 export { modeMove } from './move';
 export { modeRotate } from './rotate';
 export { modeSave } from './save';
