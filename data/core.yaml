@@ -438,6 +438,17 @@ en:
           area: This feature can't follow the area because it is only connected at a single point. Add another point manually to continue.
           generic: This feature can't follow the other feature because they are only connected at a single point. Add another point manually to continue.
         unknown: This feature can't follow another feature.
+    follow_segment:
+      title: Follow Segment
+      description:
+        points: Replace the segment between two shared nodes with the source way's geometry.
+      key: L
+      annotation:
+        points: Followed a line.
+      nodes_are_not_shared_by_both_ways: The two nodes are not shared by both the source and target ways.
+      source_or_target_way_is_closed_but_has_less_than_4_nodes: The source or target way is closed but has fewer than 4 nodes.
+      connected_to_hidden: This can't be followed because it is connected to a hidden feature.
+      not_downloaded: This can't be followed because parts of it have not yet been downloaded.
     reflect:
       title:
         long: Flip Long

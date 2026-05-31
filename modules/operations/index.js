@@ -21,6 +21,7 @@ export { operationDelete } from './delete';
 export { operationDisconnect } from './disconnect';
 export { operationDowngrade } from './downgrade';
 export { operationExtract } from './extract';
+export { operationFollowSegment } from './follow_segment';
 export { operationMerge } from './merge';
 export { operationMove } from './move';
 export { operationOrthogonalize } from './orthogonalize';
