@@ -6,7 +6,8 @@
 // =============================================================================
 
 import { localizer } from '../core/localizer';
-import { cyclewaySubFields, cyclewaySubFieldOrder, registerCyclewaySubFieldStrings } from './cycleway_fields';
+import { cyclewaySubFields, cyclewaySubFieldOrder } from './cycleway_fields';
+import { registerCustomStrings } from './custom_strings';
 
 /** Custom field definitions, merged into the preset system at load time. */
 export const customFields = {
@@ -14,8 +15,7 @@ export const customFields = {
         key: 'sidewalk',
         keys: ['sidewalk', 'sidewalk:both', 'sidewalk:left', 'sidewalk:right'],
         type: 'sidewalk',
-        geometry: ['line'],
-        overrideLabel: 'Sidewalk'
+        geometry: ['line']
     }
 };
 
@@ -49,7 +49,7 @@ export function applyCustomFields(presetManager) {
     presetManager.merge({ fields: customFields });
     presetManager.merge({ fields: cyclewaySubFields });
     customizeCycleway(presetManager);
-    registerCyclewaySubFieldStrings(localizer);
+    registerCustomStrings(localizer);
 
     presetManager.collection.forEach(preset => {
         const highway = preset.tags && preset.tags.highway;
@@ -94,15 +94,6 @@ function removeField(list, fieldID) {
     if (index !== -1) list.splice(index, 1);
 }
 
-// Translations for the extra `shoulder` option added to the cycleway field.
-const CYCLEWAY_SHOULDER_STRINGS = {
-    en: { title: 'Shoulder', description: 'Bikes can use the shoulder, but it has no proper signage' },
-    fr: { title: 'Accotement', description: 'Les vélos peuvent utiliser l\'accotement, sans signalisation propre' }
-};
-
-// Label for the extra "both sides" row added to the cycleway field.
-const CYCLEWAY_BOTH_LABEL = { en: 'Both Sides', fr: 'Les deux côtés' };
-
 /**
  * Adjust the upstream `cycleway` (directionalCombo) field in two ways:
  *  - use `cycleway:both` as the common key, so equal left/right sides are
@@ -110,7 +101,8 @@ const CYCLEWAY_BOTH_LABEL = { en: 'Both Sides', fr: 'Les deux côtés' };
  *  - add the `shoulder` option (present in our v5 fork, missing upstream).
  *
  * Both changes mutate the already-loaded field in place; the field id stays
- * `cycleway`, so existing option labels keep resolving.
+ * `cycleway`, so existing option labels keep resolving. The labels for the
+ * `shoulder` option and the "both sides" row live in the custom locale files.
  *
  * @param {Object} presetManager - the preset system (`presetManager`)
  */
@@ -128,16 +120,5 @@ function customizeCycleway(presetManager) {
     if (Array.isArray(field.options) && field.options.indexOf('shoulder') === -1) {
         const after = field.options.indexOf('share_busway');
         field.options.splice(after === -1 ? field.options.length : after + 1, 0, 'shoulder');
-    }
-
-    // register the labels for the `shoulder` option and the "both sides" row
-    // (resolved from `_tagging.presets.fields.cycleway.{options,types}`)
-    for (const locale in CYCLEWAY_SHOULDER_STRINGS) {
-        localizer.addStrings('tagging', locale, {
-            presets: { fields: { cycleway: {
-                options: { shoulder: CYCLEWAY_SHOULDER_STRINGS[locale] },
-                types: { 'cycleway:both': CYCLEWAY_BOTH_LABEL[locale] }
-            } } }
-        });
     }
 }
