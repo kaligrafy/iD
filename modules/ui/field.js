@@ -13,6 +13,34 @@ import { uiTagReference } from './tag_reference';
 import { utilRebind, utilUniqueDomId } from '../util';
 
 
+/**
+ * Evaluate a field's `prerequisiteTag` against a set of OSM tags.
+ *
+ * Accepts a single condition object or an array of conditions matched with OR
+ * semantics (the field shows if any condition is satisfied). A condition uses
+ * `key` with `value` / `values` / `valueNot` / `valuesNot`, or `keyNot`.
+ *
+ * @param {Object|Object[]} prerequisiteTag - a condition or an array of conditions
+ * @param {Object} tags - the entity tags to test against
+ * @returns {boolean} whether the prerequisite is satisfied
+ */
+export function prerequisiteTagSatisfied(prerequisiteTag, tags) {
+    const conditions = Array.isArray(prerequisiteTag) ? prerequisiteTag : [prerequisiteTag];
+    return conditions.some(function(condition) {
+        if (condition.key) {
+            const value = tags[condition.key] || '';
+            if (condition.valuesNot) return !condition.valuesNot.includes(value);
+            if (condition.valueNot) return condition.valueNot !== value;
+            if (condition.values) return condition.values.includes(value);
+            if (condition.value) return condition.value === value;
+            return !!value;   // bare `key`: satisfied if any value is present
+        }
+        if (condition.keyNot) return !tags[condition.keyNot];
+        return true;
+    });
+}
+
+
 export function uiField(context, presetField, entityIDs, options) {
     options = Object.assign({
         show: true,
@@ -338,26 +366,7 @@ export function uiField(context, presetField, entityIDs, options) {
 
             if (!entityIDs.every(function(entityID) {
                 var entity = context.graph().entity(entityID);
-                if (prerequisiteTag.key) {
-                    var value = entity.tags[prerequisiteTag.key] || '';
-
-                    if (prerequisiteTag.valuesNot) {
-                        return !prerequisiteTag.valuesNot.includes(value);
-                    }
-                    if (prerequisiteTag.valueNot) {
-                        return prerequisiteTag.valueNot !== value;
-                    }
-                    if (prerequisiteTag.values) {
-                        return prerequisiteTag.values.includes(value);
-                    }
-                    if (prerequisiteTag.value) {
-                        return prerequisiteTag.value === value;
-                    }
-                    if (!value) return false;
-                } else if (prerequisiteTag.keyNot) {
-                    if (entity.tags[prerequisiteTag.keyNot]) return false;
-                }
-                return true;
+                return prerequisiteTagSatisfied(prerequisiteTag, entity.tags);
             })) return false;
         }
 
