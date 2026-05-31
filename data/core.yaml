@@ -1126,6 +1126,13 @@ en:
     title: Preferences
     description: Preferences
     key: P
+    editing:
+      title: Editing
+      circularize_segment_length:
+        title: Circularize segment length
+        meters: "{distance} m"
+        max_segments: "max {count} segments"
+        description: "Target length of the segments created by Circularize. Shorter segments make rounder, more precise circles (more nodes). iD default: 4 m."
     privacy:
       title: Privacy
       privacy_link: View the iD privacy policy

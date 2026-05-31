@@ -10,11 +10,26 @@ import { geoVecInterp, geoVecLength } from '../geo';
 import { osmNode } from '../osm/node';
 import { utilArrayUniq } from '../util';
 import { radiansToMeters } from '../ui/panels';
+import { prefs } from '../core/preferences';
 
 
-const MAX_SEGMENT_LENGTH = 4;
+// Target length of the circle segments, in meters. Shorter segments produce a
+// more precise circle (more vertices). Configurable from the Preferences pane
+// between MIN and the iD default; see SEGMENT_LENGTH.pref.
+export const SEGMENT_LENGTH = {
+    min: 1,          // meters, most precise
+    default: 4,      // meters, iD develop default
+    pref: 'preferences.circularize.segment_length'
+};
 export const MIN_VERTICES = 12;
 export const MAX_VERTICES = 32;
+
+/** Effective max segment length (m) from preferences, clamped to the allowed range. */
+function maxSegmentLength() {
+    const raw = parseFloat(prefs(SEGMENT_LENGTH.pref));
+    if (!isFinite(raw)) return SEGMENT_LENGTH.default;
+    return Math.min(SEGMENT_LENGTH.default, Math.max(SEGMENT_LENGTH.min, raw));
+}
 
 export function actionCircularize(wayId, projection) {
 
@@ -202,7 +217,7 @@ export function actionCircularize(wayId, projection) {
     /**
      * Returns the maximum internal angle of a regular polygon with
      * the given centroid and radius such that the length of the segments
-     * are just shorter than approximately MAX_SEGMENT_LENGTH. But
+     * are just shorter than the configured max segment length. But
      * never returns fewer than MIN_VERTICES or more than MAX_VERTICES.
      * #12139
      */
@@ -212,7 +227,7 @@ export function actionCircularize(wayId, projection) {
             projection.invert([centroid[0] + radius, centroid[1]])
         ]}));
         const numberOfPoints = Math.min(MAX_VERTICES, Math.max(MIN_VERTICES,
-            Math.round(radiusM * Math.PI / MAX_SEGMENT_LENGTH) * 2
+            Math.round(radiusM * Math.PI / maxSegmentLength()) * 2
         ));
         return Math.PI * 2 / (numberOfPoints - 1);
     }
