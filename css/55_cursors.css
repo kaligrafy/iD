@@ -69,6 +69,17 @@
     cursor: url(img/cursor/select-remove.png), pointer; /* FF */
 }
 
+/* Insert-waypoint mode: Ctrl held over a single selected way */
+.ideditor.mode-select .behavior-insert-waypoint,
+.ideditor.mode-select .behavior-insert-waypoint .point,
+.ideditor.mode-select .behavior-insert-waypoint .vertex,
+.ideditor.mode-select .behavior-insert-waypoint .line,
+.ideditor.mode-select .behavior-insert-waypoint .area,
+.ideditor.mode-select .behavior-insert-waypoint .midpoint {
+    cursor: crosshair; /* Opera */
+    cursor: url(img/cursor/draw.png) 9 9, crosshair; /* FF */
+}
+
 .ideditor.mode-add-preset .main-map,
 .ideditor.mode-draw-line .main-map,
 .ideditor.mode-draw-area .main-map,
