@@ -45,9 +45,7 @@ export const cloneTypes: CloneType[] = [
         'lanes:bus:backward', 'busway:right', 'busway:left', 'routing:bus', 'bus'
     ] },
     { id: 'clone_transition', tags: [
-        'placement', 'placement:start', 'placement:end', 'width:lanes:start', 'width:lanes:end',
-        'placement:forward', 'width:lanes:forward:start', 'width:lanes:forward:end',
-        'placement:backward', 'width:lanes:backward:start', 'width:lanes:backward:end'
+        'placement', 'placement:start', 'placement:end', 'placement:forward', 'placement:backward'
     ] },
     { id: 'clone_maxspeed', tags: ['maxspeed'] },
     { id: 'clone_surface', tags: ['surface'] },
