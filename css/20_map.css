@@ -224,12 +224,12 @@ path.shadow.selected {
     stroke-opacity: 0.7;
 }
 
-/* Insert-waypoint mode (Ctrl + one selected way):
-   pale the selected way so aerial imagery stays visible while placing nodes */
-.ideditor.mode-select .behavior-insert-waypoint path.line.selected {
+/* Insert-waypoint mode: pale the way being edited so aerial imagery stays
+   visible while placing nodes along it */
+.ideditor.mode-insert-waypoint path.line.selected {
     opacity: 0.1;
 }
-.ideditor.mode-select .behavior-insert-waypoint path.shadow.selected {
+.ideditor.mode-insert-waypoint path.shadow.selected {
     stroke-opacity: 0.05;
 }
 
