@@ -373,9 +373,10 @@ export function rendererMap(context) {
             context.features().resetStats();
         }
 
-        if (mode && mode.id === 'select') {
+        if (mode && (mode.id === 'select' || mode.id === 'insert-waypoint')) {
             // update selected vertices - the user might have just double-clicked a way,
-            // creating a new vertex, triggering a partial redraw without a mode change
+            // creating a new vertex, triggering a partial redraw without a mode change.
+            // insert-waypoint adds vertices on every click and needs the same refresh.
             surface.call(drawVertices.drawSelected, graph, map.extent());
         }
 
