@@ -5,6 +5,8 @@ export * from './access';
 export * from './address';
 export * from './directional_combo';
 export * from './lanes';
+export * from './lane_list';
+export * from './lane_patterns';
 export * from './localized';
 export * from './roadheight';
 export * from './roadspeed';
@@ -50,6 +52,7 @@ import { uiFieldAccess } from './access';
 import { uiFieldAddress } from './address';
 import { uiFieldDirectionalCombo } from './directional_combo';
 import { uiFieldLanes } from './lanes';
+import { uiFieldLaneList } from './lane_list';
 import { uiFieldLocalized } from './localized';
 import { uiFieldRoadheight } from './roadheight';
 import { uiFieldRoadspeed } from './roadspeed';
@@ -72,6 +75,7 @@ export var uiFields = {
     email: uiFieldEmail,
     identifier: uiFieldIdentifier,
     lanes: uiFieldLanes,
+    laneList: uiFieldLaneList,
     localized: uiFieldLocalized,
     roadheight: uiFieldRoadheight,
     roadspeed: uiFieldRoadspeed,

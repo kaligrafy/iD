@@ -1743,6 +1743,40 @@ button.preset-reset .label.flash-bg {
     border-radius: 0 0 4px 4px;
 }
 
+/* Per-lane fields (laneList): a common-case dropdown stacked over an optional
+   per-lane grid (one numbered cell per lane). */
+.form-field-input-wrap.lane-list {
+    flex-flow: column nowrap;
+}
+.lane-list .lane-dropdown {
+    display: flex;
+    width: 100%;
+}
+.lane-list .lane-dropdown-input {
+    flex: 1 1 auto;
+}
+.lane-list .lane-grid {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+.lane-list .lane-cell {
+    flex: 1 1 0;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    min-width: 38px;
+}
+.lane-list .lane-cell-label {
+    font-size: 10px;
+    line-height: 16px;
+    opacity: 0.6;
+}
+.lane-list .lane-cell-input {
+    width: 100%;
+    text-align: center;
+}
+
 /* Buttons inside fields */
 .form-field-button {
     flex: 0 0 auto;
