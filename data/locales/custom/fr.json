@@ -5,23 +5,36 @@
                 "sidewalk": {
                     "label": "Trottoir"
                 },
+                "access": {
+                    "types": {
+                        "routing:motor_vehicle": "Routage véh. motorisés",
+                        "routing:bicycle": "Routage vélos",
+                        "bus": "Autobus",
+                        "routing:bus": "Routage autobus",
+                        "psv": "Véh. de service public"
+                    }
+                },
+                "lanes_group": { "label": "Voies" },
+                "placement_group": { "label": "Placement" },
+                "turn_lanes_group": { "label": "Virage" },
+                "change_lanes_group": { "label": "Changement" },
                 "placement": { "label": "Placement" },
-                "placement_forward": { "label": "Placement (sens du tracé)" },
-                "placement_backward": { "label": "Placement (sens inverse)" },
-                "lanes_forward": { "label": "Voies (sens du tracé)" },
-                "lanes_backward": { "label": "Voies (sens inverse)" },
-                "width_lanes_start": { "label": "Largeurs de voies — début de transition (m)" },
-                "width_lanes_end": { "label": "Largeurs de voies — fin de transition (m)" },
-                "width_lanes_forward_start": { "label": "Largeurs de voies, sens du tracé — début de transition (m)" },
-                "width_lanes_forward_end": { "label": "Largeurs de voies, sens du tracé — fin de transition (m)" },
-                "width_lanes_backward_start": { "label": "Largeurs de voies, sens inverse — début de transition (m)" },
-                "width_lanes_backward_end": { "label": "Largeurs de voies, sens inverse — fin de transition (m)" },
-                "change_lanes": { "label": "Permissions de changement de voie" },
-                "change_lanes_forward": { "label": "Permissions de changement de voie (sens du tracé)" },
-                "change_lanes_backward": { "label": "Permissions de changement de voie (sens inverse)" },
-                "turn_lanes": { "label": "Indications de direction par voie" },
-                "turn_lanes_forward": { "label": "Indications de direction par voie (sens du tracé)" },
-                "turn_lanes_backward": { "label": "Indications de direction par voie (sens inverse)" },
+                "placement_forward": { "label": "Placement ↑" },
+                "placement_backward": { "label": "Placement ↓" },
+                "lanes_forward": { "label": "Voies ↑" },
+                "lanes_backward": { "label": "Voies ↓" },
+                "width_lanes_start": { "label": "Transition de largeurs début" },
+                "width_lanes_end": { "label": "Transition de largeurs fin" },
+                "width_lanes_forward_start": { "label": "Transition de largeurs ↑ début" },
+                "width_lanes_forward_end": { "label": "Transition de largeurs ↑ fin" },
+                "width_lanes_backward_start": { "label": "Transition de largeurs ↓ début" },
+                "width_lanes_backward_end": { "label": "Transition de largeurs ↓ fin" },
+                "change_lanes": { "label": "Changement" },
+                "change_lanes_forward": { "label": "Changement ↑" },
+                "change_lanes_backward": { "label": "Changement ↓" },
+                "turn_lanes": { "label": "Virage" },
+                "turn_lanes_forward": { "label": "Virage ↑" },
+                "turn_lanes_backward": { "label": "Virage ↓" },
                 "cycleway": {
                     "types": {
                         "cycleway:both": "Les deux côtés"
@@ -79,6 +92,14 @@
         }
     },
     "general": {
+        "preferences": {
+            "editing": {
+                "dense": {
+                    "title": "Éditeur d'objet compact",
+                    "description": "Réduit l'espacement et la hauteur des rangées dans l'éditeur d'objet pour afficher plus de tags à l'écran."
+                }
+            }
+        },
         "lanes": {
             "count_mismatch": "« {tag} » a {actual} voies, mais la route est taggée avec {count}."
         },

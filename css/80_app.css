@@ -927,6 +927,54 @@ summary.hide-toggle::-webkit-details-marker {
 .entity-editor {
     padding: 20px;
 }
+
+/* Compact ("dense") feature editor, toggled from the Editing preferences. The
+   `dense` class is set on `.sidebar` by uiDenseInspector; these overrides trim
+   padding, margins, row height and label size so more tags fit on screen. */
+/* shrink the "Edit feature" header bar and the gap below it */
+.sidebar.dense .header {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+.sidebar.dense .header h3 {
+    font-size: 14px;
+}
+.sidebar.dense .entity-editor {
+    padding: 4px 10px;
+}
+.sidebar.dense .section:not(:last-child) {
+    margin-bottom: 8px;
+}
+/* tighten the disclosure headings ("Feature Type" / "Fields") */
+.sidebar.dense .entity-editor .hide-toggle {
+    margin-bottom: 4px;
+}
+/* shrink the selected-preset row (icon + label) */
+.sidebar.dense .preset-list-button-wrap {
+    min-height: 42px;
+}
+.sidebar.dense .preset-icon-container {
+    width: 42px;
+    height: 42px;
+}
+.sidebar.dense .form-field {
+    margin-bottom: 3px;
+}
+.sidebar.dense .field-label .label-text {
+    padding: 2px 0 2px 8px;
+    font-size: 11px;
+}
+.sidebar.dense input[type=text],
+.sidebar.dense input[type=number],
+.sidebar.dense input[type=tel],
+.sidebar.dense input[type=email],
+.sidebar.dense .tag-row input {
+    height: 2em;
+}
+.sidebar.dense .tag-text,
+.sidebar.dense .tag-list {
+    margin-top: 4px;
+}
 /* preserve extra space at bottom of inspector to allow for dropdown options - #5280 */
 .entity-editor > div:last-child {
     margin-bottom: 150px;
@@ -1727,6 +1775,29 @@ button.preset-reset .label.flash-bg {
     border-radius: 0;
 }
 
+/* Compact one-row fields (flagged `small`, e.g. One way / Lanes): the label
+   sits to the left of the value instead of stacked above it, saving a row. */
+.form-field-small {
+    flex-flow: row nowrap;
+    align-items: stretch;
+}
+.form-field-small .field-label {
+    flex: 0 0 42%;
+    align-items: center;
+    border-radius: 4px 0 0 4px;
+}
+.form-field-small .form-field-input-wrap {
+    width: auto;
+    flex: 1 1 auto;
+    border-radius: 0 4px 4px 0;
+}
+.ideditor[dir='rtl'] .form-field-small .field-label {
+    border-radius: 0 4px 4px 0;
+}
+.ideditor[dir='rtl'] .form-field-small .form-field-input-wrap {
+    border-radius: 4px 0 0 4px;
+}
+
 
 .form-field-input-wrap > input,
 .form-field-input-wrap > label,
@@ -1921,6 +1992,33 @@ input.date-selector {
 .form-field ul.rows.rows-table li.labeled-input > div:nth-child(2) {
     display: table-cell;
     width: auto;
+}
+
+/* Field - directional group (compact ↕ / ↑ / ↓ sub-rows under one header)
+------------------------------------------------------- */
+.form-field-input-directionalGroup {
+    flex: 1 1 auto;
+    width: 100%;
+}
+/* narrow direction-marker cell on the leading edge; the value fills the rest */
+.form-field ul.rows li.directional-group-row > div.directional-group-label {
+    flex: 0 0 2em;
+    width: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.65;
+    font-weight: bold;
+}
+.form-field ul.rows li.directional-group-row > div.directional-group-input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.ideditor[dir='ltr'] .directional-group-label {
+    border-right: 1px solid var(--border-color);
+}
+.ideditor[dir='rtl'] .directional-group-label {
+    border-left: 1px solid var(--border-color);
 }
 
 
@@ -4259,25 +4357,51 @@ li.issue-fix-item button:not(.actionable) .fix-icon {
     margin: 5px;
 }
 
-/* Editing preferences - circularize segment length */
-.editing-options-container .display-control {
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
+/* Editing preferences - each preference is a rounded card styled like the
+   Data Layers list: a filled control row with its description below. */
+.editing-options-container .editing-pref {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
     margin-bottom: 10px;
+    overflow: hidden;          /* clip the filled rows to the card radius */
 }
+.editing-options-container .editing-pref:last-child {
+    margin-bottom: 0;
+}
+
+/* the control row (toggle or slider), like a .layer-list row */
+.editing-options-container .display-control {
+    background-color: var(--bg-color);
+    color: var(--link-color);
+    padding: 8px 10px;
+    margin: 0;
+}
+@media (hover: hover) {
+    .editing-options-container .dense-inspector-control:hover,
+    .editing-options-container .delete-outside-view-control:hover {
+        background-color: var(--bg-color-3);
+    }
+}
+.editing-options-container .dense-inspector-control input,
+.editing-options-container .delete-outside-view-control input {
+    margin: 5px;
+}
+
 .editing-options-container .circularize-segment-length-max {
     font-weight: normal;
     opacity: 0.5;
     margin: 5px;
 }
-.editing-options-container .editing-option-description {
-    margin: 5px;
-    opacity: 0.5;
-    font-style: italic;
+.editing-options-container .delete-outside-view-warning {
+    margin: 8px 10px;
 }
-/* Editing preferences - allow deleting features outside the view */
-.editing-options-container .delete-outside-view-control input {
-    margin: 5px;
+/* description sits under the control row, separated within the same card */
+.editing-options-container .editing-option-description {
+    margin: 0;
+    padding: 8px 10px;
+    border-top: 1px solid var(--border-color);
+    opacity: 0.6;
+    font-style: italic;
 }
 
 .display-control .control-wrap {

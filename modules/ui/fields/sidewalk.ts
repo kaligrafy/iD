@@ -74,12 +74,12 @@ function readLeftRight(left: string, right: string, foot: string): string {
 
 /** Resolve the selector value from the full set of sidewalk-related tags. */
 function readValue(tags: Record<string, string>): string {
-    const sidewalk = tags['sidewalk'];
+    const sidewalk = tags.sidewalk;
     const both = tags['sidewalk:both'];
     const left = tags['sidewalk:left'];
     const right = tags['sidewalk:right'];
-    const foot = tags['foot'];
-    const dual = tags['dual_carriageway'];
+    const foot = tags.foot;
+    const dual = tags.dual_carriageway;
 
     // mixing single/both with left/right (or sidewalk with sidewalk:both) is invalid
     if ((left || right) && (both || sidewalk)) return '';
@@ -152,7 +152,7 @@ export function uiFieldSidewalk(field: { type: string }, context: iD.Context) {
 
         const tag: Record<string, string | undefined> = {};
         RESET_KEYS.forEach((key) => { tag[key] = mapping[key]; });
-        if (mapping['dual_carriageway']) tag['dual_carriageway'] = mapping['dual_carriageway'];
+        if (mapping.dual_carriageway) tag.dual_carriageway = mapping.dual_carriageway;
 
         dispatch.call('change', d3_event.currentTarget, tag);
     }

@@ -217,6 +217,10 @@ export function uiField(context, presetField, entityIDs, options) {
         container = container
             .merge(enter);
 
+        // fields flagged `small` (short values like oneway / lanes) render with
+        // the label left and value right on one row, saving vertical space.
+        container.classed('form-field-small', !!field.small);
+
         container.select('.field-label > .remove-icon')  // propagate bound data
             .on('click', remove);
 
