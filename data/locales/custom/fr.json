@@ -19,6 +19,13 @@
                 "turn_lanes_group": { "label": "Virage" },
                 "change_lanes_group": { "label": "Changement" },
                 "buswaylanes": { "label": "Voies réservées bus" },
+                "dual_carriageway": {
+                    "label": "Chaussée séparée",
+                    "options": {
+                        "yes": "Oui",
+                        "no": "Non"
+                    }
+                },
                 "placement": { "label": "Placement" },
                 "placement_forward": { "label": "Placement ↑" },
                 "placement_backward": { "label": "Placement ↓" },

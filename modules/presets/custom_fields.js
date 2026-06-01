@@ -128,6 +128,15 @@ export const customFields = {
         geometry: ['line'],
         reference: { key: 'busway' },
         prerequisiteTag: { key: 'lanes', valueGreaterThan: 1 }
+    },
+    // Marks a one-way carriageway that is half of a divided road (`dual_carriageway=yes`).
+    // Shown only when `oneway=yes` (same as v5).
+    dual_carriageway: {
+        key: 'dual_carriageway',
+        type: 'radio',
+        options: ['yes', 'no'],
+        geometry: ['line'],
+        prerequisiteTag: { key: 'oneway', value: 'yes' }
     }
 };
 
@@ -261,15 +270,24 @@ export function applyCustomFields(presetManager) {
         removeField(moreFields, 'access');
         fields.splice(fields.indexOf('structure'), 0, 'access');
 
-        if (!NON_MOTORWAY_HIGHWAYS.has(highway)) return;
+        if (!NON_MOTORWAY_HIGHWAYS.has(highway)) {
+            // oneway:bicycle: shown right after the main `oneway` field as a default
+            // field (stays hidden until oneway=yes, see customizeOnewayBicycle).
+            removeField(fields, 'oneway/bicycle');
+            removeField(moreFields, 'oneway/bicycle');
+            const onewayIndex = fields.indexOf('oneway');
+            const insertAt = onewayIndex === -1 ? fields.indexOf('structure') : onewayIndex + 1;
+            fields.splice(insertAt, 0, 'oneway/bicycle');
+        }
 
-        // oneway:bicycle: shown right after the main `oneway` field as a default
-        // field (stays hidden until oneway=yes, see customizeOnewayBicycle).
-        removeField(fields, 'oneway/bicycle');
-        removeField(moreFields, 'oneway/bicycle');
-        const onewayIndex = fields.indexOf('oneway');
-        const insertAt = onewayIndex === -1 ? fields.indexOf('structure') : onewayIndex + 1;
-        fields.splice(insertAt, 0, 'oneway/bicycle');
+        // dual carriageway: default field after `oneway` (and `oneway/bicycle` when
+        // present); hidden until oneway=yes.
+        removeField(fields, 'dual_carriageway');
+        removeField(moreFields, 'dual_carriageway');
+        const afterOnewayExtras = fields.indexOf('oneway/bicycle');
+        const dualAnchor = afterOnewayExtras === -1 ? fields.indexOf('oneway') : afterOnewayExtras;
+        const dualAt = dualAnchor === -1 ? fields.indexOf('structure') : dualAnchor + 1;
+        fields.splice(dualAt < 0 ? fields.length : dualAt, 0, 'dual_carriageway');
     });
 }
 

@@ -288,6 +288,9 @@ export const osmRightSideIsInsideTags: TagDictionary<true | string> = {
     },
     'waterway': {
         'weir': true
+    },
+    'dual_carriageway': {
+        'yes': true
     }
 };
 
