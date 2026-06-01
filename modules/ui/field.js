@@ -18,7 +18,9 @@ import { utilRebind, utilUniqueDomId } from '../util';
  *
  * Accepts a single condition object or an array of conditions matched with OR
  * semantics (the field shows if any condition is satisfied). A condition uses
- * `key` with `value` / `values` / `valueNot` / `valuesNot`, or `keyNot`.
+ * `key` with `value` / `values` / `valueNot` / `valuesNot` / `valueGreaterThan`
+ * (numeric), or `keyNot`, or `allOf` (an array of conditions that must all be
+ * satisfied — AND semantics).
  *
  * @param {Object|Object[]} prerequisiteTag - a condition or an array of conditions
  * @param {Object} tags - the entity tags to test against
@@ -27,12 +29,19 @@ import { utilRebind, utilUniqueDomId } from '../util';
 export function prerequisiteTagSatisfied(prerequisiteTag, tags) {
     const conditions = Array.isArray(prerequisiteTag) ? prerequisiteTag : [prerequisiteTag];
     return conditions.some(function(condition) {
+        if (condition.allOf) {
+            return condition.allOf.every(c => prerequisiteTagSatisfied(c, tags));
+        }
         if (condition.key) {
             const value = tags[condition.key] || '';
             if (condition.valuesNot) return !condition.valuesNot.includes(value);
             if (condition.valueNot) return condition.valueNot !== value;
             if (condition.values) return condition.values.includes(value);
             if (condition.value) return condition.value === value;
+            // numeric comparison: satisfied when the tag parses above the bound
+            if (condition.valueGreaterThan !== undefined) {
+                return parseFloat(value) > condition.valueGreaterThan;
+            }
             return !!value;   // bare `key`: satisfied if any value is present
         }
         if (condition.keyNot) return !tags[condition.keyNot];

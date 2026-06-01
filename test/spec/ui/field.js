@@ -18,7 +18,18 @@ describe('iD.prerequisiteTagSatisfied', () => {
         // array of conditions => OR semantics
         ['OR: first matches', [{ key: 'a', value: 'lane' }, { key: 'b', value: 'lane' }], { a: 'lane' }, true],
         ['OR: second matches', [{ key: 'a', value: 'lane' }, { key: 'b', value: 'lane' }], { b: 'lane' }, true],
-        ['OR: none matches', [{ key: 'a', value: 'lane' }, { key: 'b', value: 'lane' }], { c: 'lane' }, false]
+        ['OR: none matches', [{ key: 'a', value: 'lane' }, { key: 'b', value: 'lane' }], { c: 'lane' }, false],
+        // allOf => AND semantics
+        ['AND: all match', { allOf: [{ key: 'a', value: 'lane' }, { key: 'b' }] }, { a: 'lane', b: 'x' }, true],
+        ['AND: one fails', { allOf: [{ key: 'a', value: 'lane' }, { key: 'b' }] }, { a: 'lane' }, false],
+        // allOf inside an OR array: either the AND group or the lone condition
+        ['OR of AND: group matches', [{ allOf: [{ key: 'a' }, { key: 'b' }] }, { key: 'c' }], { a: '1', b: '1' }, true],
+        ['OR of AND: fallback matches', [{ allOf: [{ key: 'a' }, { key: 'b' }] }, { key: 'c' }], { c: '1' }, true],
+        // valueGreaterThan => numeric comparison
+        ['gt: above', { key: 'lanes', valueGreaterThan: 2 }, { lanes: '3' }, true],
+        ['gt: equal', { key: 'lanes', valueGreaterThan: 2 }, { lanes: '2' }, false],
+        ['gt: below', { key: 'lanes', valueGreaterThan: 2 }, { lanes: '1' }, false],
+        ['gt: absent', { key: 'lanes', valueGreaterThan: 2 }, {}, false]
     ])('%s', (_desc, prerequisiteTag, tags, expected) => {
         it(`returns ${expected}`, () => {
             expect(iD.prerequisiteTagSatisfied(prerequisiteTag, tags)).toBe(expected);
