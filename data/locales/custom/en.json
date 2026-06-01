@@ -19,6 +19,13 @@
                 "turn_lanes_group": { "label": "Turn" },
                 "change_lanes_group": { "label": "Change" },
                 "buswaylanes": { "label": "Bus lanes" },
+                "dual_carriageway": {
+                    "label": "Dual carriageway",
+                    "options": {
+                        "yes": "Yes",
+                        "no": "No"
+                    }
+                },
                 "placement": { "label": "Placement" },
                 "placement_forward": { "label": "Placement ↑" },
                 "placement_backward": { "label": "Placement ↓" },
