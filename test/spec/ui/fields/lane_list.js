@@ -202,7 +202,11 @@ describe('iD.uiFieldLaneList helpers', () => {
             ['no|yes', '|⋮'],            // open from the right only
             ['yes|yes|yes', '⋮ ⋮'],
             ['no|yes|no', '|⋮ ⋮|'],      // matches v5
-            ['yes|not_right|no', '⋮ |']  // matches v5
+            ['yes|not_right|no', '⋮ |'], // matches v5
+            // only_left / only_right are synonyms of not_right / not_left
+            ['yes|only_left|no', '⋮ |'],
+            ['yes|not_right|no', '⋮ |'],
+            ['no|only_right|yes', '| ⋮']
         ])('changeLabel(%s) -> %s', (value, label) => {
             expect(iD.changeLabel(value)).toBe(label);
         });
