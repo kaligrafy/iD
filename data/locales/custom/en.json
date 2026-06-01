@@ -5,6 +5,23 @@
                 "sidewalk": {
                     "label": "Sidewalk"
                 },
+                "placement": { "label": "Placement" },
+                "placement_forward": { "label": "Placement (forward)" },
+                "placement_backward": { "label": "Placement (backward)" },
+                "lanes_forward": { "label": "Lanes (forward)" },
+                "lanes_backward": { "label": "Lanes (backward)" },
+                "width_lanes_start": { "label": "Lane widths — transition start (m)" },
+                "width_lanes_end": { "label": "Lane widths — transition end (m)" },
+                "width_lanes_forward_start": { "label": "Lane widths, forward — transition start (m)" },
+                "width_lanes_forward_end": { "label": "Lane widths, forward — transition end (m)" },
+                "width_lanes_backward_start": { "label": "Lane widths, backward — transition start (m)" },
+                "width_lanes_backward_end": { "label": "Lane widths, backward — transition end (m)" },
+                "change_lanes": { "label": "Lane change permissions" },
+                "change_lanes_forward": { "label": "Lane change permissions (forward)" },
+                "change_lanes_backward": { "label": "Lane change permissions (backward)" },
+                "turn_lanes": { "label": "Turn indications per lane" },
+                "turn_lanes_forward": { "label": "Turn indications per lane (forward)" },
+                "turn_lanes_backward": { "label": "Turn indications per lane (backward)" },
                 "cycleway": {
                     "types": {
                         "cycleway:both": "Both Sides"
@@ -62,6 +79,9 @@
         }
     },
     "general": {
+        "lanes": {
+            "count_mismatch": "“{tag}” has {actual} lanes, but the road is tagged with {count}."
+        },
         "issues": {
             "redundant_directional_tag": {
                 "title": "Redundant Plain Tag",
