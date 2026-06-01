@@ -7,6 +7,7 @@
 
 import { localizer } from '../core/localizer';
 import { cyclewaySubFields, cyclewaySubFieldOrder } from './cycleway_fields';
+import { laneFields, laneFieldOrder } from './lane_fields';
 import { registerCustomStrings } from './custom_strings';
 
 /** Custom field definitions, merged into the preset system at load time. */
@@ -16,8 +17,57 @@ export const customFields = {
         keys: ['sidewalk', 'sidewalk:both', 'sidewalk:left', 'sidewalk:right'],
         type: 'sidewalk',
         geometry: ['line']
+    },
+    // Roadway placement (Québec "Transition" convention). `placement=transition`
+    // marks a lane-count/width transition segment. Free combo: real-world values
+    // (`transition`, `right_of:1`, …) come from taginfo autocomplete.
+    placement: {
+        key: 'placement',
+        type: 'combo',
+        geometry: ['line']
+    },
+    // Per-direction placement, only on bidirectional ways and hidden once the
+    // segment is a transition (which uses the per-lane width fields instead).
+    placement_forward: {
+        key: 'placement:forward',
+        type: 'combo',
+        geometry: ['line'],
+        prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'placement', valueNot: 'transition' }] }
+    },
+    placement_backward: {
+        key: 'placement:backward',
+        type: 'combo',
+        geometry: ['line'],
+        prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'placement', valueNot: 'transition' }] }
+    },
+    // Per-direction lane counts. Not in the upstream schema; shown only when the
+    // split is ambiguous: two-way roads (`oneway!=yes`) with more than 2 lanes.
+    lanes_forward: {
+        key: 'lanes:forward',
+        type: 'number',
+        minValue: 0,
+        geometry: ['line'],
+        prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'lanes', valueGreaterThan: 2 }] }
+    },
+    lanes_backward: {
+        key: 'lanes:backward',
+        type: 'number',
+        minValue: 0,
+        geometry: ['line'],
+        prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'lanes', valueGreaterThan: 2 }] }
     }
 };
+
+// Road lane block, inserted just after the `lanes` field as default fields (see
+// applyCustomFields), in display order: per-direction lane counts, the per-lane
+// fields (turn / change / width), then placement. Prerequisites keep each one
+// hidden until the relevant lane-count / direction tags hold (e.g.
+// lanes_forward/backward show only when lanes>2 and the way is two-way).
+const LANE_BLOCK = [
+    'lanes_forward', 'lanes_backward',
+    ...laneFieldOrder,
+    'placement', 'placement_forward', 'placement_backward'
+];
 
 // highway=* values that should offer the sidewalk field
 const SIDEWALK_HIGHWAYS = new Set([
@@ -49,6 +99,7 @@ const NON_MOTORWAY_HIGHWAYS = new Set([
 export function applyCustomFields(presetManager) {
     presetManager.merge({ fields: customFields });
     presetManager.merge({ fields: cyclewaySubFields });
+    presetManager.merge({ fields: laneFields });
     customizeCycleway(presetManager);
     customizeOnewayBicycle(presetManager);
     registerCustomStrings(localizer);
@@ -79,14 +130,28 @@ export function applyCustomFields(presetManager) {
             fields.splice(fields.indexOf('structure'), 0, 'sidewalk');
         }
 
+        // Lane block (per-direction counts, per-lane turn/change/width, then
+        // placement): default fields inserted right after the `lanes` field, so
+        // they read top-to-bottom as lanes → forward/backward → turn → change →
+        // width → placement. The directional / per-lane fields stay hidden (by
+        // prerequisite) until their lane-count and direction tags hold. Applies
+        // to every road, including motorways. Falls back to before Structure
+        // when a preset has no `lanes` field.
+        LANE_BLOCK.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
+        const afterLanes = fields.indexOf('lanes');
+        const laneInsertAt = afterLanes === -1 ? fields.indexOf('structure') : afterLanes + 1;
+        fields.splice(laneInsertAt, 0, ...LANE_BLOCK);
+
         if (!NON_MOTORWAY_HIGHWAYS.has(highway)) return;
 
-        // cycleway and its lane sub-fields: grouped right after sidewalk as default
-        // fields. `cycleway` is moved out of upstream's moreFields; the sub-fields
-        // stay hidden (by prerequisite) until a cycleway side is a lane.
+        // cycleway and its lane sub-fields: grouped right after the lane block as
+        // default fields. `cycleway` is moved out of upstream's moreFields; the
+        // sub-fields stay hidden (by prerequisite) until a cycleway side is a lane.
         const cyclewayBlock = ['cycleway', ...cyclewaySubFieldOrder];
         cyclewayBlock.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
-        fields.splice(fields.indexOf('structure'), 0, ...cyclewayBlock);
+        const afterBlock = fields.indexOf('placement_backward');
+        const cyclewayAt = afterBlock === -1 ? fields.indexOf('structure') : afterBlock + 1;
+        fields.splice(cyclewayAt, 0, ...cyclewayBlock);
 
         // oneway:bicycle: shown right after the main `oneway` field as a default
         // field (stays hidden until oneway=yes, see customizeOnewayBicycle).

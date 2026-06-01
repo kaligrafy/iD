@@ -5,6 +5,23 @@
                 "sidewalk": {
                     "label": "Trottoir"
                 },
+                "placement": { "label": "Placement" },
+                "placement_forward": { "label": "Placement (sens du tracé)" },
+                "placement_backward": { "label": "Placement (sens inverse)" },
+                "lanes_forward": { "label": "Voies (sens du tracé)" },
+                "lanes_backward": { "label": "Voies (sens inverse)" },
+                "width_lanes_start": { "label": "Largeurs de voies — début de transition (m)" },
+                "width_lanes_end": { "label": "Largeurs de voies — fin de transition (m)" },
+                "width_lanes_forward_start": { "label": "Largeurs de voies, sens du tracé — début de transition (m)" },
+                "width_lanes_forward_end": { "label": "Largeurs de voies, sens du tracé — fin de transition (m)" },
+                "width_lanes_backward_start": { "label": "Largeurs de voies, sens inverse — début de transition (m)" },
+                "width_lanes_backward_end": { "label": "Largeurs de voies, sens inverse — fin de transition (m)" },
+                "change_lanes": { "label": "Permissions de changement de voie" },
+                "change_lanes_forward": { "label": "Permissions de changement de voie (sens du tracé)" },
+                "change_lanes_backward": { "label": "Permissions de changement de voie (sens inverse)" },
+                "turn_lanes": { "label": "Indications de direction par voie" },
+                "turn_lanes_forward": { "label": "Indications de direction par voie (sens du tracé)" },
+                "turn_lanes_backward": { "label": "Indications de direction par voie (sens inverse)" },
                 "cycleway": {
                     "types": {
                         "cycleway:both": "Les deux côtés"
@@ -62,6 +79,9 @@
         }
     },
     "general": {
+        "lanes": {
+            "count_mismatch": "« {tag} » a {actual} voies, mais la route est taggée avec {count}."
+        },
         "issues": {
             "redundant_directional_tag": {
                 "title": "Tag simple redondant",
