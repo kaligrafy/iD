@@ -96,8 +96,12 @@ export function turnLabel(value: string): string {
 
 // `change:lanes` is drawn per *boundary* between two lanes (v5 convention), not
 // per lane: the line is dotted on each side from which a change is allowed.
-const canChangeRight = (lane: string) => lane === 'yes' || lane === 'not_left';
-const canChangeLeft = (lane: string) => lane === 'yes' || lane === 'not_right';
+// `only_left` / `only_right` are accepted as synonyms of `not_right` / `not_left`
+// ("change only to the left" == "not to the right"), since both are seen in OSM.
+const canChangeRight = (lane: string) =>
+    lane === 'yes' || lane === 'not_left' || lane === 'only_right';
+const canChangeLeft = (lane: string) =>
+    lane === 'yes' || lane === 'not_right' || lane === 'only_left';
 
 /** Boundary glyph between two adjacent lanes (dotted on each open side). */
 function boundaryGlyph(left: string, right: string): string {
