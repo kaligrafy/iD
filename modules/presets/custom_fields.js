@@ -111,6 +111,23 @@ export const customFields = {
             { id: 'change_lanes_forward', label: '↑' },
             { id: 'change_lanes_backward', label: '↓' }
         ]
+    },
+    // Bus lanes: one side selector writing the whole bus-lane tag family
+    // (bus:lanes*, lanes:bus*, busway:left/right). `keys` lists every tag it
+    // owns so the field reads as present and clears them all on removal. Shown
+    // once the road has at least two lanes.
+    buswaylanes: {
+        key: 'bus:lanes',
+        keys: [
+            'bus:lanes', 'bus:lanes:forward', 'bus:lanes:backward',
+            'lanes:bus', 'lanes:bus:forward', 'lanes:bus:backward',
+            'busway:right', 'busway:left',
+            'motor_vehicle:lanes', 'motor_vehicle:lanes:forward', 'motor_vehicle:lanes:backward'
+        ],
+        type: 'buswaylanes',
+        geometry: ['line'],
+        reference: { key: 'busway' },
+        prerequisiteTag: { key: 'lanes', valueGreaterThan: 1 }
     }
 };
 
@@ -127,7 +144,7 @@ const WIDTH_FIELDS = laneFieldOrder.filter(id => id.startsWith('width'));
 // hold.
 const LANE_BLOCK = [
     'lanes_group',
-    'turn_lanes_group', 'change_lanes_group',
+    'turn_lanes_group', 'change_lanes_group', 'buswaylanes',
     ...WIDTH_FIELDS,
     'placement_group'
 ];

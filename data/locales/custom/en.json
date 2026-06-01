@@ -18,6 +18,7 @@
                 "placement_group": { "label": "Placement" },
                 "turn_lanes_group": { "label": "Turn" },
                 "change_lanes_group": { "label": "Change" },
+                "buswaylanes": { "label": "Bus lanes" },
                 "placement": { "label": "Placement" },
                 "placement_forward": { "label": "Placement ↑" },
                 "placement_backward": { "label": "Placement ↓" },

@@ -3,6 +3,7 @@ export * from './combo';
 export * from './input';
 export * from './access';
 export * from './address';
+export * from './bus_lanes';
 export * from './directional_combo';
 export * from './lanes';
 export * from './lane_list';
@@ -50,6 +51,7 @@ import {
 
 import { uiFieldAccess } from './access';
 import { uiFieldAddress } from './address';
+import { uiFieldBusLanes } from './bus_lanes';
 import { uiFieldDirectionalCombo } from './directional_combo';
 import { uiFieldDirectionalGroup } from './directional_group';
 import { uiFieldLanes } from './lanes';
@@ -66,6 +68,7 @@ import { uiFieldWikipedia } from './wikipedia';
 export var uiFields = {
     access: uiFieldAccess,
     address: uiFieldAddress,
+    buswaylanes: uiFieldBusLanes,
     check: uiFieldCheck,
     colour: uiFieldColour,
     combo: uiFieldCombo,
