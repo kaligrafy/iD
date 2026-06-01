@@ -32,6 +32,7 @@ import { uiRestore } from './restore';
 import { uiScale } from './scale';
 import { uiShortcuts } from './shortcuts';
 import { uiSidebar } from './sidebar';
+import { uiDenseInspector } from './dense_inspector';
 import { uiSourceSwitch } from './source_switch';
 import { uiSpinner } from './spinner';
 import { uiSplash } from './splash';
@@ -143,6 +144,9 @@ export function uiInit(context) {
             .append('div')
             .attr('class', 'sidebar')
             .call(ui.sidebar);
+
+        // apply (and keep in sync) the compact-inspector preference
+        uiDenseInspector(context);
 
         var content = container
             .append('div')

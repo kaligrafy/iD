@@ -55,18 +55,100 @@ export const customFields = {
         minValue: 0,
         geometry: ['line'],
         prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'lanes', valueGreaterThan: 2 }] }
+    },
+    // Directional groups: one header with compact `↕` / `↑` / `↓` sub-rows for a
+    // bare key and its per-direction variants (see uiFieldDirectionalGroup). Each
+    // sub-row reuses its member field's renderer and prerequisite, so the
+    // forward/backward rows stay hidden until their lane-count tags hold. Groups
+    // without a `prerequisiteTag` always show (their bare member always applies);
+    // turn/change groups show only when one of their members applies.
+    lanes_group: {
+        key: 'lanes',
+        type: 'directionalGroup',
+        geometry: ['line'],
+        members: [
+            { id: 'lanes', label: '↕' },
+            { id: 'lanes_forward', label: '↑' },
+            { id: 'lanes_backward', label: '↓' }
+        ]
+    },
+    placement_group: {
+        key: 'placement',
+        type: 'directionalGroup',
+        geometry: ['line'],
+        members: [
+            { id: 'placement', label: '↕' },
+            { id: 'placement_forward', label: '↑' },
+            { id: 'placement_backward', label: '↓' }
+        ]
+    },
+    turn_lanes_group: {
+        key: 'turn:lanes',
+        type: 'directionalGroup',
+        geometry: ['line'],
+        prerequisiteTag: [
+            laneFields.turn_lanes.prerequisiteTag,
+            laneFields.turn_lanes_forward.prerequisiteTag,
+            laneFields.turn_lanes_backward.prerequisiteTag
+        ],
+        members: [
+            { id: 'turn_lanes', label: '↕' },
+            { id: 'turn_lanes_forward', label: '↑' },
+            { id: 'turn_lanes_backward', label: '↓' }
+        ]
+    },
+    change_lanes_group: {
+        key: 'change:lanes',
+        type: 'directionalGroup',
+        geometry: ['line'],
+        prerequisiteTag: [
+            laneFields.change_lanes.prerequisiteTag,
+            laneFields.change_lanes_forward.prerequisiteTag,
+            laneFields.change_lanes_backward.prerequisiteTag
+        ],
+        members: [
+            { id: 'change_lanes', label: '↕' },
+            { id: 'change_lanes_forward', label: '↑' },
+            { id: 'change_lanes_backward', label: '↓' }
+        ]
     }
 };
 
-// Road lane block, inserted just after the `lanes` field as default fields (see
-// applyCustomFields), in display order: per-direction lane counts, the per-lane
-// fields (turn / change / width), then placement. Prerequisites keep each one
-// hidden until the relevant lane-count / direction tags hold (e.g.
-// lanes_forward/backward show only when lanes>2 and the way is two-way).
+// Width fields stay standalone (they only apply to transition segments); the
+// lanes / turn / change / placement fields are folded into directional groups.
+const WIDTH_FIELDS = laneFieldOrder.filter(id => id.startsWith('width'));
+
+// Road lane block, inserted where the upstream `lanes` field sat, as default
+// fields (see applyCustomFields). Display order: the lanes group (with the
+// road-attributes block spliced in just after it), then turn / change groups,
+// the standalone width fields, then the placement group. Group headers stand in
+// for the bare key plus its `↑` / `↓` rows; the forward/backward rows and the
+// turn/change groups stay hidden (by prerequisite) until their lane-count tags
+// hold.
 const LANE_BLOCK = [
+    'lanes_group',
+    'turn_lanes_group', 'change_lanes_group',
+    ...WIDTH_FIELDS,
+    'placement_group'
+];
+
+// Every field id managed by the lane block (group headers, their member fields,
+// and the standalone width fields). Removed before insertion so we control the
+// order and never duplicate an entry.
+const MANAGED_LANE_FIELDS = [
+    'lanes', ...LANE_BLOCK,
     'lanes_forward', 'lanes_backward',
-    ...laneFieldOrder,
-    'placement', 'placement_forward', 'placement_backward'
+    'placement', 'placement_forward', 'placement_backward',
+    'turn_lanes', 'turn_lanes_forward', 'turn_lanes_backward',
+    'change_lanes', 'change_lanes_forward', 'change_lanes_backward'
+];
+
+// Fields whose value is short enough to sit beside its label on one row (see
+// the `small` field flag, read by uiField). Only standalone fields are listed;
+// the lane / placement fields fold into directional groups, which lay their
+// sub-rows out compactly themselves (see uiFieldDirectionalGroup / CSS).
+const SMALL_FIELDS = [
+    'oneway', 'maxspeed', 'surface', 'sidewalk', 'ref_road_number'
 ];
 
 // highway=* values that should offer the sidewalk field
@@ -102,6 +184,8 @@ export function applyCustomFields(presetManager) {
     presetManager.merge({ fields: laneFields });
     customizeCycleway(presetManager);
     customizeOnewayBicycle(presetManager);
+    customizeAccess(presetManager);
+    markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
 
     presetManager.collection.forEach(preset => {
@@ -117,41 +201,50 @@ export function applyCustomFields(presetManager) {
         // are skipped: they inherit the field from the parent we modify here.
         if (fields.indexOf('structure') === -1) return;
 
-        // drop any pre-existing entry (upstream lists `sidewalk` in some moreFields)
-        // so we control its position and avoid duplicates
-        removeField(fields, 'sidewalk');
-        removeField(moreFields, 'sidewalk');
+        // Lane block: default fields inserted where the upstream `lanes` field
+        // sat (the `lanes_group` header replaces it). The directional groups and
+        // per-lane width fields stay hidden (by prerequisite) until their
+        // lane-count and direction tags hold. Applies to every road, including
+        // motorways. Falls back to before Structure when a preset has no `lanes`
+        // field. Only `lanes` is present at this point, so removing it leaves the
+        // insert index pointing at its former position.
+        const lanesIndex = fields.indexOf('lanes');
+        MANAGED_LANE_FIELDS.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
+        const laneInsertAt = lanesIndex === -1 ? fields.indexOf('structure') : lanesIndex;
+        fields.splice(laneInsertAt < 0 ? fields.length : laneInsertAt, 0, ...LANE_BLOCK);
 
-        if (SIDEWALK_MORE_ONLY.has(highway)) {
-            // motorways: available via "+ add field", not shown by default
-            moreFields.push('sidewalk');
-        } else {
-            // other roads: shown by default, just before the Structure field
-            fields.splice(fields.indexOf('structure'), 0, 'sidewalk');
+        // Road-attributes block, spliced in right after the lanes group and
+        // before the turn/change groups (so it reads lanes → sidewalk → surface →
+        // cycleway → turn → change → width → placement): sidewalk, surface, then
+        // cycleway and its lane sub-fields. We control their position, so first
+        // drop any pre-existing entries to avoid duplicates. Sidewalk on motorways
+        // stays in moreFields ("+ add field"); cycleway is non-motorway only.
+        ['sidewalk', 'surface', 'cycleway', ...cyclewaySubFieldOrder].forEach(id => {
+            removeField(fields, id);
+            removeField(moreFields, id);
+        });
+
+        const attrBlock = [];
+        if (SIDEWALK_MORE_ONLY.has(highway)) moreFields.push('sidewalk');
+        else attrBlock.push('sidewalk');
+        attrBlock.push('surface');
+        // cycleway + sub-fields only on non-motorway roads; sub-fields stay hidden
+        // (by prerequisite) until a cycleway side is a lane.
+        if (NON_MOTORWAY_HIGHWAYS.has(highway)) {
+            attrBlock.push('cycleway', ...cyclewaySubFieldOrder);
         }
 
-        // Lane block (per-direction counts, per-lane turn/change/width, then
-        // placement): default fields inserted right after the `lanes` field, so
-        // they read top-to-bottom as lanes → forward/backward → turn → change →
-        // width → placement. The directional / per-lane fields stay hidden (by
-        // prerequisite) until their lane-count and direction tags hold. Applies
-        // to every road, including motorways. Falls back to before Structure
-        // when a preset has no `lanes` field.
-        LANE_BLOCK.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
-        const afterLanes = fields.indexOf('lanes');
-        const laneInsertAt = afterLanes === -1 ? fields.indexOf('structure') : afterLanes + 1;
-        fields.splice(laneInsertAt, 0, ...LANE_BLOCK);
+        // anchor right after the lanes group (just before the turn group)
+        const afterLanesGroup = fields.indexOf('lanes_group');
+        const attrAt = afterLanesGroup === -1 ? fields.indexOf('structure') : afterLanesGroup + 1;
+        fields.splice(attrAt < 0 ? fields.length : attrAt, 0, ...attrBlock);
+
+        // access shown as a default field, just before Structure
+        removeField(fields, 'access');
+        removeField(moreFields, 'access');
+        fields.splice(fields.indexOf('structure'), 0, 'access');
 
         if (!NON_MOTORWAY_HIGHWAYS.has(highway)) return;
-
-        // cycleway and its lane sub-fields: grouped right after the lane block as
-        // default fields. `cycleway` is moved out of upstream's moreFields; the
-        // sub-fields stay hidden (by prerequisite) until a cycleway side is a lane.
-        const cyclewayBlock = ['cycleway', ...cyclewaySubFieldOrder];
-        cyclewayBlock.forEach(id => { removeField(fields, id); removeField(moreFields, id); });
-        const afterBlock = fields.indexOf('placement_backward');
-        const cyclewayAt = afterBlock === -1 ? fields.indexOf('structure') : afterBlock + 1;
-        fields.splice(cyclewayAt, 0, ...cyclewayBlock);
 
         // oneway:bicycle: shown right after the main `oneway` field as a default
         // field (stays hidden until oneway=yes, see customizeOnewayBicycle).
@@ -167,6 +260,21 @@ export function applyCustomFields(presetManager) {
 function removeField(list, fieldID) {
     const index = list.indexOf(fieldID);
     if (index !== -1) list.splice(index, 1);
+}
+
+/**
+ * Flag the given fields as `small` so they render with the label and value on a
+ * single row (see uiField). Mutates each shared field in place; unknown ids are
+ * skipped so the set can list fields a preset may not have loaded.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ * @param {string[]} ids - field ids to flag
+ */
+function markSmallFields(presetManager, ids) {
+    ids.forEach(id => {
+        const field = presetManager.field(id);
+        if (field) field.small = true;
+    });
 }
 
 /**
@@ -210,3 +318,21 @@ function customizeOnewayBicycle(presetManager) {
     if (!field) return;
     field.prerequisiteTag = { key: 'oneway', value: 'yes' };
 }
+
+/**
+ * Restore the v5 `access` field rows: drop `horse` (not used in our context) and
+ * add the per-mode routing keys plus transit access (`bus`, `psv`). The row
+ * labels for the added keys live in the custom locale files (access.types).
+ * Mutates the shared upstream field in place.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizeAccess(presetManager) {
+    const field = presetManager.field('access');
+    if (!field || field.type !== 'access') return;
+    field.keys = [
+        'access', 'foot', 'motor_vehicle', 'routing:motor_vehicle',
+        'bicycle', 'routing:bicycle', 'bus', 'routing:bus', 'psv'
+    ];
+}
+

@@ -7,6 +7,7 @@ import { svgIcon } from '../../svg/icon';
 import { uiSection } from '../section';
 import { SEGMENT_LENGTH, MAX_VERTICES } from '../../actions/circularize';
 import { DELETE_OUTSIDE_VIEW } from '../../operations/delete';
+import { DENSE_INSPECTOR } from '../dense_inspector';
 
 
 /**
@@ -41,15 +42,52 @@ export function uiSectionEditingPreferences(context) {
         return prefs(DELETE_OUTSIDE_VIEW) === 'true';
     }
 
+    /** Whether the feature editor is shown in the compact ("dense") layout. */
+    function denseInspector() {
+        return prefs(DENSE_INSPECTOR) === 'true';
+    }
+
     function renderDisclosureContent(selection) {
         let container = selection.selectAll('.editing-options-container')
             .data([0]);
 
+        // each preference sits in its own card (.editing-pref) so the controls
+        // are visually separated rather than sharing one outer border
         const containerEnter = container.enter()
             .append('div')
-            .attr('class', 'display-options-container editing-options-container controls-list');
+            .attr('class', 'display-options-container editing-options-container');
 
-        const controlEnter = containerEnter
+        // compact ("dense") inspector toggle: clicking the label flips the pref;
+        // the class is applied to the sidebar by uiDenseInspector.
+        const denseGroup = containerEnter
+            .append('div')
+            .attr('class', 'editing-pref');
+
+        const denseControlEnter = denseGroup
+            .append('label')
+            .attr('class', 'display-control dense-inspector-control');
+
+        denseControlEnter
+            .append('input')
+            .attr('type', 'checkbox')
+            .attr('class', 'dense-inspector-input')
+            .on('change', function() {
+                prefs(DENSE_INSPECTOR, d3_select(this).property('checked') ? 'true' : 'false');
+            });
+
+        denseControlEnter
+            .call(t.append('preferences.editing.dense.title'));
+
+        denseGroup
+            .append('div')
+            .attr('class', 'editing-option-description')
+            .call(t.append('preferences.editing.dense.description'));
+
+        const circularizeGroup = containerEnter
+            .append('div')
+            .attr('class', 'editing-pref');
+
+        const controlEnter = circularizeGroup
             .append('label')
             .attr('class', 'display-control circularize-segment-length-control');
 
@@ -98,7 +136,11 @@ export function uiSectionEditingPreferences(context) {
             .call(t.append('preferences.editing.circularize_segment_length.description'));
 
         // delete-outside-view toggle: clicking the label flips the preference
-        const deleteControlEnter = containerEnter
+        const deleteGroup = containerEnter
+            .append('div')
+            .attr('class', 'editing-pref');
+
+        const deleteControlEnter = deleteGroup
             .append('label')
             .attr('class', 'display-control delete-outside-view-control');
 
@@ -115,12 +157,12 @@ export function uiSectionEditingPreferences(context) {
 
         // description and an advanced-user warning sit outside the label so they
         // are not clickable toggles
-        containerEnter
+        deleteGroup
             .append('div')
             .attr('class', 'editing-option-description')
             .call(t.append('preferences.editing.delete_outside_view.description'));
 
-        const warnEnter = containerEnter
+        const warnEnter = deleteGroup
             .append('div')
             .attr('class', 'field-warning delete-outside-view-warning');
 
@@ -133,6 +175,9 @@ export function uiSectionEditingPreferences(context) {
 
         // update
         container = containerEnter.merge(container);
+
+        container.selectAll('.dense-inspector-input')
+            .property('checked', denseInspector());
 
         container.selectAll('.delete-outside-view-input')
             .property('checked', deleteOutsideView());
@@ -149,6 +194,7 @@ export function uiSectionEditingPreferences(context) {
 
     prefs.onChange(SEGMENT_LENGTH.pref, section.reRender);
     prefs.onChange(DELETE_OUTSIDE_VIEW, section.reRender);
+    prefs.onChange(DENSE_INSPECTOR, section.reRender);
 
     return section;
 }

@@ -51,6 +51,7 @@ import {
 import { uiFieldAccess } from './access';
 import { uiFieldAddress } from './address';
 import { uiFieldDirectionalCombo } from './directional_combo';
+import { uiFieldDirectionalGroup } from './directional_group';
 import { uiFieldLanes } from './lanes';
 import { uiFieldLaneList } from './lane_list';
 import { uiFieldLocalized } from './localized';
@@ -72,13 +73,12 @@ export var uiFields = {
     date: uiFieldText,
     defaultCheck: uiFieldDefaultCheck,
     directionalCombo: uiFieldDirectionalCombo,
+    directionalGroup: uiFieldDirectionalGroup,
     email: uiFieldEmail,
     identifier: uiFieldIdentifier,
-    lanes: uiFieldLanes,
     laneList: uiFieldLaneList,
+    lanes: uiFieldLanes,
     localized: uiFieldLocalized,
-    roadheight: uiFieldRoadheight,
-    roadspeed: uiFieldRoadspeed,
     manyCombo: uiFieldManyCombo,
     multiCombo: uiFieldMultiCombo,
     networkCombo: uiFieldNetworkCombo,
@@ -86,6 +86,8 @@ export var uiFields = {
     onewayCheck: uiFieldOnewayCheck,
     radio: uiFieldRadio,
     restrictions: uiFieldRestrictions,
+    roadheight: uiFieldRoadheight,
+    roadspeed: uiFieldRoadspeed,
     schedule: uiFieldSchedule,
     semiCombo: uiFieldSemiCombo,
     sidewalk: uiFieldSidewalk,
