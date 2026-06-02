@@ -26,6 +26,15 @@
                         "no": "Non"
                     }
                 },
+                "junction_oneway": {
+                    "label": "Jonction",
+                    "options": {
+                        "roundabout": "Rond-point",
+                        "circular": "Cercle routier",
+                        "jughandle": "Bretelle en J",
+                        "turning_loop": "Boucle de retournement"
+                    }
+                },
                 "placement": { "label": "Placement" },
                 "placement_forward": { "label": "Placement ↑" },
                 "placement_backward": { "label": "Placement ↓" },

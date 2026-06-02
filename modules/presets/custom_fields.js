@@ -137,6 +137,18 @@ export const customFields = {
         options: ['yes', 'no'],
         geometry: ['line'],
         prerequisiteTag: { key: 'oneway', value: 'yes' }
+    },
+    // Junction type on one-way roads (`junction=*`). Replaces the upstream
+    // `junction_line` field on our road presets (adds `turning_loop`, shown only
+    // when `oneway=yes`, same as v5).
+    junction_oneway: {
+        key: 'junction',
+        type: 'combo',
+        options: ['roundabout', 'circular', 'jughandle', 'turning_loop'],
+        autoSuggestions: false,
+        customValues: false,
+        geometry: ['line'],
+        prerequisiteTag: { key: 'oneway', value: 'yes' }
     }
 };
 
@@ -288,6 +300,16 @@ export function applyCustomFields(presetManager) {
         const dualAnchor = afterOnewayExtras === -1 ? fields.indexOf('oneway') : afterOnewayExtras;
         const dualAt = dualAnchor === -1 ? fields.indexOf('structure') : dualAnchor + 1;
         fields.splice(dualAt < 0 ? fields.length : dualAt, 0, 'dual_carriageway');
+
+        // junction on one-way roads: drop upstream `junction_line` to avoid two
+        // editors for the same tag, then insert our field after dual_carriageway.
+        removeField(fields, 'junction_line');
+        removeField(moreFields, 'junction_line');
+        removeField(fields, 'junction_oneway');
+        removeField(moreFields, 'junction_oneway');
+        const afterDual = fields.indexOf('dual_carriageway');
+        const junctionAt = afterDual === -1 ? dualAt : afterDual + 1;
+        fields.splice(junctionAt < 0 ? fields.length : junctionAt, 0, 'junction_oneway');
     });
 }
 
