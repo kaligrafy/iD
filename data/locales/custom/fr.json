@@ -109,6 +109,12 @@
         }
     },
     "general": {
+        "version_branch_banner": {
+            "message": "Vous utilisez le nouvel éditeur v6. Le transfert des fonctionnalités depuis la v5 est encore incomplet et les raccourcis clavier seront modifiés. Vous pouvez revenir à la version précédente si nécessaire.",
+            "open_v5": "Ouvrir l'éditeur v5",
+            "footer_link": "Éditeur v5",
+            "dismiss": "Masquer"
+        },
         "settings": {
             "custom_background": {
                 "private_url": {

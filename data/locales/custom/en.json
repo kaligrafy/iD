@@ -109,6 +109,12 @@
         }
     },
     "general": {
+        "version_branch_banner": {
+            "message": "You are using the new v6 editor. The migration from v5 is still incomplete; keyboard shortcuts will change. You can return to the previous version if needed.",
+            "open_v5": "Open v5 editor",
+            "footer_link": "v5 editor",
+            "dismiss": "Dismiss"
+        },
         "settings": {
             "custom_background": {
                 "private_url": {

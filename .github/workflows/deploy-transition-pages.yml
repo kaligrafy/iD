@@ -1,0 +1,77 @@
+# Deploy Transition editor to GitHub Pages: v6 at site root, v5 under /v5/.
+# Replaces the previous workflow that published only the v5 branch to the root.
+name: Deploy Transition GitHub Pages
+
+on:
+  push:
+    branches: [v6]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout v6
+        uses: actions/checkout@v4
+        with:
+          ref: v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Build v6 editor
+        run: |
+          npm ci
+          npm run build
+          npm run dist
+
+      - name: Checkout v5
+        uses: actions/checkout@v4
+        with:
+          ref: v5
+          path: v5-src
+
+      - name: Build v5 editor
+        working-directory: v5-src
+        run: |
+          npm ci
+          npm run build
+          npm run dist
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site/v5
+          cp index.html land.html _site/
+          cp -r dist _site/dist
+          cp -r v5-src/dist/* _site/v5/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

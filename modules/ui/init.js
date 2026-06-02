@@ -40,6 +40,7 @@ import { uiStatus } from './status';
 import { uiTooltip } from './tooltip';
 import { uiTopToolbar } from './top_toolbar';
 import { uiVersion } from './version';
+import { uiLegacyV5FooterLink, uiVersionBranchBanner } from './version_branch_banner';
 import { uiZoom } from './zoom';
 import { uiZoomToSelection } from './zoom_to_selection';
 import { uiCmd } from './cmd';
@@ -120,6 +121,9 @@ export function uiInit(context) {
         container
             .attr('lang', localizer.localeCode())
             .attr('dir', localizer.textDirection());
+
+        container
+            .call(uiVersionBranchBanner());
 
         // setup fullscreen keybindings (no button shown at this time)
         container
@@ -347,6 +351,11 @@ export function uiInit(context) {
             .append('li')
             .attr('class', 'version')
             .call(uiVersion(context));
+
+        aboutList
+            .append('li')
+            .attr('class', 'legacy-v5-editor')
+            .call(uiLegacyV5FooterLink());
 
         if (!context.embed()) {
             aboutList
