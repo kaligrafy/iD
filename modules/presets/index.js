@@ -7,6 +7,7 @@ import { locationManager } from '../core/location_manager';
 import { osmNodeGeometriesForTags, osmSetAreaKeys, osmSetLineTags, osmSetPointTags, osmSetVertexTags } from '../osm/tags';
 import { presetCategory } from './category';
 import { presetCollection } from './collection';
+import { applyCustomPresets } from './apply_custom_presets';
 import { applyCustomFields } from './custom_fields';
 import { presetField } from './field';
 import { presetPreset } from './preset';
@@ -78,12 +79,14 @@ export function presetIndex() {
           presets: vals[2],
           fields: vals[3]
         });
-        // attach custom (Québec-specific) fields on top of the schema data
-        applyCustomFields(_this);
-        osmSetAreaKeys(_this.areaKeys());
-        osmSetLineTags(_this.lineTags());
-        osmSetPointTags(_this.pointTags());
-        osmSetVertexTags(_this.vertexTags());
+        return applyCustomPresets(_this).then(() => {
+          // attach custom (Québec-specific) fields on top of the schema data
+          applyCustomFields(_this);
+          osmSetAreaKeys(_this.areaKeys());
+          osmSetLineTags(_this.lineTags());
+          osmSetPointTags(_this.pointTags());
+          osmSetVertexTags(_this.vertexTags());
+        });
       });
   };
 
