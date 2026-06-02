@@ -2021,6 +2021,14 @@ input.date-selector {
     border-left: 1px solid var(--border-color);
 }
 
+/* Lanes one-way / directional-tag warning spans the field, between label and rows */
+.form-field .lanes-oneway-warning {
+    flex: 1 1 100%;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+}
+
 
 /* Field - Structure
 ------------------------------------------------------- */

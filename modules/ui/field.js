@@ -8,6 +8,7 @@ import { uiTooltip } from './tooltip';
 import { geoExtent } from '../geo/extent';
 import { uiFieldHelp } from './field_help';
 import { uiFields } from './fields';
+import { directionalLaneTagsOnOneway } from './fields/lane_warnings';
 import { LANGUAGE_SUFFIX_REGEX } from './fields/localized';
 import { uiTagReference } from './tag_reference';
 import { utilRebind, utilUniqueDomId } from '../util';
@@ -104,6 +105,23 @@ export function uiField(context, presetField, entityIDs, options) {
 
     function allKeys() {
         return field.allKeys();
+    }
+
+
+    // Full-width notice above the Lanes input (not inside the directional sub-rows).
+    function renderLanesOnewayWarning(selection, tags) {
+        const found = directionalLaneTagsOnOneway(tags);
+        let warn = selection.selectAll('.lanes-oneway-warning')
+            .data(found.length ? [0] : []);
+
+        warn.exit().remove();
+
+        const enter = warn.enter()
+            .insert('div', '.form-field-input-wrap')
+            .attr('class', 'field-warning lanes-oneway-warning');
+
+        warn = enter.merge(warn);
+        warn.text(t('lanes.oneway_directional_tags', { tags: found.join(', ') }));
     }
 
 
@@ -261,6 +279,12 @@ export function uiField(context, presetField, entityIDs, options) {
 
                 selection
                     .call(d.impl);
+
+                if (d.key === 'lanes' && d.type === 'directionalGroup') {
+                    renderLanesOnewayWarning(selection, _tags);
+                } else {
+                    selection.selectAll('.lanes-oneway-warning').remove();
+                }
 
                 // add field help components
                 if (help) {

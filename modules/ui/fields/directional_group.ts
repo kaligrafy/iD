@@ -1,11 +1,9 @@
 import { dispatch as d3_dispatch } from 'd3-dispatch';
 import { select as d3_select } from 'd3-selection';
 
-import { t } from '../../core/localizer';
 import { utilRebind, utilUniqueDomId } from '../../util';
 import { presetManager } from '../../presets';
 import { prerequisiteTagSatisfied } from '../field';
-import { directionalLaneTagsOnOneway } from './lane_warnings';
 import { uiFieldCombo } from './combo';
 import { uiFieldNumber } from './input';
 import { uiFieldLaneList } from './lane_list';
@@ -102,22 +100,7 @@ export function uiFieldDirectionalGroup(
 
         // feed the full tag set to each visible member renderer
         rows.each((m: any) => m.impl.tags(_tags));
-
-        if (field.key === 'lanes') renderOnewayDirectionalWarning(_tags);
     };
-
-    // Inline notice when a one-way road still has :forward / :backward lane tags.
-    function renderOnewayDirectionalWarning(tags: Record<string, string>) {
-        const found = directionalLaneTagsOnOneway(tags);
-        let warn = wrap.selectAll('.field-warning').data([0]);
-        warn = warn.enter()
-            .append('div')
-            .attr('class', 'field-warning')
-            .merge(warn);
-        warn.text(found.length
-            ? t('lanes.oneway_directional_tags', { tags: found.join(', ') })
-            : '');
-    }
 
     directionalGroup.focus = function() {
         const node = wrap.selectAll('input').node();
