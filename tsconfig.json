@@ -12,5 +12,5 @@
         "resolveJsonModule": true,
         "types": ["vitest/globals", "vitest/jsdom"]
     },
-    "include": ["modules", "test"]
+    "include": ["modules", "test", "scripts", "scripts/schema_builder.d.ts", "data/custom-tagging/src"]
 }
