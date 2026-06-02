@@ -1,4 +1,5 @@
 import { select as d3_select } from 'd3-selection';
+import { appendCustomTagClasses } from '../../config/tag_classes_custom.js';
 import { osmPathHighwayTagValues, osmPavedTags, osmSemipavedTags, osmLifecyclePrefixes } from '../osm/tags';
 
 
@@ -148,6 +149,8 @@ export function svgTagClasses() {
         if (qid) {
             classes.push('tag-wikidata');
         }
+
+        appendCustomTagClasses(classes, t);
 
         // ensure that classes for tags keys/values with special characters like spaces
         // are not added to the DOM, because it can cause bizarre issues (#9448)
