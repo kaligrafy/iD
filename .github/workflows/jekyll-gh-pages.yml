@@ -2,11 +2,8 @@
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["v5"]
-
-  # Allows you to run this workflow manually from the Actions tab
+  # v6 branch deploys v6 at site root and v5 under /v5/ (see deploy-transition-pages.yml).
+  # Manual only — avoids overwriting GitHub Pages on v5 pushes.
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
