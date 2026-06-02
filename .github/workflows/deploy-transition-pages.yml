@@ -37,18 +37,14 @@ jobs:
           npm run build
           npm run dist
 
-      - name: Checkout v5
+      # v5 has no package-lock.json; production builds are committed under dist/
+      # (same as the former Jekyll workflow: source ./dist on branch v5).
+      - name: Checkout v5 dist
         uses: actions/checkout@v4
         with:
           ref: v5
           path: v5-src
-
-      - name: Build v5 editor
-        working-directory: v5-src
-        run: |
-          npm ci
-          npm run build
-          npm run dist
+          sparse-checkout: dist
 
       - name: Assemble site
         run: |
