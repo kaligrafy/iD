@@ -6024,6 +6024,48 @@ button.conflicts-button {
 
 /* Notices (Zoom in to Edit)
 ------------------------------------------------------- */
+/* Legacy v5 link (Transition deployment) */
+.version-branch-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 6000;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+.version-branch-banner-text {
+    flex: 1 1 240px;
+    line-height: 1.4;
+}
+.version-branch-banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+.version-branch-banner-link.button {
+    text-decoration: none;
+}
+.version-branch-banner-dismiss .icon {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+}
+html.version-branch-banner-visible #id-container.ideditor {
+    padding-top: 52px;
+    box-sizing: border-box;
+}
+html.version-branch-banner-visible #id-container.ideditor .sidebar,
+html.version-branch-banner-visible #id-container.ideditor .main-content {
+    height: calc(100% - 52px);
+}
+
 .notice {
     position: absolute;
     top: 15px;
