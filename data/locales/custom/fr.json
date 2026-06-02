@@ -109,6 +109,19 @@
         }
     },
     "general": {
+        "settings": {
+            "custom_background": {
+                "private_url": {
+                    "label": "URL privée / serveur cache",
+                    "description": "Ne pas inclure l'URL des tuiles dans le tag imagery_used du changeset OpenStreetMap.",
+                    "imagery_used_name": {
+                        "label": "Nom",
+                        "placeholder": "Nom de l'imagerie",
+                        "description": "Nom écrit dans imagery_used pour le changeset"
+                    }
+                }
+            }
+        },
         "preferences": {
             "editing": {
                 "dense": {

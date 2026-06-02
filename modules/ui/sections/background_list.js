@@ -15,7 +15,7 @@ export function uiSectionBackgroundList(context) {
 
     var _backgroundList = d3_select(null);
 
-    var _settingsCustomBackground = uiSettingsCustomBackground(context)
+    var _settingsCustomBackground = uiSettingsCustomBackground()
         .on('change', customChanged);
 
     var section = uiSection('background-list', context)
@@ -207,7 +207,7 @@ export function uiSectionBackgroundList(context) {
                 .title(() => t.append('settings.custom_background.tooltip'))
                 .placement((localizer.textDirection() === 'rtl') ? 'right' : 'left')
             )
-            .on('click', function(d3_event) {
+            .on('click', function(d3_event, d) {
                 d3_event.preventDefault();
                 editCustom();
             })
@@ -261,12 +261,15 @@ export function uiSectionBackgroundList(context) {
         if (d && d.template) {
             customSource.template(d.template);
             chooseBackground(customSource);
-        } else {
+        } else if (d && d.template === '') {
             customSource.template('');
             var noneSource = background.findSource('none');
             if (noneSource) {
                 chooseBackground(noneSource);
             }
+        } else if (customSource.template() && background.showsLayer(customSource)) {
+            // private-url checkbox changed; refresh imagery_used
+            chooseBackground(customSource);
         }
     }
 
