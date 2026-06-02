@@ -30,6 +30,12 @@ Come on in, the water's lovely. More help?
 
 Follow the steps in the [how to get started guide](https://github.com/openstreetmap/iD/wiki/How-to-get-started#build-and-test-instructions) on how to install, build and run iD locally.
 
+## Custom presets (Chaire Mobilité)
+
+This fork adds Québec-specific presets and fields on top of the upstream [id-tagging-schema](https://github.com/openstreetmap/id-tagging-schema) package (footway/cycleway links, `placement`, lane UI, and related strings).
+
+Sources live under `data/custom-tagging/`; the build step writes `dist/data/custom/*.min.json`, which iD loads at runtime. Preset names and search terms are in `data/locales/custom_presets/`; field labels and other fork strings stay in `data/locales/custom/`. See **[data/custom-tagging/README.md](data/custom-tagging/README.md)** for layout, build commands, and how to add a new preset.
+
 ## License
 
 iD is available under the [ISC License](https://opensource.org/licenses/ISC).
