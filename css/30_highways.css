@@ -745,3 +745,17 @@ g.midpoint.tag-highway-bridleway .fill {
     stroke-opacity: .8;
     opacity: .8;
 }
+
+/* -----------------------------------------------------------------------------
+ * Chaire Mobilité iD fork — placement=transition (wider road, v5 parity)
+ * Depends on config/tag_classes_custom.js and appendCustomTagClasses().
+ * ----------------------------------------------------------------------------- */
+path.line.shadow.tag-highway.tag-placement-transition {
+    stroke-width: 24;
+}
+path.line.casing.tag-highway.tag-placement-transition {
+    stroke-width: 14 !important;
+}
+path.line.stroke.tag-highway.tag-placement-transition {
+    stroke-width: 12;
+}

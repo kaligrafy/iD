@@ -75,6 +75,13 @@ describe('iD.svgTagClasses', function () {
         expect(selection.attr('class')).to.equal('tag-railway tag-railway-rail tag-bridge tag-bridge-yes');
     });
 
+    it('adds placement=transition class (custom fork)', function() {
+        selection
+            .datum(new iD.osmWay({tags: {highway: 'secondary', placement: 'transition'}}))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-placement-transition')).to.be.true;
+    });
+
     it('adds no bridge=no tags', function() {
         selection
             .datum(new iD.osmWay({tags: {bridge: 'no'}}))
