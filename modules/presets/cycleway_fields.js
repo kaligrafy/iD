@@ -9,8 +9,8 @@
 // array prerequisiteTag (OR semantics) so each tag is owned by a single field
 // (two fields on the same key would both show once the tag is present).
 //
-// Labels and option labels live in `data/locales/custom/{en,fr}.json`; option
-// labels are shared across the side variants via `stringsCrossReference`
+// Labels and option labels live in `data/locales/custom/{en,fr}.json` (tagging
+// scope, presets.fields). Option labels are shared across the side variants via `stringsCrossReference`
 // (pointing at the canonical field), so they are only declared once.
 // =============================================================================
 
