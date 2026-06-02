@@ -74,11 +74,51 @@ describe('iD.rendererBackgroundSource', function() {
     });
 });
 
+describe('iD.rendererBackgroundSource imageryUsedName', function() {
+    it('prefers imageryUsedName over the layer name', function() {
+        const source = iD.rendererBackgroundSource({
+            id: 'GeodesieQuebec',
+            name: 'Internal label',
+            imageryUsedName: 'Géodésie Québec'
+        });
+        expect(source.imageryUsed()).to.eql('Géodésie Québec');
+    });
+});
+
+
 describe('iD.rendererBackgroundSource.Custom', function() {
     describe('#imageryUsed', function() {
         it('returns an imagery_used string', function() {
             var source = iD.rendererBackgroundSource.Custom('http://example.com');
             expect(source.imageryUsed()).to.eql('Custom (http://example.com )');  // note ' )' space
+        });
+        it('omits the URL when private tile server is enabled', async function() {
+            const prefModule = await import('../../../modules/core/preferences.js');
+            const originalPrefs = prefModule.prefs;
+            const stub = vi.spyOn(prefModule, 'prefs').mockImplementation(function(k, v) {
+                if (v === undefined) {
+                    if (k === 'background-custom-private-url') return 'true';
+                    if (k === 'background-custom-imagery-used-name') return '';
+                }
+                return originalPrefs(k, v);
+            });
+            var source = iD.rendererBackgroundSource.Custom('http://secret.example/{z}/{x}/{y}');
+            expect(source.imageryUsed()).to.eql('Custom');
+            stub.mockRestore();
+        });
+        it('uses the configured imagery_used name for private tile servers', async function() {
+            const prefModule = await import('../../../modules/core/preferences.js');
+            const originalPrefs = prefModule.prefs;
+            const stub = vi.spyOn(prefModule, 'prefs').mockImplementation(function(k, v) {
+                if (v === undefined) {
+                    if (k === 'background-custom-private-url') return 'true';
+                    if (k === 'background-custom-imagery-used-name') return 'Géodésie Québec';
+                }
+                return originalPrefs(k, v);
+            });
+            var source = iD.rendererBackgroundSource.Custom('http://secret.example/{z}/{x}/{y}');
+            expect(source.imageryUsed()).to.eql('Géodésie Québec');
+            stub.mockRestore();
         });
         it('sanitizes `access_token`', function() {
             var source = iD.rendererBackgroundSource.Custom('http://example.com?access_token=MYTOKEN');

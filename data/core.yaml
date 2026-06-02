@@ -1118,6 +1118,13 @@ en:
         example: "Example:"
       template:
         placeholder: Enter a url template
+      private_url:
+        label: Private or cached tile server
+        description: For URL to private servers that should not be shared
+        imagery_used_name:
+          label: Name
+          placeholder: Imagery name
+          description: Name written to the imagery_used tag for the changeset
     custom_data:
       tooltip: Edit custom data layer
       header: Custom Map Data Settings

@@ -1,12 +1,19 @@
 import { geoArea as d3_geoArea, geoMercatorRaw as d3_geoMercatorRaw } from 'd3-geo';
 import { json as d3_json } from 'd3-fetch';
 
+import { prefs } from '../core/preferences';
 import { t, localizer } from '../core/localizer';
 import { geoExtent, geoSphericalDistance } from '../geo';
 import { utilQsString, utilStringQs } from '../util';
 import { utilAesDecrypt } from '../util/aes';
 import { IntervalTasksQueue } from '../util/IntervalTasksQueue';
 import { localeDateString } from '../util/date';
+
+/** @see uiSettingsCustomBackground */
+export const CUSTOM_PRIVATE_URL_PREF = 'background-custom-private-url';
+
+/** Changeset `imagery_used` label when {@link CUSTOM_PRIVATE_URL_PREF} is enabled. */
+export const CUSTOM_IMAGERY_USED_NAME_PREF = 'background-custom-imagery-used-name';
 
 var isRetina = window.devicePixelRatio && window.devicePixelRatio >= 2;
 
@@ -97,6 +104,7 @@ export function rendererBackgroundSource(data) {
 
 
     source.imageryUsed = function() {
+        if (data.imageryUsedName) return data.imageryUsedName;
         return _name || source.id;
     };
 
@@ -568,6 +576,11 @@ rendererBackgroundSource.Custom = function(template) {
 
 
     source.imageryUsed = function() {
+        if (prefs(CUSTOM_PRIVATE_URL_PREF) === 'true') {
+            var imageryName = (prefs(CUSTOM_IMAGERY_USED_NAME_PREF) || '').trim();
+            return imageryName || 'Custom';
+        }
+
         // sanitize personal connection tokens - #6801
         var cleaned = source.template();
 

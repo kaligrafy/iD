@@ -109,6 +109,19 @@
         }
     },
     "general": {
+        "settings": {
+            "custom_background": {
+                "private_url": {
+                    "label": "Private or cached tile server",
+                    "description": "For URL to private servers that should not be shared",
+                    "imagery_used_name": {
+                        "label": "Name",
+                        "placeholder": "Imagery name",
+                        "description": "Name written to the imagery_used tag for the changeset"
+                    }
+                }
+            }
+        },
         "preferences": {
             "editing": {
                 "dense": {

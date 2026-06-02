@@ -5869,6 +5869,33 @@ img.tile-debug {
     list-style-type: disc;
     list-style-position: inside;
 }
+.settings-custom-background .field-private-url {
+    display: block;
+    margin-top: 12px;
+}
+.settings-custom-background .field-private-url-help {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #666;
+}
+.settings-custom-background .field-imagery-used-name-wrap {
+    margin-top: 12px;
+}
+.settings-custom-background .field-imagery-used-name-wrap.hide {
+    display: none;
+}
+.settings-custom-background .field-imagery-used-name-label {
+    display: block;
+    margin-bottom: 4px;
+}
+.settings-custom-background .field-imagery-used-name {
+    width: 100%;
+}
+.settings-custom-background .field-imagery-used-name-help {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #666;
+}
 
 .settings-custom-data .instructions-url {
     margin-bottom: 10px;
