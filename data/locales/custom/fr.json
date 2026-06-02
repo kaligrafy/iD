@@ -119,7 +119,7 @@
         },
         "lanes": {
             "count_mismatch": "« {tag} » a {actual} voies, mais la route est taggée avec {count}.",
-            "oneway_directional_tags": "Cette route à sens unique utilise des tags de voies directionnels ({tags}). Utilisez lanes, turn:lanes, placement et change:lanes sans :forward ni :backward."
+            "oneway_directional_tags": "Cette route à sens unique utilise des tags de voies directionnels ({tags}). Utilisez les tags non directionnels (lanes, turn:lanes, bus:lanes, motor_vehicle:lanes, etc.) sans :forward ni :backward."
         },
         "issues": {
             "redundant_directional_tag": {

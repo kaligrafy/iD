@@ -9,6 +9,9 @@ describe('iD.lane warning helpers', () => {
             ['turn:lanes:forward', { oneway: 'yes', 'turn:lanes:forward': 'left|through' }, ['turn:lanes:forward']],
             ['placement:backward', { oneway: 'yes', 'placement:backward': 'left_of:1' }, ['placement:backward']],
             ['change:lanes:forward', { oneway: 'yes', 'change:lanes:forward': 'no|yes' }, ['change:lanes:forward']],
+            ['bus:lanes:forward', { oneway: 'yes', 'bus:lanes:forward': 'yes|designated' }, ['bus:lanes:forward']],
+            ['lanes:bus:backward', { oneway: 'yes', 'lanes:bus:backward': 'designated|yes' }, ['lanes:bus:backward']],
+            ['motor_vehicle:lanes:forward', { oneway: 'yes', 'motor_vehicle:lanes:forward': 'yes|no' }, ['motor_vehicle:lanes:forward']],
             ['several tags', {
                 oneway: 'yes',
                 'lanes:forward': '2',

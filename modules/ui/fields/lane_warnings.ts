@@ -11,7 +11,13 @@ export const ONEWAY_DIRECTIONAL_LANE_TAGS = [
     'placement:forward',
     'placement:backward',
     'change:lanes:forward',
-    'change:lanes:backward'
+    'change:lanes:backward',
+    'bus:lanes:forward',
+    'bus:lanes:backward',
+    'lanes:bus:forward',
+    'lanes:bus:backward',
+    'motor_vehicle:lanes:forward',
+    'motor_vehicle:lanes:backward'
 ] as const;
 
 /**
