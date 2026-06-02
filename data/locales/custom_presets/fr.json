@@ -1,0 +1,18 @@
+{
+    "highway/footway/footway_link": {
+        "name": "Lien piétonnière",
+        "terms": "lien, lp, link, liaison, liaison piéton, lien piéton"
+    },
+    "highway/footway/footway_link_bicycle_dismount": {
+        "name": "Lien piétonnier vélo à pied",
+        "terms": "lien, lp, link, liaison, liaison piéton, lien piéton, vélo à pied, dismount, flbd"
+    },
+    "highway/footway/footway_link_bicycle_yes": {
+        "name": "Lien piétonnier vélo autorisé",
+        "terms": "lien, lp, link, liaison, liaison piéton, lien piéton, vélo autorisé, cyclable, flby"
+    },
+    "highway/cycleway/cycleway_link": {
+        "name": "Lien cyclable",
+        "terms": "lien, lc, link, liaison, liaison cyclable, lien cyclable"
+    }
+}
