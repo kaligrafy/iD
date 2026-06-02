@@ -18,16 +18,8 @@ export const customFields = {
         type: 'sidewalk',
         geometry: ['line']
     },
-    // Roadway placement (Québec "Transition" convention). `placement=transition`
-    // marks a lane-count/width transition segment. Free combo: real-world values
-    // (`transition`, `right_of:1`, …) come from taginfo autocomplete.
-    placement: {
-        key: 'placement',
-        type: 'combo',
-        geometry: ['line']
-    },
-    // Per-direction placement, only on bidirectional ways and hidden once the
-    // segment is a transition (which uses the per-lane width fields instead).
+    // placement — see data/custom-tagging/fields/placement.json (built via schema-builder)
+    // Per-direction placement (allOf prerequisites; not expressible in schema JSON yet).
     placement_forward: {
         key: 'placement:forward',
         type: 'combo',

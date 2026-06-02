@@ -35,6 +35,8 @@ export function coreFileFetcher() {
     'preset_defaults': presetsCdnUrl + 'dist/preset_defaults.min.json',
     'preset_fields': presetsCdnUrl + 'dist/fields.min.json',
     'preset_presets': presetsCdnUrl + 'dist/presets.min.json',
+    'preset_custom_fields': 'data/custom/fields.min.json',
+    'preset_custom_presets': 'data/custom/presets.min.json',
     'wmf_sitematrix': wmfSitematrixCdnUrl.replace('{version}', '0.2') + 'data/wikipedia.min.json'
   };
 
