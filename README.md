@@ -34,7 +34,7 @@ Follow the steps in the [how to get started guide](https://github.com/openstreet
 
 This fork adds Québec-specific presets and fields on top of the upstream [id-tagging-schema](https://github.com/openstreetmap/id-tagging-schema) package (footway/cycleway links, `placement`, lane UI, and related strings).
 
-Sources live under `data/custom-tagging/`; the build step writes `dist/data/custom/*.min.json`, which iD loads at runtime. Preset names and search terms are in `data/locales/custom_presets/`; field labels and other fork strings stay in `data/locales/custom/`. See **[data/custom-tagging/README.md](data/custom-tagging/README.md)** for layout, build commands, and how to add a new preset. Progress porting v5 presets: **[tasks/v5-presets-todo.md](tasks/v5-presets-todo.md)**.
+Sources live under `data/custom-tagging/`; the build step writes `dist/data/custom/*.min.json`, which iD loads at runtime. Preset names and search terms are in `data/locales/custom_presets/`; field labels and other fork strings stay in `data/locales/custom/`. See **[data/custom-tagging/README.md](data/custom-tagging/README.md)** for layout, build commands, and how to add a new preset.
 
 ## License
 

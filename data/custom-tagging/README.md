@@ -95,11 +95,6 @@ npm run test:spec -- test/spec/presets/custom_presets.js test/spec/presets/custo
 
 Fields with `prerequisiteTag.allOf` are not valid in schema JSON yet; keep those in `modules/presets/custom_fields.js` until schema-builder supports them.
 
-## Portage depuis v5
-
-Checklist des presets Transition encore à porter : [tasks/v5-presets-todo.md](../../tasks/v5-presets-todo.md).
-Regénération : `node scripts/list_v5_presets_port.js --write` (lit `../id/data/presets/presets/`).
-
 ## References
 
 - [id-tagging-schema CONTRIBUTING](https://github.com/openstreetmap/id-tagging-schema/blob/main/CONTRIBUTING.md)
