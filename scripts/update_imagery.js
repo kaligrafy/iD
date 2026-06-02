@@ -9,6 +9,44 @@ const sources = JSON.parse(
   fs.readFileSync(require.resolve('@openstreetmap/editor-layer-index/imagery.geojson'), 'utf8')
 );
 
+/** @type {Map<string, import('geojson').Geometry>} */
+const _polygonFileCache = new Map();
+
+/**
+ * Load a GeoJSON polygon or feature file for manual imagery extent clipping.
+ *
+ * @param {string} path - path to a `.geojson` file (Feature or geometry root)
+ * @returns {import('geojson').Geometry}
+ */
+function loadPolygonFile(path) {
+  if (!_polygonFileCache.has(path)) {
+    const data = JSON.parse(fs.readFileSync(path, 'utf8'));
+    const geometry = data.geometry || data.features?.[0]?.geometry;
+    if (!geometry) {
+      throw new Error(`No geometry in polygon file: ${path}`);
+    }
+    _polygonFileCache.set(path, geometry);
+  }
+  return _polygonFileCache.get(path);
+}
+
+/**
+ * Resolve extent geometry for a manual imagery entry.
+ *
+ * @param {any} source - manual imagery source definition
+ * @returns {import('geojson').Geometry | null}
+ */
+function manualSourceGeometry(source) {
+  if (source.geometry) return source.geometry;
+  if (source.polygon) {
+    return { type: 'Polygon', coordinates: source.polygon };
+  }
+  if (source.polygonFile) {
+    return loadPolygonFile(source.polygonFile);
+  }
+  return null;
+}
+
 if (fs.existsSync('./data/manual_imagery.json')) {
   /** @type {any[]} */
   const manualImagery = JSON.parse(fs.readFileSync('./data/manual_imagery.json', 'utf8'));
@@ -18,11 +56,12 @@ if (fs.existsSync('./data/manual_imagery.json')) {
 
   sources.features.push(
     ...manualImagery.map(source => {
+      const geometry = manualSourceGeometry(source);
       /** @type {import("geojson").Feature} */
       const feature = {
         type: 'Feature',
         properties: { ...source, ...source.extent },
-        geometry: null,
+        geometry,
         bbox: source.bbox,
       };
       return feature;

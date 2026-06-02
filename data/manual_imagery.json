@@ -42,5 +42,26 @@
         },
         "url": "7586487389962e3f7c24b076dcc8270e6e23a5cb81e890c3fbe9928c5093fa862d8d946ea4a44f02efec19eda9f69b0bc82df4d53b740a5e284aef977eda72de707e354b5b2aa6f1afe22e7c67af90bcb2f8b411c773f6975badf128356ed1bc36fab11bb8fb221958273b22615127e25f52d3b423676a0ae92e2c9293321614e93443ce3b4fd688e8d58f0e9024a515beb7c68a31231802580a3c6507cdc9cb2195380de5bb857dc3049e9fa74be47bbdc78f4e16a08b08c231a2deae3d45c6548bbbf48154d971eb400bc0957f9b48cb9c4d6501",
         "encrypted": true
+    },
+    {
+        "id": "GeodesieQuebec",
+        "name": "Géodésie Québec",
+        "type": "tms",
+        "category": "photo",
+        "url": "https://servicesmatriciels.mern.gouv.qc.ca/erdas-iws/ogc/wmts/Imagerie_Continue/Imagerie_GQ/default/GoogleMapsCompatibleExt2:epsg:3857/{zoom}/{y}/{x}.jpg",
+        "extent": { "min_zoom": 8, "max_zoom": 22 },
+        "best": true,
+        "description": "Portail cartographique Québec (imagerie matricielle MERN)",
+        "polygonFile": "data/polygons/quebec.geojson"
+    },
+    {
+        "id": "GeodesieQuebecCached",
+        "name": "Géodésie Québec (Cached)",
+        "type": "tms",
+        "category": "photo",
+        "url": "https://geoegl.msp.gouv.qc.ca/carto/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=orthos&STYLE=default&TILEMATRIXSET=EPSG_3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&FORMAT=image%2Fpng",
+        "extent": { "min_zoom": 8, "max_zoom": 22 },
+        "description": "Portail cartographique Québec (cache GEOÉGL)",
+        "polygonFile": "data/polygons/quebec.geojson"
     }
 ]
