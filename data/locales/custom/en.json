@@ -26,6 +26,15 @@
                         "no": "No"
                     }
                 },
+                "junction_oneway": {
+                    "label": "Junction",
+                    "options": {
+                        "roundabout": "Roundabout",
+                        "circular": "Traffic circle",
+                        "jughandle": "Jughandle",
+                        "turning_loop": "Turning loop"
+                    }
+                },
                 "placement": { "label": "Placement" },
                 "placement_forward": { "label": "Placement ↑" },
                 "placement_backward": { "label": "Placement ↓" },
