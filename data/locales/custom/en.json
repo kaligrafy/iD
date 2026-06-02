@@ -118,7 +118,8 @@
             }
         },
         "lanes": {
-            "count_mismatch": "“{tag}” has {actual} lanes, but the road is tagged with {count}."
+            "count_mismatch": "“{tag}” has {actual} lanes, but the road is tagged with {count}.",
+            "oneway_directional_tags": "This one-way road uses directional lane tags ({tags}). Use lanes, turn:lanes, placement, and change:lanes without :forward or :backward."
         },
         "issues": {
             "redundant_directional_tag": {

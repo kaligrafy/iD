@@ -8,6 +8,7 @@ export * from './directional_combo';
 export * from './lanes';
 export * from './lane_list';
 export * from './lane_patterns';
+export * from './lane_warnings';
 export * from './localized';
 export * from './roadheight';
 export * from './roadspeed';
