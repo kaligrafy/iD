@@ -15,6 +15,7 @@ import { uiSectionRawTagEditor } from './sections/raw_tag_editor';
 import { utilArrayGroupBy, utilRebind, utilUniqueDomId } from '../util';
 import { utilDetect } from '../util/detect';
 import { getIncompatibleSources } from '../validations/incompatible_source';
+import { changesetEditorName } from '../../config/id.js';
 
 
 var readOnlyTags = [
@@ -87,7 +88,7 @@ export function uiCommit(context) {
         var detected = utilDetect();
         var tags = {
             comment: prefs('comment') || '',
-            created_by: context.cleanTagValue('iD ' + context.version),
+            created_by: context.cleanTagValue(changesetEditorName + ' ' + context.version),
             host: context.cleanTagValue(detected.host),
             locale: context.cleanTagValue(localizer.localeCode())
         };

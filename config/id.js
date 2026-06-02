@@ -1,5 +1,8 @@
 /* eslint-disable no-undef */
 
+/** Name in the OSM changeset `created_by` tag (upstream iD uses `iD`). */
+const changesetEditorName = 'Chaire Mobilité iD';
+
 // cdns for external data packages
 const presetsCdnUrl = ENV__ID_PRESETS_CDN_URL
   || 'https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@{presets_version}/';
@@ -54,6 +57,7 @@ const nominatimApiUrl = ENV__ID_NOMINATIM_API_URL
 const showDonationMessage = ENV__ID_SHOW_DONATION_MESSAGE !== 'false';
 
 export {
+  changesetEditorName,
   presetsCdnUrl,
   ociCdnUrl,
   wmfSitematrixCdnUrl,
