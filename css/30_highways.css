@@ -747,9 +747,161 @@ g.midpoint.tag-highway-bridleway .fill {
 }
 
 /* -----------------------------------------------------------------------------
- * Chaire Mobilité iD fork — placement=transition (wider road, v5 parity)
- * Depends on config/tag_classes_custom.js and appendCustomTagClasses().
+ * Chaire Mobilité iD fork — highway map styling (v5 parity)
+ *
+ * Not in upstream iD. Depends on config/tag_classes_custom.js and
+ * appendCustomTagClasses() in modules/svg/tag_classes.js.
  * ----------------------------------------------------------------------------- */
+
+/* Motor roads: colored casing; exclude footways and paths */
+path.line.casing.tag-access-customers:not(.tag-highway-footway):not(.tag-highway-path),
+path.line.casing.tag-motor_vehicle-customers:not(.tag-highway-footway):not(.tag-highway-path) {
+    stroke: rgb(255, 136, 0) !important;
+}
+path.line.casing.tag-access-private:not(.tag-highway-footway):not(.tag-highway-path),
+path.line.casing.tag-motor_vehicle-private:not(.tag-highway-footway):not(.tag-highway-path) {
+    stroke: rgb(205, 20, 20) !important;
+}
+path.line.casing.tag-access-permissive:not(.tag-highway-footway):not(.tag-highway-path),
+path.line.casing.tag-motor_vehicle-permissive:not(.tag-highway-footway):not(.tag-highway-path) {
+    stroke: rgb(255, 55, 0) !important;
+}
+path.line.casing.tag-highway-service.tag-service-private,
+path.line.casing.tag-service-private {
+    stroke: rgb(205, 20, 20);
+}
+path.line.casing.tag-highway-service.tag-service-customers,
+path.line.casing.tag-service-customers {
+    stroke: rgb(255, 136, 0);
+}
+path.line.casing.tag-highway-service.tag-service-permissive,
+path.line.casing.tag-service-permissive {
+    stroke: rgb(255, 55, 0);
+}
+path.line.casing.tag-custom-access-emphasis {
+    stroke-width: 11 !important;
+}
+path.line.casing.tag-highway-service.tag-custom-access-emphasis {
+    stroke-width: 8 !important;
+}
+.low-zoom path.line.casing.tag-custom-access-emphasis {
+    stroke-width: 8 !important;
+}
+
+/* Footways / paths: colored dash only; white casing and selection halo (v5) */
+path.line.stroke.tag-highway-footway.tag-access-private,
+path.line.stroke.tag-highway-footway.tag-foot-private,
+path.line.stroke.tag-highway-path.tag-access-private,
+path.line.stroke.tag-highway-path.tag-foot-private {
+    stroke: rgb(205, 20, 20) !important;
+}
+path.line.stroke.tag-highway-footway.tag-access-customers,
+path.line.stroke.tag-highway-footway.tag-foot-customers,
+path.line.stroke.tag-highway-path.tag-access-customers,
+path.line.stroke.tag-highway-path.tag-foot-customers {
+    stroke: rgb(255, 136, 0) !important;
+}
+path.line.stroke.tag-highway-footway.tag-access-permissive,
+path.line.stroke.tag-highway-footway.tag-foot-permissive,
+path.line.stroke.tag-highway-path.tag-access-permissive,
+path.line.stroke.tag-highway-path.tag-foot-permissive {
+    stroke: rgb(255, 55, 0) !important;
+}
+path.line.casing.tag-highway-footway.tag-access-private,
+path.line.casing.tag-highway-footway.tag-foot-private,
+path.line.casing.tag-highway-footway.tag-access-customers,
+path.line.casing.tag-highway-footway.tag-foot-customers,
+path.line.casing.tag-highway-footway.tag-access-permissive,
+path.line.casing.tag-highway-footway.tag-foot-permissive,
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-access-private,
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-foot-private,
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-access-customers,
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-foot-customers,
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-access-permissive,
+path.line.casing.tag-highway-footway.tag-footway-sidewalk.tag-foot-permissive,
+path.line.casing.tag-highway-path.tag-access-private,
+path.line.casing.tag-highway-path.tag-foot-private,
+path.line.casing.tag-highway-path.tag-access-customers,
+path.line.casing.tag-highway-path.tag-foot-customers,
+path.line.casing.tag-highway-path.tag-access-permissive,
+path.line.casing.tag-highway-path.tag-foot-permissive {
+    stroke: #fff !important;
+}
+path.line.shadow.tag-highway-footway.tag-access-private,
+path.line.shadow.tag-highway-footway.tag-foot-private,
+path.line.shadow.tag-highway-footway.tag-access-customers,
+path.line.shadow.tag-highway-footway.tag-foot-customers,
+path.line.shadow.tag-highway-footway.tag-access-permissive,
+path.line.shadow.tag-highway-footway.tag-foot-permissive,
+path.line.shadow.tag-highway-path.tag-access-private,
+path.line.shadow.tag-highway-path.tag-foot-private,
+path.line.shadow.tag-highway-path.tag-access-customers,
+path.line.shadow.tag-highway-path.tag-foot-customers,
+path.line.shadow.tag-highway-path.tag-access-permissive,
+path.line.shadow.tag-highway-path.tag-foot-permissive {
+    stroke: #fff !important;
+}
+path.line.shadow.selected.tag-highway-footway.tag-access-private,
+path.line.shadow.selected.tag-highway-footway.tag-foot-private,
+path.line.shadow.selected.tag-highway-footway.tag-access-customers,
+path.line.shadow.selected.tag-highway-footway.tag-foot-customers,
+path.line.shadow.selected.tag-highway-footway.tag-access-permissive,
+path.line.shadow.selected.tag-highway-footway.tag-foot-permissive,
+path.line.shadow.hover.tag-highway-footway.tag-access-private,
+path.line.shadow.hover.tag-highway-footway.tag-foot-private,
+path.line.shadow.hover.tag-highway-footway.tag-access-customers,
+path.line.shadow.hover.tag-highway-footway.tag-foot-customers,
+path.line.shadow.related.tag-highway-footway.tag-access-private,
+path.line.shadow.related.tag-highway-footway.tag-foot-private,
+path.line.shadow.related.tag-highway-footway.tag-access-customers,
+path.line.shadow.related.tag-highway-footway.tag-foot-customers,
+path.line.shadow.related.tag-highway-footway.tag-access-permissive,
+path.line.shadow.related.tag-highway-footway.tag-foot-permissive,
+path.line.shadow.selected.tag-highway-path.tag-access-private,
+path.line.shadow.selected.tag-highway-path.tag-foot-private,
+path.line.shadow.selected.tag-highway-path.tag-access-customers,
+path.line.shadow.selected.tag-highway-path.tag-foot-customers,
+path.line.shadow.hover.tag-highway-path.tag-access-private,
+path.line.shadow.hover.tag-highway-path.tag-foot-private,
+path.line.shadow.hover.tag-highway-path.tag-access-customers,
+path.line.shadow.hover.tag-highway-path.tag-foot-customers,
+path.line.shadow.related.tag-highway-path.tag-access-private,
+path.line.shadow.related.tag-highway-path.tag-foot-private,
+path.line.shadow.related.tag-highway-path.tag-access-customers,
+path.line.shadow.related.tag-highway-path.tag-foot-customers,
+path.line.shadow.related.tag-highway-path.tag-access-permissive,
+path.line.shadow.related.tag-highway-path.tag-foot-permissive {
+    stroke: #fff !important;
+    stroke-opacity: 0.45 !important;
+}
+
+/* footway=link / cycleway=link — continuous lines (v5) */
+path.line.stroke.tag-highway-footway.tag-footway-link,
+path.line.stroke.tag-highway-footway.tag-footway-link.tag-unpaved {
+    stroke: rgb(255, 241, 202);
+    opacity: 0.5 !important;
+    stroke-linecap: butt;
+    stroke-dasharray: none !important;
+}
+path.line.casing.tag-highway-footway.tag-footway-link,
+path.line.casing.tag-highway-footway.tag-footway-link.tag-unpaved {
+    opacity: 0.5 !important;
+}
+path.line.stroke.tag-cycleway-link,
+path.line.stroke.tag-highway-cycleway.tag-cycleway-link,
+path.line.stroke.tag-highway-path.tag-cycleway-link {
+    opacity: 0.5 !important;
+    stroke: rgb(4, 0, 255) !important;
+    stroke-linecap: butt;
+    stroke-dasharray: none !important;
+}
+path.line.casing.tag-cycleway-link,
+path.line.casing.tag-highway-cycleway.tag-cycleway-link,
+path.line.casing.tag-highway-path.tag-cycleway-link {
+    opacity: 0.5 !important;
+}
+
+/* placement=transition — wider road (+4px on shadow, casing, stroke) */
 path.line.shadow.tag-highway.tag-placement-transition {
     stroke-width: 24;
 }

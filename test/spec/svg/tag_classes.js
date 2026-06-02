@@ -82,6 +82,13 @@ describe('iD.svgTagClasses', function () {
         expect(selection.classed('tag-placement-transition')).to.be.true;
     });
 
+    it('adds cycleway=link secondary classes (custom fork)', function() {
+        selection
+            .datum(new iD.osmWay({tags: {highway: 'cycleway', cycleway: 'link'}}))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-cycleway-link')).to.be.true;
+    });
+
     it('adds no bridge=no tags', function() {
         selection
             .datum(new iD.osmWay({tags: {bridge: 'no'}}))

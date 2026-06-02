@@ -1,5 +1,8 @@
 import { select as d3_select } from 'd3-selection';
-import { appendCustomTagClasses } from '../../config/tag_classes_custom.js';
+import {
+    appendCustomTagClasses,
+    customSecondaryTagKeys
+} from '../../config/tag_classes_custom.js';
 import { osmPathHighwayTagValues, osmPavedTags, osmSemipavedTags, osmLifecyclePrefixes } from '../osm/tags';
 
 
@@ -15,7 +18,8 @@ export function svgTagClasses() {
         'oneway', 'bridge', 'tunnel', 'embankment', 'cutting', 'barrier',
         'surface', 'tracktype', 'footway', 'crossing', 'service', 'sport',
         'public_transport', 'location', 'parking', 'golf', 'type', 'leisure',
-        'man_made', 'indoor', 'construction', 'proposed', 'bicycle', 'foot'
+        'man_made', 'indoor', 'construction', 'proposed', 'bicycle', 'foot',
+        ...customSecondaryTagKeys
     ];
     var _tags = function(entity) { return entity.tags; };
 
