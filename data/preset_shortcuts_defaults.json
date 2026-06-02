@@ -1,4 +1,6 @@
 {
     "highway/footway/sidewalk": "11",
-    "highway/footway/crossing/unmarked": "22"
+    "highway/footway/crossing/unmarked": "22",
+    "highway/footway/footway_link": "i",
+    "highway/cycleway/cycleway_link": "N"
 }
