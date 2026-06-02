@@ -1,0 +1,18 @@
+{
+    "highway/footway/footway_link": {
+        "name": "Footway link",
+        "terms": "footway link, link, fl, connector, connection, footway connector"
+    },
+    "highway/footway/footway_link_bicycle_dismount": {
+        "name": "Footway link bicycle dismount",
+        "terms": "footway link, bicycle dismount, link, flbd, fl, dismount, connector, connection, footway connector"
+    },
+    "highway/footway/footway_link_bicycle_yes": {
+        "name": "Footway link bicycle yes",
+        "terms": "footway link, bicycle yes, link, flby, fl, cycling, connector, connection, footway connector"
+    },
+    "highway/cycleway/cycleway_link": {
+        "name": "Cycleway link",
+        "terms": "cycleway link, link, cl, connector, connection, cycleway connector"
+    }
+}
