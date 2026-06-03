@@ -78,17 +78,29 @@ Parent preset field lists can reference upstream presets with `{highway/footway}
 npm run validate:presets:custom   # compile sources + schema check (without dist build; npm test uses build:presets:custom instead)
 ```
 
+## Preset locales (`data/locales/custom_presets/`)
+
+Each preset id maps to `{ name, terms, aliases }`:
+
+| Key | Role |
+|-----|------|
+| `name` | Display name in that language |
+| `aliases` | Primary short acronym (same in `en` and `fr`) for quick search |
+| `terms` | Comma-separated search string: **start with `aliases`**, then other acronyms, then phrases in the locale language |
+
+`aliases` is also indexed for search, but editors expect the primary acronym to appear in `terms` (see parking/footway entries). Do not put full English phrases in `fr.json`.
+
 ## Tests
 
 ```bash
-npm run test:spec -- test/spec/presets/custom_presets.js test/spec/presets/custom_presets_search.js
+npm run test:spec -- test/spec/presets/custom_presets.js test/spec/presets/custom/
 ```
 
 ## Adding a field or preset
 
 1. Add `src/fields/my_field.ts` or extend a variant module under `src/presets/`.
 2. Register in `src/registry.ts`.
-3. Add `name` / `terms` / `aliases` in `data/locales/custom_presets/{en,fr}.json`.
+3. Add `name` / `terms` / `aliases` in `data/locales/custom_presets/{en,fr}.json` (see "Preset locales" section above).
 4. Run `npm run build:presets:custom`.
 
 Fields with `prerequisiteTag.allOf` stay in `modules/presets/custom_fields.js` until schema-builder supports them.
