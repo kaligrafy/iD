@@ -12,31 +12,50 @@ data/custom-tagging/
 ├── src/                          Author here (TypeScript)
 │   ├── types.ts
 │   ├── registry.ts               Registers fields, @templates, presets
+│   ├── lib/tag_helpers.ts        removeTags helpers
 │   ├── fields/*.ts
-│   └── presets/.../*.ts
-├── deprecated.json               Static (checked in)
+│   └── presets/.../*.ts          Variant templates (parking, footway, …)
+├── fields/**/*.json              Generated (gitignored)
+├── presets/**/*.json             Generated (gitignored)
+├── presets/@templates/
+├── deprecated.json
 ├── discarded.json
 ├── preset_defaults.json
-├── fields/*.json                 Generated (gitignored) → fields.min.json
-└── presets/**/*.json             Generated (gitignored) → presets.min.json
+└── interim/                      Build scratch (gitignored)
 
-dist/data/custom/                 Build output (gitignored except in deploy)
+dist/data/custom/                 schema-builder output (gitignored in dev)
 ├── fields.min.json
 └── presets.min.json
 
-data/locales/custom_presets/      Preset name + search terms (en, fr)
+data/locales/custom_presets/      Preset search strings (name, terms, aliases)
 data/locales/custom/              Field labels, UI, validator messages
 ```
 
-Preset IDs follow the path under `presets/`, e.g. `presets/highway/footway/footway_link.json` → `highway/footway/footway_link`.
+Preset IDs follow the path under `presets/`, e.g. `highway/footway/footway_link_bicycle_dismount`.
 
 ## Runtime
 
 1. `presetManager.ensureLoaded()` loads upstream schema from CDN.
-2. `applyCustomPresets()` fetches `data/custom/fields.min.json` and `presets.min.json` (paths are relative to `assetPath`, e.g. `dist/data/custom/...`).
-3. `applyCustomFields()` merges hand-written fields from `custom_fields.js` and attaches lane/sidewalk blocks to road presets.
+2. `applyCustomPresets()` fetches `dist/data/custom/fields.min.json` and `presets.min.json`.
+3. `registerCustomStrings()` loads preset `name` / `terms` / `aliases` from `data/locales/custom_presets/{en,fr}.json`.
 
-Preset `name` / `terms` are **not** in `presets.min.json`; they live in [`data/locales/custom_presets/`](../locales/custom_presets/) and are registered by `modules/presets/custom_strings.js`.
+Generated preset JSON includes English `name` from `preset_name_en.ts` (reads `custom_presets/en.json`). Search terms and French copy stay in locale files.
+
+## Authoring with TypeScript
+
+Edit `src/` and use shared helpers (`lib/tag_helpers.ts`, `parking_variants.ts`, `access_aisle_variants.ts`, …) to define variant families without copying JSON.
+
+Generate JSON only (for inspection or diff):
+
+```bash
+npm run generate:presets:custom
+```
+
+Full build (generate JSON → schema-builder → `dist/data/custom/*.min.json`):
+
+```bash
+npm run build:presets:custom
+```
 
 ## `@templates`
 
@@ -48,27 +67,15 @@ Parent preset field lists can reference upstream presets with `{highway/footway}
 
 | What | Where |
 |------|--------|
-| English field labels from TS | `label` on field definitions in `src/fields/` |
-| Preset `name` / `terms` | [`data/locales/custom_presets/{locale}.json`](../locales/custom_presets/) |
-| Custom field labels, UI, issues | [`data/locales/custom/{locale}.json`](../locales/custom/) (`tagging` or `general` scope) |
-
-See also [data/locales/custom_presets/README.md](../locales/custom_presets/README.md).
-
-## Build
-
-```bash
-npm run build:presets:custom
-```
-
-1. `tsx scripts/compile_custom_presets_sources.ts` — writes `fields/*.json` and `presets/**/*.json` from `src/`
-2. `@ideditor/schema-builder` (`scripts/build_custom_presets.ts`) — writes `dist/data/custom/*.min.json`
-
-`npm run build` and `npm run all` run `build:presets:custom` before `build:data`.
+| Preset structure (tags, fields, geometry) | `src/presets/**/*.ts` → generated JSON |
+| English `name` (schema + `presetNameEn`) | `data/locales/custom_presets/en.json` |
+| Search `terms` / `aliases`, FR `name` | `data/locales/custom_presets/{en,fr}.json` |
+| Custom field labels, UI, issues | `data/locales/custom/{locale}.json` |
 
 ## Validate
 
 ```bash
-npm run validate:presets:custom
+npm run validate:presets:custom   # compile sources + schema check (without dist build; npm test uses build:presets:custom instead)
 ```
 
 ## Tests
@@ -79,24 +86,15 @@ npm run test:spec -- test/spec/presets/custom_presets.js test/spec/presets/custo
 
 ## Adding a field or preset
 
-1. Add `src/fields/my_field.ts` or `src/presets/.../my_preset.ts`.
-2. Register it in `src/registry.ts` (`customFields`, `customTemplates`, or `customPresets`).
-3. Add `name` / `terms` in `data/locales/custom_presets/{en,fr}.json` (and field/UI strings in `data/locales/custom/` if needed).
-4. Run `npm run build:presets:custom` (or full `npm run build`).
+1. Add `src/fields/my_field.ts` or extend a variant module under `src/presets/`.
+2. Register in `src/registry.ts`.
+3. Add `name` / `terms` / `aliases` in `data/locales/custom_presets/{en,fr}.json`.
+4. Run `npm run build:presets:custom`.
 
-**Shipped today (v5 parity):**
-
-| Preset ID | Shortcut (`data/preset_shortcuts_defaults.json`) |
-|-----------|--------------------------------------------------|
-| `highway/footway/footway_link` | `i` |
-| `highway/footway/footway_link_bicycle_dismount` | — |
-| `highway/footway/footway_link_bicycle_yes` | — |
-| `highway/cycleway/cycleway_link` | `N` (Shift+Alt+N) |
-
-Fields with `prerequisiteTag.allOf` are not valid in schema JSON yet; keep those in `modules/presets/custom_fields.js` until schema-builder supports them.
+Fields with `prerequisiteTag.allOf` stay in `modules/presets/custom_fields.js` until schema-builder supports them.
 
 ## References
 
 - [id-tagging-schema CONTRIBUTING](https://github.com/openstreetmap/id-tagging-schema/blob/main/CONTRIBUTING.md)
 - [schema-builder README](https://github.com/ideditor/schema-builder/blob/main/README.md)
-- Build wiring: `scripts/custom_presets_config.js`, `scripts/build_custom_presets.ts`
+- `scripts/compile_custom_presets_sources.ts`, `scripts/build_custom_presets.ts`, `scripts/custom_presets_config.js`

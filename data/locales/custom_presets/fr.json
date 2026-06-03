@@ -1,18 +1,127 @@
 {
-    "highway/footway/footway_link": {
-        "name": "Lien piétonnière",
-        "terms": "lien, lp, link, liaison, liaison piéton, lien piéton"
+    "amenity/parking-customers": {
+        "name": "Stationnement Clients",
+        "terms": "sc, stationnement, auto, voiture, camion, véhicule, parcage, clients",
+        "aliases": "sc"
     },
-    "highway/footway/footway_link_bicycle_dismount": {
-        "name": "Lien piétonnier vélo à pied",
-        "terms": "lien, lp, link, liaison, liaison piéton, lien piéton, vélo à pied, dismount, flbd"
+    "amenity/parking-customers-unpaved": {
+        "name": "Stationnement Clients non pavé",
+        "terms": "scnp, stationnement, auto, voiture, camion, véhicule, parcage, non pavé, clients",
+        "aliases": "scnp"
     },
-    "highway/footway/footway_link_bicycle_yes": {
-        "name": "Lien piétonnier vélo autorisé",
-        "terms": "lien, lp, link, liaison, liaison piéton, lien piéton, vélo autorisé, cyclable, flby"
+    "amenity/parking-private": {
+        "name": "Stationnement Privé",
+        "terms": "sp, stationnement, auto, voiture, camion, véhicule, parcage, privé",
+        "aliases": "sp"
+    },
+    "amenity/parking-private-unpaved": {
+        "name": "Stationnement Privé non pavé",
+        "terms": "spnp, stationnement, auto, voiture, camion, véhicule, parcage, non pavé, privé",
+        "aliases": "spnp"
+    },
+    "amenity/parking-public": {
+        "name": "Stationnement Public",
+        "terms": "spu, stationnement, auto, voiture, camion, véhicule, parcage, public",
+        "aliases": "spu"
+    },
+    "amenity/parking-public-unpaved": {
+        "name": "Stationnement Public non pavé",
+        "terms": "spunp, stationnement, auto, voiture, camion, véhicule, parcage, non pavé, public",
+        "aliases": "spunp"
+    },
+    "amenity/parking/underground_customers_parking_entrance": {
+        "name": "Entrée de garage souterrain pour clients",
+        "terms": "egspc, stationnement, auto, voiture, camion, véhicule, parcage, souterrain, entrée de garage, stationnement souterrain, clients",
+        "aliases": "egspc"
+    },
+    "amenity/parking/underground_private_parking_entrance_employees": {
+        "name": "Entrée de garage souterrain pour employés",
+        "terms": "egspe, stationnement, auto, voiture, camion, véhicule, parcage, souterrain, entrée de garage, stationnement souterrain, employés",
+        "aliases": "egspe"
+    },
+    "amenity/parking/underground_private_parking_entrance_residents": {
+        "name": "Entrée de garage souterrain pour résidents",
+        "terms": "egspr, stationnement, auto, voiture, camion, véhicule, parcage, souterrain, entrée de garage, stationnement souterrain, résidents",
+        "aliases": "egspr"
+    },
+    "amenity/parking/underground_public_parking_entrance": {
+        "name": "Entrée de garage souterrain pour public",
+        "terms": "egspp, stationnement, auto, voiture, camion, véhicule, parcage, souterrain, entrée de garage, stationnement souterrain, public",
+        "aliases": "egspp"
+    },
+    "barrier/customers_gate": {
+        "name": "Barrière Clients",
+        "terms": "bc, barrière, clients",
+        "aliases": "bc"
+    },
+    "barrier/customers_liftgate": {
+        "name": "Barrière levante Clients",
+        "terms": "blc, barrière levante, clients",
+        "aliases": "blc"
+    },
+    "barrier/gate_foot_bicycle_yes": {
+        "name": "Barrière Publique (piétons et vélos, pas de véhicules motorisés)",
+        "terms": "bppv, barrière, piéton, vélo, cyclisme, pas de véhicules motorisés",
+        "aliases": "bppv"
+    },
+    "barrier/private_gate": {
+        "name": "Barrière Privée",
+        "terms": "bp, barrière, privée",
+        "aliases": "bp"
+    },
+    "barrier/private_liftgate": {
+        "name": "Barrière levante Privée",
+        "terms": "blp, barrière levante, privée",
+        "aliases": "blp"
     },
     "highway/cycleway/cycleway_link": {
         "name": "Lien cyclable",
-        "terms": "lien, lc, link, liaison, liaison cyclable, lien cyclable"
+        "aliases": "lc",
+        "terms": "lc, lien, liaison, liaison cyclable, lien cyclable"
+    },
+    "highway/footway/access_aisle": {
+        "name": "Voie de circulation (allée)",
+        "terms": "vca, voie de circulation, allée, zone hachurée, stationnement",
+        "aliases": "vca"
+    },
+    "highway/footway/access_aisle_bicycle_dismount": {
+        "name": "Voie de circulation — vélo à pied",
+        "terms": "vcvap, voie de circulation, allée, zone hachurée, stationnement, vélo à pied",
+        "aliases": "vcvap"
+    },
+    "highway/footway/access_aisle_bicycle_yes": {
+        "name": "Voie de circulation — vélo autorisé",
+        "terms": "vcva, voie de circulation, allée, zone hachurée, stationnement, vélo autorisé, cyclisme",
+        "aliases": "vcva"
+    },
+    "highway/footway/customers_access_aisle": {
+        "name": "Voie de circulation — clients",
+        "terms": "vcc, voie de circulation, allée, zone hachurée, stationnement, clients",
+        "aliases": "vcc"
+    },
+    "highway/footway/customers_footway_link": {
+        "name": "Lien piétonnier — clients",
+        "terms": "lpc, lien piétonnier, lien, liaison, connecteur, clients",
+        "aliases": "lpc"
+    },
+    "highway/footway/footway_link_bicycle_dismount": {
+        "name": "Lien piétonnier vélo à pied",
+        "aliases": "lpva",
+        "terms": "lpva, lp, lien, liaison, liaison piéton, lien piéton, vélo à pied"
+    },
+    "highway/footway/footway_link_bicycle_yes": {
+        "name": "Lien piétonnier vélo autorisé",
+        "aliases": "lpvo",
+        "terms": "lpvo, lp, lien, liaison, liaison piéton, lien piéton, vélo autorisé, cyclable"
+    },
+    "highway/footway/private_access_aisle": {
+        "name": "Voie de circulation — privé",
+        "terms": "vcp, voie de circulation, allée, zone hachurée, stationnement, privé",
+        "aliases": "vcp"
+    },
+    "highway/footway/private_footway_link": {
+        "name": "Lien piétonnier — privé",
+        "terms": "lpp, lien piétonnier, lien, liaison, connecteur, privé",
+        "aliases": "lpp"
     }
 }

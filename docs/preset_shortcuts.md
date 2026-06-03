@@ -9,28 +9,6 @@ The preset shortcuts feature enables users to assign number keys (8-999) to thei
 1. Enter drawing mode with that preset (if no features are selected)
 2. Apply the preset to currently selected features
 
-## Default shortcuts (config file)
-
-Default shortcuts can be shipped with the build via `data/preset_shortcuts_defaults.json`,
-a simple map of `presetId` to shortcut number:
-
-```json
-{
-  "highway/footway/sidewalk": "11",
-  "highway/footway/crossing/unmarked": "22"
-}
-```
-
-Rules:
-
-- Defaults are active out of the box (keyboard and UI) without any user action.
-- User-defined shortcuts always take precedence over defaults.
-- Assigning a preset a custom shortcut hides its default; assigning another preset to a
-  default's number overrides that number.
-- Out-of-range entries (not 8-999) are ignored; on a duplicate number, the first entry wins.
-- Known limitation: a default cannot yet be removed from the UI (it is a fallback); it can
-  only be overridden. Editing the config file is the way to change shipped defaults.
-
 ## User Interface
 
 ### Setting Shortcuts

@@ -2,6 +2,22 @@
     "tagging": {
         "presets": {
             "fields": {
+                "capacity_charging": {
+                    "label": "Capacité de recharge pour véhicules électriques",
+                    "placeholder": "1, 5, 10..."
+                },
+                "parking/condition": {
+                    "label": "Condition de stationnement",
+                    "options": {
+                        "residents": "Résidents",
+                        "customers": "Clients",
+                        "private": "Privé",
+                        "free": "Gratuit",
+                        "ticket": "Ticket",
+                        "disc": "Disque",
+                        "disabled": "Handicapé"
+                    }
+                },
                 "sidewalk": {
                     "label": "Trottoir"
                 },
@@ -14,11 +30,21 @@
                         "psv": "Véh. de service public"
                     }
                 },
-                "lanes_group": { "label": "Voies" },
-                "placement_group": { "label": "Placement" },
-                "turn_lanes_group": { "label": "Virage" },
-                "change_lanes_group": { "label": "Changement" },
-                "buswaylanes": { "label": "Voies réservées bus" },
+                "lanes_group": {
+                    "label": "Voies"
+                },
+                "placement_group": {
+                    "label": "Placement"
+                },
+                "turn_lanes_group": {
+                    "label": "Virage"
+                },
+                "change_lanes_group": {
+                    "label": "Changement"
+                },
+                "buswaylanes": {
+                    "label": "Voies réservées bus"
+                },
                 "dual_carriageway": {
                     "label": "Chaussée séparée",
                     "options": {
@@ -35,23 +61,57 @@
                         "turning_loop": "Boucle de retournement"
                     }
                 },
-                "placement": { "label": "Placement" },
-                "placement_forward": { "label": "Placement ↑" },
-                "placement_backward": { "label": "Placement ↓" },
-                "lanes_forward": { "label": "Voies ↑" },
-                "lanes_backward": { "label": "Voies ↓" },
-                "width_lanes_start": { "label": "Transition de largeurs début" },
-                "width_lanes_end": { "label": "Transition de largeurs fin" },
-                "width_lanes_forward_start": { "label": "Transition de largeurs ↑ début" },
-                "width_lanes_forward_end": { "label": "Transition de largeurs ↑ fin" },
-                "width_lanes_backward_start": { "label": "Transition de largeurs ↓ début" },
-                "width_lanes_backward_end": { "label": "Transition de largeurs ↓ fin" },
-                "change_lanes": { "label": "Changement" },
-                "change_lanes_forward": { "label": "Changement ↑" },
-                "change_lanes_backward": { "label": "Changement ↓" },
-                "turn_lanes": { "label": "Virage" },
-                "turn_lanes_forward": { "label": "Virage ↑" },
-                "turn_lanes_backward": { "label": "Virage ↓" },
+                "placement": {
+                    "label": "Placement"
+                },
+                "placement_forward": {
+                    "label": "Placement ↑"
+                },
+                "placement_backward": {
+                    "label": "Placement ↓"
+                },
+                "lanes_forward": {
+                    "label": "Voies ↑"
+                },
+                "lanes_backward": {
+                    "label": "Voies ↓"
+                },
+                "width_lanes_start": {
+                    "label": "Transition de largeurs début"
+                },
+                "width_lanes_end": {
+                    "label": "Transition de largeurs fin"
+                },
+                "width_lanes_forward_start": {
+                    "label": "Transition de largeurs ↑ début"
+                },
+                "width_lanes_forward_end": {
+                    "label": "Transition de largeurs ↑ fin"
+                },
+                "width_lanes_backward_start": {
+                    "label": "Transition de largeurs ↓ début"
+                },
+                "width_lanes_backward_end": {
+                    "label": "Transition de largeurs ↓ fin"
+                },
+                "change_lanes": {
+                    "label": "Changement"
+                },
+                "change_lanes_forward": {
+                    "label": "Changement ↑"
+                },
+                "change_lanes_backward": {
+                    "label": "Changement ↓"
+                },
+                "turn_lanes": {
+                    "label": "Virage"
+                },
+                "turn_lanes_forward": {
+                    "label": "Virage ↑"
+                },
+                "turn_lanes_backward": {
+                    "label": "Virage ↓"
+                },
                 "cycleway": {
                     "types": {
                         "cycleway:both": "Les deux côtés"
@@ -63,7 +123,9 @@
                         }
                     }
                 },
-                "cycleway_buffer": { "label": "Les deux côtés : Largeur de la zone tampon cyclable (m)" },
+                "cycleway_buffer": {
+                    "label": "Les deux côtés : Largeur de la zone tampon cyclable (m)"
+                },
                 "cycleway_separation": {
                     "label": "Les deux côtés : Séparation cyclable",
                     "options": {
@@ -94,17 +156,38 @@
                         "surface": "Changement de surface"
                     }
                 },
-                "cycleway_left_buffer": { "label": "Côté gauche : Largeur de la zone tampon cyclable (m)" },
-                "cycleway_left_separation": { "label": "Côté gauche : Séparation cyclable" },
-                "cycleway_left_marking": { "label": "Côté gauche : Marquage cyclable" },
+                "cycleway_left_buffer": {
+                    "label": "Côté gauche : Largeur de la zone tampon cyclable (m)"
+                },
+                "cycleway_left_separation": {
+                    "label": "Côté gauche : Séparation cyclable"
+                },
+                "cycleway_left_marking": {
+                    "label": "Côté gauche : Marquage cyclable"
+                },
                 "cycleway_left_oneway": {
                     "label": "Côté gauche : Sens unique vélo",
-                    "options": { "yes": "Oui", "no": "Non" }
+                    "options": {
+                        "yes": "Oui",
+                        "no": "Non"
+                    }
                 },
-                "cycleway_right_buffer": { "label": "Côté droit : Largeur de la zone tampon cyclable (m)" },
-                "cycleway_right_separation": { "label": "Côté droit : Séparation cyclable" },
-                "cycleway_right_marking": { "label": "Côté droit : Marquage cyclable" },
-                "cycleway_right_oneway": { "label": "Côté droit : Sens unique vélo" }
+                "cycleway_right_buffer": {
+                    "label": "Côté droit : Largeur de la zone tampon cyclable (m)"
+                },
+                "cycleway_right_separation": {
+                    "label": "Côté droit : Séparation cyclable"
+                },
+                "cycleway_right_marking": {
+                    "label": "Côté droit : Marquage cyclable"
+                },
+                "cycleway_right_oneway": {
+                    "label": "Côté droit : Sens unique vélo",
+                    "options": {
+                        "yes": "Oui",
+                        "no": "Non"
+                    }
+                }
             }
         }
     },

@@ -7,7 +7,7 @@ declare module '@ideditor/schema-builder' {
     }
 
     const schemaBuilder: {
-        buildDist(options: SchemaBuilderOptions): void;
+        buildDist(options: SchemaBuilderOptions): Promise<void>;
         buildDev(options: SchemaBuilderOptions): void;
         validate(options: SchemaBuilderOptions): void;
     };

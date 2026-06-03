@@ -1,4 +1,4 @@
 interim/
-# Generated from data/custom-tagging/src/*.ts (npm run build:presets:custom)
-fields/*.json
+# Generated from data/custom-tagging/src/*.ts (npm run generate:presets:custom)
+fields/**/*.json
 presets/**/*.json

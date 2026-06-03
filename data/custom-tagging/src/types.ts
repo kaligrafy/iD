@@ -1,52 +1,35 @@
-/** Geometry types accepted by id-tagging-schema presets. */
-export type PresetGeometry = 'point' | 'vertex' | 'line' | 'area' | 'relation';
+/** id-tagging-schema geometry values used by custom presets and fields. */
+export type PresetGeometry = 'point' | 'line' | 'area' | 'vertex' | 'relation';
 
-/** Single-tag prerequisite (schema-builder JSON subset). */
-export interface PrerequisiteTag {
+/** Custom field definition (id-tagging-schema shape). */
+export type CustomField = {
     key: string;
-    value?: string;
-    valueNot?: string;
-    values?: string[];
-    valuesNot?: string[];
-    keyNot?: string;
-}
-
-/** Field definition authored in TypeScript, compiled to data/presets/custom/fields/*.json */
-export interface CustomField {
-    key: string;
-    type: string;
+    type?: string;
     label?: string;
-    geometry?: PresetGeometry[];
-    prerequisiteTag?: PrerequisiteTag | { allOf: PrerequisiteTag[] };
-    keys?: string[];
     options?: string[];
-    universal?: boolean;
+    minValue?: number;
     placeholder?: string;
-    terms?: string[];
-}
+    geometry?: PresetGeometry[];
+};
 
-/** Full preset definition (compiled to data/presets/custom/presets/<path>.json). */
-export interface CustomPreset {
-    name: string;
-    geometry: PresetGeometry[];
+/** Custom preset definition: required `tags` plus common optional keys. */
+export type CustomPreset = {
     tags: Record<string, string>;
-    icon?: string;
+    geometry?: PresetGeometry[];
     fields?: string[];
     moreFields?: string[];
     addTags?: Record<string, string>;
-    reference?: { key: string; value?: string };
-    terms?: string[];
+    removeTags?: Record<string, string>;
+    name?: string;
+    icon?: string;
     matchScore?: number;
+    reference?: { key: string; value: string };
     searchable?: boolean;
-}
-
-/** Virtual @templates preset (fields / moreFields only). */
-export interface CustomTemplatePreset {
-    fields?: string[];
-    moreFields?: string[];
-    geometry: PresetGeometry[];
-    tags: Record<string, string>;
-    searchable: false;
     locationSet?: { include?: string[]; exclude?: string[] };
-    name: string;
-}
+};
+
+/** Virtual preset under `presets/@templates/`. */
+export type CustomTemplatePreset = CustomPreset & {
+    searchable: false;
+    tags: { '@template': string } & Record<string, string>;
+};
