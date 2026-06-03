@@ -16,18 +16,24 @@ const customPresetStrings = { en: presetEn, fr: presetFr };
 /**
  * Register the custom translations (all locales, all scopes) into the localizer.
  * Each file under `data/locales/custom/` is `{ <scopeId>: <strings> }`.
- * Each file under `data/locales/custom_presets/` is `{ <presetId>: { name, terms } }`.
+ * Each file under `data/locales/custom_presets/` is `{ <presetId>: { name, terms, aliases? } }`.
  * @param {Object} localizer - the localizer with `addStrings`
  */
 export function registerCustomStrings(localizer) {
     for (const locale in customStrings) {
         for (const scopeId in customStrings[locale]) {
+            if (scopeId.startsWith('_')) continue;
             localizer.addStrings(scopeId, locale, customStrings[locale][scopeId]);
         }
     }
     for (const locale in customPresetStrings) {
+        const presets = {};
+        for (const presetId in customPresetStrings[locale]) {
+            if (presetId.startsWith('_')) continue;
+            presets[presetId] = customPresetStrings[locale][presetId];
+        }
         localizer.addStrings('tagging', locale, {
-            presets: { presets: customPresetStrings[locale] }
+            presets: { presets }
         });
     }
 }

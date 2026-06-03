@@ -4,12 +4,8 @@ import type { CustomTemplatePreset } from '../../types';
 export const placementLineTemplate: CustomTemplatePreset = {
     fields: ['placement'],
     geometry: ['line'],
-    tags: {
-        '@template': 'placement_line'
-    },
+    tags: { '@template': 'placement_line' },
     searchable: false,
-    locationSet: {
-        exclude: ['Planet']
-    },
+    locationSet: { exclude: ['Planet'] },
     name: '{line}'
 };

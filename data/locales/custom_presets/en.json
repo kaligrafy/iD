@@ -1,18 +1,127 @@
 {
-    "highway/footway/footway_link": {
-        "name": "Footway link",
-        "terms": "footway link, link, fl, connector, connection, footway connector"
+    "amenity/parking-customers": {
+        "name": "Customers parking lot",
+        "terms": "cpl, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, customers",
+        "aliases": "cpl"
     },
-    "highway/footway/footway_link_bicycle_dismount": {
-        "name": "Footway link bicycle dismount",
-        "terms": "footway link, bicycle dismount, link, flbd, fl, dismount, connector, connection, footway connector"
+    "amenity/parking-customers-unpaved": {
+        "name": "Customers unpaved parking lot",
+        "terms": "cplu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, customers",
+        "aliases": "cplu"
     },
-    "highway/footway/footway_link_bicycle_yes": {
-        "name": "Footway link bicycle yes",
-        "terms": "footway link, bicycle yes, link, flby, fl, cycling, connector, connection, footway connector"
+    "amenity/parking-private": {
+        "name": "Private parking lot",
+        "terms": "ppl, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, private",
+        "aliases": "ppl"
+    },
+    "amenity/parking-private-unpaved": {
+        "name": "Private unpaved parking lot",
+        "terms": "pplu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, private",
+        "aliases": "pplu"
+    },
+    "amenity/parking-public": {
+        "name": "Public parking lot",
+        "terms": "pubpl, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, public",
+        "aliases": "pubpl"
+    },
+    "amenity/parking-public-unpaved": {
+        "name": "Public unpaved parking lot",
+        "terms": "pubplu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, public",
+        "aliases": "pubplu"
+    },
+    "amenity/parking/underground_customers_parking_entrance": {
+        "name": "Underground parking garage entrance for customers",
+        "terms": "upgec, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, customers",
+        "aliases": "upgec"
+    },
+    "amenity/parking/underground_private_parking_entrance_employees": {
+        "name": "Underground parking garage entrance for employees",
+        "terms": "upgee, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, employees",
+        "aliases": "upgee"
+    },
+    "amenity/parking/underground_private_parking_entrance_residents": {
+        "name": "Underground parking garage entrance for residents",
+        "terms": "upger, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, residents",
+        "aliases": "upger"
+    },
+    "amenity/parking/underground_public_parking_entrance": {
+        "name": "Underground parking garage entrance for public",
+        "terms": "upgep, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, public",
+        "aliases": "upgep"
+    },
+    "barrier/customers_gate": {
+        "name": "Customers gate",
+        "terms": "cg, gate, customers",
+        "aliases": "cg"
+    },
+    "barrier/customers_liftgate": {
+        "name": "Customers lift gate",
+        "terms": "clg, lift gate, customers",
+        "aliases": "clg"
+    },
+    "barrier/gate_foot_bicycle_yes": {
+        "name": "Public gate (foot and bicycle, no motor vehicles)",
+        "terms": "pgfb, gate, foot, bicycle, pedestrian, cycling, no motor vehicles",
+        "aliases": "pgfb"
+    },
+    "barrier/private_gate": {
+        "name": "Private gate",
+        "terms": "pg, gate, private",
+        "aliases": "pg"
+    },
+    "barrier/private_liftgate": {
+        "name": "Private lift gate",
+        "terms": "plg, lift gate, private",
+        "aliases": "plg"
     },
     "highway/cycleway/cycleway_link": {
         "name": "Cycleway link",
-        "terms": "cycleway link, link, cl, connector, connection, cycleway connector"
+        "aliases": "cl",
+        "terms": "cl, cycleway link, link, connector, connection, cycleway connector"
+    },
+    "highway/footway/access_aisle": {
+        "name": "Access aisle",
+        "terms": "aa, access aisle, parking aisle, striped zone, wheelchair aisle",
+        "aliases": "aa"
+    },
+    "highway/footway/access_aisle_bicycle_dismount": {
+        "name": "Access aisle bicycle dismount",
+        "terms": "aabd, access aisle, parking aisle, striped zone, wheelchair aisle, bicycle dismount",
+        "aliases": "aabd"
+    },
+    "highway/footway/access_aisle_bicycle_yes": {
+        "name": "Access aisle bicycle yes",
+        "terms": "aaby, access aisle, parking aisle, striped zone, wheelchair aisle, bicycle yes, cycling",
+        "aliases": "aaby"
+    },
+    "highway/footway/customers_access_aisle": {
+        "name": "Customers access aisle",
+        "terms": "caa, access aisle, parking aisle, striped zone, wheelchair aisle, customers",
+        "aliases": "caa"
+    },
+    "highway/footway/customers_footway_link": {
+        "name": "Customers footway link",
+        "terms": "cfl, footway link, link, connector, customers",
+        "aliases": "cfl"
+    },
+    "highway/footway/footway_link_bicycle_dismount": {
+        "name": "Footway link bicycle dismount",
+        "aliases": "flbd",
+        "terms": "flbd, fl, footway link, bicycle dismount, link, dismount, connector, connection, footway connector"
+    },
+    "highway/footway/footway_link_bicycle_yes": {
+        "name": "Footway link bicycle yes",
+        "aliases": "flby",
+        "terms": "flby, fl, footway link, bicycle yes, link, cycling, connector, connection, footway connector"
+    },
+    "highway/footway/private_access_aisle": {
+        "name": "Private access aisle",
+        "terms": "paa, access aisle, parking aisle, striped zone, wheelchair aisle, private",
+        "aliases": "paa"
+    },
+    "highway/footway/private_footway_link": {
+        "name": "Private footway link",
+        "terms": "pfl, footway link, link, connector, private",
+        "aliases": "pfl"
     }
 }

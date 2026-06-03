@@ -1,0 +1,9 @@
+import type { CustomField } from '../types';
+
+export const capacityCharging: CustomField = {
+    key: 'capacity:charging',
+    type: 'number',
+    minValue: 0,
+    label: 'Capacity for charging electric vehicles',
+    placeholder: '1, 5, 10...'
+};

@@ -2,6 +2,22 @@
     "tagging": {
         "presets": {
             "fields": {
+                "capacity_charging": {
+                    "label": "Capacity for charging electric vehicles",
+                    "placeholder": "1, 5, 10..."
+                },
+                "parking/condition": {
+                    "label": "Parking condition",
+                    "options": {
+                        "residents": "Residents",
+                        "customers": "Customers",
+                        "private": "Private",
+                        "free": "Free",
+                        "ticket": "Ticket",
+                        "disc": "Disc",
+                        "disabled": "Disabled"
+                    }
+                },
                 "sidewalk": {
                     "label": "Sidewalk"
                 },
@@ -14,11 +30,21 @@
                         "psv": "Public Service Veh."
                     }
                 },
-                "lanes_group": { "label": "Lanes" },
-                "placement_group": { "label": "Placement" },
-                "turn_lanes_group": { "label": "Turn" },
-                "change_lanes_group": { "label": "Change" },
-                "buswaylanes": { "label": "Bus lanes" },
+                "lanes_group": {
+                    "label": "Lanes"
+                },
+                "placement_group": {
+                    "label": "Placement"
+                },
+                "turn_lanes_group": {
+                    "label": "Turn"
+                },
+                "change_lanes_group": {
+                    "label": "Change"
+                },
+                "buswaylanes": {
+                    "label": "Bus lanes"
+                },
                 "dual_carriageway": {
                     "label": "Dual carriageway",
                     "options": {
@@ -35,23 +61,57 @@
                         "turning_loop": "Turning loop"
                     }
                 },
-                "placement": { "label": "Placement" },
-                "placement_forward": { "label": "Placement ↑" },
-                "placement_backward": { "label": "Placement ↓" },
-                "lanes_forward": { "label": "Lanes ↑" },
-                "lanes_backward": { "label": "Lanes ↓" },
-                "width_lanes_start": { "label": "Lane transition start" },
-                "width_lanes_end": { "label": "lane transition end" },
-                "width_lanes_forward_start": { "label": "Lane transition ↑ start" },
-                "width_lanes_forward_end": { "label": "Lane transition ↑ end" },
-                "width_lanes_backward_start": { "label": "Lane transition ↓ start" },
-                "width_lanes_backward_end": { "label": "Lane transition ↓ end" },
-                "change_lanes": { "label": "Change" },
-                "change_lanes_forward": { "label": "Change ↑" },
-                "change_lanes_backward": { "label": "Change ↓" },
-                "turn_lanes": { "label": "Turn" },
-                "turn_lanes_forward": { "label": "Turn ↑" },
-                "turn_lanes_backward": { "label": "Turn ↓" },
+                "placement": {
+                    "label": "Placement"
+                },
+                "placement_forward": {
+                    "label": "Placement ↑"
+                },
+                "placement_backward": {
+                    "label": "Placement ↓"
+                },
+                "lanes_forward": {
+                    "label": "Lanes ↑"
+                },
+                "lanes_backward": {
+                    "label": "Lanes ↓"
+                },
+                "width_lanes_start": {
+                    "label": "Lane transition start"
+                },
+                "width_lanes_end": {
+                    "label": "Lane transition end"
+                },
+                "width_lanes_forward_start": {
+                    "label": "Lane transition ↑ start"
+                },
+                "width_lanes_forward_end": {
+                    "label": "Lane transition ↑ end"
+                },
+                "width_lanes_backward_start": {
+                    "label": "Lane transition ↓ start"
+                },
+                "width_lanes_backward_end": {
+                    "label": "Lane transition ↓ end"
+                },
+                "change_lanes": {
+                    "label": "Change"
+                },
+                "change_lanes_forward": {
+                    "label": "Change ↑"
+                },
+                "change_lanes_backward": {
+                    "label": "Change ↓"
+                },
+                "turn_lanes": {
+                    "label": "Turn"
+                },
+                "turn_lanes_forward": {
+                    "label": "Turn ↑"
+                },
+                "turn_lanes_backward": {
+                    "label": "Turn ↓"
+                },
                 "cycleway": {
                     "types": {
                         "cycleway:both": "Both Sides"
@@ -63,7 +123,9 @@
                         }
                     }
                 },
-                "cycleway_buffer": { "label": "Both: Cycleway buffer width (m)" },
+                "cycleway_buffer": {
+                    "label": "Both: Cycleway buffer width (m)"
+                },
                 "cycleway_separation": {
                     "label": "Both: Cycleway separation",
                     "options": {
@@ -94,17 +156,38 @@
                         "surface": "Change of surface"
                     }
                 },
-                "cycleway_left_buffer": { "label": "Left: Cycleway buffer width (m)" },
-                "cycleway_left_separation": { "label": "Left: Cycleway separation" },
-                "cycleway_left_marking": { "label": "Left: Cycleway marking" },
+                "cycleway_left_buffer": {
+                    "label": "Left: Cycleway buffer width (m)"
+                },
+                "cycleway_left_separation": {
+                    "label": "Left: Cycleway separation"
+                },
+                "cycleway_left_marking": {
+                    "label": "Left: Cycleway marking"
+                },
                 "cycleway_left_oneway": {
                     "label": "Left: Bicycle one way",
-                    "options": { "yes": "Yes", "no": "No" }
+                    "options": {
+                        "yes": "Yes",
+                        "no": "No"
+                    }
                 },
-                "cycleway_right_buffer": { "label": "Right: Cycleway buffer width (m)" },
-                "cycleway_right_separation": { "label": "Right: Cycleway separation" },
-                "cycleway_right_marking": { "label": "Right: Cycleway marking" },
-                "cycleway_right_oneway": { "label": "Right: Bicycle one way" }
+                "cycleway_right_buffer": {
+                    "label": "Right: Cycleway buffer width (m)"
+                },
+                "cycleway_right_separation": {
+                    "label": "Right: Cycleway separation"
+                },
+                "cycleway_right_marking": {
+                    "label": "Right: Cycleway marking"
+                },
+                "cycleway_right_oneway": {
+                    "label": "Right: Bicycle one way",
+                    "options": {
+                        "yes": "Yes",
+                        "no": "No"
+                    }
+                }
             }
         }
     },
