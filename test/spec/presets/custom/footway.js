@@ -29,6 +29,43 @@ describe('custom presets — footway', function() {
 
         const byPflIds = pool.search('pfl', 'line').collection.map((p) => p.id);
         expect(byPflIds).to.include('highway/footway/private_footway_link');
+
+        const byCfas = pool.search('cfas', 'line').collection.map((p) => p.id);
+        expect(byCfas).to.include('highway/footway/customers_asphalt');
+
+        const byCsw = pool.search('csw', 'line').collection.map((p) => p.id);
+        expect(byCsw).to.include('highway/footway/customers_sidewalk');
+    });
+
+    it('defines customers and private foot path presets', function() {
+        const customersAsphalt = iD.presetManager.item('highway/footway/customers_asphalt');
+        const customersOther = iD.presetManager.item('highway/footway/customers_other');
+        const privateConcrete = iD.presetManager.item('highway/footway/private_concrete');
+        expect(customersAsphalt.tags).to.include({
+            highway: 'footway',
+            access: 'customers',
+            surface: 'asphalt'
+        });
+        expect(customersOther.tags).to.include({ highway: 'footway', access: 'customers' });
+        expect(customersOther.tags).to.not.have.property('surface');
+        expect(privateConcrete.tags).to.include({ access: 'private', surface: 'concrete' });
+    });
+
+    it('defines restricted informal path and sidewalk presets', function() {
+        const customersInformal = iD.presetManager.item('highway/footway/customers_informal');
+        const privateSidewalk = iD.presetManager.item('highway/footway/private_sidewalk');
+        expect(customersInformal.tags).to.include({
+            highway: 'path',
+            informal: 'yes',
+            access: 'customers'
+        });
+        expect(privateSidewalk.tags).to.include({
+            highway: 'footway',
+            footway: 'sidewalk',
+            access: 'private'
+        });
+        expect(privateSidewalk.tags).to.not.have.property('bicycle');
+        expect(privateSidewalk.addTags.surface).to.equal('concrete');
     });
 
     it('defines access aisle bicycle yes preset tags', function() {
