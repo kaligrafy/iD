@@ -384,6 +384,31 @@
         "terms": "aaby, access aisle, parking aisle, striped zone, wheelchair aisle, bicycle yes, cycling",
         "aliases": "aaby"
     },
+    "highway/footway/customers_informal": {
+        "name": "Customers informal path",
+        "terms": "cfi, footway, informal path, desire path, trail, customers, hiking, walk",
+        "aliases": "cfi"
+    },
+    "highway/footway/customers_asphalt": {
+        "name": "Customers foot path (asphalt)",
+        "terms": "cfas, footway, foot path, pedestrian path, customers, asphalt, hike, trail, walk",
+        "aliases": "cfas"
+    },
+    "highway/footway/customers_concrete": {
+        "name": "Customers foot path (concrete)",
+        "terms": "cfac, footway, foot path, pedestrian path, customers, concrete, hike, trail, walk",
+        "aliases": "cfac"
+    },
+    "highway/footway/customers_other": {
+        "name": "Customers foot path",
+        "terms": "cfo, footway, foot path, pedestrian path, customers, hike, trail, walk, promenade",
+        "aliases": "cfo"
+    },
+    "highway/footway/customers_sidewalk": {
+        "name": "Customers sidewalk",
+        "terms": "csw, sidewalk, pavement, sidepath, footway, customers",
+        "aliases": "csw"
+    },
     "highway/footway/customers_access_aisle": {
         "name": "Customers access aisle",
         "terms": "caa, access aisle, parking aisle, striped zone, wheelchair aisle, customers",
@@ -403,6 +428,31 @@
         "name": "Footway link bicycle yes",
         "aliases": "flby",
         "terms": "flby, fl, footway link, bicycle yes, link, cycling, connector, connection, footway connector"
+    },
+    "highway/footway/private_informal": {
+        "name": "Private informal path",
+        "terms": "pfi, footway, informal path, desire path, trail, private, hiking, walk",
+        "aliases": "pfi"
+    },
+    "highway/footway/private_asphalt": {
+        "name": "Private foot path (asphalt)",
+        "terms": "pfas, footway, foot path, pedestrian path, private, asphalt, hike, trail, walk",
+        "aliases": "pfas"
+    },
+    "highway/footway/private_concrete": {
+        "name": "Private foot path (concrete)",
+        "terms": "pfac, footway, foot path, pedestrian path, private, concrete, hike, trail, walk",
+        "aliases": "pfac"
+    },
+    "highway/footway/private_other": {
+        "name": "Private foot path",
+        "terms": "pfo, footway, foot path, pedestrian path, private, hike, trail, walk, promenade",
+        "aliases": "pfo"
+    },
+    "highway/footway/private_sidewalk": {
+        "name": "Private sidewalk",
+        "terms": "psw, sidewalk, pavement, sidepath, footway, private",
+        "aliases": "psw"
     },
     "highway/footway/private_access_aisle": {
         "name": "Private access aisle",

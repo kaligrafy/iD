@@ -384,6 +384,31 @@
         "terms": "aaby, vcva, voie de circulation, allée, zone hachurée, stationnement, vélo autorisé, cyclisme",
         "aliases": "aaby"
     },
+    "highway/footway/customers_informal": {
+        "name": "Sentier informel — clients",
+        "terms": "cfi, footway, sentier informel, sentier, chemin de traverse, clients, randonnée",
+        "aliases": "cfi"
+    },
+    "highway/footway/customers_asphalt": {
+        "name": "Chemin piéton — clients (asphalte)",
+        "terms": "cfas, footway, chemin piéton, sentier, clients, asphalte, randonnée, marche",
+        "aliases": "cfas"
+    },
+    "highway/footway/customers_concrete": {
+        "name": "Chemin piéton — clients (béton)",
+        "terms": "cfac, footway, chemin piéton, sentier, clients, béton, randonnée, marche",
+        "aliases": "cfac"
+    },
+    "highway/footway/customers_other": {
+        "name": "Chemin piéton — clients",
+        "terms": "cfo, footway, chemin piéton, sentier, clients, randonnée, marche, promenade",
+        "aliases": "cfo"
+    },
+    "highway/footway/customers_sidewalk": {
+        "name": "Trottoir — clients",
+        "terms": "csw, trottoir, bordure, footway, clients",
+        "aliases": "csw"
+    },
     "highway/footway/customers_access_aisle": {
         "name": "Voie de circulation — clients",
         "terms": "caa, vcc, voie de circulation, allée, zone hachurée, stationnement, clients",
@@ -403,6 +428,31 @@
         "name": "Lien piétonnier vélo autorisé",
         "aliases": "flby",
         "terms": "flby, lpvo, lp, lien, liaison, liaison piéton, lien piéton, vélo autorisé, cyclable"
+    },
+    "highway/footway/private_informal": {
+        "name": "Sentier informel — privé",
+        "terms": "pfi, footway, sentier informel, sentier, chemin de traverse, privé, randonnée",
+        "aliases": "pfi"
+    },
+    "highway/footway/private_asphalt": {
+        "name": "Chemin piéton — privé (asphalte)",
+        "terms": "pfas, footway, chemin piéton, sentier, privé, asphalte, randonnée, marche",
+        "aliases": "pfas"
+    },
+    "highway/footway/private_concrete": {
+        "name": "Chemin piéton — privé (béton)",
+        "terms": "pfac, footway, chemin piéton, sentier, privé, béton, randonnée, marche",
+        "aliases": "pfac"
+    },
+    "highway/footway/private_other": {
+        "name": "Chemin piéton — privé",
+        "terms": "pfo, footway, chemin piéton, sentier, privé, randonnée, marche, promenade",
+        "aliases": "pfo"
+    },
+    "highway/footway/private_sidewalk": {
+        "name": "Trottoir — privé",
+        "terms": "psw, trottoir, bordure, footway, privé",
+        "aliases": "psw"
     },
     "highway/footway/private_access_aisle": {
         "name": "Voie de circulation — privé",
