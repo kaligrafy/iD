@@ -259,6 +259,116 @@
         "aliases": "cl",
         "terms": "cl, cycleway link, link, connector, connection, cycleway connector"
     },
+    "highway/footway/crossing/traffic_signals": {
+        "name": "Traffic Signals Footway Crossing (No Markings)",
+        "terms": "tsn, tr, footway crossing, traffic signals footway crossing, traffic signals crosswalk, traffic signals pedestrian crossing, no marking crossing",
+        "aliases": "tsn"
+    },
+    "highway/footway/crossing/traffic_signals-dashes": {
+        "name": "Traffic Signals Dashes Footway Crossing",
+        "terms": "tsdcns, tsd, footway crossing, traffic signals footway crossing, traffic signals crosswalk, traffic signals pedestrian crossing, dashes crossing, dashes",
+        "aliases": "tsdcns"
+    },
+    "highway/footway/crossing/traffic_signals-dots": {
+        "name": "Traffic Signals Dots Footway Crossing",
+        "terms": "tsdns, tsd, footway crossing, traffic signals footway crossing, traffic signals crosswalk, traffic signals pedestrian crossing, dots crossing, dots",
+        "aliases": "tsdns"
+    },
+    "highway/footway/crossing/traffic_signals-lines": {
+        "name": "Traffic Signals Lines Footway Crossing (Lines)",
+        "terms": "tslns, tsl, footway crossing, traffic signals footway crossing, traffic signals crosswalk, traffic signals pedestrian crossing, lines crossing, lines",
+        "aliases": "tslns"
+    },
+    "highway/footway/crossing/traffic_signals-other": {
+        "name": "Traffic Signals Footway Crossing (Other)",
+        "terms": "tsons, footway crossing, traffic signals footway crossing, traffic signals crosswalk, traffic signals pedestrian crossing, other marking",
+        "aliases": "tsons"
+    },
+    "highway/footway/crossing/traffic_signals-surface": {
+        "name": "Traffic Signals Surface Footway Crossing",
+        "terms": "tssns, footway crossing, traffic signals footway crossing, traffic signals crosswalk, traffic signals pedestrian crossing, surface change crossing, surface",
+        "aliases": "tssns"
+    },
+    "highway/footway/crossing/traffic_signals-zebra": {
+        "name": "Traffic Signals Zebra Footway Crossing",
+        "terms": "tszns, tsz, footway crossing, traffic signals footway crossing, traffic signals crosswalk, traffic signals pedestrian crossing, zebra crossing, zebra",
+        "aliases": "tszns"
+    },
+    "highway/footway/crossing/uncontrolled-dashes": {
+        "name": "Uncontrolled Dashes Footway Crossing",
+        "terms": "udns, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, dashes crossing, dashes",
+        "aliases": "udns"
+    },
+    "highway/footway/crossing/uncontrolled-dots": {
+        "name": "Uncontrolled Dots Footway Crossing (Dots)",
+        "terms": "udons, udns, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, dots crossing, dots",
+        "aliases": "udons"
+    },
+    "highway/footway/crossing/uncontrolled-lines": {
+        "name": "Uncontrolled Lines Footway Crossing (Lines)",
+        "terms": "ulns, ul, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, lines crossing, lines",
+        "aliases": "ulns"
+    },
+    "highway/footway/crossing/uncontrolled-other": {
+        "name": "Uncontrolled Footway Crossing (Other)",
+        "terms": "ucons, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, other marking",
+        "aliases": "ucons"
+    },
+    "highway/footway/crossing/uncontrolled-surface": {
+        "name": "Uncontrolled Surface Footway Crossing",
+        "terms": "usurf, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, surface change crossing, surface",
+        "aliases": "usurf"
+    },
+    "highway/footway/crossing/uncontrolled-zebra": {
+        "name": "Uncontrolled Zebra Footway Crossing",
+        "terms": "uzns, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra",
+        "aliases": "uzns"
+    },
+    "highway/footway/crossing/unmarked": {
+        "name": "Unmarked Footway Crossing",
+        "terms": "uns, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing",
+        "aliases": "uns"
+    },
+    "highway/footway/crossing/unmarked_asphalt": {
+        "name": "Unmarked Footway Crossing (Asphalt)",
+        "terms": "una, un, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, asphalt",
+        "aliases": "una"
+    },
+    "highway/footway/crossing/unmarked_concrete": {
+        "name": "Unmarked Footway Crossing (Concrete)",
+        "terms": "unc, un, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, concrete",
+        "aliases": "unc"
+    },
+    "highway/footway/crossing/unmarked_customers": {
+        "name": "Unmarked Footway Crossing (Customers)",
+        "terms": "ucn, uc, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, customers",
+        "aliases": "ucn"
+    },
+    "highway/footway/crossing/unmarked_private": {
+        "name": "Unmarked Footway Crossing (Private)",
+        "terms": "unp, up, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, private",
+        "aliases": "unp"
+    },
+    "highway/footway/bicycle_dismount_asphalt": {
+        "name": "Foot path (bicycle dismount asphalt)",
+        "terms": "bda, footway, foot path, pedestrian path, bicycle dismount, dismount, asphalt",
+        "aliases": "bda"
+    },
+    "highway/footway/bicycle_dismount_concrete": {
+        "name": "Foot path (bicycle dismount concrete)",
+        "terms": "bdc, footway, foot path, pedestrian path, bicycle dismount, dismount, concrete",
+        "aliases": "bdc"
+    },
+    "highway/footway/bicycle_dismount_other": {
+        "name": "Foot path (bicycle dismount)",
+        "terms": "bdo, footway, foot path, pedestrian path, bicycle dismount, dismount",
+        "aliases": "bdo"
+    },
+    "highway/footway/bicycle_yes": {
+        "name": "Foot path (bicycle yes)",
+        "terms": "fby, footway, foot path, pedestrian path, bicycle yes, cycling",
+        "aliases": "fby"
+    },
     "highway/footway/access_aisle": {
         "name": "Access aisle",
         "terms": "aa, access aisle, parking aisle, striped zone, wheelchair aisle",

@@ -88,6 +88,25 @@ describe('custom presets — footway', function() {
         expect(tags).to.not.have.property('bicycle');
     });
 
+    it('defines footway bicycle yes preset tags', function() {
+        const yes = iD.presetManager.item('highway/footway/bicycle_yes');
+        expect(yes, 'footway bicycle yes').to.exist;
+        expect(yes.tags).to.include({ highway: 'footway', bicycle: 'yes' });
+        expect(yes.tags).to.not.have.property('footway');
+        expect(yes.addTags.surface).to.equal('asphalt');
+    });
+
+    it('defines bicycle dismount footway presets by surface', function() {
+        const asphalt = iD.presetManager.item('highway/footway/bicycle_dismount_asphalt');
+        const concrete = iD.presetManager.item('highway/footway/bicycle_dismount_concrete');
+        const other = iD.presetManager.item('highway/footway/bicycle_dismount_other');
+        expect(asphalt.tags).to.include({ highway: 'footway', bicycle: 'dismount', surface: 'asphalt' });
+        expect(concrete.tags).to.include({ surface: 'concrete' });
+        expect(other.tags).to.include({ bicycle: 'dismount' });
+        expect(other.tags).to.not.have.property('surface');
+        expect(other.tags).to.not.have.property('footway');
+    });
+
     it('defines sidewalk bicycle dismount and yes preset tags', function() {
         const dismount = iD.presetManager.item('highway/footway/sidewalk_bicycle_dismount');
         const yes = iD.presetManager.item('highway/footway/sidewalk_bicycle_yes');
