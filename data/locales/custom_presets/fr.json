@@ -259,6 +259,116 @@
         "aliases": "cl",
         "terms": "cl, lc, lien, liaison, liaison cyclable, lien cyclable"
     },
+    "highway/footway/crossing/traffic_signals": {
+        "name": "Traversée piétonne — Feux, sans marquage",
+        "terms": "tsn, tr, traversée piétonne, passage piéton, traversée, feux, feux de circulation, signalisation, sans marquage",
+        "aliases": "tsn"
+    },
+    "highway/footway/crossing/traffic_signals-dashes": {
+        "name": "Traversée piétonne — Feux, tirets",
+        "terms": "tsdcns, tsdashns, traversée piétonne, passage piéton, passage piéton, traversée, feux, feux de circulation, signalisation, tirets, marquage en tirets",
+        "aliases": "tsdcns"
+    },
+    "highway/footway/crossing/traffic_signals-dots": {
+        "name": "Traversée piétonne — Feux, pointillés",
+        "terms": "tsdns, tsdns, dtns, dts, td, tdns, traversée piétonne, passage piéton, passage piéton, traversée, feux, feux de circulation, signalisation, pointillés, marquage pointillé",
+        "aliases": "tsdns"
+    },
+    "highway/footway/crossing/traffic_signals-lines": {
+        "name": "Traversée piétonne — Feux, lignes",
+        "terms": "tslns, tslns, tsl, ltns, tl, tlns, traversée piétonne, passage piéton, passage piéton, traversée, feux, feux de circulation, signalisation, lignes, marquage en lignes",
+        "aliases": "tslns"
+    },
+    "highway/footway/crossing/traffic_signals-other": {
+        "name": "Traversée piétonne — Feux, autre",
+        "terms": "tsons, tsnso, traversée piétonne, passage piéton, passage piéton, traversée, feux, feux de circulation, signalisation, autre marquage, marquage autre",
+        "aliases": "tsons"
+    },
+    "highway/footway/crossing/traffic_signals-surface": {
+        "name": "Traversée piétonne — Feux, changement de surface",
+        "terms": "tssns, tssurfns, traversée piétonne, passage piéton, passage piéton, traversée, feux, feux de circulation, signalisation, changement de surface",
+        "aliases": "tssns"
+    },
+    "highway/footway/crossing/traffic_signals-zebra": {
+        "name": "Traversée piétonne — Feux, zébrée",
+        "terms": "tszns, tszns, tsz, ztns, zts, tz, tzns, traversée piétonne, passage piéton, passage piéton, traversée, feux, feux de circulation, signalisation, zébrée, passage zébré, bandes zébrées",
+        "aliases": "tszns"
+    },
+    "highway/footway/crossing/uncontrolled-dashes": {
+        "name": "Traversée piétonne — Non contrôlé, tirets",
+        "terms": "udns, ucdashns, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, tirets, marquage en tirets",
+        "aliases": "udns"
+    },
+    "highway/footway/crossing/uncontrolled-dots": {
+        "name": "Traversée piétonne — Non contrôlé, pointillés",
+        "terms": "udons, udns, ud, ucdns, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, pointillés, marquage pointillé",
+        "aliases": "udons"
+    },
+    "highway/footway/crossing/uncontrolled-lines": {
+        "name": "Traversée piétonne — Non contrôlé, lignes",
+        "terms": "ulns, ulns, ul, uclns, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, lignes, marquage en lignes",
+        "aliases": "ulns"
+    },
+    "highway/footway/crossing/uncontrolled-other": {
+        "name": "Traversée piétonne — Non contrôlé, autre",
+        "terms": "ucons, ucons, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, autre marquage, marquage autre",
+        "aliases": "ucons"
+    },
+    "highway/footway/crossing/uncontrolled-surface": {
+        "name": "Traversée piétonne — Non contrôlé, changement de surface",
+        "terms": "usurf, traversée piétonne, passage piéton, traversée, non contrôlé, sans signalisation, changement de surface, surface",
+        "aliases": "usurf"
+    },
+    "highway/footway/crossing/uncontrolled-zebra": {
+        "name": "Traversée piétonne — Non contrôlé, zébrée",
+        "terms": "uzns, uzns, uz, zns, zuns, uczns, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, zébrée, passage zébré, bandes zébrées",
+        "aliases": "uzns"
+    },
+    "highway/footway/crossing/unmarked": {
+        "name": "Traversée piétonne — Non marqué",
+        "terms": "uns, uns, un, traversée piétonne, passage piéton, passage piéton, traversée, non marqué, sans marquage",
+        "aliases": "uns"
+    },
+    "highway/footway/crossing/unmarked_asphalt": {
+        "name": "Traversée piétonne — Non marqué (asphalte)",
+        "terms": "una, un, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, asphalte",
+        "aliases": "una"
+    },
+    "highway/footway/crossing/unmarked_concrete": {
+        "name": "Traversée piétonne — Non marqué (béton)",
+        "terms": "unc, un, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, béton",
+        "aliases": "unc"
+    },
+    "highway/footway/crossing/unmarked_customers": {
+        "name": "Traversée piétonne — Non marqué (clients)",
+        "terms": "ucn, uc, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, clients",
+        "aliases": "ucn"
+    },
+    "highway/footway/crossing/unmarked_private": {
+        "name": "Traversée piétonne — Non marqué (privé)",
+        "terms": "unp, up, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, privé",
+        "aliases": "unp"
+    },
+    "highway/footway/bicycle_dismount_asphalt": {
+        "name": "Chemin piéton (vélo à pied, asphalte)",
+        "terms": "bda, footway, chemin piéton, sentier, vélo à pied, asphalte",
+        "aliases": "bda"
+    },
+    "highway/footway/bicycle_dismount_concrete": {
+        "name": "Chemin piéton (vélo à pied, béton)",
+        "terms": "bdc, footway, chemin piéton, sentier, vélo à pied, béton",
+        "aliases": "bdc"
+    },
+    "highway/footway/bicycle_dismount_other": {
+        "name": "Chemin piéton (vélo à pied)",
+        "terms": "bdo, footway, chemin piéton, sentier, vélo à pied",
+        "aliases": "bdo"
+    },
+    "highway/footway/bicycle_yes": {
+        "name": "Chemin piéton (vélo autorisé)",
+        "terms": "fby, footway, chemin piéton, sentier, vélo autorisé, cyclisme",
+        "aliases": "fby"
+    },
     "highway/footway/access_aisle": {
         "name": "Voie de circulation (allée)",
         "terms": "aa, vca, voie de circulation, allée, zone hachurée, stationnement",

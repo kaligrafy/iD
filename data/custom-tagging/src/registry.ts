@@ -2,8 +2,10 @@ import { accessRestricted } from './fields/access_restricted';
 import { capacityCharging } from './fields/capacity_charging';
 import { parkingCondition } from './fields/parking_condition';
 import { placement } from './fields/placement';
+import { bicycleDismountVariantPresets } from './presets/highway/footway/bicycle_dismount_variants';
 import { accessAisleVariantPresets } from './presets/highway/footway/access_aisle_variants';
 import { footwayLinkVariantPresets } from './presets/highway/footway/footway_link_variants';
+import { footwayCrossingVariantPresets } from './presets/highway/footway/footway_crossing_variants';
 import { sidewalkVariantPresets } from './presets/highway/footway/sidewalk_variants';
 import { cyclewayCrossingVariantPresets } from './presets/highway/cycleway/cycleway_crossing_variants';
 import { cyclewayLink } from './presets/highway/cycleway/cycleway_link';
@@ -27,9 +29,11 @@ export const customTemplates: Record<string, CustomTemplatePreset> = {
 
 /** Preset path (e.g. `highway/footway/footway_link_bicycle_dismount`) → definition under `presets/`. */
 export const customPresets: Record<string, CustomPreset> = {
+    ...bicycleDismountVariantPresets,
     ...accessAisleVariantPresets,
     ...footwayLinkVariantPresets,
     ...sidewalkVariantPresets,
+    ...footwayCrossingVariantPresets,
     'highway/cycleway/cycleway_link': cyclewayLink,
     ...cyclewayCrossingVariantPresets,
     ...parkingVariantPresets,
