@@ -4,6 +4,8 @@ import { parkingCondition } from './fields/parking_condition';
 import { placement } from './fields/placement';
 import { accessAisleVariantPresets } from './presets/highway/footway/access_aisle_variants';
 import { footwayLinkVariantPresets } from './presets/highway/footway/footway_link_variants';
+import { sidewalkVariantPresets } from './presets/highway/footway/sidewalk_variants';
+import { cyclewayCrossingVariantPresets } from './presets/highway/cycleway/cycleway_crossing_variants';
 import { cyclewayLink } from './presets/highway/cycleway/cycleway_link';
 import { parkingVariantPresets } from './presets/amenity/parking_variants';
 import { accessBarrierPresets } from './presets/barrier/access_barriers';
@@ -27,7 +29,9 @@ export const customTemplates: Record<string, CustomTemplatePreset> = {
 export const customPresets: Record<string, CustomPreset> = {
     ...accessAisleVariantPresets,
     ...footwayLinkVariantPresets,
+    ...sidewalkVariantPresets,
     'highway/cycleway/cycleway_link': cyclewayLink,
+    ...cyclewayCrossingVariantPresets,
     ...parkingVariantPresets,
     ...accessBarrierPresets
 };

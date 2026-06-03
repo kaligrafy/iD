@@ -1,53 +1,53 @@
 {
     "amenity/parking-customers": {
         "name": "Customers parking lot",
-        "terms": "cpl, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, customers",
-        "aliases": "cpl"
+        "terms": "cp, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, customers",
+        "aliases": "cp"
     },
     "amenity/parking-customers-unpaved": {
         "name": "Customers unpaved parking lot",
-        "terms": "cplu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, customers",
-        "aliases": "cplu"
+        "terms": "pcu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, customers",
+        "aliases": "pcu"
     },
     "amenity/parking-private": {
         "name": "Private parking lot",
-        "terms": "ppl, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, private",
-        "aliases": "ppl"
+        "terms": "pp, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, private",
+        "aliases": "pp"
     },
     "amenity/parking-private-unpaved": {
         "name": "Private unpaved parking lot",
-        "terms": "pplu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, private",
-        "aliases": "pplu"
+        "terms": "ppu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, private",
+        "aliases": "ppu"
     },
     "amenity/parking-public": {
         "name": "Public parking lot",
-        "terms": "pubpl, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, public",
-        "aliases": "pubpl"
+        "terms": "pupl, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, public",
+        "aliases": "pupl"
     },
     "amenity/parking-public-unpaved": {
         "name": "Public unpaved parking lot",
-        "terms": "pubplu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, public",
-        "aliases": "pubplu"
+        "terms": "puplu, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, unpaved, public",
+        "aliases": "puplu"
     },
     "amenity/parking/underground_customers_parking_entrance": {
         "name": "Underground parking garage entrance for customers",
-        "terms": "upgec, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, customers",
-        "aliases": "upgec"
+        "terms": "peuc, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, customers",
+        "aliases": "peuc"
     },
     "amenity/parking/underground_private_parking_entrance_employees": {
         "name": "Underground parking garage entrance for employees",
-        "terms": "upgee, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, employees",
-        "aliases": "upgee"
+        "terms": "peue, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, employees",
+        "aliases": "peue"
     },
     "amenity/parking/underground_private_parking_entrance_residents": {
         "name": "Underground parking garage entrance for residents",
-        "terms": "upger, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, residents",
-        "aliases": "upger"
+        "terms": "peur, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, residents",
+        "aliases": "peur"
     },
     "amenity/parking/underground_public_parking_entrance": {
         "name": "Underground parking garage entrance for public",
-        "terms": "upgep, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, public",
-        "aliases": "upgep"
+        "terms": "peup, automobile parking, car lot, car parking, rv parking, truck parking, vehicle parking, subsurface parking, garage entrance, underground parking, public",
+        "aliases": "peup"
     },
     "barrier/customers_gate": {
         "name": "Customers gate",
@@ -61,8 +61,8 @@
     },
     "barrier/gate_foot_bicycle_yes": {
         "name": "Public gate (foot and bicycle, no motor vehicles)",
-        "terms": "pgfb, gate, foot, bicycle, pedestrian, cycling, no motor vehicles",
-        "aliases": "pgfb"
+        "terms": "pugfb, pubg, gate, foot, bicycle, pedestrian, cycling, no motor vehicles",
+        "aliases": "pugfb"
     },
     "barrier/private_gate": {
         "name": "Private gate",
@@ -73,6 +73,186 @@
         "name": "Private lift gate",
         "terms": "plg, lift gate, private",
         "aliases": "plg"
+    },
+    "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
+        "name": "Traffic Signals Dashes Cycleway Crossing No Foot",
+        "terms": "ctsdcnf, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dashes crossing, dashes, no foot",
+        "aliases": "ctsdcnf"
+    },
+    "highway/cycleway/crossing/traffic_signals-dashes_not_segregated": {
+        "name": "Traffic Signals Dashes Cycleway Crossing Not Segregated",
+        "terms": "ctsdcns, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dashes crossing, dashes, not segregated",
+        "aliases": "ctsdcns"
+    },
+    "highway/cycleway/crossing/traffic_signals-dashes_segregated": {
+        "name": "Traffic Signals Dashes Cycleway Crossing Segregated",
+        "terms": "ctsdcs, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dashes crossing, dashes, segregated",
+        "aliases": "ctsdcs"
+    },
+    "highway/cycleway/crossing/traffic_signals-dots_no_foot": {
+        "name": "Traffic Signals Dots Cycleway Crossing No Foot",
+        "terms": "ctsdnf, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dots crossing, dots, no foot",
+        "aliases": "ctsdnf"
+    },
+    "highway/cycleway/crossing/traffic_signals-dots_not_segregated": {
+        "name": "Traffic Signals Dots Cycleway Crossing Not Segregated",
+        "terms": "ctsdns, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dots crossing, dots, not segregated",
+        "aliases": "ctsdns"
+    },
+    "highway/cycleway/crossing/traffic_signals-dots_segregated": {
+        "name": "Traffic Signals Dots Cycleway Crossing Segregated",
+        "terms": "ctsds, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dots crossing, dots, segregated",
+        "aliases": "ctsds"
+    },
+    "highway/cycleway/crossing/traffic_signals-lines_no_foot": {
+        "name": "Traffic Signals Lines Cycleway Crossing No Foot (| |)",
+        "terms": "ctslnf, ctsl, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, lines crossing, lines, no foot",
+        "aliases": "ctslnf"
+    },
+    "highway/cycleway/crossing/traffic_signals-lines_not_segregated": {
+        "name": "Traffic Signals Lines Cycleway Crossing Not Segregated (| |)",
+        "terms": "ctslns, ctsl, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, lines crossing, lines, not segregated",
+        "aliases": "ctslns"
+    },
+    "highway/cycleway/crossing/traffic_signals-lines_segregated": {
+        "name": "Traffic Signals Lines Cycleway Crossing Segregated (| |)",
+        "terms": "ctsls, ctsl, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, lines crossing, lines, segregated",
+        "aliases": "ctsls"
+    },
+    "highway/cycleway/crossing/traffic_signals-other_no_foot": {
+        "name": "Traffic Signals Cycleway Crossing No Foot (other)",
+        "terms": "ctsnf, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, other marking, no foot",
+        "aliases": "ctsnf"
+    },
+    "highway/cycleway/crossing/traffic_signals-other_not_segregated": {
+        "name": "Traffic Signals Cycleway Crossing Not Segregated (other)",
+        "terms": "ctsons, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, other marking, not segregated",
+        "aliases": "ctsons"
+    },
+    "highway/cycleway/crossing/traffic_signals-other_segregated": {
+        "name": "Traffic Signals Cycleway Crossing Segregated (other)",
+        "terms": "ctsos, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, other marking, segregated",
+        "aliases": "ctsos"
+    },
+    "highway/cycleway/crossing/traffic_signals-surface_no_foot": {
+        "name": "Traffic Signals Surface Cycleway Crossing No Foot",
+        "terms": "ctssnf, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, surface change crossing, surface, no foot",
+        "aliases": "ctssnf"
+    },
+    "highway/cycleway/crossing/traffic_signals-surface_not_segregated": {
+        "name": "Traffic Signals Surface Cycleway Crossing Not Segregated",
+        "terms": "ctssns, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, surface change crossing, surface, not segregated",
+        "aliases": "ctssns"
+    },
+    "highway/cycleway/crossing/traffic_signals-surface_segregated": {
+        "name": "Traffic Signals Surface Cycleway Crossing Segregated",
+        "terms": "ctsss, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, surface change crossing, surface, segregated",
+        "aliases": "ctsss"
+    },
+    "highway/cycleway/crossing/traffic_signals-zebra_no_foot": {
+        "name": "Traffic Signals Zebra Cycleway Crossing No Foot",
+        "terms": "ctsznf, ctsz, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, zebra crossing, zebra, no foot",
+        "aliases": "ctsznf"
+    },
+    "highway/cycleway/crossing/traffic_signals-zebra_not_segregated": {
+        "name": "Traffic Signals Zebra Cycleway Crossing Not Segregated",
+        "terms": "ctszns, ctsz, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, zebra crossing, zebra, not segregated",
+        "aliases": "ctszns"
+    },
+    "highway/cycleway/crossing/traffic_signals-zebra_segregated": {
+        "name": "Traffic Signals Zebra Cycleway Crossing Segregated",
+        "terms": "ctszs, ctsz, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, zebra crossing, zebra, segregated",
+        "aliases": "ctszs"
+    },
+    "highway/cycleway/crossing/uncontrolled-dashes_no_foot": {
+        "name": "Uncontrolled Dashes Cycleway Crossing No Foot",
+        "terms": "cudnf, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, dashes crossing, dashes, no foot",
+        "aliases": "cudnf"
+    },
+    "highway/cycleway/crossing/uncontrolled-dashes_not_segregated": {
+        "name": "Uncontrolled Dashes Cycleway Crossing Not Segregated",
+        "terms": "cudns, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, dashes crossing, dashes, not segregated",
+        "aliases": "cudns"
+    },
+    "highway/cycleway/crossing/uncontrolled-dashes_segregated": {
+        "name": "Uncontrolled Dashes Cycleway Crossing Segregated",
+        "terms": "cuds, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, dashes crossing, dashes, segregated",
+        "aliases": "cuds"
+    },
+    "highway/cycleway/crossing/uncontrolled-dots_no_foot": {
+        "name": "Uncontrolled Dots Cycleway Crossing No Foot",
+        "terms": "cudonf, cud, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, dots crossing, dots, no foot",
+        "aliases": "cudonf"
+    },
+    "highway/cycleway/crossing/uncontrolled-dots_not_segregated": {
+        "name": "Uncontrolled Dots Cycleway Crossing Not Segregated (┋ ┋)",
+        "terms": "cudons, cudns, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, dots crossing, dots, not segregated",
+        "aliases": "cudons"
+    },
+    "highway/cycleway/crossing/uncontrolled-dots_segregated": {
+        "name": "Uncontrolled Dots Cycleway Crossing Segregated (┋ ┋)",
+        "terms": "cudos, cuds, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, dots crossing, dots, segregated",
+        "aliases": "cudos"
+    },
+    "highway/cycleway/crossing/uncontrolled-lines_no_foot": {
+        "name": "Uncontrolled Lines Cycleway Crossing No Foot (| |)",
+        "terms": "culnf, cul, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, lines crossing, lines, no foot",
+        "aliases": "culnf"
+    },
+    "highway/cycleway/crossing/uncontrolled-lines_not_segregated": {
+        "name": "Uncontrolled Lines Cycleway Crossing Not Segregated (| |)",
+        "terms": "culns, cul, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, lines crossing, lines, not segregated",
+        "aliases": "culns"
+    },
+    "highway/cycleway/crossing/uncontrolled-lines_segregated": {
+        "name": "Uncontrolled Lines Cycleway Crossing Segregated (| |)",
+        "terms": "culs, cul, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, lines crossing, lines, segregated",
+        "aliases": "culs"
+    },
+    "highway/cycleway/crossing/uncontrolled-other_no_foot": {
+        "name": "Uncontrolled Cycleway Crossing No Foot (other)",
+        "terms": "cuconf, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, other marking, no foot",
+        "aliases": "cuconf"
+    },
+    "highway/cycleway/crossing/uncontrolled-other_not_segregated": {
+        "name": "Uncontrolled Cycleway Crossing Not Segregated (other)",
+        "terms": "cucons, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, other marking, not segregated",
+        "aliases": "cucons"
+    },
+    "highway/cycleway/crossing/uncontrolled-other_segregated": {
+        "name": "Uncontrolled Cycleway Crossing Segregated (other)",
+        "terms": "cucos, cuos, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, other marking, segregated",
+        "aliases": "cucos"
+    },
+    "highway/cycleway/crossing/uncontrolled-zebra_no_foot": {
+        "name": "Uncontrolled Zebra Cycleway Crossing No Foot",
+        "terms": "cuznf, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, zebra crossing, zebra, no foot",
+        "aliases": "cuznf"
+    },
+    "highway/cycleway/crossing/uncontrolled-zebra_not_segregated": {
+        "name": "Uncontrolled Zebra Cycleway Crossing Not Segregated",
+        "terms": "cuzns, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, zebra crossing, zebra, not segregated",
+        "aliases": "cuzns"
+    },
+    "highway/cycleway/crossing/uncontrolled-zebra_segregated": {
+        "name": "Uncontrolled Zebra Cycleway Crossing Segregated",
+        "terms": "cuzs, cycleway crossing, uncontrolled cycleway crossing, uncontrolled crosswalk, uncontrolled bicycle crossing, zebra crossing, zebra, segregated",
+        "aliases": "cuzs"
+    },
+    "highway/cycleway/crossing/unmarked_no_foot": {
+        "name": "Unmarked Cycleway Crossing No Foot",
+        "terms": "cunf, cycleway crossing, unmarked cycleway crossing, unmarked crosswalk, no marking crossing, no foot",
+        "aliases": "cunf"
+    },
+    "highway/cycleway/crossing/unmarked_not_segregated": {
+        "name": "Unmarked Cycleway Crossing Not Segregated",
+        "terms": "cuns, cycleway crossing, unmarked cycleway crossing, unmarked crosswalk, no marking crossing, not segregated",
+        "aliases": "cuns"
+    },
+    "highway/cycleway/crossing/unmarked_segregated": {
+        "name": "Unmarked Cycleway Crossing Segregated",
+        "terms": "cus, cycleway crossing, unmarked cycleway crossing, unmarked crosswalk, no marking crossing, segregated",
+        "aliases": "cus"
     },
     "highway/cycleway/cycleway_link": {
         "name": "Cycleway link",
@@ -123,5 +303,15 @@
         "name": "Private footway link",
         "terms": "pfl, footway link, link, connector, private",
         "aliases": "pfl"
+    },
+    "highway/footway/sidewalk_bicycle_dismount": {
+        "name": "Sidewalk bicycle dismount",
+        "aliases": "sbd",
+        "terms": "sbd, sidewalk, pavement, sidepath, footway, bicycle dismount"
+    },
+    "highway/footway/sidewalk_bicycle_yes": {
+        "name": "Sidewalk bicycle yes",
+        "aliases": "sby",
+        "terms": "sby, sidewalk, pavement, sidepath, footway, bicycle yes, cycling"
     }
 }

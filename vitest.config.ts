@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
@@ -6,6 +6,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     include: ['test/spec/**/*.{js,ts}'],
+    exclude: [...configDefaults.exclude, 'test/spec/presets/custom/setup.js'],
     setupFiles: ['./test/spec_helpers.ts'],
   },
 });
