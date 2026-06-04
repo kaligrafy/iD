@@ -61,7 +61,7 @@ function footPathPreset(variant: FootPathVariant): CustomPreset {
         fields: [...RESTRICTED_FOOTWAY_FIELDS],
         moreFields: [...FOOTWAY_LINK_MORE_FIELDS],
         tags,
-        addTags: tags,
+        addTags: { ...tags },
         removeTags: buildRemoveTags(tags, { bicycle: ANY, footway: ANY }),
         matchScore: 2,
         reference: { key: 'highway', value: 'footway' },
@@ -82,7 +82,7 @@ function informalPathPreset(variant: InformalPathVariant): CustomPreset {
         fields: [...RESTRICTED_FOOTWAY_FIELDS],
         moreFields: [...FOOTWAY_LINK_MORE_FIELDS],
         tags,
-        addTags: tags,
+        addTags: { ...tags },
         removeTags: buildRemoveTags(tags, RESTRICTED_REMOVE_WILDCARDS),
         matchScore: 2,
         name: presetNameEn(variant.id)
