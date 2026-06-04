@@ -623,5 +623,130 @@
         "name": "Route non classée (sans trottoir)",
         "terms": "un, route non classée, route, rue, trottoir, sans trottoir, aucun",
         "aliases": "usn"
+    },
+    "highway/service/customers_driveway": {
+        "name": "Entrée clients",
+        "terms": "scd, clients, entrée, allée, voie de service, service",
+        "aliases": "scd"
+    },
+    "highway/service/customers_parking_aisle": {
+        "name": "Allée de stationnement clients",
+        "terms": "scpa, clients, allée de stationnement, voie de service, service",
+        "aliases": "scpa"
+    },
+    "highway/service/private_driveway": {
+        "name": "Entrée privée",
+        "terms": "spd, privé, entrée, allée, voie de service, service",
+        "aliases": "spd"
+    },
+    "highway/service/private_parking_aisle": {
+        "name": "Allée de stationnement privée",
+        "terms": "sppa, privé, allée de stationnement, voie de service, service",
+        "aliases": "sppa"
+    },
+    "highway/service/private_unpaved_driveway": {
+        "name": "Entrée privée non revêtue",
+        "terms": "spud, privé, non revêtue, entrée, allée, voie de service",
+        "aliases": "spud"
+    },
+    "highway/service/private_unpaved_parking_aisle": {
+        "name": "Allée de stationnement privée non revêtue",
+        "terms": "spupa, privé, non revêtue, allée de stationnement, voie de service",
+        "aliases": "spupa"
+    },
+    "highway/service/customers": {
+        "name": "Voie de service clients",
+        "terms": "sc, clients, voie de service, service, accès",
+        "aliases": "sc"
+    },
+    "highway/service/customers_unpaved": {
+        "name": "Voie de service clients (non revêtue)",
+        "terms": "scu, clients, voie de service, service, non revêtue",
+        "aliases": "scu"
+    },
+    "highway/service/customers_sidewalk_both": {
+        "name": "Voie de service clients (trottoir séparé, deux côtés)",
+        "terms": "scsb, clients, voie de service, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "scsb"
+    },
+    "highway/service/customers_sidewalk_left": {
+        "name": "Voie de service clients (trottoir séparé, gauche)",
+        "terms": "scsl, clients, voie de service, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "scsl"
+    },
+    "highway/service/customers_sidewalk_right": {
+        "name": "Voie de service clients (trottoir séparé, droite)",
+        "terms": "scsr, clients, voie de service, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "scsr"
+    },
+    "highway/service/customers_opposite_use_sidepath": {
+        "name": "Voie de service clients (chaussées séparées, trottoir côté opposé)",
+        "terms": "sco, clients, voie de service, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "sco"
+    },
+    "highway/service/private": {
+        "name": "Voie de service privée",
+        "terms": "sp, privé, voie de service, service, accès",
+        "aliases": "sp"
+    },
+    "highway/service/private_unpaved": {
+        "name": "Voie de service privée (non revêtue)",
+        "terms": "spu, privé, voie de service, service, non revêtue",
+        "aliases": "spu"
+    },
+    "highway/service/private_sidewalk_both": {
+        "name": "Voie de service privée (trottoir séparé, deux côtés)",
+        "terms": "spsb, privé, voie de service, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "spsb"
+    },
+    "highway/service/private_sidewalk_left": {
+        "name": "Voie de service privée (trottoir séparé, gauche)",
+        "terms": "spsl, privé, voie de service, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "spsl"
+    },
+    "highway/service/private_sidewalk_right": {
+        "name": "Voie de service privée (trottoir séparé, droite)",
+        "terms": "spsr, privé, voie de service, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "spsr"
+    },
+    "highway/service/private_opposite_use_sidepath": {
+        "name": "Voie de service privée (chaussées séparées, trottoir côté opposé)",
+        "terms": "spo, privé, voie de service, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "spo"
+    },
+    "highway/service/destination": {
+        "name": "Voie de service (desserte locale)",
+        "terms": "sd, desserte locale, circulation locale, destination, voie de service, motor_vehicle",
+        "aliases": "sd"
+    },
+    "highway/service/destination_unpaved": {
+        "name": "Voie de service (desserte locale, non revêtue)",
+        "terms": "sdu, desserte locale, destination, voie de service, non revêtue",
+        "aliases": "sdu"
+    },
+    "highway/service/destination_sidewalk_both": {
+        "name": "Voie de service (desserte locale, trottoir séparé, deux côtés)",
+        "terms": "sdsb, desserte locale, destination, voie de service, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "sdsb"
+    },
+    "highway/service/destination_sidewalk_left": {
+        "name": "Voie de service (desserte locale, trottoir séparé, gauche)",
+        "terms": "sdsl, desserte locale, destination, voie de service, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "sdsl"
+    },
+    "highway/service/destination_sidewalk_right": {
+        "name": "Voie de service (desserte locale, trottoir séparé, droite)",
+        "terms": "sdsr, desserte locale, destination, voie de service, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "sdsr"
+    },
+    "highway/service/destination_opposite_use_sidepath": {
+        "name": "Voie de service (desserte locale, chaussées séparées, trottoir côté opposé)",
+        "terms": "sdo, desserte locale, destination, voie de service, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "sdo"
+    },
+    "highway/track_private": {
+        "name": "Chemin non entretenu privé",
+        "terms": "put, chemin, piste, privé, chemin forestier, chemin de ferme, non entretenu, hors route, 4x4",
+        "aliases": "put"
     }
 }
