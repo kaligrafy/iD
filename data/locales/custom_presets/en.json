@@ -748,5 +748,20 @@
         "name": "Private unmaintained track",
         "terms": "put, track, private, woods road, forest road, logging road, fire road, farm road, agricultural road, unmaintained, offroad, 4wd, 4x4",
         "aliases": "put"
+    },
+    "highway/steps_customers": {
+        "name": "Customers steps",
+        "terms": "stc, customers, steps, stairs, staircase, stairway",
+        "aliases": "stc"
+    },
+    "highway/steps_private": {
+        "name": "Private steps",
+        "terms": "stp, private, steps, stairs, staircase, stairway",
+        "aliases": "stp"
+    },
+    "highway/steps_dismount": {
+        "name": "Steps (dismount bicycle)",
+        "terms": "std, dismount, bicycle, steps, stairs, staircase, stairway",
+        "aliases": "std"
     }
 }

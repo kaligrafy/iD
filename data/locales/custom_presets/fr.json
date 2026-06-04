@@ -748,5 +748,20 @@
         "name": "Chemin non entretenu privé",
         "terms": "put, chemin, piste, privé, chemin forestier, chemin de ferme, non entretenu, hors route, 4x4",
         "aliases": "put"
+    },
+    "highway/steps_customers": {
+        "name": "Escalier clients",
+        "terms": "stc, clients, escalier, escaliers, marches",
+        "aliases": "stc"
+    },
+    "highway/steps_private": {
+        "name": "Escalier privé",
+        "terms": "stp, privé, escalier, escaliers, marches",
+        "aliases": "stp"
+    },
+    "highway/steps_dismount": {
+        "name": "Escalier (vélo à pied)",
+        "terms": "std, vélo à pied, descendre du vélo, escalier, escaliers, marches",
+        "aliases": "std"
     }
 }
