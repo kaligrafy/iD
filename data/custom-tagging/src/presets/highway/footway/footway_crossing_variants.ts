@@ -10,9 +10,7 @@ import {
     FOOTWAY_CROSSING_UNMARKED_FIELDS,
     FOOTWAY_CROSSING_UNMARKED_RESTRICTED_FIELDS
 } from './footway_crossing_fields';
-
-type CrossingType = 'traffic_signals' | 'uncontrolled' | 'unmarked';
-type MarkingSlug = 'dots' | 'lines' | 'zebra' | 'surface' | 'dashes' | 'other' | 'no';
+import { type CrossingType, type MarkingSlug, MARKING_TAG } from '../crossing_shared';
 
 interface FootwayCrossingVariant {
     id: string;
@@ -20,17 +18,6 @@ interface FootwayCrossingVariant {
     markings: MarkingSlug;
     icon: string;
 }
-
-/** OSM `crossing:markings` value; `other` omits the key (unspecified markings). */
-const MARKING_TAG: Record<MarkingSlug, string | null> = {
-    dots: 'dots',
-    lines: 'lines',
-    zebra: 'zebra',
-    surface: 'surface',
-    dashes: 'dashes',
-    other: null,
-    no: 'no'
-};
 
 function footwayCrossingIcon(marking: MarkingSlug): string {
     if (marking === 'zebra') {

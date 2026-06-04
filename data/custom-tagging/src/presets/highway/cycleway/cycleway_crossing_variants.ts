@@ -9,9 +9,8 @@ import {
     CYCLEWAY_CROSSING_UNCONTROLLED_FIELDS,
     CYCLEWAY_CROSSING_UNMARKED_FIELDS
 } from './cycleway_crossing_fields';
+import { type CrossingType, type MarkingSlug, MARKING_TAG } from '../crossing_shared';
 
-type CrossingType = 'traffic_signals' | 'uncontrolled' | 'unmarked';
-type MarkingSlug = 'dots' | 'lines' | 'zebra' | 'surface' | 'dashes' | 'other' | 'no';
 type FootMode = 'no_foot' | 'not_segregated' | 'segregated';
 
 interface CyclewayCrossingVariant {
@@ -26,17 +25,6 @@ const FOOT_MODE_TAGS: Record<FootMode, Record<string, string>> = {
     no_foot: { foot: 'no' },
     not_segregated: { foot: 'designated', segregated: 'no' },
     segregated: { foot: 'designated', segregated: 'yes' }
-};
-
-/** OSM `crossing:markings` value; `other` omits the key (unspecified markings). */
-const MARKING_TAG: Record<MarkingSlug, string | null> = {
-    dots: 'dots',
-    lines: 'lines',
-    zebra: 'zebra',
-    surface: 'surface',
-    dashes: 'dashes',
-    other: null,
-    no: 'no'
 };
 
 function cyclewayCrossingIcon(crossing: CrossingType, markings: MarkingSlug): string {
