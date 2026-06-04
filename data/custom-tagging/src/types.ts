@@ -1,10 +1,41 @@
 /** id-tagging-schema geometry values used by custom presets and fields. */
 export type PresetGeometry = 'point' | 'line' | 'area' | 'vertex' | 'relation';
 
+/** Field input types supported by schema-builder. */
+export type CustomFieldType =
+    | 'access'
+    | 'address'
+    | 'check'
+    | 'combo'
+    | 'date'
+    | 'directionalCombo'
+    | 'email'
+    | 'identifier'
+    | 'lanes'
+    | 'localized'
+    | 'manyCombo'
+    | 'multiCombo'
+    | 'networkCombo'
+    | 'number'
+    | 'radio'
+    | 'roadheight'
+    | 'roadspeed'
+    | 'semiCombo'
+    | 'tel'
+    | 'text'
+    | 'textarea'
+    | 'typeCombo'
+    | 'url'
+    | 'wikidata'
+    | 'wikipedia';
+
+/** Wiki tag reference (key/value) backing a preset documentation link. */
+export type PresetReference = { key: string; value: string };
+
 /** Custom field definition (id-tagging-schema shape). */
 export type CustomField = {
     key: string;
-    type?: string;
+    type?: CustomFieldType;
     label?: string;
     options?: string[];
     minValue?: number;
@@ -23,7 +54,7 @@ export type CustomPreset = {
     name?: string;
     icon?: string;
     matchScore?: number;
-    reference?: { key: string; value: string };
+    reference?: PresetReference;
     searchable?: boolean;
     locationSet?: { include?: string[]; exclude?: string[] };
 };
