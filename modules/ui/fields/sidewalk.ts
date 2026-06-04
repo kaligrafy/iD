@@ -32,13 +32,12 @@ const VALUE_TAGS: Record<string, Record<string, string>> = {
 // `dual_carriageway` is only written when a value sets it, never cleared.
 const RESET_KEYS = ['sidewalk', 'sidewalk:both', 'sidewalk:left', 'sidewalk:right', 'foot'];
 
-// Human-readable labels for the combobox, in menu order.
+// Human-readable labels for the combobox, in menu order. The preferred,
+// "permanent" values come first; `both`/`left`/`right` (meant only as a
+// temporary state while sidewalks are being drawn) and the deprecated `none`
+// are listed last.
 const OPTIONS: { value: string; title: string }[] = [
-    { value: 'both', title: 'Both sides' },
-    { value: 'left', title: 'Left side' },
-    { value: 'right', title: 'Right side' },
     { value: 'no', title: 'None (sidewalk=no)' },
-    { value: 'none', title: 'None (sidewalk=none)' },
     { value: 'separate_both', title: 'Separate, both sides' },
     { value: 'separate_left', title: 'Separate, left side' },
     { value: 'separate_right', title: 'Separate, right side' },
@@ -47,7 +46,11 @@ const OPTIONS: { value: string; title: string }[] = [
     { value: 'shared_right', title: 'Shared, right side' },
     { value: 'shared_left_separate_right', title: 'Shared left, separate right' },
     { value: 'shared_right_separate_left', title: 'Separate left, shared right' },
-    { value: 'opposite_use_sidepath', title: 'Opposite (use_sidepath, dual carriageway)' }
+    { value: 'opposite_use_sidepath', title: 'Opposite (use_sidepath, dual carriageway)' },
+    { value: 'both', title: 'Both sides' },
+    { value: 'left', title: 'Left side' },
+    { value: 'right', title: 'Right side' },
+    { value: 'none', title: 'None (sidewalk=none)' }
 ];
 
 /** Resolve the selector value from a left/right sidewalk pair (and `foot`). */

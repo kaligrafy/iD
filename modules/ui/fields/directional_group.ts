@@ -94,11 +94,16 @@ export function uiFieldDirectionalGroup(
             .attr('class', 'label directional-group-label')
             .text((m: any) => m.label);
         enter.append('div')
-            .attr('class', 'directional-group-input form-field-input-wrap')
-            .each(function(this: HTMLElement, m: any) { d3_select(this).call(m.impl); });
+            .attr('class', 'directional-group-input form-field-input-wrap');
         rows = enter.merge(rows);
 
-        // feed the full tag set to each visible member renderer
+        // (Re)render every visible member into its input container, then feed it
+        // the tags. Rendering on update (not just enter) is required because the
+        // inspector recycles existing <li> across preset changes: a new member
+        // renderer matched to a recycled row would otherwise stay unrendered
+        // (its input is null) when tags() runs. Member renderers are idempotent.
+        rows.select('.directional-group-input')
+            .each(function(this: HTMLElement, m: any) { d3_select(this).call(m.impl); });
         rows.each((m: any) => m.impl.tags(_tags));
     };
 

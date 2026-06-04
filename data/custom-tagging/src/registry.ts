@@ -8,6 +8,7 @@ import { footwayLinkVariantPresets } from './presets/highway/footway/footway_lin
 import { footwayCrossingVariantPresets } from './presets/highway/footway/footway_crossing_variants';
 import { sidewalkVariantPresets } from './presets/highway/footway/sidewalk_variants';
 import { restrictedFootwayVariantPresets } from './presets/highway/footway/restricted_footway_variants';
+import { streetSidewalkVariantPresets } from './presets/highway/street_sidewalk_variants';
 import { cyclewayCrossingVariantPresets } from './presets/highway/cycleway/cycleway_crossing_variants';
 import { cyclewayLink } from './presets/highway/cycleway/cycleway_link';
 import { parkingVariantPresets } from './presets/amenity/parking_variants';
@@ -36,6 +37,7 @@ export const customPresets: Record<string, CustomPreset> = {
     ...restrictedFootwayVariantPresets,
     ...sidewalkVariantPresets,
     ...footwayCrossingVariantPresets,
+    ...streetSidewalkVariantPresets,
     'highway/cycleway/cycleway_link': cyclewayLink,
     ...cyclewayCrossingVariantPresets,
     ...parkingVariantPresets,
