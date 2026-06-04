@@ -64,7 +64,7 @@ function footPathPreset(variant: FootPathVariant): CustomPreset {
         addTags: tags,
         removeTags: buildRemoveTags(tags, { bicycle: ANY, footway: ANY }),
         matchScore: 2,
-        reference: { key: 'footway', value: 'footway' },
+        reference: { key: 'highway', value: 'footway' },
         name: presetNameEn(variant.id)
     };
 }
