@@ -473,5 +473,155 @@
         "name": "Sidewalk bicycle yes",
         "aliases": "sby",
         "terms": "sby, sidewalk, pavement, sidepath, footway, bicycle yes, cycling"
+    },
+    "highway/primary_sidewalk_both": {
+        "name": "Primary road (separate sidewalk, both sides)",
+        "terms": "psb, primary, road, street, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "psb"
+    },
+    "highway/primary_sidewalk_left": {
+        "name": "Primary road (separate sidewalk, left)",
+        "terms": "pls, primary, road, street, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "psl"
+    },
+    "highway/primary_sidewalk_right": {
+        "name": "Primary road (separate sidewalk, right)",
+        "terms": "psr, primary, road, street, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "psr"
+    },
+    "highway/primary-opposite-use_sidepath": {
+        "name": "Primary road (divided, sidewalk opposite side)",
+        "terms": "pso, primary, road, street, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "pso"
+    },
+    "highway/residential_sidewalk_both": {
+        "name": "Residential road (separate sidewalk, both sides)",
+        "terms": "rsb, residential, road, street, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "rsb"
+    },
+    "highway/residential_sidewalk_left": {
+        "name": "Residential road (separate sidewalk, left)",
+        "terms": "rsl, residential, road, street, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "rsl"
+    },
+    "highway/residential_sidewalk_right": {
+        "name": "Residential road (separate sidewalk, right)",
+        "terms": "rsr, residential, road, street, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "rsr"
+    },
+    "highway/residential-opposite-use_sidepath": {
+        "name": "Residential road (divided, sidewalk opposite side)",
+        "terms": "rso, residential, road, street, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "rso"
+    },
+    "highway/secondary_sidewalk_both": {
+        "name": "Secondary road (separate sidewalk, both sides)",
+        "terms": "ssb, secondary, road, street, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "ssb"
+    },
+    "highway/secondary_sidewalk_left": {
+        "name": "Secondary road (separate sidewalk, left)",
+        "terms": "ssl, secondary, road, street, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "ssl"
+    },
+    "highway/secondary_sidewalk_right": {
+        "name": "Secondary road (separate sidewalk, right)",
+        "terms": "ssr, secondary, road, street, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "ssr"
+    },
+    "highway/secondary-opposite-use_sidepath": {
+        "name": "Secondary road (divided, sidewalk opposite side)",
+        "terms": "sso, secondary, road, street, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "sso"
+    },
+    "highway/tertiary_sidewalk_both": {
+        "name": "Tertiary road (separate sidewalk, both sides)",
+        "terms": "tsb, tertiary, road, street, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "tsb"
+    },
+    "highway/tertiary_sidewalk_left": {
+        "name": "Tertiary road (separate sidewalk, left)",
+        "terms": "tsl, tertiary, road, street, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "tsl"
+    },
+    "highway/tertiary_sidewalk_right": {
+        "name": "Tertiary road (separate sidewalk, right)",
+        "terms": "tsr, tertiary, road, street, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "tsr"
+    },
+    "highway/tertiary-opposite-use_sidepath": {
+        "name": "Tertiary road (divided, sidewalk opposite side)",
+        "terms": "tso, tertiary, road, street, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "tso"
+    },
+    "highway/trunk_sidewalk_both": {
+        "name": "Trunk road (separate sidewalk, both sides)",
+        "terms": "tksb, trunk, road, street, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "tksb"
+    },
+    "highway/trunk_sidewalk_left": {
+        "name": "Trunk road (separate sidewalk, left)",
+        "terms": "tksl, trunk, road, street, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "tksl"
+    },
+    "highway/trunk_sidewalk_right": {
+        "name": "Trunk road (separate sidewalk, right)",
+        "terms": "tksr, trunk, road, street, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "tksr"
+    },
+    "highway/trunk-opposite-use_sidepath": {
+        "name": "Trunk road (divided, sidewalk opposite side)",
+        "terms": "tkso, trunk, road, street, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "tkso"
+    },
+    "highway/unclassified_sidewalk_both": {
+        "name": "Unclassified road (separate sidewalk, both sides)",
+        "terms": "usb, unclassified, road, street, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "usb"
+    },
+    "highway/unclassified_sidewalk_left": {
+        "name": "Unclassified road (separate sidewalk, left)",
+        "terms": "usl, unclassified, road, street, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "usl"
+    },
+    "highway/unclassified_sidewalk_right": {
+        "name": "Unclassified road (separate sidewalk, right)",
+        "terms": "usr, unclassified, road, street, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "usr"
+    },
+    "highway/unclassified-opposite-use_sidepath": {
+        "name": "Unclassified road (divided, sidewalk opposite side)",
+        "terms": "uso, unclassified, road, street, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "uso"
+    },
+    "highway/primary_sidewalk_no": {
+        "name": "Primary road (no sidewalk)",
+        "terms": "psn, primary, road, street, sidewalk, no sidewalk, none",
+        "aliases": "psn"
+    },
+    "highway/residential_sidewalk_no": {
+        "name": "Residential road (no sidewalk)",
+        "terms": "rsn, residential, road, street, sidewalk, no sidewalk, none",
+        "aliases": "rsn"
+    },
+    "highway/secondary_sidewalk_no": {
+        "name": "Secondary road (no sidewalk)",
+        "terms": "ssn, secondary, road, street, sidewalk, no sidewalk, none",
+        "aliases": "ssn"
+    },
+    "highway/tertiary_sidewalk_no": {
+        "name": "Tertiary road (no sidewalk)",
+        "terms": "tsn, tertiary, road, street, sidewalk, no sidewalk, none",
+        "aliases": "tsn"
+    },
+    "highway/trunk_sidewalk_no": {
+        "name": "Trunk road (no sidewalk)",
+        "terms": "tksn, trunk, road, street, sidewalk, no sidewalk, none",
+        "aliases": "tksn"
+    },
+    "highway/unclassified_sidewalk_no": {
+        "name": "Unclassified road (no sidewalk)",
+        "terms": "usn, unclassified, road, street, sidewalk, no sidewalk, none",
+        "aliases": "usn"
     }
 }

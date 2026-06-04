@@ -473,5 +473,155 @@
         "name": "Trottoir — vélo autorisé",
         "aliases": "sby",
         "terms": "sby, tva, trottoir, trottoirs, vélo autorisé, cyclisme, chemin piéton"
+    },
+    "highway/primary_sidewalk_both": {
+        "name": "Route primaire (trottoir séparé, deux côtés)",
+        "terms": "pb, route primaire, route, rue, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "psb"
+    },
+    "highway/primary_sidewalk_left": {
+        "name": "Route primaire (trottoir séparé, gauche)",
+        "terms": "pl, route primaire, route, rue, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "psl"
+    },
+    "highway/primary_sidewalk_right": {
+        "name": "Route primaire (trottoir séparé, droite)",
+        "terms": "pr, route primaire, route, rue, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "psr"
+    },
+    "highway/primary-opposite-use_sidepath": {
+        "name": "Route primaire (chaussées séparées, trottoir côté opposé)",
+        "terms": "po, route primaire, route, rue, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "pso"
+    },
+    "highway/residential_sidewalk_both": {
+        "name": "Rue résidentielle (trottoir séparé, deux côtés)",
+        "terms": "rb, rue résidentielle, route, rue, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "rsb"
+    },
+    "highway/residential_sidewalk_left": {
+        "name": "Rue résidentielle (trottoir séparé, gauche)",
+        "terms": "rl, rue résidentielle, route, rue, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "rsl"
+    },
+    "highway/residential_sidewalk_right": {
+        "name": "Rue résidentielle (trottoir séparé, droite)",
+        "terms": "rr, rue résidentielle, route, rue, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "rsr"
+    },
+    "highway/residential-opposite-use_sidepath": {
+        "name": "Rue résidentielle (chaussées séparées, trottoir côté opposé)",
+        "terms": "ro, rue résidentielle, route, rue, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "rso"
+    },
+    "highway/secondary_sidewalk_both": {
+        "name": "Route secondaire (trottoir séparé, deux côtés)",
+        "terms": "sb, route secondaire, route, rue, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "ssb"
+    },
+    "highway/secondary_sidewalk_left": {
+        "name": "Route secondaire (trottoir séparé, gauche)",
+        "terms": "sl, route secondaire, route, rue, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "ssl"
+    },
+    "highway/secondary_sidewalk_right": {
+        "name": "Route secondaire (trottoir séparé, droite)",
+        "terms": "sr, route secondaire, route, rue, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "ssr"
+    },
+    "highway/secondary-opposite-use_sidepath": {
+        "name": "Route secondaire (chaussées séparées, trottoir côté opposé)",
+        "terms": "so, route secondaire, route, rue, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "sso"
+    },
+    "highway/tertiary_sidewalk_both": {
+        "name": "Route tertiaire (trottoir séparé, deux côtés)",
+        "terms": "tb, route tertiaire, route, rue, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "tsb"
+    },
+    "highway/tertiary_sidewalk_left": {
+        "name": "Route tertiaire (trottoir séparé, gauche)",
+        "terms": "tl, route tertiaire, route, rue, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "tsl"
+    },
+    "highway/tertiary_sidewalk_right": {
+        "name": "Route tertiaire (trottoir séparé, droite)",
+        "terms": "tr, route tertiaire, route, rue, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "tsr"
+    },
+    "highway/tertiary-opposite-use_sidepath": {
+        "name": "Route tertiaire (chaussées séparées, trottoir côté opposé)",
+        "terms": "to, route tertiaire, route, rue, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "tso"
+    },
+    "highway/trunk_sidewalk_both": {
+        "name": "Voie rapide (trottoir séparé, deux côtés)",
+        "terms": "tkb, voie rapide, trunk, route, rue, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "tksb"
+    },
+    "highway/trunk_sidewalk_left": {
+        "name": "Voie rapide (trottoir séparé, gauche)",
+        "terms": "tkl, voie rapide, trunk, route, rue, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "tksl"
+    },
+    "highway/trunk_sidewalk_right": {
+        "name": "Voie rapide (trottoir séparé, droite)",
+        "terms": "tkr, voie rapide, trunk, route, rue, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "tksr"
+    },
+    "highway/trunk-opposite-use_sidepath": {
+        "name": "Voie rapide (chaussées séparées, trottoir côté opposé)",
+        "terms": "tko, voie rapide, trunk, route, rue, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "tkso"
+    },
+    "highway/unclassified_sidewalk_both": {
+        "name": "Route non classée (trottoir séparé, deux côtés)",
+        "terms": "ub, route non classée, route, rue, trottoir, sidepath, séparé, deux côtés, use_sidepath",
+        "aliases": "usb"
+    },
+    "highway/unclassified_sidewalk_left": {
+        "name": "Route non classée (trottoir séparé, gauche)",
+        "terms": "ul, route non classée, route, rue, trottoir, sidepath, séparé, gauche, use_sidepath",
+        "aliases": "usl"
+    },
+    "highway/unclassified_sidewalk_right": {
+        "name": "Route non classée (trottoir séparé, droite)",
+        "terms": "ur, route non classée, route, rue, trottoir, sidepath, séparé, droite, use_sidepath",
+        "aliases": "usr"
+    },
+    "highway/unclassified-opposite-use_sidepath": {
+        "name": "Route non classée (chaussées séparées, trottoir côté opposé)",
+        "terms": "uo, route non classée, route, rue, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
+        "aliases": "uso"
+    },
+    "highway/primary_sidewalk_no": {
+        "name": "Route primaire (sans trottoir)",
+        "terms": "pn, route primaire, route, rue, trottoir, sans trottoir, aucun",
+        "aliases": "psn"
+    },
+    "highway/residential_sidewalk_no": {
+        "name": "Rue résidentielle (sans trottoir)",
+        "terms": "rn, rue résidentielle, route, rue, trottoir, sans trottoir, aucun",
+        "aliases": "rsn"
+    },
+    "highway/secondary_sidewalk_no": {
+        "name": "Route secondaire (sans trottoir)",
+        "terms": "sn, route secondaire, route, rue, trottoir, sans trottoir, aucun",
+        "aliases": "ssn"
+    },
+    "highway/tertiary_sidewalk_no": {
+        "name": "Route tertiaire (sans trottoir)",
+        "terms": "tn, route tertiaire, route, rue, trottoir, sans trottoir, aucun",
+        "aliases": "tsn"
+    },
+    "highway/trunk_sidewalk_no": {
+        "name": "Voie rapide (sans trottoir)",
+        "terms": "tkn, voie rapide, trunk, route, rue, trottoir, sans trottoir, aucun",
+        "aliases": "tksn"
+    },
+    "highway/unclassified_sidewalk_no": {
+        "name": "Route non classée (sans trottoir)",
+        "terms": "un, route non classée, route, rue, trottoir, sans trottoir, aucun",
+        "aliases": "usn"
     }
 }
