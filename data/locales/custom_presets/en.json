@@ -623,5 +623,130 @@
         "name": "Unclassified road (no sidewalk)",
         "terms": "usn, unclassified, road, street, sidewalk, no sidewalk, none",
         "aliases": "usn"
+    },
+    "highway/service/customers_driveway": {
+        "name": "Customers driveway",
+        "terms": "scd, customers, driveway, service, access road",
+        "aliases": "scd"
+    },
+    "highway/service/customers_parking_aisle": {
+        "name": "Customers parking aisle",
+        "terms": "scpa, customers, parking aisle, service, access road",
+        "aliases": "scpa"
+    },
+    "highway/service/private_driveway": {
+        "name": "Private driveway",
+        "terms": "spd, private, driveway, service, access road",
+        "aliases": "spd"
+    },
+    "highway/service/private_parking_aisle": {
+        "name": "Private parking aisle",
+        "terms": "sppa, private, parking aisle, service, access road",
+        "aliases": "sppa"
+    },
+    "highway/service/private_unpaved_driveway": {
+        "name": "Private unpaved driveway",
+        "terms": "spud, private, unpaved, driveway, service, access road",
+        "aliases": "spud"
+    },
+    "highway/service/private_unpaved_parking_aisle": {
+        "name": "Private unpaved parking aisle",
+        "terms": "spupa, private, unpaved, parking aisle, service, access road",
+        "aliases": "spupa"
+    },
+    "highway/service/customers": {
+        "name": "Customers service road",
+        "terms": "sc, customers, service, road, access",
+        "aliases": "sc"
+    },
+    "highway/service/customers_unpaved": {
+        "name": "Customers service road (unpaved)",
+        "terms": "scu, customers, service, road, unpaved",
+        "aliases": "scu"
+    },
+    "highway/service/customers_sidewalk_both": {
+        "name": "Customers service road (separate sidewalk, both sides)",
+        "terms": "scsb, customers, service, road, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "scsb"
+    },
+    "highway/service/customers_sidewalk_left": {
+        "name": "Customers service road (separate sidewalk, left)",
+        "terms": "scsl, customers, service, road, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "scsl"
+    },
+    "highway/service/customers_sidewalk_right": {
+        "name": "Customers service road (separate sidewalk, right)",
+        "terms": "scsr, customers, service, road, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "scsr"
+    },
+    "highway/service/customers_opposite_use_sidepath": {
+        "name": "Customers service road (divided, sidewalk opposite side)",
+        "terms": "sco, customers, service, road, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "sco"
+    },
+    "highway/service/private": {
+        "name": "Private service road",
+        "terms": "sp, private, service, road, access",
+        "aliases": "sp"
+    },
+    "highway/service/private_unpaved": {
+        "name": "Private service road (unpaved)",
+        "terms": "spu, private, service, road, unpaved",
+        "aliases": "spu"
+    },
+    "highway/service/private_sidewalk_both": {
+        "name": "Private service road (separate sidewalk, both sides)",
+        "terms": "spsb, private, service, road, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "spsb"
+    },
+    "highway/service/private_sidewalk_left": {
+        "name": "Private service road (separate sidewalk, left)",
+        "terms": "spsl, private, service, road, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "spsl"
+    },
+    "highway/service/private_sidewalk_right": {
+        "name": "Private service road (separate sidewalk, right)",
+        "terms": "spsr, private, service, road, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "spsr"
+    },
+    "highway/service/private_opposite_use_sidepath": {
+        "name": "Private service road (divided, sidewalk opposite side)",
+        "terms": "spo, private, service, road, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "spo"
+    },
+    "highway/service/destination": {
+        "name": "Destination service road",
+        "terms": "sd, destination, service, road, motor_vehicle",
+        "aliases": "sd"
+    },
+    "highway/service/destination_unpaved": {
+        "name": "Destination service road (unpaved)",
+        "terms": "sdu, destination, service, road, unpaved",
+        "aliases": "sdu"
+    },
+    "highway/service/destination_sidewalk_both": {
+        "name": "Destination service road (separate sidewalk, both sides)",
+        "terms": "sdsb, destination, service, road, sidewalk, sidepath, separate, both, use_sidepath",
+        "aliases": "sdsb"
+    },
+    "highway/service/destination_sidewalk_left": {
+        "name": "Destination service road (separate sidewalk, left)",
+        "terms": "sdsl, destination, service, road, sidewalk, sidepath, separate, left, use_sidepath",
+        "aliases": "sdsl"
+    },
+    "highway/service/destination_sidewalk_right": {
+        "name": "Destination service road (separate sidewalk, right)",
+        "terms": "sdsr, destination, service, road, sidewalk, sidepath, separate, right, use_sidepath",
+        "aliases": "sdsr"
+    },
+    "highway/service/destination_opposite_use_sidepath": {
+        "name": "Destination service road (divided, sidewalk opposite side)",
+        "terms": "sdo, destination, service, road, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
+        "aliases": "sdo"
+    },
+    "highway/track_private": {
+        "name": "Private unmaintained track",
+        "terms": "put, track, private, woods road, forest road, logging road, fire road, farm road, agricultural road, unmaintained, offroad, 4wd, 4x4",
+        "aliases": "put"
     }
 }
