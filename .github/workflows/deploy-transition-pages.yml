@@ -1,5 +1,9 @@
-# Deploy Transition editor to GitHub Pages: v6 at site root, v5 under /v5/.
-# Replaces the previous workflow that published only the v5 branch to the root.
+# Deploy Transition editor to GitHub Pages.
+#   v6 -> served under /id/   (site default editor)
+#   v5 -> served under /id/v5/
+# Nothing is served at the site root (a small redirect stub sends / -> /id/).
+# v6 derives its OAuth redirect_uri at runtime, so it needs no patching.
+# v5 ships a prebuilt dist with a hardcoded redirect_uri, patched below.
 name: Deploy Transition GitHub Pages
 
 on:
@@ -47,11 +51,61 @@ jobs:
           sparse-checkout: dist
 
       - name: Assemble site
+        env:
+          # Base URL of the deployed GitHub Pages site (no trailing slash).
+          SITE_BASE: https://projets.chaire.transition.city
         run: |
-          mkdir -p _site/v5
-          cp index.html land.html _site/
-          cp -r dist _site/dist
-          cp -r v5-src/dist/* _site/v5/
+          set -euo pipefail
+          # --- root: redirect / -> /id/ so the bare domain is not a 404 ---
+          mkdir -p _site
+          cat > _site/index.html <<'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <title>Redirecting…</title>
+            <meta http-equiv="refresh" content="0; url=./id/">
+            <link rel="canonical" href="./id/">
+          </head>
+          <body>
+            <p>Redirecting to <a href="./id/">the editor</a>…</p>
+            <script>location.replace('./id/' + location.search + location.hash);</script>
+          </body>
+          </html>
+          HTML
+
+          # --- v6 editor: served under /id/ ---
+          # v6 derives its OAuth redirect_uri at runtime from
+          # window.location.origin + pathname + 'land.html', so the build
+          # works unmodified wherever it is served.
+          mkdir -p _site/id
+          cp index.html land.html _site/id/
+          cp -r dist _site/id/dist
+
+          # --- v5 editor: served under /id/v5/ ---
+          # v5 ships a prebuilt dist with a hardcoded redirect_uri. The
+          # workflow never rebuilds v5, so patch the compiled bundle in place.
+          # NOTE: the committed v5 bundle hardcodes the redirect as the bare
+          # site root (redirectPath = 'https://.../'), NOT '.../v5/'. The sed
+          # below anchors on the `redirectPath =` assignment so only that one
+          # literal is rewritten (it also appears once in iD.js.map, which is
+          # not executed and is left untouched intentionally).
+          mkdir -p _site/id/v5
+          cp -r v5-src/dist/* _site/id/v5/
+
+          for f in _site/id/v5/iD.js _site/id/v5/iD.min.js; do
+            [ -f "$f" ] && sed -i \
+              "s#redirectPath = '${SITE_BASE}/'#redirectPath = '${SITE_BASE}/id/v5/'#g" "$f"
+          done
+
+          # Fail loudly if the expected literal was not found (guards against
+          # the committed bundle changing shape without this workflow noticing).
+          if grep -q "redirectPath = '${SITE_BASE}/id/v5/'" _site/id/v5/iD.js; then
+            echo "v5 redirect patched: /id/v5/"
+          else
+            echo "ERROR: v5 redirectPath literal not found in dist; bundle shape changed." >&2
+            exit 1
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
