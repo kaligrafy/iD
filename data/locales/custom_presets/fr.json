@@ -768,6 +768,18 @@
         "name": "Entreprise de construction (bâtiments)",
         "terms": "construction, bâtiment, entrepreneur, constructeur, bâtisseur, contracteur"
     },
+    "office/government/public_works": {
+        "name": "Bureau des travaux publics",
+        "terms": "travaux publics, voirie, municipal, services publics, routes, aqueduc, égouts, transport"
+    },
+    "landuse/institutional": {
+        "name": "Terrain institutionnel",
+        "terms": "institutionnel, institution, terrain gouvernemental"
+    },
+    "landuse/public_works": {
+        "name": "Terrain de travaux publics",
+        "terms": "travaux publics, cour de voirie, garage municipal, dépôt de véhicules, ateliers municipaux, aqueduc, terrain gouvernemental"
+    },
     "office/company/construction": {
         "name": "Entrepreneur en construction (général)",
         "terms": "construction, entrepreneur, génie civil, routes, ponts, ouvrages, constructeur"
