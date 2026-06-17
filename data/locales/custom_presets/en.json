@@ -779,5 +779,13 @@
     "office/company/bus/public_transport": {
         "name": "Public Transit Bus Operator",
         "terms": "public transport, public transit, transit, bus, coach, operator, company"
+    },
+    "office/logistics": {
+        "name": "Logistics Company",
+        "terms": "logistics, warehousing, distribution, supply chain, fulfillment, freight, shipping"
+    },
+    "industrial/trucking": {
+        "name": "Trucking Yard",
+        "terms": "trucking, truck yard, haulage, hauling, fleet, depot, freight, maintenance"
     }
 }

@@ -19,6 +19,8 @@ import { accessBarrierPresets } from './presets/barrier/access_barriers';
 import { constructionCompanyPresets } from './presets/office/construction_company';
 import { companyConstructionPresets } from './presets/office/company_construction';
 import { busCompanyPresets } from './presets/office/company_bus';
+import { logisticsPresets } from './presets/office/logistics';
+import { truckingPresets } from './presets/industrial/trucking';
 import { placementLineTemplate } from './presets/templates/placement_line';
 import type { CustomField, CustomPreset, CustomTemplatePreset } from './types';
 
@@ -53,5 +55,7 @@ export const customPresets: Record<string, CustomPreset> = {
     ...accessBarrierPresets,
     ...constructionCompanyPresets,
     ...companyConstructionPresets,
-    ...busCompanyPresets
+    ...busCompanyPresets,
+    ...logisticsPresets,
+    ...truckingPresets
 };

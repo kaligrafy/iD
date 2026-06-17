@@ -779,5 +779,13 @@
     "office/company/bus/public_transport": {
         "name": "Opérateur de bus (transport collectif)",
         "terms": "transport collectif, transport en commun, autobus, bus, transit, opérateur, compagnie"
+    },
+    "office/logistics": {
+        "name": "Entreprise de logistique",
+        "terms": "logistique, entreposage, distribution, chaîne d'approvisionnement, expédition, fret"
+    },
+    "industrial/trucking": {
+        "name": "Cour à camions",
+        "terms": "camionnage, cour à camions, transport, flotte, dépôt, entretien, fret, camions"
     }
 }
