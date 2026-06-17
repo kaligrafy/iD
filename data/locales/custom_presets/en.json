@@ -768,6 +768,18 @@
         "name": "Building Construction Company",
         "terms": "construction, builder, building, contractor, general contractor"
     },
+    "office/government/public_works": {
+        "name": "Public Works Office",
+        "terms": "public works, utility, works, municipal, roads, transportation, water, sewer"
+    },
+    "landuse/institutional": {
+        "name": "Institutional Grounds",
+        "terms": "institutional, institution, government land"
+    },
+    "landuse/public_works": {
+        "name": "Public Works Grounds",
+        "terms": "public works, highway maintenance yard, works yard, municipal yard, vehicle depot, waterworks, government land, workshops"
+    },
     "office/company/construction": {
         "name": "Construction Company (general)",
         "terms": "construction, contractor, general contractor, civil works, roads, bridges, entrepreneur"

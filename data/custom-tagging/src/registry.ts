@@ -18,6 +18,9 @@ import { parkingVariantPresets } from './presets/amenity/parking_variants';
 import { accessBarrierPresets } from './presets/barrier/access_barriers';
 import { constructionCompanyPresets } from './presets/office/construction_company';
 import { companyConstructionPresets } from './presets/office/company_construction';
+import { publicWorksPresets } from './presets/office/government/public_works';
+import { institutionalPresets } from './presets/landuse/institutional';
+import { landusePublicWorksPresets } from './presets/landuse/public_works';
 import { busCompanyPresets } from './presets/office/company_bus';
 import { logisticsPresets } from './presets/office/logistics';
 import { truckingPresets } from './presets/industrial/trucking';
@@ -58,6 +61,9 @@ export const customPresets: Record<string, CustomPreset> = {
     ...accessBarrierPresets,
     ...constructionCompanyPresets,
     ...companyConstructionPresets,
+    ...publicWorksPresets,
+    ...institutionalPresets,
+    ...landusePublicWorksPresets,
     ...busCompanyPresets,
     ...logisticsPresets,
     ...truckingPresets,
