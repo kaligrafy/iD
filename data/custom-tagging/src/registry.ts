@@ -23,6 +23,7 @@ import { logisticsPresets } from './presets/office/logistics';
 import { truckingPresets } from './presets/industrial/trucking';
 import { distributorPresets } from './presets/industrial/distributor';
 import { truckShopPresets } from './presets/shop/truck';
+import { communityMailboxQuebecPresets } from './presets/amenity/post_box_community_quebec';
 import { placementLineTemplate } from './presets/templates/placement_line';
 import type { CustomField, CustomPreset, CustomTemplatePreset } from './types';
 
@@ -61,5 +62,6 @@ export const customPresets: Record<string, CustomPreset> = {
     ...logisticsPresets,
     ...truckingPresets,
     ...distributorPresets,
-    ...truckShopPresets
+    ...truckShopPresets,
+    ...communityMailboxQuebecPresets
 };
