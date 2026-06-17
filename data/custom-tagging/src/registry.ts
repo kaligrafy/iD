@@ -16,6 +16,8 @@ import { cyclewayCrossingVariantPresets } from './presets/highway/cycleway/cycle
 import { cyclewayLink } from './presets/highway/cycleway/cycleway_link';
 import { parkingVariantPresets } from './presets/amenity/parking_variants';
 import { accessBarrierPresets } from './presets/barrier/access_barriers';
+import { constructionCompanyPresets } from './presets/office/construction_company';
+import { companyConstructionPresets } from './presets/office/company_construction';
 import { placementLineTemplate } from './presets/templates/placement_line';
 import type { CustomField, CustomPreset, CustomTemplatePreset } from './types';
 
@@ -47,5 +49,7 @@ export const customPresets: Record<string, CustomPreset> = {
     'highway/cycleway/cycleway_link': cyclewayLink,
     ...cyclewayCrossingVariantPresets,
     ...parkingVariantPresets,
-    ...accessBarrierPresets
+    ...accessBarrierPresets,
+    ...constructionCompanyPresets,
+    ...companyConstructionPresets
 };
