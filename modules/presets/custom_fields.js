@@ -186,7 +186,7 @@ const MANAGED_LANE_FIELDS = [
 // the lane / placement fields fold into directional groups, which lay their
 // sub-rows out compactly themselves (see uiFieldDirectionalGroup / CSS).
 const SMALL_FIELDS = [
-    'oneway', 'maxspeed', 'surface', 'sidewalk', 'ref_road_number'
+    'oneway', 'maxspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway'
 ];
 
 // highway=* values that should offer the sidewalk field
