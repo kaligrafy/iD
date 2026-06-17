@@ -10,6 +10,7 @@ import { uiTooltip } from './tooltip';
 import { geoExtent } from '../geo/extent';
 import { uiPresetIcon } from './preset_icon';
 import { uiTagReference } from './tag_reference';
+import { uiSectionLocationLinks } from './sections/location_links';
 import { utilKeybinding, utilNoAuto, utilRebind } from '../util';
 
 
@@ -19,6 +20,9 @@ export function uiPresetList(context) {
     var _currLoc;
     var _currentPresets;
     var _autofocus = false;
+    // tagless nodes (e.g. vertices) default to this list instead of the entity
+    // editor, so surface the same location/imagery section here too
+    var locationLinks = uiSectionLocationLinks(context);
 
 
     function presetList(selection) {
@@ -142,6 +146,9 @@ export function uiPresetList(context) {
 
         listWrap.node().scrollTo({ top: 0 });
         context.features().on('change.preset-list', updateForFeatureHiddenState);
+
+        locationLinks.entityIDs(_entityIDs);
+        selection.call(locationLinks.render);
     }
 
 
