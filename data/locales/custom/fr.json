@@ -211,6 +211,11 @@
                 }
             }
         },
+        "inspector": {
+            "location_links": {
+                "title": "Localisation et imagerie"
+            }
+        },
         "preferences": {
             "editing": {
                 "dense": {

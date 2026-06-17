@@ -13,6 +13,25 @@ const legacyV5EditorPath = 'v5/';
  */
 const predefinedThemes = [];
 
+/**
+ * Street-level imagery providers shown in the entity editor location links.
+ * `url` is a template with `{lat}`, `{lon}` and `{zoom}` placeholders. Custom
+ * providers will be configurable later (like custom map backgrounds).
+ * @type {{ id: string, name: string, url: string }[]}
+ */
+const streetLevelImagery = [
+  {
+    id: 'panoramax',
+    name: 'Panoramax',
+    url: 'https://api.panoramax.xyz/?focus=map&map={zoom}/{lat}/{lon}'
+  },
+  {
+    id: 'mapillary',
+    name: 'Mapillary',
+    url: 'https://www.mapillary.com/app/?lat={lat}&lng={lon}&z={zoom}'
+  }
+];
+
 // cdns for external data packages
 const presetsCdnUrl = ENV__ID_PRESETS_CDN_URL
   || 'https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@{presets_version}/';
@@ -70,6 +89,7 @@ export {
   changesetEditorName,
   legacyV5EditorPath,
   predefinedThemes,
+  streetLevelImagery,
   presetsCdnUrl,
   ociCdnUrl,
   wmfSitematrixCdnUrl,
