@@ -124,7 +124,8 @@
     "countryCodes": ["ca"],
     "format": [
       ["housenumber", "street", "unit"],
-      ["city", "province", "postcode"]
+      ["city", "province", "postcode"],
+      ["borough", { "id": "postal_city", "key": "contact:city" }]
     ]
   },
   {

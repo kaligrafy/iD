@@ -2,6 +2,12 @@
     "tagging": {
         "presets": {
             "fields": {
+                "address": {
+                    "placeholders": {
+                        "borough": "Arrondissement",
+                        "postal_city": "Municipalité postale (Postes Canada)"
+                    }
+                },
                 "capacity_charging": {
                     "label": "Capacité de recharge pour véhicules électriques",
                     "placeholder": "1, 5, 10..."
