@@ -148,7 +148,7 @@ export function uiPresetList(context) {
         context.features().on('change.preset-list', updateForFeatureHiddenState);
 
         locationLinks.entityIDs(_entityIDs);
-        selection.call(locationLinks.render);
+        listWrap.call(locationLinks.render);
     }
 
 
