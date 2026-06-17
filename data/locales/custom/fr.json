@@ -250,6 +250,13 @@
                 "upload": "Importer un fichier CSS",
                 "upload_description": "Ajouter un thème personnalisé depuis un fichier .css conservé dans votre navigateur.",
                 "remove": "Supprimer le thème"
+            },
+            "backup": {
+                "title": "Sauvegarde des réglages",
+                "description": "Exportez vos réglages (préférences, imagerie personnalisée, etc.) dans un fichier, ou importez-les sur un autre navigateur. Les identifiants de connexion ne sont jamais exportés.",
+                "export": "Exporter les réglages",
+                "import": "Importer les réglages",
+                "invalid_file": "Ce fichier n'est pas une sauvegarde de réglages valide."
             }
         },
         "lanes": {

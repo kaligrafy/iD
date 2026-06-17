@@ -250,6 +250,13 @@
                 "upload": "Import a CSS file",
                 "upload_description": "Add a custom theme from a .css file kept in your browser.",
                 "remove": "Remove theme"
+            },
+            "backup": {
+                "title": "Backup settings",
+                "description": "Export your settings (preferences, custom imagery, etc.) to a file, or import them on another browser. Login credentials are never exported.",
+                "export": "Export settings",
+                "import": "Import settings",
+                "invalid_file": "This file is not a valid settings backup."
             }
         },
         "lanes": {

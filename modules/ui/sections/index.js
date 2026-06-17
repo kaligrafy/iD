@@ -17,6 +17,7 @@ export { uiSectionRawMemberEditor } from './raw_member_editor';
 export { uiSectionRawMembershipEditor } from './raw_membership_editor';
 export { uiSectionRawTagEditor } from './raw_tag_editor';
 export { uiSectionSelectionList } from './selection_list';
+export { uiSectionSettingsBackup } from './settings_backup';
 export { uiSectionStreetLevelImagery } from './street_level_imagery';
 export { uiSectionThemes } from './themes';
 export { uiSectionValidationIssues } from './validation_issues';
