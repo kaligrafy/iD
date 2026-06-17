@@ -2,6 +2,12 @@
     "tagging": {
         "presets": {
             "fields": {
+                "address": {
+                    "placeholders": {
+                        "borough": "Borough",
+                        "postal_city": "Postal city (Canada Post)"
+                    }
+                },
                 "capacity_charging": {
                     "label": "Capacity for charging electric vehicles",
                     "placeholder": "1, 5, 10..."
