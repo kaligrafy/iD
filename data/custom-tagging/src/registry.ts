@@ -21,6 +21,7 @@ import { companyConstructionPresets } from './presets/office/company_constructio
 import { busCompanyPresets } from './presets/office/company_bus';
 import { logisticsPresets } from './presets/office/logistics';
 import { truckingPresets } from './presets/industrial/trucking';
+import { distributorPresets } from './presets/industrial/distributor';
 import { placementLineTemplate } from './presets/templates/placement_line';
 import type { CustomField, CustomPreset, CustomTemplatePreset } from './types';
 
@@ -57,5 +58,6 @@ export const customPresets: Record<string, CustomPreset> = {
     ...companyConstructionPresets,
     ...busCompanyPresets,
     ...logisticsPresets,
-    ...truckingPresets
+    ...truckingPresets,
+    ...distributorPresets
 };

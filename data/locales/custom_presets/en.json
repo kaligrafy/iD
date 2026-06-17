@@ -787,5 +787,9 @@
     "industrial/trucking": {
         "name": "Trucking Yard",
         "terms": "trucking, truck yard, haulage, hauling, fleet, depot, freight, maintenance"
+    },
+    "industrial/distributor": {
+        "name": "Distributor",
+        "terms": "distributor, distribution, wholesale, supplier, b2b, warehouse"
     }
 }
