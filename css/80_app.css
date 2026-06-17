@@ -4447,6 +4447,9 @@ li.issue-fix-item button:not(.actionable) .fix-icon {
 
 /* Entity editor location links (street-level imagery + copyable coordinates)
 ------------------------------------------------------- */
+.location-links-container {
+    padding: 10px;
+}
 .location-links-container .street-level-imagery-links {
     display: flex;
     flex-wrap: wrap;
