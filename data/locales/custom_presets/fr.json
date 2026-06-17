@@ -771,5 +771,13 @@
     "office/company/construction": {
         "name": "Entrepreneur en construction (général)",
         "terms": "construction, entrepreneur, génie civil, routes, ponts, ouvrages, constructeur"
+    },
+    "office/company/bus/school": {
+        "name": "Opérateur de bus scolaire",
+        "terms": "autobus scolaire, bus scolaire, transport scolaire, berline scolaire, opérateur, compagnie"
+    },
+    "office/company/bus/public_transport": {
+        "name": "Opérateur de bus (transport collectif)",
+        "terms": "transport collectif, transport en commun, autobus, bus, transit, opérateur, compagnie"
     }
 }

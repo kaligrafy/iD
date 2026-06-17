@@ -771,5 +771,13 @@
     "office/company/construction": {
         "name": "Construction Company (general)",
         "terms": "construction, contractor, general contractor, civil works, roads, bridges, entrepreneur"
+    },
+    "office/company/bus/school": {
+        "name": "School Bus Operator",
+        "terms": "school bus, bus, transport, busing, yellow bus, operator, company"
+    },
+    "office/company/bus/public_transport": {
+        "name": "Public Transit Bus Operator",
+        "terms": "public transport, public transit, transit, bus, coach, operator, company"
     }
 }
