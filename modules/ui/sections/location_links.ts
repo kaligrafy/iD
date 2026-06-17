@@ -1,7 +1,12 @@
 import { t } from '../../core/localizer';
+import { prefs } from '../../core/preferences';
 import { svgIcon } from '../../svg/icon';
 import { uiSection } from '../section';
-import { streetLevelImagery } from '../../../config/id.js';
+import {
+    STREET_LEVEL_CUSTOM_NAME_PREF,
+    STREET_LEVEL_CUSTOM_URL_PREF,
+    listStreetLevelImagery
+} from '../../core/street_level_imagery';
 
 /** Map zoom level used in street-level imagery permalinks. */
 const IMAGERY_ZOOM = 18;
@@ -84,7 +89,7 @@ export function uiSectionLocationLinks(context: any) {
 
     function renderImageryLinks(selection: any, loc: [number, number]) {
         const links = selection.selectAll('a.street-level-imagery-link')
-            .data(streetLevelImagery, (d: any) => d.id);
+            .data(listStreetLevelImagery(), (d: any) => d.id);
         links.exit().remove();
 
         const linksEnter = links.enter()
@@ -98,7 +103,7 @@ export function uiSectionLocationLinks(context: any) {
         linksEnter.merge(links)
             .attr('href', (d: any) => fillImageryUrl(d.url, loc, IMAGERY_ZOOM))
             .select('span')
-            .text((d: any) => d.name);
+            .text((d: any) => d.name || t('inspector.location_links.custom'));
     }
 
     function renderCoordinates(selection: any, loc: [number, number], osmId: number) {
@@ -128,6 +133,10 @@ export function uiSectionLocationLinks(context: any) {
         _entityIDs = val || [];
         return section;
     };
+
+    // refresh imagery links when the custom street-level provider changes
+    prefs.onChange(STREET_LEVEL_CUSTOM_URL_PREF, section.reRender);
+    prefs.onChange(STREET_LEVEL_CUSTOM_NAME_PREF, section.reRender);
 
     return section;
 }

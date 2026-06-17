@@ -209,11 +209,31 @@
                         "description": "Nom écrit dans imagery_used pour le changeset"
                     }
                 }
+            },
+            "custom_street_level_imagery": {
+                "header": "Imagerie au sol personnalisée",
+                "instructions": "Saisissez un gabarit d'URL vers un visualiseur d'imagerie au sol externe. Utilisez les jetons {lat} et {lon}, remplacés par les coordonnées du nœud sélectionné. Le jeton {zoom} est facultatif et est remplacé par le niveau de zoom de la carte.",
+                "name": {
+                    "label": "Nom",
+                    "placeholder": "Nom du fournisseur"
+                },
+                "url": {
+                    "label": "Gabarit d'URL",
+                    "placeholder": "https://exemple.com/?lat={lat}&lon={lon}&z={zoom}"
+                }
+            }
+        },
+        "background": {
+            "street_level_imagery": {
+                "title": "Imagerie au sol",
+                "custom": "Personnalisée",
+                "tooltip": "Modifier l'URL d'imagerie au sol personnalisée"
             }
         },
         "inspector": {
             "location_links": {
-                "title": "Localisation et imagerie"
+                "title": "Localisation et imagerie",
+                "custom": "Personnalisée"
             }
         },
         "preferences": {
