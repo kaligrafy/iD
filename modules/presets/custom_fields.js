@@ -140,6 +140,15 @@ export const customFields = {
         customValues: false,
         geometry: ['line'],
         prerequisiteTag: { key: 'oneway', value: 'yes' }
+    },
+    // Box type for post boxes (post_box:type). Upstream only ships a GB-specific
+    // field; this generic one surfaces `community` (Canada community mailboxes)
+    // and the common freestanding/mounted types everywhere.
+    'post_box/type': {
+        key: 'post_box:type',
+        type: 'combo',
+        options: ['pillar', 'wall', 'lamp', 'community'],
+        geometry: ['point', 'vertex']
     }
 };
 
@@ -214,6 +223,7 @@ export function applyCustomFields(presetManager) {
     customizeCycleway(presetManager);
     customizeOnewayBicycle(presetManager);
     customizeAccess(presetManager);
+    customizePostBox(presetManager);
     markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
 
@@ -382,5 +392,22 @@ function customizeAccess(presetManager) {
         'access', 'foot', 'motor_vehicle', 'routing:motor_vehicle',
         'bicycle', 'routing:bicycle', 'bus', 'routing:bus', 'psv'
     ];
+}
+
+/**
+ * Offer the generic `post_box/type` field on the base `amenity/post_box` preset
+ * (and, by inheritance, on the NSI operator presets like Canada Post), so the
+ * box type — notably `community` — can be set from a dropdown. Inserted right
+ * after `ref`; idempotent.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizePostBox(presetManager) {
+    const preset = presetManager.item('amenity/post_box');
+    if (!preset) return;
+    const fields = preset.originalFields;
+    if (fields.indexOf('post_box/type') !== -1) return;
+    const refIndex = fields.indexOf('ref');
+    fields.splice(refIndex === -1 ? fields.length : refIndex + 1, 0, 'post_box/type');
 }
 
