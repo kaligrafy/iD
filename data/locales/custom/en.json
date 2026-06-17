@@ -211,6 +211,11 @@
                 }
             }
         },
+        "inspector": {
+            "location_links": {
+                "title": "Location & imagery"
+            }
+        },
         "preferences": {
             "editing": {
                 "dense": {
