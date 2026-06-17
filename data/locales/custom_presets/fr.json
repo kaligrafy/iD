@@ -787,5 +787,9 @@
     "industrial/trucking": {
         "name": "Cour à camions",
         "terms": "camionnage, cour à camions, transport, flotte, dépôt, entretien, fret, camions"
+    },
+    "industrial/distributor": {
+        "name": "Distributeur",
+        "terms": "distributeur, distribution, grossiste, fournisseur, b2b, entrepôt"
     }
 }
