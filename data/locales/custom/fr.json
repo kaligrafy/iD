@@ -52,11 +52,7 @@
                     "label": "Voies réservées bus"
                 },
                 "dual_carriageway": {
-                    "label": "Chaussée séparée",
-                    "options": {
-                        "yes": "Oui",
-                        "no": "Non"
-                    }
+                    "label": "Chaussée séparée"
                 },
                 "junction_oneway": {
                     "label": "Jonction",

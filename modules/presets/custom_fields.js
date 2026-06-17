@@ -122,11 +122,10 @@ export const customFields = {
         prerequisiteTag: { key: 'lanes', valueGreaterThan: 1 }
     },
     // Marks a one-way carriageway that is half of a divided road (`dual_carriageway=yes`).
-    // Shown only when `oneway=yes` (same as v5).
+    // Shown only when `oneway=yes`. A compact tri-state check (unset/yes/no).
     dual_carriageway: {
         key: 'dual_carriageway',
-        type: 'radio',
-        options: ['yes', 'no'],
+        type: 'check',
         geometry: ['line'],
         prerequisiteTag: { key: 'oneway', value: 'yes' }
     },
