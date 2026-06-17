@@ -23,6 +23,11 @@ describe('uiSectionLocationLinks helpers', function() {
             expect(formatCoordinates(loc, osmId).map(c => c.id))
                 .to.eql(['latlon', 'lonlat', 'id_latlon']);
         });
+
+        it('omits the id format for an unsaved node (null id)', function() {
+            expect(formatCoordinates(loc, null).map(c => c.id))
+                .to.eql(['latlon', 'lonlat']);
+        });
     });
 
     describe('fillImageryUrl', function() {
