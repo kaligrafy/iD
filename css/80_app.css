@@ -4445,6 +4445,29 @@ li.issue-fix-item button:not(.actionable) .fix-icon {
     }
 }
 
+/* Preferences - settings backup (export/import)
+------------------------------------------------------- */
+.settings-backup-container > * {
+    margin-bottom: 8px;
+}
+.settings-backup-container .settings-backup-export {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+.settings-backup-container .settings-backup-import-label {
+    display: block;
+    font-weight: bold;
+}
+.settings-backup-container .settings-backup-import-input {
+    width: 100%;
+}
+.settings-backup-container .settings-backup-error {
+    color: var(--error-red, #d4334a);
+}
+
 /* Entity editor location links (street-level imagery + copyable coordinates)
 ------------------------------------------------------- */
 .location-links-container {
