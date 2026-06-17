@@ -799,5 +799,9 @@
     "shop/truck_repair": {
         "name": "Truck Repair Shop",
         "terms": "truck, lorry, commercial vehicle, heavy vehicle, hgv, garage, service, repair"
+    },
+    "amenity/post_box/community_quebec": {
+        "name": "Community Mailbox (Canada Post)",
+        "terms": "community mailbox, super mailbox, cmb, canada post, postes canada, post box, post_box, courrier communautaire"
     }
 }

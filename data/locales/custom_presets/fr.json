@@ -799,5 +799,9 @@
     "shop/truck_repair": {
         "name": "Atelier de réparation de camions",
         "terms": "camion, poids lourd, véhicule commercial, véhicule lourd, garage, réparation, entretien"
+    },
+    "amenity/post_box/community_quebec": {
+        "name": "Boîte postale communautaire (Postes Canada)",
+        "terms": "boîte postale communautaire, courrier communautaire, multiboîte, postes canada, canada post, boîte aux lettres, community mailbox"
     }
 }
