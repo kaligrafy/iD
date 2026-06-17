@@ -791,5 +791,13 @@
     "industrial/distributor": {
         "name": "Distributor",
         "terms": "distributor, distribution, wholesale, supplier, b2b, warehouse"
+    },
+    "shop/truck": {
+        "name": "Truck Dealership",
+        "terms": "truck, lorry, commercial vehicle, heavy vehicle, hgv, automotive, dealer"
+    },
+    "shop/truck_repair": {
+        "name": "Truck Repair Shop",
+        "terms": "truck, lorry, commercial vehicle, heavy vehicle, hgv, garage, service, repair"
     }
 }

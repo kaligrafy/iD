@@ -791,5 +791,13 @@
     "industrial/distributor": {
         "name": "Distributeur",
         "terms": "distributeur, distribution, grossiste, fournisseur, b2b, entrepôt"
+    },
+    "shop/truck": {
+        "name": "Concessionnaire de camions",
+        "terms": "camion, poids lourd, véhicule commercial, véhicule lourd, concessionnaire, vente"
+    },
+    "shop/truck_repair": {
+        "name": "Atelier de réparation de camions",
+        "terms": "camion, poids lourd, véhicule commercial, véhicule lourd, garage, réparation, entretien"
     }
 }
