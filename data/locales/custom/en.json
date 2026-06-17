@@ -217,6 +217,14 @@
                     "title": "Compact feature editor",
                     "description": "Reduce padding and row height in the feature editor so more tags fit on screen."
                 }
+            },
+            "theme": {
+                "title": "Theme",
+                "select": "Theme",
+                "default": "Default",
+                "upload": "Import a CSS file",
+                "upload_description": "Add a custom theme from a .css file kept in your browser.",
+                "remove": "Remove theme"
             }
         },
         "lanes": {

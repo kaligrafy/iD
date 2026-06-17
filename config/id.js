@@ -6,6 +6,13 @@ const changesetEditorName = 'Chaire Mobilité iD';
 /** GitHub Pages path to the legacy v5 editor (trailing slash). */
 const legacyV5EditorPath = 'v5/';
 
+/**
+ * Predefined selectable UI themes. `url` points to a CSS file (relative to the
+ * editor or absolute). Empty for now; theme application is not yet implemented.
+ * @type {{ id: string, name: string, url: string }[]}
+ */
+const predefinedThemes = [];
+
 // cdns for external data packages
 const presetsCdnUrl = ENV__ID_PRESETS_CDN_URL
   || 'https://cdn.jsdelivr.net/npm/@openstreetmap/id-tagging-schema@{presets_version}/';
@@ -62,6 +69,7 @@ const showDonationMessage = ENV__ID_SHOW_DONATION_MESSAGE !== 'false';
 export {
   changesetEditorName,
   legacyV5EditorPath,
+  predefinedThemes,
   presetsCdnUrl,
   ociCdnUrl,
   wmfSitematrixCdnUrl,

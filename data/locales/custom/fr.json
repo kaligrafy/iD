@@ -217,6 +217,14 @@
                     "title": "Éditeur d'objet compact",
                     "description": "Réduit l'espacement et la hauteur des rangées dans l'éditeur d'objet pour afficher plus de tags à l'écran."
                 }
+            },
+            "theme": {
+                "title": "Thème",
+                "select": "Thème",
+                "default": "Défaut",
+                "upload": "Importer un fichier CSS",
+                "upload_description": "Ajouter un thème personnalisé depuis un fichier .css conservé dans votre navigateur.",
+                "remove": "Supprimer le thème"
             }
         },
         "lanes": {
