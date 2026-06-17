@@ -8,6 +8,15 @@
                         "postal_city": "Municipalité postale (Postes Canada)"
                     }
                 },
+                "post_box/type": {
+                    "label": "Type de boîte",
+                    "options": {
+                        "pillar": "Sur pied (colonne)",
+                        "wall": "Murale",
+                        "lamp": "Sur poteau",
+                        "community": "Boîte postale communautaire"
+                    }
+                },
                 "capacity_charging": {
                     "label": "Capacité de recharge pour véhicules électriques",
                     "placeholder": "1, 5, 10..."

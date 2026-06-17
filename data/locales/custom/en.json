@@ -12,6 +12,15 @@
                     "label": "Capacity for charging electric vehicles",
                     "placeholder": "1, 5, 10..."
                 },
+                "post_box/type": {
+                    "label": "Box type",
+                    "options": {
+                        "pillar": "Pillar (freestanding)",
+                        "wall": "Wall-mounted",
+                        "lamp": "Lamp / pole-mounted",
+                        "community": "Community mailbox"
+                    }
+                },
                 "parking/condition": {
                     "label": "Parking condition",
                     "options": {
