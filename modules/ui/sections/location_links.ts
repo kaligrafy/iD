@@ -19,18 +19,22 @@ interface CoordinateFormat {
 
 /**
  * Build the copyable coordinate strings for a node, mirroring the legacy v5
- * formats: `lat,lon`, `[lon,lat]` and `osmId,lat,lon`.
+ * formats: `lat,lon`, `[lon,lat]` and (when a stable OSM id exists) `osmId,lat,lon`.
  * @param loc Node location as `[lon, lat]` (iD convention).
- * @param osmId Numeric OSM id of the node.
+ * @param osmId Numeric OSM id of the node, or `null` for an unsaved node.
  * @returns Ordered list of `{ id, value }` formats.
  */
-export function formatCoordinates(loc: [number, number], osmId: number): CoordinateFormat[] {
+export function formatCoordinates(loc: [number, number], osmId: number | null): CoordinateFormat[] {
     const [lon, lat] = loc;
-    return [
+    const formats: CoordinateFormat[] = [
         { id: 'latlon', value: `${lat},${lon}` },
-        { id: 'lonlat', value: `[${lon},${lat}]` },
-        { id: 'id_latlon', value: `${osmId},${lat},${lon}` }
+        { id: 'lonlat', value: `[${lon},${lat}]` }
     ];
+    // a brand-new node only has a temporary negative id, which is not useful
+    if (osmId !== null) {
+        formats.push({ id: 'id_latlon', value: `${osmId},${lat},${lon}` });
+    }
+    return formats;
 }
 
 /**
@@ -62,11 +66,11 @@ export function uiSectionLocationLinks(context: any) {
         .label(() => t.append('inspector.location_links.title'))
         .disclosureContent(render);
 
-    // Only a single, already-uploaded node has a stable location and OSM id.
+    // A single selected node (saved or not); unsaved nodes still have a location.
     function selectedNode() {
         if (_entityIDs.length !== 1) return null;
         const entity = context.hasEntity(_entityIDs[0]);
-        return (entity && entity.type === 'node' && !entity.isNew()) ? entity : null;
+        return (entity && entity.type === 'node') ? entity : null;
     }
 
     function render(selection: any) {
@@ -83,8 +87,9 @@ export function uiSectionLocationLinks(context: any) {
         containerEnter.append('ul').attr('class', 'location-coordinates');
         container = containerEnter.merge(container);
 
+        const osmId = node.isNew() ? null : node.osmId();
         renderImageryLinks(container.select('.street-level-imagery-links'), loc);
-        renderCoordinates(container.select('.location-coordinates'), loc, node.osmId());
+        renderCoordinates(container.select('.location-coordinates'), loc, osmId);
     }
 
     function renderImageryLinks(selection: any, loc: [number, number]) {
@@ -106,7 +111,7 @@ export function uiSectionLocationLinks(context: any) {
             .text((d: any) => d.name || t('inspector.location_links.custom'));
     }
 
-    function renderCoordinates(selection: any, loc: [number, number], osmId: number) {
+    function renderCoordinates(selection: any, loc: [number, number], osmId: number | null) {
         const rows = selection.selectAll('li.location-coordinate')
             .data(formatCoordinates(loc, osmId), (d: CoordinateFormat) => d.id);
         rows.exit().remove();
