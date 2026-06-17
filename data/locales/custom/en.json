@@ -209,11 +209,31 @@
                         "description": "Name written to the imagery_used tag for the changeset"
                     }
                 }
+            },
+            "custom_street_level_imagery": {
+                "header": "Custom Street-Level Imagery",
+                "instructions": "Enter a URL template for an external street-level imagery viewer. Use the {lat} and {lon} tokens, replaced with the selected node's coordinates. The {zoom} token is optional and is replaced with the map zoom level.",
+                "name": {
+                    "label": "Name",
+                    "placeholder": "Provider name"
+                },
+                "url": {
+                    "label": "URL template",
+                    "placeholder": "https://example.com/?lat={lat}&lon={lon}&z={zoom}"
+                }
+            }
+        },
+        "background": {
+            "street_level_imagery": {
+                "title": "Street-level imagery",
+                "custom": "Custom",
+                "tooltip": "Edit custom street-level imagery URL"
             }
         },
         "inspector": {
             "location_links": {
-                "title": "Location & imagery"
+                "title": "Location & imagery",
+                "custom": "Custom"
             }
         },
         "preferences": {
