@@ -763,5 +763,13 @@
         "name": "Steps (dismount bicycle)",
         "terms": "std, dismount, bicycle, steps, stairs, staircase, stairway",
         "aliases": "std"
+    },
+    "office/construction_company": {
+        "name": "Building Construction Company",
+        "terms": "construction, builder, building, contractor, general contractor"
+    },
+    "office/company/construction": {
+        "name": "Construction Company (general)",
+        "terms": "construction, contractor, general contractor, civil works, roads, bridges, entrepreneur"
     }
 }

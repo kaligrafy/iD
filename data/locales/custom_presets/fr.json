@@ -763,5 +763,13 @@
         "name": "Escalier (vélo à pied)",
         "terms": "std, vélo à pied, descendre du vélo, escalier, escaliers, marches",
         "aliases": "std"
+    },
+    "office/construction_company": {
+        "name": "Entreprise de construction (bâtiments)",
+        "terms": "construction, bâtiment, entrepreneur, constructeur, bâtisseur, contracteur"
+    },
+    "office/company/construction": {
+        "name": "Entrepreneur en construction (général)",
+        "terms": "construction, entrepreneur, génie civil, routes, ponts, ouvrages, constructeur"
     }
 }
