@@ -52,11 +52,7 @@
                     "label": "Bus lanes"
                 },
                 "dual_carriageway": {
-                    "label": "Dual carriageway",
-                    "options": {
-                        "yes": "Yes",
-                        "no": "No"
-                    }
+                    "label": "Dual carriageway"
                 },
                 "junction_oneway": {
                     "label": "Junction",
