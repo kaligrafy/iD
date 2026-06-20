@@ -162,15 +162,17 @@ export const customFields = {
             { key: 'junction', value: 'roundabout' }
         ]
     },
-    // Whether a cycleway runs along a sidewalk (footway=sidewalk). Two-state
-    // check: ticked writes footway=sidewalk, unticked removes the tag. The check
-    // field cycles `key` through `options`, so the values are the literal footway
-    // tag values (`undefined` clears it).
+    // Whether a cycleway is also a sidewalk (footway=sidewalk). Two-state check:
+    // ticked writes footway=sidewalk, unticked removes the tag. The check field
+    // cycles `key` through `options`, so the values are the literal footway tag
+    // values (`undefined` clears it). Hidden where foot is not allowed (foot=no),
+    // unless the tag is already set.
     is_sidewalk: {
         key: 'footway',
         type: 'defaultCheck',
         options: ['undefined', 'sidewalk'],
-        geometry: ['line']
+        geometry: ['line'],
+        prerequisiteTag: { key: 'foot', valueNot: 'no' }
     }
 };
 
