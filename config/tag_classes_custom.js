@@ -59,7 +59,12 @@ export const customAccessEmphasisClass = 'custom-access-emphasis';
  * and try to read a tag that does not exist:
  *   - `status`     → from `tag-status` / `tag-status-{lifecycle}` (e.g. abandoned)
  *   - `wikidata`   → from `tag-wikidata` (any `*:wikidata` present)
- *   - `paved` / `unpaved` / `semipaved` → inferred highway surface classes
+ *   - `paved` / `unpaved` / `semipaved` → inferred highway surface *category*,
+ *       not the literal `surface` tag. tag_classes.js derives it from several
+ *       keys/values (asphalt/concrete… → paved, gravel/dirt… → unpaved,
+ *       compacted → semipaved) and even emits it with no `surface` tag (default
+ *       paved; unpaved for highway=track). The exact value stays available via
+ *       the secondary `tag-surface-{value}`.
  *   - `custom`     → from `tag-custom-access-emphasis` (access-emphasis styling)
  */
 const SYNTHETIC_TAG_TOKENS = new Set([
