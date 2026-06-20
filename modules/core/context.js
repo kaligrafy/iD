@@ -10,7 +10,8 @@ import { t } from '../core/localizer';
 
 import { fileFetcher } from './file_fetcher';
 import { localizer } from './localizer';
-import { refreshThemeTagKeys } from './themes';
+import { prefs } from './preferences';
+import { applyTheme, THEME_PREF, UPLOADED_THEMES_PREF } from './themes';
 import { coreHistory } from './history';
 import { coreValidator } from './validator';
 import { coreUploader } from './uploader';
@@ -604,8 +605,15 @@ export function coreContext() {
         context.theme(context.initialHashParams.theme);
       }
 
-      // register the active CSS theme's tag classes so map elements get them
-      refreshThemeTagKeys();
+      // apply the active CSS theme (tag classes + injected CSS), and re-apply +
+      // redraw whenever the selected theme or the stored themes change
+      applyTheme();
+      function onThemeChange() {
+        applyTheme();
+        if (_map) _map.pan([0, 0]);   // force a redraw so classes are recomputed
+      }
+      prefs.onChange(THEME_PREF, onThemeChange);
+      prefs.onChange(UPLOADED_THEMES_PREF, onThemeChange);
 
       // kick off some async work
       localizer.ensureLoaded();

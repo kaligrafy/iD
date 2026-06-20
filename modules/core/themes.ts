@@ -98,6 +98,31 @@ export function refreshThemeTagKeys(): void {
     setThemeSecondaryTagKeys(extractTagKeysFromCss(getActiveThemeCss()));
 }
 
+/** id of the <style> element holding the active theme's CSS. */
+const THEME_STYLE_ELEMENT_ID = 'id-custom-theme-css';
+
+/**
+ * Inject the active theme's CSS into a dedicated <style> in the document head
+ * (created on first use). Switching themes replaces its content, so the previous
+ * theme's rules are dropped. No-op outside a browser (e.g. tests without a DOM).
+ */
+export function injectThemeCss(): void {
+    if (typeof document === 'undefined') return;
+    let style = document.getElementById(THEME_STYLE_ELEMENT_ID) as HTMLStyleElement | null;
+    if (!style) {
+        style = document.createElement('style');
+        style.id = THEME_STYLE_ELEMENT_ID;
+        document.head.appendChild(style);
+    }
+    style.textContent = getActiveThemeCss();
+}
+
+/** Apply the active theme: refresh its tag keys and inject its CSS. */
+export function applyTheme(): void {
+    refreshThemeTagKeys();
+    injectThemeCss();
+}
+
 /**
  * All selectable themes: built-in default, predefined (from config), uploaded.
  */
