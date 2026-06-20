@@ -1,5 +1,9 @@
 import { prefs } from './preferences';
 import { predefinedThemes } from '../../config/id.js';
+import {
+    extractTagKeysFromCss,
+    setThemeSecondaryTagKeys
+} from '../../config/tag_classes_custom.js';
 
 // UI theme selection and storage. Uploaded CSS themes are kept in localStorage
 // alongside the other preferences (a single CSS file is well within the ~5 MB
@@ -75,6 +79,23 @@ export function getSelectedThemeId(): string {
 /** @param id - the theme id to select */
 export function setSelectedThemeId(id: string): void {
     prefs(THEME_PREF, id);
+    refreshThemeTagKeys();
+}
+
+/** @returns the CSS of the active theme (empty for the default/built-in theme). */
+export function getActiveThemeCss(): string {
+    const id = getSelectedThemeId();
+    if (id === DEFAULT_THEME_ID) return '';
+    const uploaded = getUploadedThemes().find((t) => t.id === id);
+    return uploaded ? uploaded.css : '';
+}
+
+/**
+ * Refresh the tag keys that the active theme's CSS needs, so map elements get the
+ * matching `tag-*` classes. Call on theme change and at startup.
+ */
+export function refreshThemeTagKeys(): void {
+    setThemeSecondaryTagKeys(extractTagKeysFromCss(getActiveThemeCss()));
 }
 
 /**
