@@ -161,6 +161,16 @@ export const customFields = {
             { key: 'highway', value: 'motorway_link' },
             { key: 'junction', value: 'roundabout' }
         ]
+    },
+    // Whether a cycleway runs along a sidewalk (footway=sidewalk). Two-state
+    // check: ticked writes footway=sidewalk, unticked removes the tag. The check
+    // field cycles `key` through `options`, so the values are the literal footway
+    // tag values (`undefined` clears it).
+    is_sidewalk: {
+        key: 'footway',
+        type: 'defaultCheck',
+        options: ['undefined', 'sidewalk'],
+        geometry: ['line']
     }
 };
 
@@ -198,7 +208,7 @@ const MANAGED_LANE_FIELDS = [
 // the lane / placement fields fold into directional groups, which lay their
 // sub-rows out compactly themselves (see uiFieldDirectionalGroup / CSS).
 const SMALL_FIELDS = [
-    'oneway', 'maxspeed', 'maxspeed_advisory', 'minspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway'
+    'oneway', 'maxspeed', 'maxspeed_advisory', 'minspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway', 'is_sidewalk'
 ];
 
 // highway=* values that should offer the sidewalk field
@@ -236,6 +246,7 @@ export function applyCustomFields(presetManager) {
     customizeOnewayBicycle(presetManager);
     customizeAccess(presetManager);
     customizePostBox(presetManager);
+    customizeCyclewaySidewalk(presetManager);
     markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
 
@@ -443,5 +454,21 @@ function customizePostBox(presetManager) {
     if (fields.indexOf('post_box/type') !== -1) return;
     const refIndex = fields.indexOf('ref');
     fields.splice(refIndex === -1 ? fields.length : refIndex + 1, 0, 'post_box/type');
+}
+
+/**
+ * Offer the `is_sidewalk` check on the base highway=cycleway preset (inherited by
+ * its `{highway/cycleway}` variants), to flag a cycleway that runs along a
+ * sidewalk (footway=sidewalk). Inserted after `oneway`; idempotent.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizeCyclewaySidewalk(presetManager) {
+    const preset = presetManager.item('highway/cycleway');
+    if (!preset) return;
+    const fields = preset.originalFields;
+    if (fields.indexOf('is_sidewalk') !== -1) return;
+    const onewayIndex = fields.indexOf('oneway');
+    fields.splice(onewayIndex === -1 ? fields.length : onewayIndex + 1, 0, 'is_sidewalk');
 }
 
