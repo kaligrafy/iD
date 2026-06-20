@@ -15,6 +15,13 @@
                 "maxspeed_advisory": {
                     "label": "Advisory Speed Limit"
                 },
+                "is_sidewalk": {
+                    "label": "Runs along a sidewalk",
+                    "options": {
+                        "undefined": "Unknown",
+                        "sidewalk": "Yes"
+                    }
+                },
                 "post_box/type": {
                     "label": "Box type",
                     "options": {

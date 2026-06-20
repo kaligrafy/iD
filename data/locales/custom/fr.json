@@ -20,6 +20,13 @@
                 "maxspeed_advisory": {
                     "label": "Vitesse recommandée"
                 },
+                "is_sidewalk": {
+                    "label": "Longe un trottoir",
+                    "options": {
+                        "undefined": "Inconnu",
+                        "sidewalk": "Oui"
+                    }
+                },
                 "capacity_charging": {
                     "label": "Capacité de recharge pour véhicules électriques",
                     "placeholder": "1, 5, 10..."
