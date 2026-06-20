@@ -198,7 +198,7 @@ const MANAGED_LANE_FIELDS = [
 // the lane / placement fields fold into directional groups, which lay their
 // sub-rows out compactly themselves (see uiFieldDirectionalGroup / CSS).
 const SMALL_FIELDS = [
-    'oneway', 'maxspeed', 'maxspeed_advisory', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway'
+    'oneway', 'maxspeed', 'maxspeed_advisory', 'minspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway'
 ];
 
 // highway=* values that should offer the sidewalk field
@@ -325,12 +325,26 @@ export function applyCustomFields(presetManager) {
         fields.splice(junctionAt < 0 ? fields.length : junctionAt, 0, 'junction_oneway');
 
         // advisory speed: default field right after `maxspeed` (hidden by its
-        // prerequisite until highway=motorway_link or junction=roundabout).
+        // prerequisite until highway=motorway_link or junction=roundabout). Drop
+        // the upstream `maxspeed/advisory` (some presets list it in moreFields)
+        // so the same key isn't edited by two fields.
+        removeField(fields, 'maxspeed/advisory');
+        removeField(moreFields, 'maxspeed/advisory');
         removeField(fields, 'maxspeed_advisory');
         removeField(moreFields, 'maxspeed_advisory');
         const maxspeedIndex = fields.indexOf('maxspeed');
         if (maxspeedIndex === -1) moreFields.push('maxspeed_advisory');
         else fields.splice(maxspeedIndex + 1, 0, 'maxspeed_advisory');
+
+        // minimum speed: default field on motorways (common in Québec), just
+        // below the advisory/maxspeed rows. Upstream keeps it in moreFields.
+        if (highway === 'motorway') {
+            removeField(fields, 'minspeed');
+            removeField(moreFields, 'minspeed');
+            const advisoryIndex = fields.indexOf('maxspeed_advisory');
+            const minspeedAnchor = advisoryIndex === -1 ? fields.indexOf('maxspeed') : advisoryIndex;
+            fields.splice(minspeedAnchor < 0 ? fields.length : minspeedAnchor + 1, 0, 'minspeed');
+        }
     });
 }
 
