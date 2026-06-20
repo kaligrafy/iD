@@ -149,6 +149,18 @@ export const customFields = {
         type: 'combo',
         options: ['pillar', 'wall', 'lamp', 'community'],
         geometry: ['point', 'vertex']
+    },
+    // Advisory (recommended) speed (maxspeed:advisory). Same roadspeed editor as
+    // maxspeed. Common in Québec on motorway links and roundabouts, so it shows
+    // there by default (or wherever the tag is already set).
+    maxspeed_advisory: {
+        key: 'maxspeed:advisory',
+        type: 'roadspeed',
+        geometry: ['line'],
+        prerequisiteTag: [
+            { key: 'highway', value: 'motorway_link' },
+            { key: 'junction', value: 'roundabout' }
+        ]
     }
 };
 
@@ -186,7 +198,7 @@ const MANAGED_LANE_FIELDS = [
 // the lane / placement fields fold into directional groups, which lay their
 // sub-rows out compactly themselves (see uiFieldDirectionalGroup / CSS).
 const SMALL_FIELDS = [
-    'oneway', 'maxspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway'
+    'oneway', 'maxspeed', 'maxspeed_advisory', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway'
 ];
 
 // highway=* values that should offer the sidewalk field
@@ -311,6 +323,14 @@ export function applyCustomFields(presetManager) {
         const afterDual = fields.indexOf('dual_carriageway');
         const junctionAt = afterDual === -1 ? dualAt : afterDual + 1;
         fields.splice(junctionAt < 0 ? fields.length : junctionAt, 0, 'junction_oneway');
+
+        // advisory speed: default field right after `maxspeed` (hidden by its
+        // prerequisite until highway=motorway_link or junction=roundabout).
+        removeField(fields, 'maxspeed_advisory');
+        removeField(moreFields, 'maxspeed_advisory');
+        const maxspeedIndex = fields.indexOf('maxspeed');
+        if (maxspeedIndex === -1) moreFields.push('maxspeed_advisory');
+        else fields.splice(maxspeedIndex + 1, 0, 'maxspeed_advisory');
     });
 }
 

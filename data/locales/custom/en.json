@@ -12,6 +12,9 @@
                     "label": "Capacity for charging electric vehicles",
                     "placeholder": "1, 5, 10..."
                 },
+                "maxspeed_advisory": {
+                    "label": "Advisory Speed Limit"
+                },
                 "post_box/type": {
                     "label": "Box type",
                     "options": {
