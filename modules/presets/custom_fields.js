@@ -247,6 +247,7 @@ export function applyCustomFields(presetManager) {
     customizeAccess(presetManager);
     customizePostBox(presetManager);
     customizeCyclewaySidewalk(presetManager);
+    setCycleFootPathDefaultSurface(presetManager);
     markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
 
@@ -476,5 +477,18 @@ function customizeCyclewaySidewalk(presetManager) {
         const onewayIndex = fields.indexOf('oneway');
         fields.splice(onewayIndex === -1 ? fields.length : onewayIndex + 1, 0, 'is_sidewalk');
     });
+}
+
+/**
+ * Default the Cycle & Foot Path preset (highway/cycleway/bicycle_foot) to
+ * surface=asphalt: added to `addTags` so it is written when the preset is chosen,
+ * without affecting matching (which uses `tags`). Idempotent.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function setCycleFootPathDefaultSurface(presetManager) {
+    const preset = presetManager.item('highway/cycleway/bicycle_foot');
+    if (!preset) return;
+    preset.addTags = Object.assign({}, preset.addTags, { surface: 'asphalt' });
 }
 
