@@ -21,7 +21,7 @@
                     "label": "Vitesse recommandée"
                 },
                 "is_sidewalk": {
-                    "label": "Longe un trottoir",
+                    "label": "Est aussi un trottoir",
                     "options": {
                         "undefined": "Inconnu",
                         "sidewalk": "Oui"
