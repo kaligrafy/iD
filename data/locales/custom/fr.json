@@ -17,6 +17,9 @@
                         "community": "Boîte postale communautaire"
                     }
                 },
+                "maxspeed_advisory": {
+                    "label": "Vitesse recommandée"
+                },
                 "capacity_charging": {
                     "label": "Capacité de recharge pour véhicules électriques",
                     "placeholder": "1, 5, 10..."
