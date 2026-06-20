@@ -456,19 +456,25 @@ function customizePostBox(presetManager) {
     fields.splice(refIndex === -1 ? fields.length : refIndex + 1, 0, 'post_box/type');
 }
 
+// Presets that should offer the `is_sidewalk` check. Their `{...}` variants
+// (e.g. highway/path/bicycle_foot → {highway/cycleway/bicycle_foot}) inherit it.
+const IS_SIDEWALK_PRESETS = ['highway/cycleway', 'highway/cycleway/bicycle_foot'];
+
 /**
- * Offer the `is_sidewalk` check on the base highway=cycleway preset (inherited by
- * its `{highway/cycleway}` variants), to flag a cycleway that runs along a
- * sidewalk (footway=sidewalk). Inserted after `oneway`; idempotent.
+ * Offer the `is_sidewalk` check on the cycleway / cycle-and-foot-path presets, to
+ * flag a way that runs along a sidewalk (footway=sidewalk). Inserted after
+ * `oneway`; idempotent.
  *
  * @param {Object} presetManager - the preset system (`presetManager`)
  */
 function customizeCyclewaySidewalk(presetManager) {
-    const preset = presetManager.item('highway/cycleway');
-    if (!preset) return;
-    const fields = preset.originalFields;
-    if (fields.indexOf('is_sidewalk') !== -1) return;
-    const onewayIndex = fields.indexOf('oneway');
-    fields.splice(onewayIndex === -1 ? fields.length : onewayIndex + 1, 0, 'is_sidewalk');
+    IS_SIDEWALK_PRESETS.forEach(id => {
+        const preset = presetManager.item(id);
+        if (!preset) return;
+        const fields = preset.originalFields;
+        if (fields.indexOf('is_sidewalk') !== -1) return;
+        const onewayIndex = fields.indexOf('oneway');
+        fields.splice(onewayIndex === -1 ? fields.length : onewayIndex + 1, 0, 'is_sidewalk');
+    });
 }
 
