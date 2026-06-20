@@ -10,6 +10,7 @@ import { t } from '../core/localizer';
 
 import { fileFetcher } from './file_fetcher';
 import { localizer } from './localizer';
+import { refreshThemeTagKeys } from './themes';
 import { coreHistory } from './history';
 import { coreValidator } from './validator';
 import { coreUploader } from './uploader';
@@ -602,6 +603,9 @@ export function coreContext() {
       if (context.initialHashParams.theme) {
         context.theme(context.initialHashParams.theme);
       }
+
+      // register the active CSS theme's tag classes so map elements get them
+      refreshThemeTagKeys();
 
       // kick off some async work
       localizer.ensureLoaded();
