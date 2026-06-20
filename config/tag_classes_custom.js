@@ -52,8 +52,15 @@ export const customAccessEmphasisClass = 'custom-access-emphasis';
 // ---------------------------------------------------------------------------
 
 /**
- * Synthetic `tag-*` classes that are not OSM keys (added by tag_classes.js
- * itself). Excluded from extraction so they don't become bogus secondary keys.
+ * Some `tag-*` classes are *computed* by tag_classes.js rather than coming from
+ * an OSM `key=value`. Extraction takes the part before the first `-` as the key
+ * (e.g. `.tag-cuisine-pizza` → `cuisine`), but for these the leading token is not
+ * a real OSM key, so we must skip it — otherwise we'd add a bogus secondary key
+ * and try to read a tag that does not exist:
+ *   - `status`     → from `tag-status` / `tag-status-{lifecycle}` (e.g. abandoned)
+ *   - `wikidata`   → from `tag-wikidata` (any `*:wikidata` present)
+ *   - `paved` / `unpaved` / `semipaved` → inferred highway surface classes
+ *   - `custom`     → from `tag-custom-access-emphasis` (access-emphasis styling)
  */
 const SYNTHETIC_TAG_TOKENS = new Set([
     'status', 'wikidata', 'paved', 'unpaved', 'semipaved', 'custom'
