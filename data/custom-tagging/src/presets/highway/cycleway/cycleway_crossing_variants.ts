@@ -111,7 +111,6 @@ function cyclewayCrossingPreset(variant: CyclewayCrossingVariant): CustomPreset 
 
     const addTags: Record<string, string> = {
         ...tags,
-        lcn: 'yes',
         surface: 'asphalt'
     };
 
