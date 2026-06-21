@@ -127,7 +127,9 @@ export function svgLines(projection, context) {
         }
 
 
-        function drawLineGroup(selection, klass, isSelected) {
+        // `wayFilter` (optional) restricts the group to a subset of ways, e.g. the
+        // `over-stroke` group is only drawn for highways.
+        function drawLineGroup(selection, klass, isSelected, wayFilter) {
             // Note: Don't add `.selected` class in draw modes
             var mode = context.mode();
             var isDrawing = mode && /^draw/.test(mode.id);
@@ -136,7 +138,7 @@ export function svgLines(projection, context) {
             var lines = selection
                 .selectAll('path')
                 .filter(filter)
-                .data(getPathData(isSelected), osmEntity.key);
+                .data(getPathData(isSelected, wayFilter), osmEntity.key);
 
             lines.exit()
                 .remove();
@@ -192,11 +194,12 @@ export function svgLines(projection, context) {
         }
 
 
-        function getPathData(isSelected) {
+        function getPathData(isSelected, wayFilter) {
             return function() {
                 var layer = this.parentNode.__data__;
                 var data = pathdata[layer] || [];
                 return data.filter(function(d) {
+                    if (wayFilter && !wayFilter(d)) return false;
                     if (isSelected) {
                         return context.selectedIDs().indexOf(d.id) !== -1;
                     } else {
@@ -296,7 +299,7 @@ export function svgLines(projection, context) {
 
             layergroup
                 .selectAll('g.linegroup')
-                .data(['shadow', 'casing', 'stroke', 'shadow-highlighted', 'casing-highlighted', 'stroke-highlighted'])
+                .data(['shadow', 'casing', 'stroke', 'over-stroke', 'shadow-highlighted', 'casing-highlighted', 'stroke-highlighted'])
                 .enter()
                 .append('g')
                 .attr('class', function(d) { return 'linegroup line-' + d; });
@@ -307,6 +310,11 @@ export function svgLines(projection, context) {
                 .call(drawLineGroup, 'casing', false);
             layergroup.selectAll('g.line-stroke')
                 .call(drawLineGroup, 'stroke', false);
+            // Extra stroke drawn on top of each highway, transparent by default.
+            // Only created for ways with a `highway` tag so it can be styled via
+            // `.line.over-stroke.tag-*` rules (e.g. an imported theme).
+            layergroup.selectAll('g.line-over-stroke')
+                .call(drawLineGroup, 'over-stroke', false, (d) => !!d.tags.highway);
 
             layergroup.selectAll('g.line-shadow-highlighted')
                 .call(drawLineGroup, 'shadow', true);
