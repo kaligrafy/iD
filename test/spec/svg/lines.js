@@ -182,6 +182,30 @@ describe('iD.svgLines', function () {
         });
     });
 
+    describe('over-stroke', function() {
+        // [name, tags, expectsOverStrokePath]
+        var cases = [
+            ['highway way', {highway: 'residential'}, true],
+            ['non-highway line', {waterway: 'stream'}, false],
+            ['untagged way', {}, false]
+        ];
+
+        cases.forEach(function(testCase) {
+            var name = testCase[0], tags = testCase[1], expected = testCase[2];
+            it(name + (expected ? ' gets an over-stroke path' : ' gets no over-stroke path'), function() {
+                var a = new iD.osmNode({loc: [0, 0]});
+                var b = new iD.osmNode({loc: [1, 1]});
+                var line = new iD.osmWay({nodes: [a.id, b.id], tags: tags});
+                var graph = new iD.coreGraph([a, b, line]);
+
+                surface.call(iD.svgLines(projection, context), graph, [line], all);
+
+                var selection = surface.selectAll('g.line-over-stroke > path.line');
+                expect(selection.size()).to.eql(expected ? 1 : 0);
+            });
+        });
+    });
+
     describe('sided-markers', function() {
         it('has marker layer for sided way', function() {
             var a = new iD.osmNode({id: 'a', loc: [0, 0]});

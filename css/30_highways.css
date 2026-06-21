@@ -32,6 +32,14 @@ path.line.stroke.tag-highway {
     stroke-width: 5;
 }
 
+/* Over-stroke: an extra stroke drawn on top of each highway, transparent by
+   default. Paths are only created for ways with a `highway` tag (see svgLines).
+   Give it a width/color via `.line.over-stroke.tag-*` rules (e.g. an imported
+   theme) to draw a second/contrasting stroke. */
+path.line.over-stroke {
+    fill: none;
+}
+
 .preset-icon .icon.tag-highway-motorway,
 .preset-icon .icon.tag-highway-motorway_link {
     color: #CF2081;
