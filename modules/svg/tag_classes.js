@@ -1,9 +1,9 @@
 import { select as d3_select } from 'd3-selection';
 import {
     appendCustomTagClasses,
-    appendThemeTagClasses,
     customSecondaryTagKeys
 } from '../../config/tag_classes_custom.js';
+import { appendLensTagClasses } from '../core/lenses';
 import { osmPathHighwayTagValues, osmPavedTags, osmSemipavedTags, osmLifecyclePrefixes } from '../osm/tags';
 
 
@@ -156,7 +156,7 @@ export function svgTagClasses() {
         }
 
         appendCustomTagClasses(classes, t);
-        appendThemeTagClasses(classes, t);
+        appendLensTagClasses(classes, t);
 
         // ensure that classes for tags keys/values with special characters like spaces
         // are not added to the DOM, because it can cause bizarre issues (#9448)
