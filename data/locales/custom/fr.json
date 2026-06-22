@@ -257,20 +257,23 @@
                 "custom": "Personnalisée"
             }
         },
+        "map_data": {
+            "lens": {
+                "title": "Lentille",
+                "select": "Lentille",
+                "default": "Défaut",
+                "upload": "Importer un fichier CSS",
+                "upload_description": "Ajouter une lentille personnalisée depuis un fichier .css conservé dans votre navigateur.",
+                "upload_warning": "N'importez que des lentilles provenant de sources de confiance. Le CSS d'une lentille peut modifier l'apparence de l'éditeur.",
+                "remove": "Supprimer la lentille"
+            }
+        },
         "preferences": {
             "editing": {
                 "dense": {
                     "title": "Éditeur d'objet compact",
                     "description": "Réduit l'espacement et la hauteur des rangées dans l'éditeur d'objet pour afficher plus de tags à l'écran."
                 }
-            },
-            "theme": {
-                "title": "Thème",
-                "select": "Thème",
-                "default": "Défaut",
-                "upload": "Importer un fichier CSS",
-                "upload_description": "Ajouter un thème personnalisé depuis un fichier .css conservé dans votre navigateur.",
-                "remove": "Supprimer le thème"
             },
             "backup": {
                 "title": "Sauvegarde des réglages",
