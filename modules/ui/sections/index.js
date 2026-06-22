@@ -19,7 +19,7 @@ export { uiSectionRawTagEditor } from './raw_tag_editor';
 export { uiSectionSelectionList } from './selection_list';
 export { uiSectionSettingsBackup } from './settings_backup';
 export { uiSectionStreetLevelImagery } from './street_level_imagery';
-export { uiSectionThemes } from './themes';
+export { uiSectionLenses } from './lenses';
 export { uiSectionValidationIssues } from './validation_issues';
 export { uiSectionValidationOptions } from './validation_options';
 export { uiSectionValidationRules } from './validation_rules';

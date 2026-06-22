@@ -257,20 +257,23 @@
                 "custom": "Custom"
             }
         },
+        "map_data": {
+            "lens": {
+                "title": "Lens",
+                "select": "Lens",
+                "default": "Default",
+                "upload": "Import a CSS file",
+                "upload_description": "Add a custom lens from a .css file kept in your browser.",
+                "upload_warning": "Only import lenses from sources you trust. A lens's CSS can change the editor's appearance.",
+                "remove": "Remove lens"
+            }
+        },
         "preferences": {
             "editing": {
                 "dense": {
                     "title": "Compact feature editor",
                     "description": "Reduce padding and row height in the feature editor so more tags fit on screen."
                 }
-            },
-            "theme": {
-                "title": "Theme",
-                "select": "Theme",
-                "default": "Default",
-                "upload": "Import a CSS file",
-                "upload_description": "Add a custom theme from a .css file kept in your browser.",
-                "remove": "Remove theme"
             },
             "backup": {
                 "title": "Backup settings",
