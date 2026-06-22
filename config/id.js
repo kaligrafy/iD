@@ -7,13 +7,6 @@ const changesetEditorName = 'Chaire Mobilité iD';
 const legacyV5EditorPath = 'v5/';
 
 /**
- * Predefined selectable UI themes. `url` points to a CSS file (relative to the
- * editor or absolute). Empty for now; theme application is not yet implemented.
- * @type {{ id: string, name: string, url: string }[]}
- */
-const predefinedThemes = [];
-
-/**
  * Street-level imagery providers shown in the entity editor location links.
  * `url` is a template with `{lat}`, `{lon}` and `{zoom}` placeholders. Custom
  * providers will be configurable later (like custom map backgrounds).
@@ -88,7 +81,6 @@ const showDonationMessage = ENV__ID_SHOW_DONATION_MESSAGE !== 'false';
 export {
   changesetEditorName,
   legacyV5EditorPath,
-  predefinedThemes,
   streetLevelImagery,
   presetsCdnUrl,
   ociCdnUrl,
