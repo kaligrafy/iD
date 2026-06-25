@@ -2,12 +2,17 @@ import { prefs } from '../../../modules/core/preferences';
 import {
     DEFAULT_LENS_ID,
     LENS_PREF,
+    LENS_SHORTCUTS_PREF,
     UPLOADED_LENSES_PREF,
     addUploadedLens,
+    getLensIdByShortcut,
     getSelectedLensId,
+    getShortcutForLens,
     getUploadedLenses,
     listLenses,
+    removeLensShortcut,
     removeUploadedLens,
+    setLensShortcut,
     setSelectedLensId
 } from '../../../modules/core/lenses';
 
@@ -16,6 +21,7 @@ describe('core/lenses', function() {
     beforeEach(function() {
         prefs(LENS_PREF, null);
         prefs(UPLOADED_LENSES_PREF, null);
+        prefs(LENS_SHORTCUTS_PREF, null);
     });
 
     describe('selection', function() {
@@ -63,6 +69,55 @@ describe('core/lenses', function() {
             setSelectedLensId(keep.id);
             removeUploadedLens(drop.id);
             expect(getSelectedLensId()).to.equal(keep.id);
+        });
+    });
+
+    describe('lens shortcuts', function() {
+        it('binds a letter to a lens and reads it back both ways', function() {
+            const lens = addUploadedLens({ name: 'A', css: 'a{}' });
+            setLensShortcut(lens.id, 'j');
+            expect(getShortcutForLens(lens.id)).to.equal('j');
+            expect(getLensIdByShortcut('j')).to.equal(lens.id);
+        });
+
+        it('keeps one letter per lens (reassigning moves the letter)', function() {
+            const lens = addUploadedLens({ name: 'A', css: 'a{}' });
+            setLensShortcut(lens.id, 'j');
+            setLensShortcut(lens.id, 'k');
+            expect(getShortcutForLens(lens.id)).to.equal('k');
+            expect(getLensIdByShortcut('j')).to.equal(undefined);
+        });
+
+        it('steals a letter already used by another lens', function() {
+            const a = addUploadedLens({ name: 'A', css: 'a{}' });
+            const b = addUploadedLens({ name: 'B', css: 'b{}' });
+            setLensShortcut(a.id, 'j');
+            setLensShortcut(b.id, 'j');
+            expect(getLensIdByShortcut('j')).to.equal(b.id);
+            expect(getShortcutForLens(a.id)).to.equal(undefined);
+        });
+
+        it('removes a lens shortcut', function() {
+            const lens = addUploadedLens({ name: 'A', css: 'a{}' });
+            setLensShortcut(lens.id, 'j');
+            removeLensShortcut(lens.id);
+            expect(getShortcutForLens(lens.id)).to.equal(undefined);
+        });
+
+        it('drops the shortcut when its lens is removed', function() {
+            const lens = addUploadedLens({ name: 'A', css: 'a{}' });
+            setLensShortcut(lens.id, 'j');
+            removeUploadedLens(lens.id);
+            expect(getLensIdByShortcut('j')).to.equal(undefined);
+        });
+
+        // reserved (w, d) and non-single-letter values must be rejected
+        ['w', 'd', 'A', '1', 'ab', '', '!'].forEach(function(letter) {
+            it(`rejects invalid shortcut ${JSON.stringify(letter)}`, function() {
+                const lens = addUploadedLens({ name: 'A', css: 'a{}' });
+                expect(() => setLensShortcut(lens.id, letter)).to.throw();
+                expect(getShortcutForLens(lens.id)).to.equal(undefined);
+            });
         });
     });
 

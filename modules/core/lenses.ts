@@ -10,8 +10,18 @@ import { prefs } from './preferences';
 export const LENS_PREF = 'preferences.lens';
 /** Preference key holding the JSON array of uploaded lenses. */
 export const UPLOADED_LENSES_PREF = 'preferences.lens.uploaded';
+/** Preference key holding the `{ letter: lensId }` shortcut map. */
+export const LENS_SHORTCUTS_PREF = 'preferences.lens.shortcuts';
 /** Id of the built-in (no custom CSS) lens. */
 export const DEFAULT_LENS_ID = 'default';
+/** Fixed `⌥`+letter shortcut that switches back to the default lens (lens off). */
+export const DEFAULT_LENS_SHORTCUT = 'd';
+/**
+ * Letters that cannot be assigned to a lens because `⌥`+letter is already taken:
+ *   - `w` -> global `⌥W` toggles the OSM layer (see modules/ui/init.js)
+ *   - `d` -> reserved here for the default lens (DEFAULT_LENS_SHORTCUT)
+ */
+export const RESERVED_LENS_SHORTCUTS = new Set(['w', DEFAULT_LENS_SHORTCUT]);
 
 /** A CSS lens imported by the user and stored in localStorage. */
 export interface UploadedLens {
@@ -87,6 +97,7 @@ export function sanitizeLensCss(css: string): string {
  */
 export function removeUploadedLens(id: string): void {
     saveUploadedLenses(getUploadedLenses().filter((t) => t.id !== id));
+    removeLensShortcut(id);
     if (getSelectedLensId() === id) setSelectedLensId(DEFAULT_LENS_ID);
 }
 
@@ -117,6 +128,97 @@ export function listLenses(): LensEntry[] {
         { id: DEFAULT_LENS_ID, source: 'default' },
         ...getUploadedLenses().map((t) => ({ id: t.id, name: t.name, source: 'uploaded' as const }))
     ];
+}
+
+// ---------------------------------------------------------------------------
+// Lens keyboard shortcuts
+//
+// Each uploaded lens may be bound to a single letter, activated with `⌥`+letter
+// (see behaviorLensShortcuts). The map is stored as `{ letter: lensId }`, which
+// makes the "which lens for this key" lookup direct and guarantees one lens per
+// letter.
+// ---------------------------------------------------------------------------
+
+/** True for a valid, assignable shortcut letter (`a`-`z`, excluding reserved). */
+function isAssignableShortcut(letter: string): boolean {
+    return /^[a-z]$/.test(letter) && !RESERVED_LENS_SHORTCUTS.has(letter);
+}
+
+/**
+ * The `{ letter: lensId }` shortcut map, dropping entries whose lens no longer
+ * exists so stale shortcuts never fire.
+ * @returns the cleaned shortcut map (empty on missing/invalid data)
+ */
+export function getLensShortcuts(): Record<string, string> {
+    let parsed: unknown;
+    try {
+        const raw = prefs(LENS_SHORTCUTS_PREF);
+        parsed = JSON.parse((typeof raw === 'string' ? raw : '') || '{}');
+    } catch {
+        return {};
+    }
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+    const existingIds = new Set(getUploadedLenses().map((l) => l.id));
+    const result: Record<string, string> = {};
+    for (const [letter, id] of Object.entries(parsed as Record<string, string>)) {
+        if (typeof id === 'string' && existingIds.has(id)) result[letter] = id;
+    }
+    return result;
+}
+
+function saveLensShortcuts(shortcuts: Record<string, string>): void {
+    prefs(LENS_SHORTCUTS_PREF, JSON.stringify(shortcuts));
+}
+
+/**
+ * The shortcut letter bound to a lens, if any.
+ * @param id - lens id
+ * @returns the letter, or undefined
+ */
+export function getShortcutForLens(id: string): string | undefined {
+    const shortcuts = getLensShortcuts();
+    return Object.keys(shortcuts).find((letter) => shortcuts[letter] === id);
+}
+
+/**
+ * The lens bound to a shortcut letter, if any.
+ * @param letter - single lowercase letter
+ * @returns the lens id, or undefined
+ */
+export function getLensIdByShortcut(letter: string): string | undefined {
+    return getLensShortcuts()[letter];
+}
+
+/**
+ * Bind a letter to a lens. The letter moves off any other lens that held it,
+ * and the lens loses any letter it previously had (one letter per lens).
+ * @param id - lens id
+ * @param letter - single lowercase letter (`a`-`z`, not reserved)
+ * @throws if the letter is not assignable
+ */
+export function setLensShortcut(id: string, letter: string): void {
+    if (!isAssignableShortcut(letter)) {
+        throw new Error(`Invalid lens shortcut letter: ${letter}`);
+    }
+    const shortcuts = getLensShortcuts();
+    for (const existing of Object.keys(shortcuts)) {
+        if (existing === letter || shortcuts[existing] === id) delete shortcuts[existing];
+    }
+    shortcuts[letter] = id;
+    saveLensShortcuts(shortcuts);
+}
+
+/**
+ * Remove the shortcut bound to a lens (no-op if it has none).
+ * @param id - lens id
+ */
+export function removeLensShortcut(id: string): void {
+    const shortcuts = getLensShortcuts();
+    let changed = false;
+    for (const letter of Object.keys(shortcuts)) {
+        if (shortcuts[letter] === id) { delete shortcuts[letter]; changed = true; }
+    }
+    if (changed) saveLensShortcuts(shortcuts);
 }
 
 // ---------------------------------------------------------------------------
