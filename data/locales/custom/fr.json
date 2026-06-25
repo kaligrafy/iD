@@ -265,7 +265,14 @@
                 "upload": "Importer un fichier CSS",
                 "upload_description": "Ajouter une lentille personnalisée depuis un fichier .css conservé dans votre navigateur.",
                 "upload_warning": "N'importez que des lentilles provenant de sources de confiance. Le CSS d'une lentille peut modifier l'apparence de l'éditeur.",
-                "remove": "Supprimer la lentille"
+                "remove": "Supprimer la lentille",
+                "shortcut": {
+                    "label": "Lettre de raccourci (activée avec Alt + lettre)",
+                    "placeholder": "touche",
+                    "reserved": "Cette lettre est réservée par un autre raccourci.",
+                    "invalid": "Entrez une seule lettre (a-z).",
+                    "flash": "Lentille : {name}"
+                }
             }
         },
         "preferences": {

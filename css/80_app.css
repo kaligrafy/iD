@@ -4425,8 +4425,34 @@ li.issue-fix-item button:not(.actionable) .fix-icon {
 .lens-options-container .lens-uploaded-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 8px;
     padding: 8px 10px;
+}
+.lens-options-container .lens-uploaded-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.lens-options-container .lens-shortcut {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin: 0;
+}
+.lens-options-container .lens-shortcut-modifier {
+    opacity: 0.6;
+}
+.lens-options-container .lens-shortcut-input {
+    width: 3.5em;
+    box-sizing: border-box;
+    text-align: center;
+    text-transform: lowercase;
+}
+.lens-options-container .lens-shortcut-input.lens-shortcut-invalid {
+    border-color: var(--warning-text, #d97706);
 }
 .lens-options-container .lens-uploaded-remove {
     flex: 0 0 auto;
