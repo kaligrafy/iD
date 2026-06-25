@@ -4,13 +4,19 @@ import { svgIcon } from '../../svg/icon';
 import { uiSection } from '../section';
 import type { LensEntry } from '../../core/lenses';
 import {
+    DEFAULT_LENS_SHORTCUT,
     LENS_PREF,
+    LENS_SHORTCUTS_PREF,
+    RESERVED_LENS_SHORTCUTS,
     UPLOADED_LENSES_PREF,
     addUploadedLens,
     getSelectedLensId,
+    getShortcutForLens,
     getUploadedLenses,
     listLenses,
+    removeLensShortcut,
     removeUploadedLens,
+    setLensShortcut,
     setSelectedLensId
 } from '../../core/lenses';
 
@@ -30,9 +36,12 @@ export function uiSectionLenses(context: any) {
         .label(() => t.append('map_data.lens.title'))
         .disclosureContent(renderDisclosureContent);
 
-    /** Display label for a lens entry (the built-in one is localized). */
+    /** Display label for a lens entry (the built-in one is localized + shows ⌥D). */
     function lensLabel(entry: LensEntry): string {
-        return entry.source === 'default' ? t('map_data.lens.default') : (entry.name || entry.id);
+        if (entry.source === 'default') {
+            return `${t('map_data.lens.default')} (⌥${DEFAULT_LENS_SHORTCUT.toUpperCase()})`;
+        }
+        return entry.name || entry.id;
     }
 
     /** Read the selected CSS file, store it as a lens and select it. */
@@ -117,17 +126,59 @@ export function uiSectionLenses(context: any) {
             .append('li')
             .attr('class', 'lens-uploaded-item');
         itemsEnter.append('span').attr('class', 'lens-uploaded-name');
+
+        // shortcut assignment: a single letter, activated with ⌥+letter
+        const shortcutEnter = itemsEnter.append('label').attr('class', 'lens-shortcut');
+        shortcutEnter.append('span').attr('class', 'lens-shortcut-modifier').text('⌥');
+        shortcutEnter.append('input')
+            .attr('type', 'text')
+            .attr('class', 'lens-shortcut-input')
+            .attr('maxlength', '1')
+            .attr('size', '1')
+            .attr('placeholder', () => t('map_data.lens.shortcut.placeholder'))
+            .attr('title', () => t('map_data.lens.shortcut.label'))
+            .on('change', onShortcutChange)
+            .on('keydown', function(this: HTMLInputElement, d3_event: KeyboardEvent) {
+                if (d3_event.key === 'Enter') this.blur();
+            });
+
         itemsEnter.append('button')
             .attr('class', 'lens-uploaded-remove')
             .attr('title', () => t('map_data.lens.remove'))
             .on('click', (_d3_event: any, d: any) => removeUploadedLens(d.id))
             .call(svgIcon('#iD-operation-delete'));
 
-        itemsEnter.merge(items).select('.lens-uploaded-name').text((d: any) => d.name);
+        const itemsMerged = itemsEnter.merge(items);
+        itemsMerged.select('.lens-uploaded-name').text((d: any) => d.name);
+        itemsMerged.select('.lens-shortcut-input')
+            .property('value', (d: any) => getShortcutForLens(d.id) || '')
+            .classed('lens-shortcut-invalid', false)
+            .attr('title', () => t('map_data.lens.shortcut.label'));
+    }
+
+    /** Validate and persist (or clear) a lens's shortcut letter. */
+    function onShortcutChange(this: HTMLInputElement, _d3_event: Event, d: any) {
+        const letter = this.value.trim().toLowerCase();
+
+        if (!letter) {
+            removeLensShortcut(d.id);
+            return;  // prefs.onChange triggers a re-render
+        }
+        const invalid = !/^[a-z]$/.test(letter)
+            ? t('map_data.lens.shortcut.invalid')
+            : RESERVED_LENS_SHORTCUTS.has(letter) ? t('map_data.lens.shortcut.reserved') : null;
+        if (invalid) {
+            this.classList.add('lens-shortcut-invalid');
+            this.title = invalid;
+            this.value = getShortcutForLens(d.id) || '';
+            return;
+        }
+        setLensShortcut(d.id, letter);
     }
 
     prefs.onChange(LENS_PREF, section.reRender);
     prefs.onChange(UPLOADED_LENSES_PREF, section.reRender);
+    prefs.onChange(LENS_SHORTCUTS_PREF, section.reRender);
 
     return section;
 }
