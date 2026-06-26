@@ -49,7 +49,9 @@ export function uiFieldDirectionalGroup(
     // the sub-renderers (number / combo) read them but we call them directly.
     // Group rows aren't individually lockable, so `locked` is a no-op false.
     const members = (field.members || []).map(member => {
-        const base = presetManager.field(member.id);
+        // presetManager is built in JS; `field()` is added dynamically and is not
+        // on its inferred type, so reach it through `any` (like the rest of this file).
+        const base = (presetManager as any).field(member.id);
         const make = base && RENDERERS[base.type];
         if (!make) return null;
         const sub = Object.assign({}, base);
