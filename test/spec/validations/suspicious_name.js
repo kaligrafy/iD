@@ -42,8 +42,14 @@ describe('iD.validations.suspicious_name', function () {
         delete iD.services.nsi;
     });
 
-    beforeEach(function() {
+    beforeEach(async function() {
         context = iD.coreContext().assetPath('../dist/').init();
+        // The name-suggestion-index service loads asynchronously (it resolves
+        // location sets on a macrotask). Wait until it is ready so the generic
+        // name checks below are deterministic instead of racing the loader.
+        for (let i = 0; i < 100 && iD.serviceNsi.status() === 'loading'; i++) {
+            await new Promise(function(resolve) { setTimeout(resolve, 10); });
+        }
     });
 
     function createWay(tags) {

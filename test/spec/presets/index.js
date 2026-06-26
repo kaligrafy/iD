@@ -1,16 +1,25 @@
 import { locationManager, presetIndex } from '../../../modules';
 
 describe('iD.presetIndex', function () {
-    var _savedPresets, _savedAreaKeys;
+    var _savedPresets, _savedAreaKeys, _savedCustomPresets, _savedCustomFields;
 
     before(function() {
         _savedPresets = iD.fileFetcher.cache().preset_presets;
         _savedAreaKeys = iD.osmAreaKeys;
+        // This fork merges Québec-specific presets via applyCustomPresets() on every
+        // index load. Neutralize them here so these tests see only their own fixtures
+        // (otherwise custom area presets leak extra keys into areaKeys()/lineTags()/...).
+        _savedCustomPresets = iD.fileFetcher.cache().preset_custom_presets;
+        _savedCustomFields = iD.fileFetcher.cache().preset_custom_fields;
+        iD.fileFetcher.cache().preset_custom_presets = {};
+        iD.fileFetcher.cache().preset_custom_fields = {};
     });
 
     after(function() {
         iD.fileFetcher.cache().preset_presets = _savedPresets;
         iD.osmSetAreaKeys(_savedAreaKeys);
+        iD.fileFetcher.cache().preset_custom_presets = _savedCustomPresets;
+        iD.fileFetcher.cache().preset_custom_fields = _savedCustomFields;
     });
 
 
