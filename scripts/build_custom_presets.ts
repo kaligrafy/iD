@@ -16,7 +16,7 @@ export async function buildCustomPresets(): Promise<void> {
 }
 
 if (process.argv[1]?.includes('build_custom_presets')) {
-    void (async () => {
+    (async () => {
         try {
             const validateOnly = process.argv.includes('--validate');
             if (validateOnly) {
