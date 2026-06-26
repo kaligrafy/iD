@@ -207,7 +207,7 @@ export function uiSectionBackgroundList(context) {
                 .title(() => t.append('settings.custom_background.tooltip'))
                 .placement((localizer.textDirection() === 'rtl') ? 'right' : 'left')
             )
-            .on('click', function(d3_event, d) {
+            .on('click', function(d3_event) {
                 d3_event.preventDefault();
                 editCustom();
             })
