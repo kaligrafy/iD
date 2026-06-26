@@ -17,6 +17,24 @@ for (const [key, value] of Object.entries(envs)) {
   Reflect.set(global, key, JSON.parse(value));
 }
 
+// The jsdom environment does not provide a working `localStorage` (it is an
+// empty object without methods), so install a minimal in-memory Storage. This
+// must happen before importing `../modules/id.js` because `core/preferences`
+// captures `localStorage` at module load. Without it, every preference write is
+// silently dropped and tests that read back a stored value fail.
+if (typeof (globalThis as any).localStorage?.setItem !== 'function') {
+  let store: Record<string, string> = {};
+  const memoryStorage = {
+    getItem: (k: string) => (k in store ? store[k] : null),
+    setItem: (k: string, v: string) => { store[k] = String(v); },
+    removeItem: (k: string) => { delete store[k]; },
+    clear: () => { store = {}; },
+    key: (i: number) => Object.keys(store)[i] ?? null,
+    get length() { return Object.keys(store).length; }
+  };
+  Object.defineProperty(globalThis, 'localStorage', { value: memoryStorage, configurable: true, writable: true });
+}
+
 // the 'happen' library explicitly references `window` when creating an event,
 // but we need to use jsdom's window, so we have to patch initEvent.
 const { initMouseEvent } = MouseEvent.prototype;
