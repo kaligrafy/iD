@@ -764,6 +764,26 @@
         "terms": "std, vélo à pied, descendre du vélo, escalier, escaliers, marches",
         "aliases": "std"
     },
+    "highway/stop_forward_minor": {
+        "name": "Panneau d'arrêt avant (priorité mineure)",
+        "terms": "stfm, arrêt, stop, panneau, avant, forward, minor, mineure",
+        "aliases": "stfm"
+    },
+    "highway/stop_forward_all": {
+        "name": "Panneau d'arrêt avant (toutes directions)",
+        "terms": "stfa, arrêt, stop, panneau, avant, forward, all, toutes directions",
+        "aliases": "stfa"
+    },
+    "highway/stop_backward_minor": {
+        "name": "Panneau d'arrêt arrière (priorité mineure)",
+        "terms": "stbm, arrêt, stop, panneau, arrière, backward, minor, mineure",
+        "aliases": "stbm"
+    },
+    "highway/stop_backward_all": {
+        "name": "Panneau d'arrêt arrière (toutes directions)",
+        "terms": "stba, arrêt, stop, panneau, arrière, backward, all, toutes directions",
+        "aliases": "stba"
+    },
     "office/construction_company": {
         "name": "Entreprise de construction (bâtiments)",
         "terms": "construction, bâtiment, entrepreneur, constructeur, bâtisseur, contracteur"
