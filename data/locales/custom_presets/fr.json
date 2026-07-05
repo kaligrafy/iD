@@ -90,25 +90,9 @@
         "name": "Entrée domicile / sortie [⌥+o]",
         "terms": "entrée, sortie, porte, domicile, maison, appartement"
     },
-    "entrance/home_main": {
-        "name": "Entrée domicile/principale / sortie",
-        "terms": "entrée, sortie, porte, domicile, principale"
-    },
-    "entrance/home_shop": {
-        "name": "Entrée domicile/commerce / sortie",
-        "terms": "entrée, sortie, porte, domicile, commerce"
-    },
     "entrance/main": {
         "name": "Entrée principale / sortie [⌥+m]",
         "terms": "entrée, porte, accès, principal, principale, sortie"
-    },
-    "entrance/main_home": {
-        "name": "Entrée domicile/principale / sortie",
-        "terms": "entrée, sortie, porte, domicile, principale"
-    },
-    "entrance/main_shop": {
-        "name": "Entrée principale/commerce / sortie",
-        "terms": "entrée, sortie, porte, commerce, principale"
     },
     "entrance/secondary": {
         "name": "Sortie secondaire",
@@ -117,14 +101,6 @@
     "entrance/shop": {
         "name": "Entrée de commerce / sortie [⌥+s]",
         "terms": "entrée, sortie, porte, commerce, magasin"
-    },
-    "entrance/shop_home": {
-        "name": "Entrée domicile/commerce / sortie",
-        "terms": "entrée, sortie, porte, domicile, commerce"
-    },
-    "entrance/shop_main": {
-        "name": "Entrée principale/commerce / sortie",
-        "terms": "entrée, sortie, porte, commerce, principale"
     },
     "routing_entrance": {
         "name": "Entrée de routage / sortie (autre)",

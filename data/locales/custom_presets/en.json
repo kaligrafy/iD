@@ -90,25 +90,9 @@
         "name": "Home Entrance / Exit [⌥+o]",
         "terms": "entrance, exit, door, main, home"
     },
-    "entrance/home_main": {
-        "name": "Home/Main Entrance / Exit",
-        "terms": "entrance, exit, door, main, home"
-    },
-    "entrance/home_shop": {
-        "name": "Home/Shop Entrance / Exit",
-        "terms": "entrance, exit, door, shop, home"
-    },
     "entrance/main": {
         "name": "Main Entrance / Exit [⌥+m]",
         "terms": "entrance, exit, door, main"
-    },
-    "entrance/main_home": {
-        "name": "Home/Main Entrance / Exit",
-        "terms": "entrance, exit, door, main, home"
-    },
-    "entrance/main_shop": {
-        "name": "Main/Shop Entrance / Exit",
-        "terms": "entrance, exit, door, shop, main"
     },
     "entrance/secondary": {
         "name": "Secondary Exit",
@@ -117,14 +101,6 @@
     "entrance/shop": {
         "name": "Shop Entrance / Exit [⌥+s]",
         "terms": "entrance, exit, door, main, shop"
-    },
-    "entrance/shop_home": {
-        "name": "Home/Shop Entrance / Exit",
-        "terms": "entrance, exit, door, shop, home"
-    },
-    "entrance/shop_main": {
-        "name": "Main/Shop Entrance / Exit",
-        "terms": "entrance, exit, door, shop, main"
     },
     "routing_entrance": {
         "name": "Routing Entrance / Exit (other)",
