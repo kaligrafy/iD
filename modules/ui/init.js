@@ -369,7 +369,6 @@ export function uiInit(context) {
         ui.onResize();
         map.redrawEnable(true);
 
-        ui.hash = behaviorHash(context);
         ui.hash();
         if (!ui.hash.hadLocation) {
             map.centerZoom([0, 0], 2);
@@ -552,6 +551,8 @@ export function uiInit(context) {
     ui.photoviewer = uiPhotoviewer(context);
 
     ui.shortcuts = uiShortcuts(context);
+
+    ui.hash = behaviorHash(context);
 
     ui.onResize = function(withPan) {
         var map = context.map();

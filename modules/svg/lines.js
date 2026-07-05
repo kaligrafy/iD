@@ -6,7 +6,7 @@ import {
 } from './helpers';
 import { svgTagClasses } from './tag_classes';
 
-import { osmEntity } from '../osm';
+import { osmIdManager } from '../osm';
 import { utilArrayFlatten, utilArrayGroupBy } from '../util';
 import { utilDetect } from '../util/detect';
 
@@ -138,13 +138,13 @@ export function svgLines(projection, context) {
             var lines = selection
                 .selectAll('path')
                 .filter(filter)
-                .data(getPathData(isSelected, wayFilter), osmEntity.key);
+                .data(getPathData(isSelected, wayFilter), osmIdManager.key);
 
             lines.exit()
                 .remove();
 
             // Optimization: Call expensive TagClasses only on enter selection. This
-            // works because osmEntity.key is defined to include the entity v attribute.
+            // works because osmIdManager.key is defined to include the entity v attribute.
             lines.enter()
                 .append('path')
                 .attr('class', function(d) {

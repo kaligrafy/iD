@@ -29,7 +29,14 @@ async function loadCustomDistJson() {
 
 /** Registers custom preset dist JSON and reloads the preset manager once per describe. */
 export function loadCustomPresets() {
-    before(async function() {
+    let _savedPointTags;
+    let _savedVertexTags;
+
+    beforeAll(async function() {
+        // ensureLoaded() mutates global geometry indexes used by delete_way and others
+        _savedPointTags = iD.osmPointTags;
+        _savedVertexTags = iD.osmVertexTags;
+
         let customFields;
         let customPresets;
         try {
@@ -46,5 +53,10 @@ export function loadCustomPresets() {
             console.error('loadCustomPresets: preset_custom_presets/fields or ensureLoaded failed', err);
             throw new Error('Custom preset setup failed (see log above)', { cause: err });
         }
+    });
+
+    afterAll(function() {
+        iD.osmSetPointTags(_savedPointTags);
+        iD.osmSetVertexTags(_savedVertexTags);
     });
 }

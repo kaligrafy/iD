@@ -1,5 +1,4 @@
 import { color as d3_color, type RGBColor } from 'd3';
-import { remove as removeDiacritics } from 'diacritics';
 
 import { fixRTLTextForSvg, rtlRegex } from './svg_paths_rtl_fix';
 
@@ -8,7 +7,8 @@ import { utilArrayUnion } from './array';
 import { utilDetect } from './detect';
 import { geoExtent } from '../geo/extent';
 import type { coreGraph } from '../core';
-import type { OsmNode } from '../osm/node';
+import type { osmNode as OsmNode } from '../osm/node';
+import type { EntityId as EntityID } from '../osm';
 
 
 export function utilTagText(entity: iD.OsmEntity): string {
@@ -201,8 +201,9 @@ export function utilDisplayName(entity: iD.OsmEntity, flags: {
     hideRef?: boolean,
     isMapLabel?: boolean
 }): string {
-    const localizedNameKey = 'name:' + localizer.languageCode().toLowerCase();
-    const name = entity.tags[localizedNameKey] || entity.tags.name || '';
+    const name = localizer.expandedLocaleCodes()
+        .map(code => entity.tags[`name:${code}`])
+        .find(Boolean) || entity.tags.name || '';
 
     const tags = {
         direction: entity.tags.direction,
@@ -493,17 +494,26 @@ export function utilSetTransform(el: d3.Selection, x: number, y: number, scale: 
     return el.style(prop, translate + (scale ? ' scale(' + scale + ')' : ''));
 }
 
+export function utilStripDiacritics(string: string) {
+    return string.normalize('NFD').replace(/\p{Dia}/gu, '');
+}
 
 // Calculates Levenshtein distance between two strings
 // see:  https://en.wikipedia.org/wiki/Levenshtein_distance
 // first converts the strings to lowercase and replaces diacritic marks with ascii equivalents.
-export function utilEditDistance(a: string, b: string): number {
-    a = removeDiacritics(a.toLowerCase());
-    b = removeDiacritics(b.toLowerCase());
-    if (a.length === 0) return b.length;
+//
+// if options.substring is true, it instead calculates the minimal Levenshtein distance between
+// the string a and any substring of b
+// see: https://en.wikipedia.org/wiki/Approximate_string_matching#Problem_formulation_and_algorithms
+export function utilEditDistance(a: string, b: string, options?: {
+    substring?: boolean
+}): number {
+    a = utilStripDiacritics(a.toLowerCase());
+    b = utilStripDiacritics(b.toLowerCase());
+    if (a.length === 0) return options?.substring ? 0 : b.length;
     if (b.length === 0) return a.length;
     const matrix = [];
-    for (let i = 0; i <= b.length; i++) { matrix[i] = [i]; }
+    for (let i = 0; i <= b.length; i++) { matrix[i] = options?.substring ? [0] : [i]; }
     for (let j = 0; j <= a.length; j++) { matrix[0][j] = j; }
     for (let i = 1; i <= b.length; i++) {
         for (let j = 1; j <= a.length; j++) {
@@ -515,6 +525,9 @@ export function utilEditDistance(a: string, b: string): number {
                     matrix[i-1][j] + 1)); // deletion
             }
         }
+    }
+    if (options?.substring) {
+        return Math.min(...matrix.map(r => r[a.length]));
     }
     return matrix[b.length][a.length];
 }

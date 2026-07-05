@@ -13,8 +13,8 @@ export function actionDeleteWay(wayID) {
         var geometries = osmNodeGeometriesForTags(node.tags);
         // don't delete if this node can be a standalone point
         if (geometries.point) return false;
-        // delete if this node only be a vertex
-        if (geometries.vertex) return true;
+        // delete vertex-only nodes only when they have no interesting tags
+        if (geometries.vertex) return !node.hasInterestingTags();
 
         // iD doesn't know if this should be a point or vertex,
         // so only delete if there are no interesting tags

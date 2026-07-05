@@ -3,7 +3,7 @@ import { locationManager, presetIndex } from '../../../modules';
 describe('iD.presetIndex', function () {
     var _savedPresets, _savedAreaKeys, _savedCustomPresets, _savedCustomFields;
 
-    before(function() {
+    beforeEach(() => {
         _savedPresets = iD.fileFetcher.cache().preset_presets;
         _savedAreaKeys = iD.osmAreaKeys;
         // This fork merges Québec-specific presets via applyCustomPresets() on every
@@ -15,7 +15,7 @@ describe('iD.presetIndex', function () {
         iD.fileFetcher.cache().preset_custom_fields = {};
     });
 
-    after(function() {
+    afterEach(() => {
         iD.fileFetcher.cache().preset_presets = _savedPresets;
         iD.osmSetAreaKeys(_savedAreaKeys);
         iD.fileFetcher.cache().preset_custom_presets = _savedCustomPresets;
@@ -374,7 +374,6 @@ describe('iD.presetIndex', function () {
                 '2161a712': {
                     'key': 'building',
                     'label': 'Building',
-                    'overrideLabel': 'Building',
                     'type': 'text'
                 }
             }

@@ -1,15 +1,9 @@
-import { beforeAll, beforeEach, afterEach } from 'vitest';
-import 'happen';
+import { beforeAll } from 'vitest';
 import fetchMock from 'fetch-mock';
 import 'fake-indexeddb/auto';
 import envs from '../config/envs.js';
 
-declare var global: typeof globalThis;
-declare var jsdom: typeof globalThis;
 
-global.before = beforeEach;
-global.after = afterEach;
-global.fetchMock = fetchMock;
 global.VITEST = true;
 
 // create global variables for this data, to match what the esbuild config does

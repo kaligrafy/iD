@@ -82,6 +82,7 @@ export function appendBuildingFlatsTagClasses(classes, t) {
 export function appendCustomTagClasses(classes, t) {
     const emphasisValues = new Set(customAccessEmphasisValues);
     const excludeHighways = new Set(customAccessEmphasisExcludeHighways);
+    const highway = t.highway;
 
     for (const { key, value, class: className } of customExactTagClasses) {
         if (t[key] === value) {
@@ -101,7 +102,6 @@ export function appendCustomTagClasses(classes, t) {
     appendBuildingFlatsTagClasses(classes, t);
     appendHighwayValidationTagClasses(classes, t);
 
-    const highway = t.highway;
     if (!highway || excludeHighways.has(highway)) return;
 
     const access = t.access;
