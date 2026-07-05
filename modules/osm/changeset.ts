@@ -18,6 +18,11 @@ export class osmChangeset extends OsmAbstractEntity {
         super({ type: 'changeset' }, ...args);
     }
 
+    /** Inherited {@link OsmAbstractEntity.update} routes through createEntity, which rejects changesets. */
+    update(attrs: Partial<OsmEntityProps>) {
+        return new osmChangeset(this, { ...attrs, v: 1 + (this.v || 0) });
+    }
+
     copy(): never {
         throw new Error('not allowed');
     }
