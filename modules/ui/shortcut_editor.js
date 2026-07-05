@@ -1,5 +1,6 @@
 import { t } from '../core/localizer';
 import { presetShortcuts } from '../core/preset_shortcuts';
+import { isValidPresetShortcut, normalizePresetShortcut } from '../core/preset_shortcut_format';
 import { presetManager } from '../presets';
 import { svgIcon } from '../svg/icon';
 
@@ -99,7 +100,7 @@ export function uiShortcutEditor() {
 
         // Validation and save logic
         function handleSave() {
-            const value = shortcutInput.property('value').trim();
+            const value = normalizePresetShortcut(shortcutInput.property('value'));
 
             // Clear previous errors
             errorContainer.style('display', 'none');
@@ -110,9 +111,7 @@ export function uiShortcutEditor() {
                 return;
             }
 
-            // Validate range
-            const num = parseInt(value, 10);
-            if (isNaN(num) || num < 8 || num > 999) {
+            if (!isValidPresetShortcut(value)) {
                 showError(t('preset_shortcut.error_invalid_range'));
                 return;
             }

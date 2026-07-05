@@ -2,6 +2,12 @@ import { dispatch as d3_dispatch } from 'd3-dispatch';
 
 import { presetManager } from '../presets';
 import { presetShortcuts } from '../core/preset_shortcuts';
+import {
+    isPresetShortcutKey,
+    isValidPresetShortcut,
+    normalizePresetShortcut,
+    shouldCapturePresetShortcutBuffer
+} from '../core/preset_shortcut_format';
 import { modeAddPoint, modeAddLine, modeAddArea, modeBrowse } from '../modes';
 import { actionChangePreset } from '../actions';
 import { utilRebind } from '../util';
@@ -26,7 +32,7 @@ import { uiPresetIcon } from '../ui/preset_icon';
  *
  * Behavior:
  * - Numbers 1-3: Execute immediately (normal drawing modes) but can be cancelled by multi-digit shortcuts
- * - Numbers 8-999: User-defined preset shortcuts
+ * - Numbers 8-999 (or digit-led codes like `8a`): User-defined preset shortcuts
  * - Single-digit shortcuts: Execute after 150ms (can be cancelled by additional digits)
  * - Multi-digit shortcuts: Execute after 500ms, can override single-digit actions
  * - Cancellation: Multi-digit shortcuts cancel previous single-digit actions seamlessly
@@ -318,15 +324,11 @@ export function behaviorPresetShortcuts(context) {
             return true;
         }
 
-        const shortcut = _numberBuffer;
+        const shortcut = normalizePresetShortcut(_numberBuffer);
         clearNumberBuffer();
 
-        // Check if this is a preset shortcut (8-999)
-        const num = parseInt(shortcut, 10);
-        if (num >= 8 && num <= 999) {
-            if (executeShortcut(shortcut)) {
-                return true;
-            }
+        if (isValidPresetShortcut(shortcut) && executeShortcut(shortcut)) {
+            return true;
         }
 
         // If it's a single digit 1-3, handle as normal drawing mode
@@ -376,33 +378,19 @@ export function behaviorPresetShortcuts(context) {
         return false;
     }
 
-    function keydown(d3_event) {
-        // Only handle number keys
-        const key = d3_event.key;
-        if (!/^[0-9]$/.test(key)) {
-            return;
-        }
+    function handleShortcutKey(key, d3_event) {
+        const allShortcuts = presetShortcuts.getAllShortcuts();
+        const allShortcutKeys = Object.keys(allShortcuts);
 
-        // Don't interfere if user is typing in an input field
-        const target = d3_event.target || d3_event.srcElement;
-        if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
-            return;
-        }
-
-        // Don't interfere if modifier keys are pressed
-        if (d3_event.ctrlKey || d3_event.metaKey || d3_event.altKey) {
+        if (!isPresetShortcutKey(key, _numberBuffer, allShortcutKeys)) {
             return;
         }
 
         const digit = key;
-
-        // If this is not the first digit, we're building a multi-digit shortcut
         const wasEmpty = _numberBuffer === '';
 
-        // Add digit to buffer
-        _numberBuffer += digit;
+        _numberBuffer = normalizePresetShortcut(_numberBuffer + key);
 
-        // Clear any existing timeouts and reset execution flag for new sequence
         if (_numberTimeout) {
             clearTimeout(_numberTimeout);
         }
@@ -413,47 +401,30 @@ export function behaviorPresetShortcuts(context) {
             clearTimeout(_cleanupTimeout);
         }
 
-        // Always set cleanup timeout to clear buffer after 800ms (prevents infinite growth)
         _cleanupTimeout = setTimeout(() => {
             clearNumberBuffer();
         }, _cleanupDelay);
 
-        // If we're adding to an existing buffer, cancel any previous execution
         if (!wasEmpty) {
             _executed = false;
         }
 
-        const allShortcuts = presetShortcuts.getAllShortcuts();
-        const allShortcutKeys = Object.keys(allShortcuts);
-
-        // Check if there's an exact match for current buffer
         const hasExactMatch = allShortcutKeys.includes(_numberBuffer);
-
-        // Check if there are longer shortcuts starting with current buffer
         const hasLongerShortcuts = allShortcutKeys.some(shortcut =>
             shortcut.startsWith(_numberBuffer) && shortcut.length > _numberBuffer.length
         );
 
-
-
-        // For single digits 1-3, handle special logic for drawing modes
         if (_numberBuffer.length === 1 && digit >= '1' && digit <= '3') {
             if (!hasExactMatch && !hasLongerShortcuts) {
-                // No shortcuts use this digit, let normal handlers deal with it
                 clearNumberBuffer();
                 return;
             } else if (hasLongerShortcuts && !hasExactMatch) {
-                // There are longer shortcuts starting with this digit, but no exact match
-                // Wait to see if user is typing a multi-digit shortcut before executing drawing mode
-                // Don't let the normal action happen immediately - prevent it and wait
                 d3_event.preventDefault();
                 d3_event.stopImmediatePropagation();
             }
         }
 
-        // If we have an exact match, set up immediate execution
         if (hasExactMatch) {
-            // For digits 1-3 with exact matches, we need to prevent the default drawing mode
             if (_numberBuffer.length === 1 && digit >= '1' && digit <= '3') {
                 d3_event.preventDefault();
                 d3_event.stopImmediatePropagation();
@@ -469,7 +440,6 @@ export function behaviorPresetShortcuts(context) {
             }, _immediateDelay);
         }
 
-        // Always set the longer timeout for multi-digit shortcuts
         if (hasLongerShortcuts || hasExactMatch) {
             _numberTimeout = setTimeout(() => {
                 const handled = processNumberBuffer();
@@ -480,15 +450,10 @@ export function behaviorPresetShortcuts(context) {
             }, _waitDuration);
         }
 
-        // Handle multi-digit sequence detection and cancellation
         if (_numberBuffer.length > 1 && _singleDigitExecuted) {
-            // We're building a multi-digit shortcut after a single digit was executed
-
-            // Cancel the previous single-digit action by going back to browse mode
             context.enter(modeBrowse(context));
             _singleDigitExecuted = false;
 
-            // Show brief notification that we're switching
             try {
                 context.ui().flash
                     .duration(1500)
@@ -500,12 +465,28 @@ export function behaviorPresetShortcuts(context) {
             }
         }
 
-        // For potential multi-digit shortcuts (8+ or actual multi-digit sequences), prevent default
-        const bufferNum = parseInt(_numberBuffer, 10);
-        if (bufferNum >= 8 || (_numberBuffer.length > 1)) {
+        if (shouldCapturePresetShortcutBuffer(_numberBuffer)) {
             d3_event.preventDefault();
             d3_event.stopImmediatePropagation();
         }
+    }
+
+    function keydown(d3_event) {
+        const key = d3_event.key;
+        if (!/^[0-9a-z]$/i.test(key)) {
+            return;
+        }
+
+        const target = d3_event.target || d3_event.srcElement;
+        if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+            return;
+        }
+
+        if (d3_event.ctrlKey || d3_event.metaKey || d3_event.altKey) {
+            return;
+        }
+
+        handleShortcutKey(key, d3_event);
     }
 
 

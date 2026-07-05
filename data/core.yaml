@@ -910,16 +910,16 @@ en:
     button_tooltip: Set keyboard shortcut
     button_tooltip_with_shortcut: "Keyboard shortcut: {shortcut}"
     preset_label: "Set shortcut for: {preset}"
-    instructions: "Enter a number between 8 and 999 (numbers 1-7 are reserved shortcuts)."
+    instructions: "Enter 8-999, or a digit-led code up to 3 characters (e.g. 8a). Numbers 1-7 are reserved."
     modal_title: Edit Keyboard Shortcut
-    modal_description: "Set a numeric keyboard shortcut (8-999) to quickly access this preset"
-    shortcut_label: "Shortcut Number"
-    shortcut_placeholder: "Enter 8-999"
+    modal_description: "Set a keyboard shortcut (8-999 or digit-led codes like 8a) to quickly access this preset"
+    shortcut_label: "Shortcut"
+    shortcut_placeholder: "e.g. 8, 42, 8a"
     save: Save
     remove: Remove Shortcut
     edit_tooltip: Edit shortcut
-    error_empty: "Please enter a shortcut number"
-    error_invalid_range: "Shortcut must be between 8 and 999"
+    error_empty: "Please enter a shortcut"
+    error_invalid_range: "Shortcut must be 8-999 or a digit-led code (e.g. 8a, 42f), up to 3 characters"
     error_conflict: "Shortcut {shortcut} is already used by {preset}"
     inline_label: "Keyboard shortcut"
     none_display: "none"

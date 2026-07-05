@@ -1,17 +1,20 @@
 import { prefs } from './preferences';
 import { dispatch as d3_dispatch } from 'd3-dispatch';
 import { utilRebind } from '../util';
+import { isValidPresetShortcut, normalizePresetShortcut } from './preset_shortcut_format';
 
 /**
  * Core Preset Shortcuts Manager
  *
  * Manages user-defined keyboard shortcuts for presets. This module provides
  * functionality to store, retrieve, and manage preset shortcuts that allow
- * users to quickly activate presets using number keys 8-999.
+ * users to quickly activate presets using number keys 8-999, or digit-led codes
+ * such as `8a` (fork extension).
  *
  * Features:
  * - Store shortcuts in localStorage for persistence across sessions
  * - Support numeric shortcuts from 8-999 (1-7 reserved for drawing modes)
+ * - Support digit-led alphanumeric shortcuts up to 3 characters (e.g. `8a`, `42f`)
  * - Validate shortcuts to ensure they're within the allowed range
  * - Handle conflicts when multiple presets try to use the same shortcut
  * - Dispatch events when shortcuts are added, removed, or changed
@@ -78,10 +81,9 @@ export function corePresetShortcuts() {
         setShortcut: function(presetId, shortcut) {
             loadShortcuts();
 
-            // Validate shortcut format (8-999)
-            const num = parseInt(shortcut, 10);
-            if (isNaN(num) || num < 8 || num > 999) {
-                throw new Error('Shortcut must be a number between 8 and 999');
+            shortcut = normalizePresetShortcut(shortcut);
+            if (!isValidPresetShortcut(shortcut)) {
+                throw new Error('Invalid preset shortcut');
             }
 
             // Remove any existing shortcut for this preset
