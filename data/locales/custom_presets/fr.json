@@ -75,7 +75,7 @@
         "aliases": "plg"
     },
     "entrance": {
-        "name": "Entrée / sortie [e]",
+        "name": "Entrée / sortie",
         "terms": "entrée, entree, porte, sortie, issue"
     },
     "entrance/emergency": {
@@ -83,15 +83,15 @@
         "terms": "sortie de secours, porte, issue de secours, évacuation, urgence, incendie"
     },
     "entrance/garage": {
-        "name": "Entrée garage / sortie [⌥+g]",
+        "name": "Entrée garage / sortie",
         "terms": "entrée, sortie, porte, garage"
     },
     "entrance/home": {
-        "name": "Entrée domicile / sortie [⌥+o]",
+        "name": "Entrée domicile / sortie",
         "terms": "entrée, sortie, porte, domicile, maison, appartement"
     },
     "entrance/main": {
-        "name": "Entrée principale / sortie [⌥+m]",
+        "name": "Entrée principale / sortie",
         "terms": "entrée, porte, accès, principal, principale, sortie"
     },
     "entrance/secondary": {
@@ -99,7 +99,7 @@
         "terms": "sortie secondaire, porte"
     },
     "entrance/shop": {
-        "name": "Entrée de commerce / sortie [⌥+s]",
+        "name": "Entrée de commerce / sortie",
         "terms": "entrée, sortie, porte, commerce, magasin"
     },
     "routing_entrance": {
@@ -107,7 +107,7 @@
         "terms": "routage, entrée, sortie"
     },
     "routing_entrance_main": {
-        "name": "Entrée de routage / sortie [⌥+e]",
+        "name": "Entrée de routage / sortie",
         "terms": "routage, entrée, sortie, principale"
     },
     "routing_entrance_yes": {
