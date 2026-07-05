@@ -3,8 +3,8 @@ describe('iD.actionInsertWaypoint', function () {
     // Build a graph with one way over the given nodes, run the action, and
     // return the resulting way plus the id of the newly inserted node.
     function run(nodeLocs, choice, loc) {
-        var nodes = nodeLocs.map(function (l) { return iD.osmNode({ loc: l }); });
-        var way = iD.osmWay({ nodes: nodes.map(function (n) { return n.id; }) });
+        var nodes = nodeLocs.map(function (l) { return new iD.osmNode({ loc: l }); });
+        var way = new iD.osmWay({ nodes: nodes.map(function (n) { return n.id; }) });
         var graph = new iD.coreGraph(nodes.concat([way]));
 
         var beforeIDs = new Set(way.nodes);

@@ -29,7 +29,7 @@ async function loadCustomDistJson() {
 
 /** Registers custom preset dist JSON and reloads the preset manager once per describe. */
 export function loadCustomPresets() {
-    before(async function() {
+    beforeAll(async function() {
         let customFields;
         let customPresets;
         try {

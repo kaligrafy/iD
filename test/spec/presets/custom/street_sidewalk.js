@@ -68,9 +68,9 @@ describe('custom presets — street sidewalk variants', function() {
     it('removes foot=use_sidepath when switching to a plain road', function() {
         const oldPreset = iD.presetManager.item('highway/residential_sidewalk_both');
         const newPreset = iD.presetManager.item('highway/residential');
-        const n1 = iD.osmNode({ loc: [0, 0] });
-        const n2 = iD.osmNode({ loc: [1, 1] });
-        const way = iD.osmWay({
+        const n1 = new iD.osmNode({ loc: [0, 0] });
+        const n2 = new iD.osmNode({ loc: [1, 1] });
+        const way = new iD.osmWay({
             nodes: [n1.id, n2.id],
             tags: {
                 highway: 'residential',

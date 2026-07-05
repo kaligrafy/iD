@@ -8,5 +8,8 @@ export default defineConfig({
     include: ['test/spec/**/*.{js,ts}'],
     exclude: [...configDefaults.exclude, 'test/spec/presets/custom/setup.js'],
     setupFiles: ['./test/spec_helpers.ts'],
+    execArgv: [
+        '--no-experimental-webstorage'
+    ],
   },
 });

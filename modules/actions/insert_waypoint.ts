@@ -26,5 +26,5 @@ export function actionInsertWaypoint(way: iD.OsmWay, choice: EdgeChoice, loc?: n
     return actionAddMidpoint({
         loc: loc || choice.loc,
         edge: [prev, next]
-    }, osmNode());
+    }, new osmNode());
 }

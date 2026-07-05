@@ -102,9 +102,9 @@ describe('custom presets — footway', function() {
     it('removes bicycle when changing from footway link bicycle dismount to customers footway link', function() {
         const oldPreset = iD.presetManager.item('highway/footway/footway_link_bicycle_dismount');
         const newPreset = iD.presetManager.item('highway/footway/customers_footway_link');
-        const n1 = iD.osmNode({ loc: [0, 0] });
-        const n2 = iD.osmNode({ loc: [1, 1] });
-        const way = iD.osmWay({
+        const n1 = new iD.osmNode({ loc: [0, 0] });
+        const n2 = new iD.osmNode({ loc: [1, 1] });
+        const way = new iD.osmWay({
             nodes: [n1.id, n2.id],
             tags: {
                 highway: 'footway',
@@ -169,9 +169,9 @@ describe('custom presets — footway', function() {
     it('removes access when changing from customers footway link to footway link bicycle dismount', function() {
         const oldPreset = iD.presetManager.item('highway/footway/customers_footway_link');
         const newPreset = iD.presetManager.item('highway/footway/footway_link_bicycle_dismount');
-        const n1 = iD.osmNode({ loc: [0, 0] });
-        const n2 = iD.osmNode({ loc: [1, 1] });
-        const way = iD.osmWay({
+        const n1 = new iD.osmNode({ loc: [0, 0] });
+        const n2 = new iD.osmNode({ loc: [1, 1] });
+        const way = new iD.osmWay({
             nodes: [n1.id, n2.id],
             tags: {
                 highway: 'footway',
