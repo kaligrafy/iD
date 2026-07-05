@@ -74,6 +74,62 @@
         "terms": "plg, blp, barrière levante, privée",
         "aliases": "plg"
     },
+    "entrance": {
+        "name": "Entrée / sortie [e]",
+        "terms": "entrée, entree, porte, sortie, issue"
+    },
+    "entrance/emergency": {
+        "name": "Sortie de secours",
+        "terms": "sortie de secours, porte, issue de secours, évacuation, urgence, incendie"
+    },
+    "entrance/garage": {
+        "name": "Entrée garage / sortie [⌥+g]",
+        "terms": "entrée, sortie, porte, garage"
+    },
+    "entrance/home": {
+        "name": "Entrée domicile / sortie [⌥+o]",
+        "terms": "entrée, sortie, porte, domicile, maison, appartement"
+    },
+    "entrance/home_main": {
+        "name": "Entrée domicile/principale / sortie",
+        "terms": "entrée, sortie, porte, domicile, principale"
+    },
+    "entrance/home_shop": {
+        "name": "Entrée domicile/commerce / sortie",
+        "terms": "entrée, sortie, porte, domicile, commerce"
+    },
+    "entrance/main": {
+        "name": "Entrée principale / sortie [⌥+m]",
+        "terms": "entrée, porte, accès, principal, principale, sortie"
+    },
+    "entrance/main_home": {
+        "name": "Entrée domicile/principale / sortie",
+        "terms": "entrée, sortie, porte, domicile, principale"
+    },
+    "entrance/main_shop": {
+        "name": "Entrée principale/commerce / sortie",
+        "terms": "entrée, sortie, porte, commerce, principale"
+    },
+    "entrance/secondary": {
+        "name": "Sortie secondaire",
+        "terms": "sortie secondaire, porte"
+    },
+    "entrance/shop": {
+        "name": "Entrée de commerce / sortie [⌥+s]",
+        "terms": "entrée, sortie, porte, commerce, magasin"
+    },
+    "entrance/shop_home": {
+        "name": "Entrée domicile/commerce / sortie",
+        "terms": "entrée, sortie, porte, domicile, commerce"
+    },
+    "entrance/shop_main": {
+        "name": "Entrée principale/commerce / sortie",
+        "terms": "entrée, sortie, porte, commerce, principale"
+    },
+    "routing_entrance_main": {
+        "name": "Entrée de routage / sortie [⌥+e]",
+        "terms": "routage, entrée, sortie"
+    },
     "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
         "name": "Traversée cyclable — Feux, tirets, sans piétons",
         "terms": "ctsdcnf, tsdashnf, traversée cyclable, passage cyclable, passage pour vélo, traversée, feux, feux de circulation, signalisation, tirets, marquage en tirets, sans piétons, piétons interdits",
