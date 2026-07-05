@@ -310,11 +310,12 @@ describe('iD.svgTagClasses', function () {
 
     for (const [key, value, expectedClass] of flatsCases) {
         it(`adds ${expectedClass} for building with ${key}=${value}`, function() {
-            selection
+            const sel = d3.select(document.createElement('div'));
+            sel
                 .datum(new iD.osmWay({ tags: { building: 'apartments', [key]: value } }))
                 .call(iD.svgTagClasses());
-            expect(selection.classed('tag-has-flats')).to.be.true;
-            expect(selection.classed(expectedClass)).to.be.true;
+            expect(sel.classed('tag-has-flats')).to.be.true;
+            expect(sel.classed(expectedClass)).to.be.true;
         });
     }
 
@@ -324,6 +325,35 @@ describe('iD.svgTagClasses', function () {
             .call(iD.svgTagClasses());
         expect(selection.classed('tag-has-flats')).to.be.true;
         expect(selection.classed('tag-flats-4')).to.be.true;
+    });
+
+    const validationCases = [
+        ['tag-maxspeed-undefined', { highway: 'residential' }],
+        ['tag-lanes-undefined', { highway: 'primary' }],
+        ['tag-surface-undefined', { highway: 'secondary', surface: 'paved' }],
+        ['tag-surface-undefined', { highway: 'tertiary' }],
+        ['tag-sidewalk-undefined', { highway: 'residential' }],
+        ['tag-maxspeed-more_than_70', { highway: 'motorway', maxspeed: '90' }],
+        ['tag-lanes-error-count-lanes', { highway: 'primary', lanes: '4' }],
+        ['tag-segregated-undefined', { highway: 'cycleway', foot: 'designated' }],
+        ['tag-fixme', { highway: 'residential', fixme: 'yes' }]
+    ];
+
+    for (const [expectedClass, tags] of validationCases) {
+        it(`adds ${expectedClass} (v5 validation)`, function() {
+            const sel = d3.select(document.createElement('div'));
+            sel
+                .datum(new iD.osmWay({ tags }))
+                .call(iD.svgTagClasses());
+            expect(sel.classed(expectedClass)).to.be.true;
+        });
+    }
+
+    it('does not add tag-surface-undefined on private footway', function() {
+        selection
+            .datum(new iD.osmWay({ tags: { highway: 'footway', access: 'private' } }))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-surface-undefined')).to.be.false;
     });
 
     it('maxspeed lens omits bridge structure classes', function() {

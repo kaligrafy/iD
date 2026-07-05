@@ -4,10 +4,13 @@
  * Listed here so fork-specific OSM keys and access rules stay out of modules/svg/tag_classes.js.
  */
 
+import { appendHighwayValidationTagClasses } from './highway_validation_tag_classes.js';
+
 /** Extra secondary OSM keys → `tag-{key}` and `tag-{key}-{value}` (do not duplicate upstream secondaries). */
 export const customSecondaryTagKeys = [
     'cycleway',
-    'stop'
+    'stop',
+    'fixme'
 ];
 
 /**
@@ -96,6 +99,7 @@ export function appendCustomTagClasses(classes, t) {
     }
 
     appendBuildingFlatsTagClasses(classes, t);
+    appendHighwayValidationTagClasses(classes, t);
 
     const highway = t.highway;
     if (!highway || excludeHighways.has(highway)) return;
