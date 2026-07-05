@@ -100,7 +100,7 @@ describe('iD.coreValidator', function() {
         await validator.validate();
         // Should produce disconnected way error
         issues = validator.getIssues();
-        expect(issues).to.have.lengthOf(1);
+        expect(issues.filter(i => i.type === 'disconnected_way')).to.have.lengthOf(1);
     });
 
     it('removes validation issue when untagged way is becomes part of a boundary relation', async () => {

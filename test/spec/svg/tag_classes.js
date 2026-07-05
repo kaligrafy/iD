@@ -95,6 +95,21 @@ describe('iD.svgTagClasses', function () {
         expect(selection.classed('tag-cycleway-link')).to.be.true;
     });
 
+    [
+        { tags: { highway: 'secondary' }, expectUndefined: true },
+        { tags: { highway: 'secondary', surface: 'paved' }, expectUndefined: true },
+        { tags: { highway: 'secondary', surface: 'asphalt' }, expectUndefined: false },
+        { tags: { highway: 'footway', access: 'private' }, expectUndefined: false },
+        { tags: { highway: 'secondary', indoor: 'yes' }, expectUndefined: false }
+    ].forEach(function({ tags, expectUndefined }) {
+        it('adds tag-surface-undefined when surface is missing or generic (custom fork)', function() {
+            selection
+                .datum(new iD.osmWay({ tags: tags }))
+                .call(iD.svgTagClasses());
+            expect(selection.classed('tag-surface-undefined')).to.equal(expectUndefined);
+        });
+    });
+
     it('adds no bridge=no tags', function() {
         selection
             .datum(new iD.osmWay({tags: {bridge: 'no'}}))
