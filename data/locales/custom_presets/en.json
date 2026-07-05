@@ -126,9 +126,17 @@
         "name": "Main/Shop Entrance / Exit",
         "terms": "entrance, exit, door, shop, main"
     },
+    "routing_entrance": {
+        "name": "Routing Entrance / Exit (other)",
+        "terms": "routing, entrance"
+    },
     "routing_entrance_main": {
         "name": "Routing Entrance / Exit [⌥+e]",
-        "terms": "routing, entrance"
+        "terms": "routing, entrance, main"
+    },
+    "routing_entrance_yes": {
+        "name": "Routing Entrance / Exit (yes)",
+        "terms": "routing, entrance, yes"
     },
     "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
         "name": "Traffic Signals Dashes Cycleway Crossing No Foot",
