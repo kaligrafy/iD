@@ -13,6 +13,7 @@ import { serviceVariantPresets } from './presets/highway/service_variants';
 import { trackPrivatePresets } from './presets/highway/track_private';
 import { stepsVariantPresets } from './presets/highway/steps_variants';
 import { stopVariantPresets } from './presets/highway/stop_variants';
+import { trafficSignalsVariantPresets } from './presets/highway/traffic_signals_variants';
 import { cyclewayCrossingVariantPresets } from './presets/highway/cycleway/cycleway_crossing_variants';
 import { cyclewayLink } from './presets/highway/cycleway/cycleway_link';
 import { parkingVariantPresets } from './presets/amenity/parking_variants';
@@ -57,6 +58,7 @@ export const customPresets: Record<string, CustomPreset> = {
     ...trackPrivatePresets,
     ...stepsVariantPresets,
     ...stopVariantPresets,
+    ...trafficSignalsVariantPresets,
     'highway/cycleway/cycleway_link': cyclewayLink,
     ...cyclewayCrossingVariantPresets,
     ...parkingVariantPresets,
