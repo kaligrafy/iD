@@ -10,9 +10,7 @@ describe('custom presets — entrance', function() {
         ['entrance/home', 'iD-entrance-home', { entrance: 'home' }],
         ['entrance/garage', 'iD-entrance-garage', { entrance: 'garage' }],
         ['entrance/secondary', 'iD-entrance-secondary', { entrance: 'secondary' }],
-        ['entrance/emergency', 'iD-entrance-emergency', { entrance: 'emergency' }],
-        ['entrance/shop_main', 'iD-entrance-main', { entrance: 'shop;main' }],
-        ['entrance/home_main', 'iD-entrance-main', { entrance: 'home;main' }]
+        ['entrance/emergency', 'iD-entrance-emergency', { entrance: 'emergency' }]
     ];
 
     for (const [id, icon, tags] of entranceIcons) {

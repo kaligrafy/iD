@@ -30,7 +30,7 @@ interface EntranceVariant {
     fields: readonly string[];
 }
 
-/** Fork entrance vertex presets (custom icons + compound `entrance` values from v5). */
+/** Fork entrance vertex presets with custom icons from v5. */
 const ENTRANCE_VARIANTS: EntranceVariant[] = [
     { id: 'entrance', icon: 'iD-entrance', tags: { entrance: '*' }, fields: FIELDS_STANDARD },
     { id: 'entrance/main', icon: 'iD-entrance-main', tags: { entrance: 'main' }, fields: FIELDS_ADDRESS_FIRST },
@@ -38,13 +38,7 @@ const ENTRANCE_VARIANTS: EntranceVariant[] = [
     { id: 'entrance/home', icon: 'iD-entrance-home', tags: { entrance: 'home' }, fields: FIELDS_ADDRESS_FIRST },
     { id: 'entrance/garage', icon: 'iD-entrance-garage', tags: { entrance: 'garage' }, fields: FIELDS_STANDARD },
     { id: 'entrance/secondary', icon: 'iD-entrance-secondary', tags: { entrance: 'secondary' }, fields: FIELDS_MINIMAL },
-    { id: 'entrance/emergency', icon: 'iD-entrance-emergency', tags: { entrance: 'emergency' }, fields: FIELDS_MINIMAL },
-    { id: 'entrance/shop_main', icon: 'iD-entrance-main', tags: { entrance: 'shop;main' }, fields: FIELDS_ADDRESS_FIRST },
-    { id: 'entrance/shop_home', icon: 'iD-entrance-shop', tags: { entrance: 'shop;home' }, fields: FIELDS_ADDRESS_FIRST },
-    { id: 'entrance/main_shop', icon: 'iD-entrance-main', tags: { entrance: 'main;shop' }, fields: FIELDS_ADDRESS_FIRST },
-    { id: 'entrance/main_home', icon: 'iD-entrance-main', tags: { entrance: 'home;main' }, fields: FIELDS_ADDRESS_FIRST },
-    { id: 'entrance/home_shop', icon: 'iD-entrance-shop', tags: { entrance: 'home;shop' }, fields: FIELDS_ADDRESS_FIRST },
-    { id: 'entrance/home_main', icon: 'iD-entrance-main', tags: { entrance: 'home;main' }, fields: FIELDS_ADDRESS_FIRST }
+    { id: 'entrance/emergency', icon: 'iD-entrance-emergency', tags: { entrance: 'emergency' }, fields: FIELDS_MINIMAL }
 ];
 
 function entrancePreset(variant: EntranceVariant): CustomPreset {
