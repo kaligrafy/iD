@@ -6,7 +6,8 @@
 
 /** Extra secondary OSM keys → `tag-{key}` and `tag-{key}-{value}` (do not duplicate upstream secondaries). */
 export const customSecondaryTagKeys = [
-    'cycleway'
+    'cycleway',
+    'stop'
 ];
 
 /**

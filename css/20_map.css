@@ -313,6 +313,14 @@ g.vertex.tag-wikidata .icon {
     color: #666;
 }
 
+/* Stop signs — v5 parity (stop=all dark red, stop=minor pale red) */
+g.vertex.tag-highway-stop.tag-stop-all .icon {
+    color: #AB0000;
+}
+g.vertex.tag-highway-stop.tag-stop-minor .icon {
+    color: #FFC9C9;
+}
+
 /* Selected Members */
 g.vertex.selected-member .shadow,
 g.point.selected-member .shadow,
