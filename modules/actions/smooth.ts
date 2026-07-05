@@ -546,7 +546,7 @@ function smoothSingleWay(graph: iD.Graph, way: iD.OsmWay, node1: iD.OsmNode, nod
                 return graph.entity<iD.OsmNode>(intersectionNodeIds[m]);
             }
         }
-        return osmNode({ loc: coord });
+        return new osmNode({ loc: coord });
     });
 
     const smoothedNodesIds = smoothedNodes.map((node) => node.id);
@@ -817,7 +817,7 @@ function smoothAcrossWays(graph: iD.Graph, node1: iD.OsmNode, node2: iD.OsmNode,
             }
 
             if (!tooCloseToPrevious) {
-                const newNode = osmNode({ loc: coord });
+                const newNode = new osmNode({ loc: coord });
                 smoothedNodes.push(newNode);
                 lastCoord = coord;
             }
@@ -1129,7 +1129,7 @@ function smoothEntireWay(graph: iD.Graph, way: iD.OsmWay): iD.Graph {
                 lastCoord = coord;
             }
         } else if (!tooCloseToPrevious) {
-            const newNode = osmNode({ loc: coord });
+            const newNode = new osmNode({ loc: coord });
             smoothedNodes.push(newNode);
             lastCoord = coord;
         }
