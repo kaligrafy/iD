@@ -13,6 +13,7 @@
 .layer-osm path.sided-marker-coastline-path { fill: #77dede; }
 .layer-osm path.sided-marker-barrier-path   { fill: #ddd; }
 .layer-osm path.sided-marker-man_made-path  { fill: #fff; }
+.layer-osm circle.sided-marker-dual_carriageway-path { fill: rgb(170, 170, 170); }
 
 /* IE/Edge rule for <use> marker style */
 .layer-osm path.viewfield-marker-path {
