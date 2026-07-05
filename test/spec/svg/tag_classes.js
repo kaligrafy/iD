@@ -302,6 +302,30 @@ describe('iD.svgTagClasses', function () {
         expect(selection.attr('class')).to.equal('tag-piste_type tag-piste_type-nordic');
     });
 
+    const flatsCases = [
+        ['building:flats', '3', 'tag-flats-3'],
+        ['flats', '5', 'tag-flats-5'],
+        ['houses', '2', 'tag-flats-2']
+    ];
+
+    for (const [key, value, expectedClass] of flatsCases) {
+        it(`adds ${expectedClass} for building with ${key}=${value}`, function() {
+            selection
+                .datum(new iD.osmWay({ tags: { building: 'apartments', [key]: value } }))
+                .call(iD.svgTagClasses());
+            expect(selection.classed('tag-has-flats')).to.be.true;
+            expect(selection.classed(expectedClass)).to.be.true;
+        });
+    }
+
+    it('adds flat-count classes on landuse=residential', function() {
+        selection
+            .datum(new iD.osmWay({ tags: { landuse: 'residential', flats: '4' } }))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-has-flats')).to.be.true;
+        expect(selection.classed('tag-flats-4')).to.be.true;
+    });
+
     it('maxspeed lens omits bridge structure classes', function() {
         setLensSecondaryTagKeys(['maxspeed', 'maxspeed_advisory']);
         const classes = iD.svgTagClasses().getClassesString({
