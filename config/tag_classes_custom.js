@@ -42,6 +42,34 @@ export const customAccessEmphasisExcludeHighways = [
 /** Class name added on motor roads when access emphasis applies (without `tag-` prefix). */
 export const customAccessEmphasisClass = 'custom-access-emphasis';
 
+/** OSM keys checked for flat-count outline classes (`tag-has-flats`, `tag-flats-N`). */
+export const customFlatsTagKeys = ['building:flats', 'flats', 'houses'];
+
+/**
+ * Flat-count outline classes for buildings and residential landuse (v5 fork).
+ * @param {string[]} classes
+ * @param {Record<string, string>} t
+ */
+export function appendBuildingFlatsTagClasses(classes, t) {
+    const isBuilding = t.building && t.building !== 'no';
+    const isResidentialLanduse = t.landuse === 'residential';
+    if (!isBuilding && !isResidentialLanduse) return;
+
+    for (const k of Object.keys(t)) {
+        const v = t[k];
+        if (customFlatsTagKeys.includes(k)) {
+            if (v > 0) {
+                classes.push('tag-has-flats');
+                classes.push('tag-flats-' + v);
+            }
+            return;
+        }
+        if (k === 'office' && v === 'yes') {
+            classes.push('tag-building-office-yes');
+        }
+    }
+}
+
 /**
  * Append fork-specific tag classes for custom map styling.
  *
@@ -66,6 +94,8 @@ export function appendCustomTagClasses(classes, t) {
             }
         }
     }
+
+    appendBuildingFlatsTagClasses(classes, t);
 
     const highway = t.highway;
     if (!highway || excludeHighways.has(highway)) return;
