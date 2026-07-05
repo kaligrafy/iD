@@ -764,6 +764,26 @@
         "terms": "std, dismount, bicycle, steps, stairs, staircase, stairway",
         "aliases": "std"
     },
+    "highway/stop_forward_minor": {
+        "name": "Stop Sign Forward (minor)",
+        "terms": "stfm, stop, halt, sign, forward, minor",
+        "aliases": "stfm"
+    },
+    "highway/stop_forward_all": {
+        "name": "Stop Sign Forward (all directions)",
+        "terms": "stfa, stop, halt, sign, forward, all",
+        "aliases": "stfa"
+    },
+    "highway/stop_backward_minor": {
+        "name": "Stop Sign Backward (minor)",
+        "terms": "stbm, stop, halt, sign, backward, minor",
+        "aliases": "stbm"
+    },
+    "highway/stop_backward_all": {
+        "name": "Stop Sign Backward (all directions)",
+        "terms": "stba, stop, halt, sign, backward, all",
+        "aliases": "stba"
+    },
     "office/construction_company": {
         "name": "Building Construction Company",
         "terms": "construction, builder, building, contractor, general contractor"
