@@ -3,7 +3,7 @@ import {
     appendCustomTagClasses,
     customSecondaryTagKeys
 } from '../../config/tag_classes_custom.js';
-import { appendLensTagClasses } from '../core/lenses';
+import { appendLensTagClasses, stripStructureClassesForMaxspeedLens } from '../core/lenses';
 import { osmPathHighwayTagValues, osmPavedTags, osmSemipavedTags, osmLifecyclePrefixes } from '../osm/tags';
 
 
@@ -157,6 +157,7 @@ export function svgTagClasses() {
 
         appendCustomTagClasses(classes, t);
         appendLensTagClasses(classes, t);
+        stripStructureClassesForMaxspeedLens(classes);
 
         // ensure that classes for tags keys/values with special characters like spaces
         // are not added to the DOM, because it can cause bizarre issues (#9448)
