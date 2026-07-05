@@ -12,6 +12,13 @@ describe('iD.osmChangeset', function () {
         expect(new iD.osmChangeset({tags: {foo: 'bar'}}).tags).to.eql({foo: 'bar'});
     });
 
+    it('updates tags via update()', function () {
+        var c = new iD.osmChangeset({ tags: { comment: 'hello' } });
+        var updated = c.update({ tags: { comment: 'hello', source: 'survey' } });
+        expect(updated).to.be.an.instanceOf(iD.osmChangeset);
+        expect(updated.tags).to.eql({ comment: 'hello', source: 'survey' });
+    });
+
 
     describe('#asJXON', function () {
         it('converts a node to jxon', function() {
