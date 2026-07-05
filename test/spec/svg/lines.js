@@ -241,5 +241,24 @@ describe('iD.svgLines', function () {
             var selection = surface.selectAll('g.sidedgroup > path');
             expect(selection.empty()).to.be.true;
         });
+
+        it('has dual carriageway marker on both sides of the way', function() {
+            var a = new iD.osmNode({id: 'a', loc: [0, 0]});
+            var b = new iD.osmNode({id: 'b', loc: [1e-2, 0]});
+
+            var way = new iD.osmWay({
+                id: 'dual-carriageway',
+                tags: { highway: 'primary', dual_carriageway: 'yes' },
+                nodes: [a.id, b.id]
+            });
+
+            var graph = new iD.coreGraph([a, b, way]);
+
+            surface.call(iD.svgLines(projection, context), graph, [way], all);
+            var selection = surface.selectAll('g.sidedgroup > path');
+            expect(selection.size()).to.eql(1);
+            expect(selection.nodes()[0].attributes['marker-mid'].nodeValue)
+                .to.eql('url(#ideditor-sided-marker-dual_carriageway)');
+        });
     });
 });

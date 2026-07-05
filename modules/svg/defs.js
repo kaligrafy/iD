@@ -74,6 +74,35 @@ export function svgDefs(context) {
                 .attr('stroke-width', options.strokeColor ? 0.1 : 0)
                 .attr('fill', options.color);
         }
+        /** Gray dots on both sides of divided-road carriageways (`dual_carriageway=yes`). */
+        function addBothSidedCircleMarker(name, options) {
+            const offset = options.offset;
+            const radius = options.radius || 0.7;
+            const marker = _defsSelection
+                .append('marker')
+                .attr('id', 'ideditor-sided-marker-' + name)
+                .attr('viewBox', `0,-${offset + radius}, 2,${2 * (offset + radius)}`)
+                .attr('refX', 1)
+                .attr('refY', 0)
+                .attr('markerWidth', 1)
+                .attr('markerHeight', 1 * (2 + offset))
+                .attr('markerUnits', 'strokeWidth')
+                .attr('orient', 'auto');
+            marker.append('circle')
+                .attr('class', 'sided-marker-path sided-marker-' + name + '-path')
+                .attr('cx', 1)
+                .attr('cy', -offset)
+                .attr('r', radius)
+                .attr('stroke', 'none')
+                .attr('fill', options.color);
+            marker.append('circle')
+                .attr('class', 'sided-marker-path sided-marker-' + name + '-path')
+                .attr('cx', 1)
+                .attr('cy', offset)
+                .attr('r', radius)
+                .attr('stroke', 'none')
+                .attr('fill', options.color);
+        }
         addSidedMarker('natural', { color: 'rgb(170, 170, 170)', offset: 0 });
         // for a coastline, the arrows are (somewhat unintuitively) on
         // the water side, so let's color them blue (with a gap) to
@@ -87,6 +116,7 @@ export function svgDefs(context) {
         // marker on opposite side, circles instead of triangles
         addSidedMarker('guard_rail', { color: '#ddd', offset: -1.5, style: 'circle' });
         addSidedMarker('man_made', { color: '#fff', offset: 0 });
+        addBothSidedCircleMarker('dual_carriageway', { color: 'rgb(170, 170, 170)', offset: 2, radius: 0.7 });
         function addBothSidedMarker(name, options) {
             let mirror = false;
             if (options.offset < 0) {

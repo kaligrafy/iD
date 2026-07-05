@@ -273,11 +273,18 @@ export function svgLines(projection, context) {
             );
             onewaydata[k] = utilArrayFlatten(onewayArr.map(onewaySegments));
 
-            var sidedArr = v.filter(function(d) { return d.isSided(); });
+            var sidedArr = v.filter(function(d) {
+                return d.isSided() && d.tags.dual_carriageway !== 'yes';
+            });
             var sidedSegments = svgMarkerSegments(
                 projection, graph, 30
             );
             sideddata[k] = utilArrayFlatten(sidedArr.map(sidedSegments));
+
+            // Dual carriageways: tighter dot spacing, marker on both sides of the way
+            var dualCarriagewayArr = v.filter(function(d) { return d.tags.dual_carriageway === 'yes'; });
+            var dualCarriagewaySegments = svgMarkerSegments(projection, graph, 6);
+            sideddata[k] = sideddata[k].concat(utilArrayFlatten(dualCarriagewayArr.map(dualCarriagewaySegments)));
         });
 
 
