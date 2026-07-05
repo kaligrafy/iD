@@ -1,6 +1,7 @@
 import { accessRestricted } from './fields/access_restricted';
 import { capacityCharging } from './fields/capacity_charging';
 import { parkingCondition } from './fields/parking_condition';
+import { routingEntrance } from './fields/routing_entrance';
 import { placement } from './fields/placement';
 import { bicycleDismountVariantPresets } from './presets/highway/footway/bicycle_dismount_variants';
 import { accessAisleVariantPresets } from './presets/highway/footway/access_aisle_variants';
@@ -29,6 +30,7 @@ import { truckingPresets } from './presets/industrial/trucking';
 import { distributorPresets } from './presets/industrial/distributor';
 import { truckShopPresets } from './presets/shop/truck';
 import { communityMailboxQuebecPresets } from './presets/amenity/post_box_community_quebec';
+import { entranceVariantPresets } from './presets/entrance/entrance_variants';
 import { placementLineTemplate } from './presets/templates/placement_line';
 import type { CustomField, CustomPreset, CustomTemplatePreset } from './types';
 
@@ -37,7 +39,8 @@ export const customFields: Record<string, CustomField> = {
     placement,
     access_restricted: accessRestricted,
     capacity_charging: capacityCharging,
-    'parking/condition': parkingCondition
+    'parking/condition': parkingCondition,
+    routing_entrance: routingEntrance
 };
 
 /** Template name (filename without .json) → virtual preset under `presets/@templates/`. */
@@ -73,5 +76,6 @@ export const customPresets: Record<string, CustomPreset> = {
     ...truckingPresets,
     ...distributorPresets,
     ...truckShopPresets,
-    ...communityMailboxQuebecPresets
+    ...communityMailboxQuebecPresets,
+    ...entranceVariantPresets
 };

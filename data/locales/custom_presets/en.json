@@ -74,6 +74,62 @@
         "terms": "plg, lift gate, private",
         "aliases": "plg"
     },
+    "entrance": {
+        "name": "Entrance / Exit [e]",
+        "terms": "entrance, exit, door"
+    },
+    "entrance/emergency": {
+        "name": "Emergency Exit",
+        "terms": "fire exit, door"
+    },
+    "entrance/garage": {
+        "name": "Garage Entrance / Exit [⌥+g]",
+        "terms": "entrance, exit, door, main, garage"
+    },
+    "entrance/home": {
+        "name": "Home Entrance / Exit [⌥+o]",
+        "terms": "entrance, exit, door, main, home"
+    },
+    "entrance/home_main": {
+        "name": "Home/Main Entrance / Exit",
+        "terms": "entrance, exit, door, main, home"
+    },
+    "entrance/home_shop": {
+        "name": "Home/Shop Entrance / Exit",
+        "terms": "entrance, exit, door, shop, home"
+    },
+    "entrance/main": {
+        "name": "Main Entrance / Exit [⌥+m]",
+        "terms": "entrance, exit, door, main"
+    },
+    "entrance/main_home": {
+        "name": "Home/Main Entrance / Exit",
+        "terms": "entrance, exit, door, main, home"
+    },
+    "entrance/main_shop": {
+        "name": "Main/Shop Entrance / Exit",
+        "terms": "entrance, exit, door, shop, main"
+    },
+    "entrance/secondary": {
+        "name": "Secondary Exit",
+        "terms": "secondary exit, door"
+    },
+    "entrance/shop": {
+        "name": "Shop Entrance / Exit [⌥+s]",
+        "terms": "entrance, exit, door, main, shop"
+    },
+    "entrance/shop_home": {
+        "name": "Home/Shop Entrance / Exit",
+        "terms": "entrance, exit, door, shop, home"
+    },
+    "entrance/shop_main": {
+        "name": "Main/Shop Entrance / Exit",
+        "terms": "entrance, exit, door, shop, main"
+    },
+    "routing_entrance_main": {
+        "name": "Routing Entrance / Exit [⌥+e]",
+        "terms": "routing, entrance"
+    },
     "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
         "name": "Traffic Signals Dashes Cycleway Crossing No Foot",
         "terms": "ctsdcnf, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dashes crossing, dashes, no foot",
