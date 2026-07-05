@@ -1,4 +1,11 @@
 import { prefs } from './preferences';
+import {
+    appendMaxspeedLensClasses,
+    maxspeedAdvisoryColorBucket,
+    maxspeedColorBucket,
+    pickMaxspeedAdvisoryRaw,
+    pickMaxspeedRaw
+} from '../../config/maxspeed_lens.js';
 
 // UI lens support. A lens is a CSS file imported by the user and kept in
 // localStorage (a single stylesheet is well within the ~5 MB quota). The active
@@ -246,7 +253,7 @@ export function removeLensShortcut(id: string): void {
  *   - `custom`     → from `tag-custom-access-emphasis` (fork access-emphasis styling)
  */
 const SYNTHETIC_TAG_TOKENS = new Set([
-    'status', 'wikidata', 'paved', 'unpaved', 'semipaved', 'custom'
+    'status', 'wikidata', 'paved', 'unpaved', 'semipaved', 'custom', 'has', 'xadv'
 ]);
 
 /** Lens-required secondary keys, in their CSS-class form (`:` written as `_`). */
@@ -279,6 +286,10 @@ export function extractTagKeysFromCss(css: string): string[] {
         const key = match[1];
         if (!SYNTHETIC_TAG_TOKENS.has(key)) keys.add(key);
     }
+    // Attribute selectors (e.g. [class*="tag-maxspeed_advisory-"]) are not matched above.
+    if (/tag-maxspeed_advisory|tag-has-maxspeed-advisory|tag-xadv-/.test(css)) {
+        keys.add('maxspeed_advisory');
+    }
     return [...keys];
 }
 
@@ -294,7 +305,19 @@ export function extractTagKeysFromCss(css: string): string[] {
  */
 export function appendLensTagClasses(classes: string[], t: Record<string, string>): void {
     if (lensSecondaryTagKeys.size === 0) return;
+
+    if (lensSecondaryTagKeys.has('maxspeed')) {
+        appendMaxspeedLensClasses(classes, 'maxspeed', pickMaxspeedRaw(t), maxspeedColorBucket);
+    }
+    if (lensSecondaryTagKeys.has('maxspeed_advisory')) {
+        appendMaxspeedLensClasses(
+            classes, 'maxspeed_advisory', pickMaxspeedAdvisoryRaw(t),
+            maxspeedAdvisoryColorBucket, true
+        );
+    }
+
     for (const realKey in t) {
+        if (realKey === 'maxspeed' || realKey.startsWith('maxspeed:')) continue;
         const classKey = realKey.replace(/:/g, '_');
         if (!lensSecondaryTagKeys.has(classKey)) continue;
         const value = t[realKey];
@@ -302,6 +325,56 @@ export function appendLensTagClasses(classes: string[], t: Record<string, string
         if (classes.indexOf('tag-' + classKey) === -1) classes.push('tag-' + classKey);
         const valueClass = 'tag-' + classKey + '-' + value;
         if (classes.indexOf(valueClass) === -1) classes.push(valueClass);
+    }
+}
+
+/** Core structure classes that override maxspeed lens advisory casing (50_misc.css). */
+const MAXSPEED_LENS_STRUCTURE_CLASS_PREFIXES = [
+    'tag-bridge',
+    'tag-tunnel',
+    'tag-embankment',
+    'tag-cutting',
+    'tag-location-underground',
+    'tag-location-underwater'
+];
+
+/** Fork access classes that recolour footways/paths and motor roads (30_highways.css). */
+const MAXSPEED_LENS_ACCESS_CLASS_PREFIXES = [
+    'tag-access',
+    'tag-foot',
+    'tag-motor_vehicle',
+    'tag-service'
+];
+const MAXSPEED_LENS_ACCESS_VALUES = new Set(['private', 'customers', 'permissive']);
+
+function shouldStripClassForMaxspeedLens(klass: string): boolean {
+    if (klass === 'tag-custom-access-emphasis') return true;
+    if (MAXSPEED_LENS_STRUCTURE_CLASS_PREFIXES.some(
+        (prefix) => klass === prefix || klass.startsWith(prefix + '-')
+    )) {
+        return true;
+    }
+    for (const prefix of MAXSPEED_LENS_ACCESS_CLASS_PREFIXES) {
+        if (!klass.startsWith(prefix + '-')) continue;
+        const value = klass.slice(prefix.length + 1);
+        if (MAXSPEED_LENS_ACCESS_VALUES.has(value)) return true;
+    }
+    return false;
+}
+
+/**
+ * Drop classes that conflict with maxspeed lens styling (structures, access colours).
+ *
+ * @param classes - class list being built (mutated)
+ */
+export function stripStructureClassesForMaxspeedLens(classes: string[]): void {
+    if (!lensSecondaryTagKeys.has('maxspeed') && !lensSecondaryTagKeys.has('maxspeed_advisory')) {
+        return;
+    }
+    for (let i = classes.length - 1; i >= 0; i--) {
+        if (shouldStripClassForMaxspeedLens(classes[i])) {
+            classes.splice(i, 1);
+        }
     }
 }
 

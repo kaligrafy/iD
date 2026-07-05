@@ -3,7 +3,8 @@ import {
     extractTagKeysFromCss,
     getLensSecondaryTagKeys,
     sanitizeLensCss,
-    setLensSecondaryTagKeys
+    setLensSecondaryTagKeys,
+    stripStructureClassesForMaxspeedLens
 } from '../../../modules/core/lenses';
 
 describe('lens tag classes', function() {
@@ -25,7 +26,9 @@ describe('lens tag classes', function() {
             ['several rules', '.tag-cuisine-pizza{}\n.tag-amenity-cafe{}\n.tag-cuisine{}', ['amenity', 'cuisine']],
             ['synthetic tokens skipped', '.tag-status-abandoned{} .tag-wikidata{} .tag-paved{} .tag-custom-access-emphasis{}', []],
             ['non-string', null, []],
-            ['no tag classes', '.foo .bar { color: red; }', []]
+            ['no tag classes', '.foo .bar { color: red; }', []],
+            ['maxspeed_advisory via attribute selector', '[class*="tag-maxspeed_advisory-"]{}', ['maxspeed_advisory']],
+            ['maxspeed_advisory via xadv class', '.tag-xadv-60 { stroke: orange; }', ['maxspeed_advisory']]
         ];
 
         cases.forEach(function([name, css, expected]) {
@@ -44,7 +47,20 @@ describe('lens tag classes', function() {
             ['mixed : and _', ['piste_type_for_x'], { 'piste:type_for_x': 'a' }, ['tag-piste_type_for_x', 'tag-piste_type_for_x-a']],
             ['value no is skipped', ['tunnel'], { tunnel: 'no' }, []],
             ['key absent', ['cuisine'], { amenity: 'cafe' }, []],
-            ['no lens keys', [], { cuisine: 'pizza' }, []]
+            ['no lens keys', [], { cuisine: 'pizza' }, []],
+            ['maxspeed bucketed to decade', ['maxspeed'], { maxspeed: '65' }, ['tag-maxspeed', 'tag-maxspeed-60']],
+            ['maxspeed with units', ['maxspeed'], { maxspeed: '100 km/h' }, ['tag-maxspeed', 'tag-maxspeed-100']],
+            ['maxspeed:advisory bucketed', ['maxspeed_advisory'], { 'maxspeed:advisory': '65' },
+                ['tag-maxspeed_advisory', 'tag-maxspeed_advisory-60', 'tag-has-maxspeed-advisory', 'tag-xadv-60']],
+            ['maxspeed + advisory', ['maxspeed', 'maxspeed_advisory'],
+                { maxspeed: '100', 'maxspeed:advisory': '65' },
+                ['tag-maxspeed', 'tag-maxspeed-100', 'tag-maxspeed_advisory', 'tag-maxspeed_advisory-60',
+                    'tag-has-maxspeed-advisory', 'tag-xadv-60']],
+            ['maxspeed:advisory:forward on oneway link', ['maxspeed', 'maxspeed_advisory'],
+                { highway: 'motorway_link', oneway: 'yes', maxspeed: '70', 'maxspeed:advisory:forward': '35' },
+                ['tag-maxspeed', 'tag-maxspeed-70', 'tag-maxspeed_advisory', 'tag-maxspeed_advisory-30',
+                    'tag-has-maxspeed-advisory', 'tag-xadv-30']],
+            ['maxspeed:advisory non-multiple-of-5 skipped', ['maxspeed_advisory'], { 'maxspeed:advisory': '62' }, []]
         ];
 
         cases.forEach(function([name, keys, tags, expected]) {
@@ -61,6 +77,35 @@ describe('lens tag classes', function() {
             const classes = ['tag-cuisine'];
             appendLensTagClasses(classes, { cuisine: 'pizza' });
             expect(classes).to.eql(['tag-cuisine', 'tag-cuisine-pizza']);
+        });
+    });
+
+    describe('stripStructureClassesForMaxspeedLens', function() {
+        // [name, lens keys, classes in, classes out]
+        const cases = [
+            ['no-op when lens off', [], ['tag-bridge', 'tag-highway-motorway'], ['tag-bridge', 'tag-highway-motorway']],
+            ['strips bridge for maxspeed lens', ['maxspeed', 'maxspeed_advisory'],
+                ['tag-highway-motorway_link', 'tag-bridge', 'tag-bridge-yes', 'tag-xadv-30'],
+                ['tag-highway-motorway_link', 'tag-xadv-30']],
+            ['strips tunnel embankment cutting location', ['maxspeed_advisory'],
+                ['tag-tunnel', 'tag-tunnel-yes', 'tag-embankment', 'tag-cutting',
+                    'tag-location-underground', 'tag-location-underwater'],
+                []],
+            ['strips footway/path access colours', ['maxspeed'],
+                ['tag-highway-path', 'tag-access-private', 'tag-foot-customers',
+                    'tag-custom-access-emphasis', 'tag-maxspeed-30'],
+                ['tag-highway-path', 'tag-maxspeed-30']],
+            ['keeps non-emphasis access values', ['maxspeed'],
+                ['tag-highway-residential', 'tag-access-destination'], ['tag-highway-residential', 'tag-access-destination']]
+        ];
+
+        cases.forEach(function([name, keys, input, expected]) {
+            it(name, function() {
+                setLensSecondaryTagKeys(keys);
+                const classes = input.slice();
+                stripStructureClassesForMaxspeedLens(classes);
+                expect(classes).to.eql(expected);
+            });
         });
     });
 

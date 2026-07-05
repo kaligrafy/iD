@@ -1,8 +1,14 @@
+import { setLensSecondaryTagKeys } from '../../../modules/core/lenses';
+
 describe('iD.svgTagClasses', function () {
     var selection;
 
     beforeEach(function () {
         selection = d3.select(document.createElement('div'));
+    });
+
+    afterEach(function () {
+        setLensSecondaryTagKeys([]);
     });
 
     it('adds no classes to elements whose datum has no tags', function() {
@@ -294,5 +300,29 @@ describe('iD.svgTagClasses', function () {
             .datum(new iD.osmWay({tags: {'piste:type': 'nordic'}}))
             .call(iD.svgTagClasses());
         expect(selection.attr('class')).to.equal('tag-piste_type tag-piste_type-nordic');
+    });
+
+    it('maxspeed lens omits bridge structure classes', function() {
+        setLensSecondaryTagKeys(['maxspeed', 'maxspeed_advisory']);
+        const classes = iD.svgTagClasses().getClassesString({
+            highway: 'motorway_link',
+            bridge: 'yes',
+            maxspeed: '70',
+            'maxspeed:advisory': '35'
+        }, 'way line casing');
+        expect(classes).to.include('tag-xadv-30');
+        expect(classes).to.not.match(/\btag-bridge\b/);
+        expect(classes).to.not.match(/\btag-bridge-yes\b/);
+    });
+
+    it('maxspeed lens omits footway access colour classes', function() {
+        setLensSecondaryTagKeys(['maxspeed', 'maxspeed_advisory']);
+        const classes = iD.svgTagClasses().getClassesString({
+            highway: 'path',
+            access: 'private',
+            foot: 'private'
+        }, 'way line stroke');
+        expect(classes).to.not.match(/\btag-access-private\b/);
+        expect(classes).to.not.match(/\btag-foot-private\b/);
     });
 });
