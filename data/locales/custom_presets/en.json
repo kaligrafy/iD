@@ -784,6 +784,16 @@
         "terms": "stba, stop, halt, sign, backward, all",
         "aliases": "stba"
     },
+    "highway/traffic_signals_forward": {
+        "name": "Traffic Signals Forward",
+        "terms": "tsfw, light, stoplight, traffic light, signals, forward",
+        "aliases": "tsfw"
+    },
+    "highway/traffic_signals_backward": {
+        "name": "Traffic Signals Backward",
+        "terms": "tsbw, light, stoplight, traffic light, signals, backward",
+        "aliases": "tsbw"
+    },
     "office/construction_company": {
         "name": "Building Construction Company",
         "terms": "construction, builder, building, contractor, general contractor"

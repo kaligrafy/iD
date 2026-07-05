@@ -784,6 +784,16 @@
         "terms": "stba, arrêt, stop, panneau, arrière, backward, all, toutes directions",
         "aliases": "stba"
     },
+    "highway/traffic_signals_forward": {
+        "name": "Feux de circulation avant",
+        "terms": "tsfw, feux, lumière, traffic light, signals, avant, forward",
+        "aliases": "tsfw"
+    },
+    "highway/traffic_signals_backward": {
+        "name": "Feux de circulation arrière",
+        "terms": "tsbw, feux, lumière, traffic light, signals, arrière, backward",
+        "aliases": "tsbw"
+    },
     "office/construction_company": {
         "name": "Entreprise de construction (bâtiments)",
         "terms": "construction, bâtiment, entrepreneur, constructeur, bâtisseur, contracteur"
