@@ -126,9 +126,17 @@
         "name": "Entrée principale/commerce / sortie",
         "terms": "entrée, sortie, porte, commerce, principale"
     },
+    "routing_entrance": {
+        "name": "Entrée de routage / sortie (autre)",
+        "terms": "routage, entrée, sortie"
+    },
     "routing_entrance_main": {
         "name": "Entrée de routage / sortie [⌥+e]",
-        "terms": "routage, entrée, sortie"
+        "terms": "routage, entrée, sortie, principale"
+    },
+    "routing_entrance_yes": {
+        "name": "Entrée de routage / sortie (oui)",
+        "terms": "routage, entrée, sortie, oui"
     },
     "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
         "name": "Traversée cyclable — Feux, tirets, sans piétons",

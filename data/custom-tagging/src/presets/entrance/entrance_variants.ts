@@ -58,16 +58,29 @@ function entrancePreset(variant: EntranceVariant): CustomPreset {
     };
 }
 
-const ROUTING_ENTRANCE_MAIN: CustomPreset = {
-    icon: 'maki-marker',
-    geometry: ['vertex'],
-    fields: ['routing_entrance'],
-    tags: { 'routing:entrance': 'main' },
-    matchScore: 0.8,
-    name: presetNameEn('routing_entrance_main')
-};
+interface RoutingEntranceVariant {
+    id: string;
+    tags: Record<string, string>;
+}
+
+const ROUTING_ENTRANCE_VARIANTS: RoutingEntranceVariant[] = [
+    { id: 'routing_entrance', tags: { 'routing:entrance': '*' } },
+    { id: 'routing_entrance_yes', tags: { 'routing:entrance': 'yes' } },
+    { id: 'routing_entrance_main', tags: { 'routing:entrance': 'main' } }
+];
+
+function routingEntrancePreset(variant: RoutingEntranceVariant): CustomPreset {
+    return {
+        icon: 'maki-marker',
+        geometry: ['vertex'],
+        fields: ['routing_entrance'],
+        tags: variant.tags,
+        matchScore: 0.8,
+        name: presetNameEn(variant.id)
+    };
+}
 
 export const entranceVariantPresets: Record<string, CustomPreset> = {
     ...Object.fromEntries(ENTRANCE_VARIANTS.map((variant) => [variant.id, entrancePreset(variant)])),
-    routing_entrance_main: ROUTING_ENTRANCE_MAIN
+    ...Object.fromEntries(ROUTING_ENTRANCE_VARIANTS.map((variant) => [variant.id, routingEntrancePreset(variant)]))
 };

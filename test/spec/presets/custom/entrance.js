@@ -25,12 +25,28 @@ describe('custom presets — entrance', function() {
         });
     }
 
-    it('loads routing entrance preset with maki-marker icon', function() {
-        const preset = iD.presetManager.item('routing_entrance_main');
-        expect(preset, 'routing_entrance_main').to.exist;
-        expect(preset.icon).to.equal('maki-marker');
-        expect(preset.tags).to.include({ 'routing:entrance': 'main' });
-        expect(preset.fields().map((f) => f.id)).to.include('routing_entrance');
+    const routingEntrancePresets = [
+        ['routing_entrance', { 'routing:entrance': 'service' }],
+        ['routing_entrance_yes', { 'routing:entrance': 'yes' }],
+        ['routing_entrance_main', { 'routing:entrance': 'main' }]
+    ];
+
+    for (const [id, tags] of routingEntrancePresets) {
+        it(`loads ${id} with maki-marker icon`, function() {
+            const preset = iD.presetManager.item(id);
+            expect(preset, id).to.exist;
+            expect(preset.icon).to.equal('maki-marker');
+            expect(preset.matchGeometry('vertex')).to.be.true;
+            expect(preset.matchScore(tags)).to.be.above(0);
+            expect(preset.fields().map((f) => f.id)).to.include('routing_entrance');
+        });
+    }
+
+    it('ranks routing_entrance_yes above the catch-all preset', function() {
+        const catchAll = iD.presetManager.item('routing_entrance');
+        const yes = iD.presetManager.item('routing_entrance_yes');
+        const tags = { 'routing:entrance': 'yes' };
+        expect(yes.matchScore(tags)).to.be.above(catchAll.matchScore(tags));
     });
 
     it('matches main entrance icon on a vertex node', function() {
