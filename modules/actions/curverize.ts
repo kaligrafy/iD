@@ -164,7 +164,7 @@ export function actionCurverize(selectedIds: EntityID[], projection: iD.Projecti
                 const latLonPoint = projection.invert(arcPoint);
                 if (geoSphericalDistance(latLonPoint, segmentNodeEnd.loc) >= ARC_NODE_THRESHOLD_METERS &&
                     geoSphericalDistance(latLonPoint, segmentNodeStart.loc) >= ARC_NODE_THRESHOLD_METERS) {
-                    radiusNodes.push(osmNode({ loc: latLonPoint }));
+                    radiusNodes.push(new osmNode({ loc: latLonPoint }));
                 }
             }
 
