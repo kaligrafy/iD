@@ -31,6 +31,26 @@ describe('custom presets — cycleway', function() {
         });
     }
 
+    for (const id of [
+        'highway/cycleway',
+        'highway/cycleway/bicycle_foot',
+        'highway/cycleway/bicycle_foot_segregated',
+        'highway/cycleway/cycleway_link'
+    ]) {
+        it(`offers is_sidewalk on ${id}`, function() {
+            const preset = iD.presetManager.item(id);
+            const fieldIds = preset.fields().map((f) => f.id);
+            expect(fieldIds, id).to.include('is_sidewalk');
+            expect(preset.originalFields, id).to.include('is_sidewalk');
+        });
+    }
+
+    it('does not offer is_sidewalk on cycleway crossing presets', function() {
+        const preset = iD.presetManager.item('highway/cycleway/crossing/traffic_signals-dots_no_foot');
+        const fieldIds = preset.fields().map((f) => f.id);
+        expect(fieldIds).to.not.include('is_sidewalk');
+    });
+
     it('finds cycleway path presets via search aliases', function() {
         const pool = iD.presetManager.matchAllGeometry(['line']);
         expect(pool.search('cnf', 'line').collection.map((p) => p.id)).to.include('highway/cycleway');
