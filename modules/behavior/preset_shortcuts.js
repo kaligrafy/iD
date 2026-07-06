@@ -6,6 +6,9 @@ import {
     isPresetShortcutKey,
     isValidPresetShortcut,
     normalizePresetShortcut,
+    presetShortcutDrawingGeometry,
+    presetShortcutMatchesEntity,
+    presetShortcutShouldRedraw,
     shouldCapturePresetShortcutBuffer
 } from '../core/preset_shortcut_format';
 import { modeAddPoint, modeAddLine, modeAddArea, modeBrowse } from '../modes';
@@ -144,6 +147,63 @@ export function behaviorPresetShortcuts(context) {
         sidebar.show(presetInfoPanel);
     }
 
+    function enterDrawingMode(preset, shortcut) {
+        const drawingGeometry = presetShortcutDrawingGeometry(preset);
+        let drawingMode;
+
+        if (drawingGeometry === 'point') {
+            drawingMode = modeAddPoint(context, {
+                title: t.append('modes.add_point.title'),
+                button: 'point',
+                description: t.append('modes.add_point.description'),
+                preset: preset,
+                key: shortcut
+            });
+        } else if (drawingGeometry === 'line') {
+            drawingMode = modeAddLine(context, {
+                title: t.append('modes.add_line.title'),
+                button: 'line',
+                description: t.append('modes.add_line.description'),
+                preset: preset,
+                key: shortcut
+            });
+        } else if (drawingGeometry === 'area') {
+            drawingMode = modeAddArea(context, {
+                title: t.append('modes.add_area.title'),
+                button: 'area',
+                description: t.append('modes.add_area.description'),
+                preset: preset,
+                key: shortcut
+            });
+        } else {
+            return false;
+        }
+
+        context.enter(drawingMode);
+        showPresetInSidebar(preset, shortcut, 'drawing');
+
+        setTimeout(() => {
+            try {
+                const presetName = preset.nameLabel();
+                context.ui().flash
+                    .duration(3000)
+                    .iconName('#iD-icon-apply')
+                    .iconClass('success')
+                    .label(function (selection) {
+                        selection.text('');
+                        selection.append('span').text('Drawing mode: ');
+                        presetName(selection.append('span').attr('class', 'preset-name'));
+                        selection.append('span').text(' (shortcut: ' + shortcut + ')');
+                    })();
+            } catch (error) {
+                console.error('Flash notification failed:', error);
+            }
+        }, 50);
+
+        dispatch.call('shortcutUsed', this, preset, shortcut, 'draw');
+        return true;
+    }
+
     function executeShortcut(shortcut) {
         const presetId = presetShortcuts.getPreset(shortcut);
         if (!presetId) {
@@ -155,75 +215,37 @@ export function behaviorPresetShortcuts(context) {
             return false;
         }
 
-        // If we're in browse mode and no entities are selected, enter drawing mode
         const mode = context.mode();
-        const selectedIDs = context.selectedIDs();
+        const entityIDs = context.selectedIDs();
 
-        // Handle both browse mode and drawing modes with no selection
-        if ((mode.id === 'browse' || /^add-/.test(mode.id)) && !selectedIDs.length) {
-            // Determine default geometry for this preset
-            const geometries = preset.geometry;
-            let drawingMode;
+        if (entityIDs.length > 0) {
+            const graph = context.graph();
+            const currentPresetIds = [];
+            const currentShortcuts = [];
+            const compatible = [];
 
-            if (geometries.includes('point')) {
-                drawingMode = modeAddPoint(context, {
-                    title: t.append('modes.add_point.title'),
-                    button: 'point',
-                    description: t.append('modes.add_point.description'),
-                    preset: preset,
-                    key: shortcut
-                });
-            } else if (geometries.includes('line')) {
-                drawingMode = modeAddLine(context, {
-                    title: t.append('modes.add_line.title'),
-                    button: 'line',
-                    description: t.append('modes.add_line.description'),
-                    preset: preset,
-                    key: shortcut
-                });
-            } else if (geometries.includes('area')) {
-                drawingMode = modeAddArea(context, {
-                    title: t.append('modes.add_area.title'),
-                    button: 'area',
-                    description: t.append('modes.add_area.description'),
-                    preset: preset,
-                    key: shortcut
-                });
-            } else {
-                return false; // No supported geometry
+            for (let i = 0; i < entityIDs.length; i++) {
+                const entity = graph.entity(entityIDs[i]);
+                const entityGeometry = entity.geometry(graph);
+                const currentPreset = presetManager.match(entity, graph);
+                const isCompatible = presetShortcutMatchesEntity(preset, entityGeometry);
+
+                currentPresetIds.push(currentPreset.id);
+                currentShortcuts.push(presetShortcuts.getShortcut(currentPreset.id));
+                compatible.push(isCompatible);
             }
 
-            context.enter(drawingMode);
+            if (presetShortcutShouldRedraw(shortcut, preset, currentPresetIds, currentShortcuts, compatible)) {
+                return enterDrawingMode(preset, shortcut);
+            }
+        }
 
-            // Show preset information in the sidebar when starting to draw
-            showPresetInSidebar(preset, shortcut, 'drawing');
-
-            // Show notification with preset name and shortcut
-            setTimeout(() => {
-                try {
-                    const presetName = preset.nameLabel();
-                    context.ui().flash
-                        .duration(3000)
-                        .iconName('#iD-icon-apply')
-                        .iconClass('success')
-                        .label(function (selection) {
-                            selection.text('');
-                            selection.append('span').text('Drawing mode: ');
-                            presetName(selection.append('span').attr('class', 'preset-name'));
-                            selection.append('span').text(' (shortcut: ' + shortcut + ')');
-                        })();
-                } catch (error) {
-                    console.error('Flash notification failed:', error);
-                }
-            }, 50);
-
-            dispatch.call('shortcutUsed', this, preset, shortcut, 'draw');
-            return true;
+        // If we're in browse mode and no entities are selected, enter drawing mode
+        if ((mode.id === 'browse' || /^add-/.test(mode.id)) && !entityIDs.length) {
+            return enterDrawingMode(preset, shortcut);
         }
 
         // If entities are selected, apply the preset to them
-        const entityIDs = context.selectedIDs();
-
         if (entityIDs.length > 0) {
             // Check if any entities are compatible with this preset
             const graph = context.graph();
@@ -233,7 +255,7 @@ export function behaviorPresetShortcuts(context) {
                 const entityID = entityIDs[i];
                 const entity = graph.entity(entityID);
                 const entityGeometry = entity.geometry(graph);
-                if (preset.geometry.includes(entityGeometry)) {
+                if (presetShortcutMatchesEntity(preset, entityGeometry)) {
                     compatibleEntities++;
                 }
             }
@@ -253,7 +275,7 @@ export function behaviorPresetShortcuts(context) {
 
                         // Check if preset is applicable to this geometry
                         const entityGeometry = entity.geometry(graph);
-                        if (preset.geometry.includes(entityGeometry)) {
+                        if (presetShortcutMatchesEntity(preset, entityGeometry)) {
                             graph = actionChangePreset(entityID, oldPreset, preset)(graph);
                         }
                     }
