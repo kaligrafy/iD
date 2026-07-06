@@ -227,6 +227,94 @@ export function validationCrossingWays(context) {
     }
 
 
+    function isCrossingPathWay(way) {
+        var tags = way.tags;
+        if (tags.footway === 'crossing') return true;
+        return ['marked', 'unmarked', 'traffic_signals', 'uncontrolled'].indexOf(tags.crossing) !== -1;
+    }
+
+
+    function edgeAtNode(way, nodeId) {
+        var idx = way.nodes.indexOf(nodeId);
+        if (idx === -1) return null;
+        if (idx < way.nodes.length - 1) return [way.nodes[idx], way.nodes[idx + 1]];
+        if (idx > 0) return [way.nodes[idx - 1], way.nodes[idx]];
+        return null;
+    }
+
+
+    function findSharedVertexCrossings(way1, graph) {
+        var edgeCrossInfos = [];
+        if (way1.type !== 'way') return edgeCrossInfos;
+
+        var taggedFeature1 = getFeatureWithFeatureTypeTagsForWay(way1, graph);
+        var way1FeatureType = getFeatureType(taggedFeature1, graph);
+        if (way1FeatureType !== 'highway') return edgeCrossInfos;
+
+        var way1IsCrossingPath = isCrossingPathWay(way1);
+        var checkedPairs = {};
+
+        graph.childNodes(way1).forEach(function(node) {
+            if (node.isCrossing()) return;
+
+            graph.parentWays(node).forEach(function(way2) {
+                if (way2.id === way1.id) return;
+
+                var pairKey = way1.id < way2.id ? way1.id + '|' + way2.id : way2.id + '|' + way1.id;
+                if (checkedPairs[pairKey]) return;
+
+                var taggedFeature2 = getFeatureWithFeatureTypeTagsForWay(way2, graph);
+                var way2FeatureType = getFeatureType(taggedFeature2, graph);
+                if (way2FeatureType !== 'highway') return;
+
+                var pathWay = way1;
+                var roadWay = way2;
+                var pathFeature = taggedFeature1;
+                var roadFeature = taggedFeature2;
+                var pathFeatureType = way1FeatureType;
+                var roadFeatureType = way2FeatureType;
+
+                if (isCrossingPathWay(way2) && !way1IsCrossingPath) {
+                    pathWay = way2;
+                    roadWay = way1;
+                    pathFeature = taggedFeature2;
+                    roadFeature = taggedFeature1;
+                    pathFeatureType = way2FeatureType;
+                    roadFeatureType = way1FeatureType;
+                } else if (!way1IsCrossingPath) {
+                    return;
+                }
+
+                var entity1IsPath = osmPathHighwayTagValues[pathFeature.tags.highway];
+                var entity2IsPath = osmPathHighwayTagValues[roadFeature.tags.highway];
+                if (!entity1IsPath || entity2IsPath) return;
+
+                if (isLegitCrossing(pathFeature.tags, pathFeatureType, roadFeature.tags, roadFeatureType)) {
+                    return;
+                }
+
+                var connectionTags = tagsForConnectionNodeIfAllowed(pathFeature, roadFeature, graph);
+                if (!connectionTags) return;
+
+                var edge1 = edgeAtNode(pathWay, node.id);
+                var edge2 = edgeAtNode(roadWay, node.id);
+                if (!edge1 || !edge2) return;
+
+                checkedPairs[pairKey] = true;
+                edgeCrossInfos.push({
+                    wayInfos: [
+                        { way: pathWay, featureType: pathFeatureType, edge: edge1 },
+                        { way: roadWay, featureType: roadFeatureType, edge: edge2 }
+                    ],
+                    crossPoint: node.loc.slice()
+                });
+            });
+        });
+
+        return edgeCrossInfos;
+    }
+
+
     function findCrossingsByWay(way1, graph, tree) {
         var edgeCrossInfos = [];
         if (way1.type !== 'way') return edgeCrossInfos;
@@ -328,6 +416,17 @@ export function validationCrossingWays(context) {
                 }
             }
         }
+
+        var sharedVertexCrossings = findSharedVertexCrossings(way1, graph);
+        for (i = 0; i < sharedVertexCrossings.length; i++) {
+            var sharedCrossing = sharedVertexCrossings[i];
+            var duplicate = edgeCrossInfos.some(function(existing) {
+                return existing.crossPoint[0].toFixed(4) === sharedCrossing.crossPoint[0].toFixed(4) &&
+                    existing.crossPoint[1].toFixed(4) === sharedCrossing.crossPoint[1].toFixed(4);
+            });
+            if (!duplicate) edgeCrossInfos.push(sharedCrossing);
+        }
+
         return edgeCrossInfos;
     }
 

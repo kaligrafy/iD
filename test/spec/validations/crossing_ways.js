@@ -280,6 +280,43 @@ describe('iD.validations.crossing_ways', function () {
         verifySingleCrossingIssue(validate(), {});
     });
 
+    it('flags footway crossing a long road away from its first segment', function() {
+        var n1 = new iD.osmNode({ id: 'n-1', loc: [1, 1] });
+        var n2 = new iD.osmNode({ id: 'n-2', loc: [3, 1] });
+        var n3 = new iD.osmNode({ id: 'n-3', loc: [6, 1] });
+        var n4 = new iD.osmNode({ id: 'n-4', loc: [10, 1] });
+        var wRoad = new iD.osmWay({
+            id: 'w-road',
+            nodes: ['n-1', 'n-2', 'n-3', 'n-4'],
+            tags: { highway: 'residential' }
+        });
+
+        var n5 = new iD.osmNode({ id: 'n-5', loc: [7, 0] });
+        var n6 = new iD.osmNode({ id: 'n-6', loc: [7, 2] });
+        var wCross = new iD.osmWay({
+            id: 'w-cross',
+            nodes: ['n-5', 'n-6'],
+            tags: { highway: 'footway', footway: 'crossing', crossing: 'uncontrolled' }
+        });
+
+        context.perform(
+            iD.actionAddEntity(n1),
+            iD.actionAddEntity(n2),
+            iD.actionAddEntity(n3),
+            iD.actionAddEntity(n4),
+            iD.actionAddEntity(n5),
+            iD.actionAddEntity(n6),
+            iD.actionAddEntity(wRoad),
+            iD.actionAddEntity(wCross)
+        );
+
+        var issues = validate();
+        expect(issues).to.have.lengthOf(2);
+        expect(issues[0].type).to.eql('crossing_ways');
+        expect(issues[0].loc).to.eql([7, 1]);
+        expect(issues[0].data.connectionTags).to.eql({ highway: 'crossing', crossing: 'uncontrolled' });
+    });
+
     it('flags road crossing footway', function() {
         createWaysWithOneCrossingPoint({ highway: 'residential' }, { highway: 'footway' });
         verifySingleCrossingIssue(validate(), { highway: 'crossing' });
@@ -456,6 +493,53 @@ describe('iD.validations.crossing_ways', function () {
     it('flags corridor crossing corridor on the same level', function() {
         createWaysWithOneCrossingPoint({ highway: 'corridor', level: '0' }, { highway: 'corridor', level: '0' });
         verifySingleCrossingIssue(validate(), {});
+    });
+
+    function createCrosswalkConnectedToRoadAtNode(crosswalkTags) {
+        var n1 = new iD.osmNode({ id: 'n-1', loc: [1, 1] });
+        var nMid = new iD.osmNode({ id: 'n-mid', loc: [1.5, 1] });
+        var n2 = new iD.osmNode({ id: 'n-2', loc: [3, 1] });
+        var wRoad = new iD.osmWay({ id: 'w-road', nodes: ['n-1', 'n-mid', 'n-2'], tags: { highway: 'residential' } });
+
+        var n3 = new iD.osmNode({ id: 'n-3', loc: [1.5, 0.5] });
+        var n4 = new iD.osmNode({ id: 'n-4', loc: [1.5, 1.5] });
+        var wCross = new iD.osmWay({
+            id: 'w-cross',
+            nodes: ['n-3', 'n-mid', 'n-4'],
+            tags: crosswalkTags
+        });
+
+        context.perform(
+            iD.actionAddEntity(n1),
+            iD.actionAddEntity(nMid),
+            iD.actionAddEntity(n2),
+            iD.actionAddEntity(n3),
+            iD.actionAddEntity(n4),
+            iD.actionAddEntity(wRoad),
+            iD.actionAddEntity(wCross)
+        );
+    }
+
+    it('flags crossing path connected to road at shared node without crossing tags', function() {
+        createCrosswalkConnectedToRoadAtNode({
+            highway: 'footway',
+            footway: 'crossing',
+            crossing: 'uncontrolled'
+        });
+        var issues = validate();
+        expect(issues).to.have.lengthOf(2);
+        expect(issues[0].id).to.eql(issues[1].id);
+        expect(issues[0].type).to.eql('crossing_ways');
+        expect(issues[0].loc).to.eql([1.5, 1]);
+        expect(issues[0].data.connectionTags).to.eql({ highway: 'crossing', crossing: 'uncontrolled' });
+    });
+
+    it('ignores footway sidewalk connected to road at shared node', function() {
+        createCrosswalkConnectedToRoadAtNode({
+            highway: 'footway',
+            footway: 'sidewalk'
+        });
+        expect(validate()).to.have.lengthOf(0);
     });
 
     it('flags road crossing road twice', function() {

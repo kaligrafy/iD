@@ -263,30 +263,30 @@ export class osmWay extends OsmAbstractEntity {
 
     // returns an array of objects representing the segments between the nodes in this way
     segments(graph: coreGraph) {
-        const segmentExtent = (graph: coreGraph) => {
-            var n1 = graph.hasEntity<osmNode>(this.nodes[0]);
-            var n2 = graph.hasEntity<osmNode>(this.nodes[1]);
-            return n1 && n2 && geoExtent([
-                [
-                    Math.min(n1.loc[0], n2.loc[0]),
-                    Math.min(n1.loc[1], n2.loc[1])
-                ],
-                [
-                    Math.max(n1.loc[0], n2.loc[0]),
-                    Math.max(n1.loc[1], n2.loc[1])
-                ]
-            ]);
-        };
-
         return graph.transient(this, 'segments', () => {
             var segments: Segment[] = [];
             for (var i = 0; i < this.nodes.length - 1; i++) {
+                const nodeA = this.nodes[i];
+                const nodeB = this.nodes[i + 1];
                 segments.push({
                     id: `${this.id}-${i}`,
                     wayId: this.id,
                     index: i,
-                    nodes: [this.nodes[i], this.nodes[i + 1]],
-                    extent: segmentExtent
+                    nodes: [nodeA, nodeB],
+                    extent: (g: coreGraph) => {
+                        var n1 = g.hasEntity<osmNode>(nodeA);
+                        var n2 = g.hasEntity<osmNode>(nodeB);
+                        return n1 && n2 && geoExtent([
+                            [
+                                Math.min(n1.loc[0], n2.loc[0]),
+                                Math.min(n1.loc[1], n2.loc[1])
+                            ],
+                            [
+                                Math.max(n1.loc[0], n2.loc[0]),
+                                Math.max(n1.loc[1], n2.loc[1])
+                            ]
+                        ]);
+                    }
                 });
             }
             return segments;
