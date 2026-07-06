@@ -274,6 +274,11 @@
                 "upload_description": "Add a custom lens from a .css file kept in your browser.",
                 "upload_warning": "Only import lenses from sources you trust. A lens's CSS can change the editor's appearance.",
                 "remove": "Remove lens",
+                "bundled": {
+                    "quebec": "Québec v5",
+                    "quebec_surfaces": "Québec v5 (surfaces)",
+                    "maxspeed_colors": "Maxspeed colours"
+                },
                 "shortcut": {
                     "label": "Shortcut letter (activated with Alt + letter)",
                     "placeholder": "key",

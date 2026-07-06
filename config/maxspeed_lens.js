@@ -91,6 +91,9 @@ export function appendMaxspeedLensClasses(classes, classKey, raw, bucketFn, advi
     const valueClass = keyClass + '-' + classValue;
     if (classes.indexOf(keyClass) === -1) classes.push(keyClass);
     if (classes.indexOf(valueClass) === -1) classes.push(valueClass);
+    if (!advisoryExtras && classes.indexOf('tag-has-maxspeed') === -1) {
+        classes.push('tag-has-maxspeed');
+    }
     if (advisoryExtras) {
         if (classes.indexOf('tag-has-maxspeed-advisory') === -1) {
             classes.push('tag-has-maxspeed-advisory');

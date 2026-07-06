@@ -4,6 +4,7 @@
  * Only saved highway ways are shown. Unsaved edits keep lens styling; selection
  * restores core shadow/casing (advisory ring hidden while selected).
  *   - maxspeed=* on highways → centre stroke colour (km/h buckets 10–100)
+ *   - highways without maxspeed → pale grey streets; darker grey paths/footways/cycleways
  *   - maxspeed:advisory=* on highways → outer casing colour (same buckets)
  *   - Both tags → 50/50 width split (casing = 2× stroke), slightly wider
  * Import in Map data → Lens.
@@ -41,13 +42,25 @@
     display: none !important;
 }
 
-/* --- highway baseline: pale white stroke; casings hidden unless advisory --- */
+/* --- highway baseline: pale grey streets; darker paths without maxspeed --- */
 
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"]) {
-    stroke: rgb(255, 255, 255) !important;
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed) {
+    stroke: rgb(235, 235, 235) !important;
     fill: none !important;
-    opacity: 0.3 !important;
+    opacity: 1 !important;
     stroke-dasharray: none !important;
+}
+
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-footway,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-path,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-cycleway,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-track,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-steps,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-bridleway,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-pedestrian,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-corridor,
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed).tag-highway-ladder {
+    stroke: rgb(150, 150, 150) !important;
 }
 
 .layer-osm path.line.shadow[class*="tag-highway"],
@@ -58,18 +71,18 @@
 }
 
 /* Neutralize fork access colours on highways (core 30_highways.css uses !important). */
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-access-"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-foot-private"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-foot-customers"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-foot-permissive"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-motor_vehicle-private"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-motor_vehicle-customers"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-motor_vehicle-permissive"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-service-private"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-service-customers"],
-.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-service-permissive"] {
-    stroke: rgb(255, 255, 255) !important;
-    opacity: 0.3 !important;
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-access-"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-foot-private"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-foot-customers"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-foot-permissive"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-motor_vehicle-private"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-motor_vehicle-customers"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-motor_vehicle-permissive"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-service-private"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-service-customers"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not(.tag-has-maxspeed)[class*="tag-service-permissive"] {
+    stroke: rgb(235, 235, 235) !important;
+    opacity: 1 !important;
     stroke-dasharray: none !important;
 }
 
@@ -250,9 +263,9 @@
 }
 
 /* Tunnels must not fade the maxspeed centre stroke. */
-.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed-"].tag-tunnel,
-.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed-"].tag-location-underground,
-.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed-"].tag-location-underwater {
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed.tag-tunnel,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed.tag-location-underground,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed.tag-location-underwater {
     opacity: 1 !important;
     stroke-opacity: 1 !important;
 }

@@ -274,6 +274,11 @@
                 "upload_description": "Ajouter une lentille personnalisée depuis un fichier .css conservé dans votre navigateur.",
                 "upload_warning": "N'importez que des lentilles provenant de sources de confiance. Le CSS d'une lentille peut modifier l'apparence de l'éditeur.",
                 "remove": "Supprimer la lentille",
+                "bundled": {
+                    "quebec": "Québec v5",
+                    "quebec_surfaces": "Québec v5 (surfaces)",
+                    "maxspeed_colors": "Couleurs de vitesse"
+                },
                 "shortcut": {
                     "label": "Lettre de raccourci (activée avec Alt + lettre)",
                     "placeholder": "touche",
