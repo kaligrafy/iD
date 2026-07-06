@@ -9,7 +9,7 @@ import { zoom as d3_zoom, zoomIdentity as d3_zoomIdentity } from 'd3-zoom';
 import { prefs } from '../core/preferences';
 import { geoExtent, geoRawMercator, geoScaleToZoom, geoZoomToScale } from '../geo';
 import { modeBrowse } from '../modes/browse';
-import { svgAreas, svgLabels, svgLayers, svgLines, svgMidpoints, svgPoints, svgVertices } from '../svg';
+import { svgAreas, svgLabels, svgLayers, svgLines, svgMidpoints, svgPoints, svgVertices, svgWayDirection } from '../svg';
 import { utilFastMouse, utilFunctor, utilSetTransform, utilEntityAndDeepMemberIDs } from '../util/util';
 import { utilBindOnce } from '../util/bind_once';
 import { utilDetect } from '../util/detect';
@@ -41,6 +41,7 @@ export function rendererMap(context) {
     var drawAreas;
     var drawMidpoints;
     var drawLabels;
+    var drawWayDirection;
 
     var _selection = d3_select(null);
     var supersurface = d3_select(null);
@@ -289,7 +290,8 @@ export function rendererMap(context) {
                 .call(drawVertices.drawSelected, graph, map.extent())
                 .call(drawLines, graph, data, filter)
                 .call(drawAreas, graph, data, filter)
-                .call(drawMidpoints, graph, data, filter, map.trimmedExtent());
+                .call(drawMidpoints, graph, data, filter, map.trimmedExtent())
+                .call(drawWayDirection, graph, data);
 
             dispatch.call('drawn', this, { full: false });
 
@@ -401,7 +403,8 @@ export function rendererMap(context) {
             .call(drawAreas, graph, data, filter)
             .call(drawMidpoints, graph, data, filter, map.trimmedExtent())
             .call(drawPoints, graph, data, filter)
-            .call(drawLabels, graph, data, filter, _dimensions, fullRedraw);
+            .call(drawLabels, graph, data, filter, _dimensions, fullRedraw)
+            .call(drawWayDirection, graph, data);
 
         dispatch.call('drawn', this, {full: true});
     }
@@ -414,6 +417,7 @@ export function rendererMap(context) {
         drawAreas = svgAreas(projection, context);
         drawMidpoints = svgMidpoints(projection, context);
         drawLabels = svgLabels(projection, context);
+        drawWayDirection = svgWayDirection(projection, context);
     };
 
     function editOff() {

@@ -4,7 +4,7 @@ export function svgOsm(projection, context, dispatch) {
 
     function drawOsm(selection) {
         selection.selectAll('.layer-osm')
-            .data(['covered', 'areas', 'lines', 'points', 'auxiliary', 'labels'])
+            .data(['covered', 'areas', 'lines', 'points', 'auxiliary', 'labels', 'way-direction'])
             .enter()
             .append('g')
             .attr('class', function(d) { return 'layer-osm ' + d; });

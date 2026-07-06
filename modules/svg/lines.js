@@ -298,9 +298,12 @@ export function svgLines(projection, context) {
 
         Object.keys(pathdata).forEach(function(k) {
             var v = pathdata[k];
-            var onewayArr = v.filter(function(d) { return d.isOneWay(); });
+            var onewayArr = v.filter(function(d) {
+                // Selected ways use the way-direction overlay (above labels).
+                return d.isOneWay() && context.selectedIDs().indexOf(d.id) === -1;
+            });
             var onewaySegments = svgMarkerSegments(
-                projection, graph, 36,
+                projection, graph, 28,
                 entity => entity.isOneWayBackwards(),
                 entity => entity.isBiDirectional(),
             );

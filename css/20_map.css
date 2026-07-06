@@ -9,6 +9,7 @@
 
 /* IE/Edge needs these overrides for markers to show up */
 .layer-osm path.oneway-marker-path          { fill: #000; }
+.layer-osm path.way-direction-marker-path   { fill: #555; }
 .layer-osm path.sided-marker-natural-path   { fill: rgb(170, 170, 170); }
 .layer-osm path.sided-marker-coastline-path { fill: #77dede; }
 .layer-osm path.sided-marker-barrier-path   { fill: #ddd; }
@@ -258,7 +259,8 @@ text {
 
 .onewaygroup path.oneway,
 .viewfieldgroup path.viewfield,
-.sidedgroup path.sided {
+.sidedgroup path.sided,
+.waydirectiongroup path.way-direction {
     stroke-width: 6px;
 }
 

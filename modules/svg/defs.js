@@ -35,8 +35,8 @@ export function svgDefs(context) {
                 .attr('viewBox', '0 0 10 5')
                 .attr('refX', 4)
                 .attr('refY', 2.5)
-                .attr('markerWidth', 2)
-                .attr('markerHeight', 2)
+                .attr('markerWidth', 2.4)
+                .attr('markerHeight', 2.4)
                 .attr('markerUnits', 'strokeWidth')
                 .attr('orient', 'auto')
                 .append('path')
@@ -49,6 +49,24 @@ export function svgDefs(context) {
         addOnewayMarker('black', '#333'); // default
         addOnewayMarker('white', '#fff'); // for dark lines (bridges under construction, railways, etc.)
         addOnewayMarker('gray', '#eee'); // for railway lines
+
+        _defsSelection
+            .append('marker')
+            .attr('id', 'ideditor-way-direction-marker')
+            .attr('viewBox', '0 0 10 5')
+            .attr('refX', 4)
+            .attr('refY', 2.5)
+            .attr('markerWidth', 2.8)
+            .attr('markerHeight', 2.8)
+            .attr('markerUnits', 'strokeWidth')
+            .attr('orient', 'auto')
+            .append('path')
+            .attr('class', 'way-direction-marker-path')
+            .attr('d', 'M 6,3 L 0,3 L 0,2 L 6,2 L 5,0 L 10,2.5 L 5,5 z')
+            .attr('stroke', '#fff')
+            .attr('stroke-width', '0.35')
+            .attr('fill', '#555')
+            .attr('opacity', '0.92');
 
 
         function addSidedMarker(name, options) {
