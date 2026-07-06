@@ -1,4 +1,5 @@
 import type { CustomPreset } from '../../types';
+import { ANY, buildRemoveTags } from '../../lib/tag_helpers';
 import { presetNameEn } from '../../preset_name_en';
 
 const FIELDS_ADDRESS_FIRST = [
@@ -28,6 +29,8 @@ interface EntranceVariant {
     icon: string;
     tags: Record<string, string>;
     fields: readonly string[];
+    addTags?: Record<string, string>;
+    removeWildcards?: Record<string, typeof ANY>;
 }
 
 /** Fork entrance vertex presets with custom icons from v5. */
@@ -38,15 +41,28 @@ const ENTRANCE_VARIANTS: EntranceVariant[] = [
     { id: 'entrance/home', icon: 'iD-entrance-home', tags: { entrance: 'home' }, fields: FIELDS_ADDRESS_FIRST },
     { id: 'entrance/garage', icon: 'iD-entrance-garage', tags: { entrance: 'garage' }, fields: FIELDS_STANDARD },
     { id: 'entrance/secondary', icon: 'iD-entrance-secondary', tags: { entrance: 'secondary' }, fields: FIELDS_MINIMAL },
-    { id: 'entrance/emergency', icon: 'iD-entrance-emergency', tags: { entrance: 'emergency' }, fields: FIELDS_MINIMAL }
+    { id: 'entrance/emergency', icon: 'iD-entrance-emergency', tags: { entrance: 'emergency' }, fields: FIELDS_MINIMAL },
+    {
+        id: 'entrance/private',
+        icon: 'iD-entrance',
+        tags: { entrance: 'yes', access: 'private' },
+        addTags: { entrance: 'yes', access: 'private' },
+        fields: FIELDS_STANDARD,
+        removeWildcards: { access: ANY }
+    }
 ];
 
 function entrancePreset(variant: EntranceVariant): CustomPreset {
+    const addTags = variant.addTags ?? variant.tags;
     return {
         icon: variant.icon,
         geometry: ['vertex'],
         fields: [...variant.fields],
         tags: variant.tags,
+        ...(variant.addTags || variant.removeWildcards ? {
+            addTags,
+            removeTags: buildRemoveTags(addTags, variant.removeWildcards ?? {})
+        } : {}),
         matchScore: 0.8,
         name: presetNameEn(variant.id)
     };
