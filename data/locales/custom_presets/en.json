@@ -309,6 +309,21 @@
         "terms": "cus, cycleway crossing, unmarked cycleway crossing, unmarked crosswalk, no marking crossing, segregated",
         "aliases": "cus"
     },
+    "highway/cycleway/crossing/traffic_signals_no_foot": {
+        "name": "Traffic Signals Cycleway Crossing No Foot (No Markings)",
+        "terms": "ctsnf, ctsn, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, no marking crossing, no foot",
+        "aliases": "ctsnf"
+    },
+    "highway/cycleway/crossing/traffic_signals_not_segregated": {
+        "name": "Traffic Signals Cycleway Crossing Not Segregated (No Markings)",
+        "terms": "ctsnns, ctsn, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, no marking crossing, not segregated",
+        "aliases": "ctsnns"
+    },
+    "highway/cycleway/crossing/traffic_signals_segregated": {
+        "name": "Traffic Signals Cycleway Crossing Segregated (No Markings)",
+        "terms": "ctsns, ctsn, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, no marking crossing, segregated",
+        "aliases": "ctsns"
+    },
     "highway/cycleway/cycleway_link": {
         "name": "Cycleway link",
         "aliases": "cl",

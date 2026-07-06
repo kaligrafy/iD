@@ -46,6 +46,15 @@ function buildVariantList(): CyclewayCrossingVariant[] {
     const uncontrolledMarkings: MarkingSlug[] = ['dots', 'lines', 'zebra', 'dashes', 'other'];
     const variants: CyclewayCrossingVariant[] = [];
 
+    for (const footMode of footModes) {
+        variants.push({
+            id: `highway/cycleway/crossing/traffic_signals_${footMode}`,
+            crossing: 'traffic_signals',
+            markings: 'no',
+            footMode,
+            icon: cyclewayCrossingIcon('traffic_signals', 'no')
+        });
+    }
     for (const markings of trafficMarkings) {
         for (const footMode of footModes) {
             variants.push({

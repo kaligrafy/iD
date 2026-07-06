@@ -137,5 +137,17 @@ describe('custom presets — cycleway', function() {
             expect(preset.tags).to.not.have.property('bicycle');
             expect(preset.addTags).to.not.have.property('bicycle');
         });
+
+        it(`defines traffic signals no-marking cycleway crossing for ${footMode}`, function() {
+            const preset = iD.presetManager.item(`highway/cycleway/crossing/traffic_signals_${footMode}`);
+            expect(preset, `traffic_signals_${footMode}`).to.exist;
+            expect(preset.tags).to.include({
+                highway: 'cycleway',
+                cycleway: 'crossing',
+                crossing: 'traffic_signals',
+                'crossing:markings': 'no',
+                ...footTags
+            });
+        });
     }
 });
