@@ -250,6 +250,7 @@ export function applyCustomFields(presetManager) {
     customizePostBox(presetManager);
     customizeCyclewaySidewalk(presetManager);
     customizeBuildingLevels(presetManager);
+    customizeBusStopBench(presetManager);
     setCycleFootPathDefaultSurface(presetManager);
     markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
@@ -579,5 +580,35 @@ function customizeBuildingLevels(presetManager) {
 
         promoteBuildingLevelFields(fields, moreFields);
     });
+}
+
+const BENCH_FIELD = 'bench';
+const TRANSIT_PLATFORM_PRESET = 'public_transport/platform_point';
+
+/**
+ * Move `bench` into default fields on transit platform presets (v5 parity).
+ * Upstream keeps it in moreFields; bus/trolley/etc. stops inherit `{public_transport/platform_point}`.
+ *
+ * @param {string[]} fields
+ * @param {string[]} moreFields
+ */
+function promoteBenchField(fields, moreFields) {
+    removeField(fields, BENCH_FIELD);
+    removeField(moreFields, BENCH_FIELD);
+
+    const shelterIndex = fields.indexOf('shelter');
+    const insertAt = shelterIndex === -1 ? fields.length : shelterIndex + 1;
+    fields.splice(insertAt, 0, BENCH_FIELD);
+}
+
+/**
+ * Show the `bench` check on bus stops and other transit platform points.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizeBusStopBench(presetManager) {
+    const preset = presetManager.item(TRANSIT_PLATFORM_PRESET);
+    if (!preset) return;
+    promoteBenchField(preset.originalFields, preset.originalMoreFields);
 }
 
