@@ -79,7 +79,7 @@ export function uiFieldLaneList(
                 .attr('class', 'lane-multiselect-conflict field-warning')
                 .merge(notice);
             notice.text(t('inspector.multiple_values'));
-            wrap.selectAll('.field-warning').not('.lane-multiselect-conflict').remove();
+            wrap.selectAll('.field-warning:not(.lane-multiselect-conflict)').remove();
             return;
         }
 
