@@ -165,10 +165,10 @@ g.vertex.shared .stroke {
     fill: #bbb;
 }
 g.midpoint .fill {
-    fill: #eee;
+    fill: #e8e8e8;
     stroke: #444;
-    stroke-opacity: .6;
-    opacity: .7;
+    stroke-opacity: .50;
+    opacity: .60;
 }
 
 g.vertex .shadow,
@@ -260,6 +260,11 @@ text {
 .viewfieldgroup path.viewfield,
 .sidedgroup path.sided {
     stroke-width: 6px;
+}
+
+/* Direction glyphs redrawn above street labels (see svgMidpoints.drawGlyphs). */
+.layer-osm.midpoint-glyphs {
+    pointer-events: none;
 }
 
 text.arealabel-halo,
