@@ -173,6 +173,14 @@ export const customFields = {
         options: ['undefined', 'sidewalk'],
         geometry: ['line'],
         prerequisiteTag: { key: 'foot', valueNot: 'no' }
+    },
+    // Marks a carriageway as a side road / carmain (side_road=*). Cycles through the
+    // wiki values on click; unset removes the tag. See Key:side_road.
+    is_side_road: {
+        key: 'side_road',
+        type: 'defaultCheck',
+        options: ['undefined', 'yes', 'double', 'rotary'],
+        geometry: ['line']
     }
 };
 
@@ -210,8 +218,13 @@ const MANAGED_LANE_FIELDS = [
 // the lane / placement fields fold into directional groups, which lay their
 // sub-rows out compactly themselves (see uiFieldDirectionalGroup / CSS).
 const SMALL_FIELDS = [
-    'oneway', 'maxspeed', 'maxspeed_advisory', 'minspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway', 'is_sidewalk'
+    'oneway', 'maxspeed', 'maxspeed_advisory', 'minspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway', 'is_sidewalk', 'is_side_road'
 ];
+
+// highway=* values that may carry side_road=* (car mains; not motorway or *_link ramps).
+const SIDE_ROAD_HIGHWAYS = new Set([
+    'residential', 'unclassified', 'tertiary', 'secondary', 'primary', 'trunk'
+]);
 
 // highway=* values that should offer the sidewalk field
 const SIDEWALK_HIGHWAYS = new Set([
@@ -340,6 +353,15 @@ export function applyCustomFields(presetManager) {
         const afterDual = fields.indexOf('dual_carriageway');
         const junctionAt = afterDual === -1 ? dualAt : afterDual + 1;
         fields.splice(junctionAt < 0 ? fields.length : junctionAt, 0, 'junction_oneway');
+
+        // side road (carmain): default field after dual_carriageway on car highways.
+        if (SIDE_ROAD_HIGHWAYS.has(highway)) {
+            removeField(fields, 'is_side_road');
+            removeField(moreFields, 'is_side_road');
+            const sideRoadAt = fields.indexOf('dual_carriageway');
+            const insertAt = sideRoadAt === -1 ? junctionAt : sideRoadAt + 1;
+            fields.splice(insertAt < 0 ? fields.length : insertAt, 0, 'is_side_road');
+        }
 
         // advisory speed: default field right after `maxspeed` (hidden by its
         // prerequisite until highway=motorway_link or junction=roundabout). Drop
