@@ -386,10 +386,45 @@ export function svgLines(projection, context) {
         });
 
         // Partial line redraw in select mode updates highlighted geometry only.
-        // Partial touch-target joins drop hit areas (grab cursor) for other ways.
-        if (!(context.mode()?.id === 'select' && !filterIsUniversal(filter))) {
+        // Skip touch-target joins unless topology changed (split, new vertex, etc.):
+        // a partial data() would drop other ways' hit areas; stale targets mis-route clicks.
+        var skipTouchUpdate = context.mode()?.id === 'select' && !filterIsUniversal(filter);
+        var touchEntities = ways;
+        if (skipTouchUpdate) {
+            var needsTouchRefresh = ways.some(function(way) {
+                var baseWay = base.entities[way.id];
+                if (!baseWay) return true;
+                return way.nodes && baseWay.nodes &&
+                    !deepEqual(way.nodes, baseWay.nodes);
+            });
+            if (needsTouchRefresh) {
+                skipTouchUpdate = false;
+                var seen = new Set();
+                touchEntities = context.history().intersects(context.map().extent())
+                    .filter(function(e) {
+                        if (e.geometry(graph) !== 'line') return false;
+                        seen.add(e.id);
+                        return true;
+                    });
+                ways.forEach(function(way) {
+                    if (!seen.has(way.id)) {
+                        seen.add(way.id);
+                        touchEntities.push(way);
+                    }
+                });
+                context.selectedIDs().forEach(function(id) {
+                    if (seen.has(id)) return;
+                    var ent = graph.hasEntity(id);
+                    if (ent && ent.type === 'way') {
+                        seen.add(id);
+                        touchEntities.push(ent);
+                    }
+                });
+            }
+        }
+        if (!skipTouchUpdate) {
             touchLayer
-                .call(drawTargets, graph, ways, filter);
+                .call(drawTargets, graph, touchEntities, filter);
         }
     }
 
