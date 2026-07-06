@@ -356,6 +356,26 @@ describe('iD.svgLines', function () {
             expect(shadowGroup(true).selectAll('path.' + allIds[3]).empty()).to.be.true;
         });
 
+        it('restores deselected ways to normal shadow when prev selection is redrawn', function() {
+            var allIds = ways.map(function(w) { return w.id; });
+            context.enter(iD.modeSelect(context, allIds));
+            partialRedraw(allIds);
+            expectWaysHighlighted(allIds);
+
+            var fewer = allIds.slice(0, 3);
+            var deselected = allIds[3];
+            context.enter(iD.modeSelect(context, fewer));
+
+            var affected = {};
+            allIds.forEach(function(id) { affected[id] = graph.entity(id); });
+            var data = Object.values(affected);
+            var filter = function(d) { return d.id in affected; };
+            surface.call(iD.svgLines(projection, context), graph, data, filter);
+
+            expect(shadowGroup(true).selectAll('path.' + deselected).empty()).to.be.true;
+            expect(shadowGroup(false).selectAll('path.' + deselected).empty()).to.be.false;
+        });
+
         it('moves highway over-stroke into highlighted group when selected', function() {
             var id = ways[0].id;
             context.enter(iD.modeSelect(context, [id]));
@@ -382,18 +402,7 @@ describe('iD.svgLines', function () {
             });
         });
 
-        it('skips touch-target updates on partial redraw in select mode', function() {
-            context.enter(iD.modeSelect(context, ['w1', 'w3']));
-            surface.call(iD.svgLines(projection, context), graph, ways, all);
-            var touchLayer = surface.select('.layer-touch.lines');
-            var before = touchLayer.node().innerHTML;
-
-            partialRedraw(['w3']);
-
-            expect(touchLayer.node().innerHTML).to.eql(before);
-        });
-
-        it('refreshes touch targets after topology change (e.g. split)', function() {
+        it('updates touch targets for topology changes when included in redraw data', function() {
             var splitNodes = [
                 new iD.osmNode({id: 'sn1', loc: [0, 0]}),
                 new iD.osmNode({id: 'sn2', loc: [0.001, 0]}),
@@ -410,22 +419,21 @@ describe('iD.svgLines', function () {
                 iD.actionAddEntity(splitNodes[2]),
                 iD.actionAddEntity(longWay)
             );
-            var graph = context.graph();
-            surface.call(iD.svgLines(projection, context), graph, [longWay], all);
+            var splitGraph = context.graph();
+            surface.call(iD.svgLines(projection, context), splitGraph, [longWay], all);
             var touchLayer = surface.select('.layer-touch.lines');
             expect(touchLayer.selectAll('.line.target-allowed').size()).to.eql(2);
 
             context.perform(iD.actionSplit(['sn2']));
-            graph = context.graph();
-            var splitWays = graph.parentWays(graph.entity('sn2'));
+            splitGraph = context.graph();
+            var splitWays = splitGraph.parentWays(splitGraph.entity('sn2'));
             expect(splitWays).to.have.lengthOf(2);
 
-            context.enter(iD.modeSelect(context, splitWays.map(function(w) { return w.id; }).concat(['sn2'])));
             surface.call(
                 iD.svgLines(projection, context),
-                graph,
-                [splitWays[1]],
-                function(d) { return d.id === splitWays[1].id; }
+                splitGraph,
+                splitWays,
+                function(d) { return splitWays.indexOf(d) !== -1; }
             );
 
             expect(touchLayer.selectAll('.line.target-allowed.w-long').empty()).to.be.true;
