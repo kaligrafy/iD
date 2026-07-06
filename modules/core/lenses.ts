@@ -259,9 +259,42 @@ const SYNTHETIC_TAG_TOKENS = new Set([
 /** Lens-required secondary keys, in their CSS-class form (`:` written as `_`). */
 let lensSecondaryTagKeys = new Set<string>();
 
+/** When true, core highway emphasis classes are kept even if the lens styles maxspeed. */
+let lensPreservesCoreHighwayClasses = false;
+
 /** @param keys - secondary keys required by the active lens's CSS */
 export function setLensSecondaryTagKeys(keys: string[]): void {
     lensSecondaryTagKeys = new Set(Array.isArray(keys) ? keys : []);
+}
+
+/**
+ * Test hook: whether the active lens is a full highway-style lens (Quebec).
+ * @param preserve - keep structure/access emphasis classes when stripping
+ */
+export function setLensPreservesCoreHighwayClasses(preserve: boolean): void {
+    lensPreservesCoreHighwayClasses = preserve;
+}
+
+/** @deprecated use setLensPreservesCoreHighwayClasses */
+export function setLensPreservesMotorAccessClasses(preserve: boolean): void {
+    setLensPreservesCoreHighwayClasses(preserve);
+}
+
+/**
+ * Full highway lenses (Quebec) include maxspeed dash rules *and* rely on core
+ * structure/access styling. Do not strip those classes — only for maxspeed-only lenses.
+ * @param css - raw lens CSS
+ * @returns whether core emphasis classes should be preserved
+ */
+export function lensCssPreservesCoreHighwayClasses(css: string): boolean {
+    if (!css) return false;
+    return /tag-access-(?:private|customers|permissive)/.test(css)
+        && css.includes(':not(.tag-highway-footway)');
+}
+
+/** @deprecated use lensCssPreservesCoreHighwayClasses */
+export function lensCssPreservesMotorAccessClasses(css: string): boolean {
+    return lensCssPreservesCoreHighwayClasses(css);
 }
 
 /** @returns the lens-required secondary keys (CSS-class form) */
@@ -348,6 +381,19 @@ const MAXSPEED_LENS_ACCESS_CLASS_PREFIXES = [
 const MAXSPEED_LENS_ACCESS_VALUES = new Set(['private', 'customers', 'permissive']);
 
 function shouldStripClassForMaxspeedLens(klass: string): boolean {
+    if (lensPreservesCoreHighwayClasses) {
+        if (klass === 'tag-custom-access-emphasis') return false;
+        if (MAXSPEED_LENS_STRUCTURE_CLASS_PREFIXES.some(
+            (prefix) => klass === prefix || klass.startsWith(prefix + '-')
+        )) {
+            return false;
+        }
+        for (const prefix of MAXSPEED_LENS_ACCESS_CLASS_PREFIXES) {
+            if (!klass.startsWith(prefix + '-')) continue;
+            const value = klass.slice(prefix.length + 1);
+            if (MAXSPEED_LENS_ACCESS_VALUES.has(value)) return false;
+        }
+    }
     if (klass === 'tag-custom-access-emphasis') return true;
     if (MAXSPEED_LENS_STRUCTURE_CLASS_PREFIXES.some(
         (prefix) => klass === prefix || klass.startsWith(prefix + '-')
@@ -383,7 +429,9 @@ export function stripStructureClassesForMaxspeedLens(classes: string[]): void {
  * matching `tag-*` classes. Call on lens change and at startup.
  */
 export function refreshLensTagKeys(): void {
-    setLensSecondaryTagKeys(extractTagKeysFromCss(getActiveLensCss()));
+    const css = getActiveLensCss();
+    setLensSecondaryTagKeys(extractTagKeysFromCss(css));
+    lensPreservesCoreHighwayClasses = lensCssPreservesCoreHighwayClasses(css);
 }
 
 /** id of the <style> element holding the active lens's CSS. */

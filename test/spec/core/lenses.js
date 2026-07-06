@@ -2,7 +2,11 @@ import {
     appendLensTagClasses,
     extractTagKeysFromCss,
     getLensSecondaryTagKeys,
+    lensCssPreservesCoreHighwayClasses,
+    lensCssPreservesMotorAccessClasses,
     sanitizeLensCss,
+    setLensPreservesCoreHighwayClasses,
+    setLensPreservesMotorAccessClasses,
     setLensSecondaryTagKeys,
     stripStructureClassesForMaxspeedLens
 } from '../../../modules/core/lenses';
@@ -11,6 +15,7 @@ describe('lens tag classes', function() {
 
     afterEach(function() {
         setLensSecondaryTagKeys([]);
+        setLensPreservesCoreHighwayClasses(false);
     });
 
     describe('extractTagKeysFromCss', function() {
@@ -102,10 +107,32 @@ describe('lens tag classes', function() {
         cases.forEach(function([name, keys, input, expected]) {
             it(name, function() {
                 setLensSecondaryTagKeys(keys);
+                setLensPreservesCoreHighwayClasses(false);
                 const classes = input.slice();
                 stripStructureClassesForMaxspeedLens(classes);
                 expect(classes).to.eql(expected);
             });
+        });
+
+        it('keeps structure and access when quebec-style lens preserves them', function() {
+            setLensSecondaryTagKeys(['maxspeed']);
+            setLensPreservesCoreHighwayClasses(true);
+            const classes = [
+                'tag-highway-service', 'tag-access-customers', 'tag-custom-access-emphasis',
+                'tag-bridge', 'tag-bridge-yes', 'tag-tunnel', 'tag-maxspeed-30'
+            ];
+            stripStructureClassesForMaxspeedLens(classes);
+            expect(classes).to.eql([
+                'tag-highway-service', 'tag-access-customers', 'tag-custom-access-emphasis',
+                'tag-bridge', 'tag-bridge-yes', 'tag-tunnel', 'tag-maxspeed-30'
+            ]);
+        });
+
+        it('detects quebec core preservation from css', function() {
+            const snippet = 'path.line.casing.tag-access-customers:not(.tag-highway-footway)';
+            expect(lensCssPreservesCoreHighwayClasses(snippet)).to.be.true;
+            expect(lensCssPreservesMotorAccessClasses(snippet)).to.be.true;
+            expect(lensCssPreservesCoreHighwayClasses('.tag-maxspeed-30{}')).to.be.false;
         });
     });
 
