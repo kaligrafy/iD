@@ -21,6 +21,11 @@ function onewayArrowColour(tags) {
     return 'black';
 }
 
+/** @param {(entity: { id: string }) => boolean} f */
+function filterIsUniversal(f) {
+    return f({ id: '__none__' }) === true;
+}
+
 export function svgLines(projection, context) {
     var detected = utilDetect();
 
@@ -60,8 +65,11 @@ export function svgLines(projection, context) {
 
         // Targets allow hover and vertex snapping
         var targetData = data.targets.filter(getPath);
+        var joinFilter = (context.mode()?.id === 'select')
+            ? function() { return true; }
+            : function(d) { return filter(d.properties.entity); };
         var targets = selection.selectAll('.line.target-allowed')
-            .filter(function(d) { return filter(d.properties.entity); })
+            .filter(joinFilter)
             .data(targetData, function key(d) { return d.id; });
 
         // exit
@@ -94,7 +102,7 @@ export function svgLines(projection, context) {
         // NOPE
         var nopeData = data.nopes.filter(getPath);
         var nopes = selection.selectAll('.line.target-nope')
-            .filter(function(d) { return filter(d.properties.entity); })
+            .filter(joinFilter)
             .data(nopeData, function key(d) { return d.id; });
 
         // exit
@@ -135,9 +143,26 @@ export function svgLines(projection, context) {
             var isDrawing = mode && /^draw/.test(mode.id);
             var selectedClass = (!isDrawing && isSelected) ? 'selected ' : '';
 
+            // Partial redraw only joins entities in the change set; clean up stragglers.
+            if (isSelected) {
+                selection.selectAll('path')
+                    .filter(function(d) { return d && context.selectedIDs().indexOf(d.id) === -1; })
+                    .remove();
+            } else {
+                selection.selectAll('path')
+                    .filter(function(d) { return d && context.selectedIDs().indexOf(d.id) !== -1; })
+                    .remove();
+            }
+
+            // Highlighted groups must join all bound paths on select changes: a partial
+            // entity filter skips exit() for other selected ways (mixed tags/layers).
+            var joinFilter = (isSelected && context.mode()?.id === 'select')
+                ? function() { return true; }
+                : filter;
+
             var lines = selection
                 .selectAll('path')
-                .filter(filter)
+                .filter(joinFilter)
                 .data(getPathData(isSelected, wayFilter), osmIdManager.key);
 
             lines.exit()
@@ -188,6 +213,7 @@ export function svgLines(projection, context) {
                 .merge(lines)
                 .sort(waystack)
                 .attr('d', getPath)
+                .classed('selected', !isDrawing && isSelected)
                 .call(svgTagClasses().tags(svgRelationMemberTags(graph)));
 
             return selection;
@@ -260,6 +286,21 @@ export function svgLines(projection, context) {
             }
         }
 
+        // Partial redraw passes only the changed entity; highlighted groups still
+        // need every selected line (fork over-stroke, mixed tags/layers).
+        if (context.mode()?.id === 'select') {
+            context.selectedIDs().forEach(function(id) {
+                var selected = graph.hasEntity(id);
+                if (!selected || ways.indexOf(selected) !== -1) return;
+                if (selected.geometry(graph) !== 'line'
+                    && !(selected.geometry(graph) === 'area' && selected.sidednessIdentifier
+                        && selected.sidednessIdentifier() === 'coastline')) {
+                    return;
+                }
+                ways.push(selected);
+            });
+        }
+
         ways = ways.filter(getPath);
         const pathdata = utilArrayGroupBy(ways, (way) => Math.trunc(way.layer()));
 
@@ -306,7 +347,7 @@ export function svgLines(projection, context) {
 
             layergroup
                 .selectAll('g.linegroup')
-                .data(['shadow', 'casing', 'stroke', 'over-stroke', 'shadow-highlighted', 'casing-highlighted', 'stroke-highlighted'])
+                .data(['shadow', 'casing', 'stroke', 'over-stroke', 'shadow-highlighted', 'casing-highlighted', 'stroke-highlighted', 'over-stroke-highlighted'])
                 .enter()
                 .append('g')
                 .attr('class', function(d) { return 'linegroup line-' + d; });
@@ -329,6 +370,8 @@ export function svgLines(projection, context) {
                 .call(drawLineGroup, 'casing', true);
             layergroup.selectAll('g.line-stroke-highlighted')
                 .call(drawLineGroup, 'stroke', true);
+            layergroup.selectAll('g.line-over-stroke-highlighted')
+                .call(drawLineGroup, 'over-stroke', true, (d) => !!d.tags.highway);
 
             addMarkers(layergroup, 'oneway', 'onewaygroup', onewaydata, (d) => {
                 const category = onewayArrowColour(graph.entity(d.id).tags);
@@ -342,9 +385,12 @@ export function svgLines(projection, context) {
             );
         });
 
-        // Draw touch targets..
-        touchLayer
-            .call(drawTargets, graph, ways, filter);
+        // Partial line redraw in select mode updates highlighted geometry only.
+        // Partial touch-target joins drop hit areas (grab cursor) for other ways.
+        if (!(context.mode()?.id === 'select' && !filterIsUniversal(filter))) {
+            touchLayer
+                .call(drawTargets, graph, ways, filter);
+        }
     }
 
 

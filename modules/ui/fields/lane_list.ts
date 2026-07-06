@@ -5,7 +5,8 @@ import { uiCombobox } from '../combobox';
 import { t } from '../../core/localizer';
 import { utilNoAuto, utilRebind } from '../../util';
 import {
-    laneCountKey, laneKind, splitLaneValues, serializeLaneValues,
+    laneCountKey, laneKind, laneTagValue, laneTagConflict, laneCountFromTags,
+    splitLaneValues, serializeLaneValues,
     commonPatterns, matchPattern, cellOptions, cellDisplay, cellValue,
     changeBoundaries, boundariesToValue, laneCountMismatch
 } from './lane_patterns';
@@ -61,12 +62,29 @@ export function uiFieldLaneList(
     }
 
     function laneCount() {
-        return parseInt(_tags[countKey], 10);
+        return laneCountFromTags(_tags[countKey]) ?? NaN;
     }
 
     function render() {
         const count = laneCount();
-        const value = _tags[field.key] || '';
+        const value = laneTagValue(_tags[field.key]);
+        const conflict = laneTagConflict(_tags[countKey]) || laneTagConflict(_tags[field.key]);
+
+        wrap.selectAll('.lane-dropdown, .lane-grid').remove();
+
+        if (conflict) {
+            let notice = wrap.selectAll('.lane-multiselect-conflict').data([0]);
+            notice = notice.enter()
+                .append('div')
+                .attr('class', 'lane-multiselect-conflict field-warning')
+                .merge(notice);
+            notice.text(t('inspector.multiple_values'));
+            wrap.selectAll('.field-warning').not('.lane-multiselect-conflict').remove();
+            return;
+        }
+
+        wrap.selectAll('.lane-multiselect-conflict').remove();
+
         const patterns = commonPatterns(kind, count, arrow, widthEnd);
         const matched = matchPattern(kind, patterns, value);
         // hybrid: dropdown always; grid as soon as a value is set (or Custom…)

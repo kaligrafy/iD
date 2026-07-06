@@ -22,8 +22,31 @@ export function laneKind(valueKey: string): LaneKind {
     return 'change';
 }
 
+/** True when a tag has conflicting values across a multiselection. */
+export function laneTagConflict(raw: string | string[] | undefined | null): boolean {
+    return Array.isArray(raw);
+}
+
+/** OSM tag value for a lane field; multiselect conflicts become empty (like combo fields). */
+export function laneTagValue(raw: string | string[] | undefined | null): string {
+    if (raw === undefined || raw === null) return '';
+    if (Array.isArray(raw)) return '';
+    return raw;
+}
+
+/** Lane count from a `lanes*` tag, or undefined when missing / multiselect conflict. */
+export function laneCountFromTags(raw: string | string[] | undefined | null): number | undefined {
+    if (laneTagConflict(raw)) return undefined;
+    const count = parseInt(laneTagValue(raw), 10);
+    return count >= 1 ? count : undefined;
+}
+
 /** Split a `a|b|c` value into exactly `count` cells (pad/truncate). */
-export function splitLaneValues(value: string, count: number): string[] {
+export function splitLaneValues(value: string | string[] | undefined | null, count: number): string[] {
+    if (Array.isArray(value)) {
+        const length = count > 0 ? count : 0;
+        return Array.from({ length }, () => '');
+    }
     const parts = value ? value.split('|') : [];
     const length = count > 0 ? count : parts.length;
     return Array.from({ length }, (_, i) => parts[i] || '');

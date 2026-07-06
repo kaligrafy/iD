@@ -34,6 +34,32 @@ describe('iD.uiFieldLaneList helpers', () => {
         });
     });
 
+    describe('laneTagValue', () => {
+        describe.each([
+            ['left|right', 'left|right'],
+            [['left', 'through'], ''],
+            [undefined, ''],
+            [null, ''],
+        ])('%j', (raw, expected) => {
+            it(`-> ${JSON.stringify(expected)}`, () => {
+                expect(iD.laneTagValue(raw)).toBe(expected);
+            });
+        });
+    });
+
+    describe('laneCountFromTags', () => {
+        describe.each([
+            ['3', 3],
+            [['2', '3'], undefined],
+            ['', undefined],
+            [undefined, undefined],
+        ])('%j', (raw, expected) => {
+            it(`-> ${expected}`, () => {
+                expect(iD.laneCountFromTags(raw)).toBe(expected);
+            });
+        });
+    });
+
     describe('splitLaneValues', () => {
         describe.each([
             // [value, count, expected]
@@ -42,7 +68,8 @@ describe('iD.uiFieldLaneList helpers', () => {
             ['3|3|2|2', 2, ['3', '3']],            // truncate to count
             ['', 3, ['', '', '']],                 // empty value, known count
             ['yes|no', 0, ['yes', 'no']],          // unknown count -> use the value's lanes
-            ['', 0, []]                            // unknown count, empty value
+            ['', 0, []],                           // unknown count, empty value
+            [['left', 'through'], 2, ['', '']],    // multiselect conflict
         ])('(%s, %i)', (value, count, expected) => {
             it(`-> ${JSON.stringify(expected)}`, () => {
                 expect(iD.splitLaneValues(value, count)).toEqual(expected);
