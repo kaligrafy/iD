@@ -268,6 +268,7 @@ export function applyCustomFields(presetManager) {
     customizeBuildingLevels(presetManager);
     customizeBusStopBench(presetManager);
     setCycleFootPathDefaultSurface(presetManager);
+    setCarHighwayDefaultSurface(presetManager);
     markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
 
@@ -528,6 +529,34 @@ function setCycleFootPathDefaultSurface(presetManager) {
     const preset = presetManager.item('highway/cycleway/bicycle_foot');
     if (!preset) return;
     preset.addTags = Object.assign({}, preset.addTags, { surface: 'asphalt' });
+}
+
+/** Upstream base car-highway presets that default to surface=asphalt in v5. */
+const CAR_HIGHWAY_SURFACE_PRESET_IDS = [
+    'highway/motorway',
+    'highway/trunk',
+    'highway/primary',
+    'highway/secondary',
+    'highway/tertiary',
+    'highway/unclassified',
+    'highway/residential',
+    'highway/service',
+    'highway/busway'
+];
+
+/**
+ * Default car highways to surface=asphalt via `addTags` (v5 fork parity).
+ * Drives outdated_tags incomplete-tag warnings and the Upgrade Tags fix.
+ * Idempotent; does not touch variant presets (e.g. unpaved service roads).
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function setCarHighwayDefaultSurface(presetManager) {
+    for (const presetID of CAR_HIGHWAY_SURFACE_PRESET_IDS) {
+        const preset = presetManager.item(presetID);
+        if (!preset) continue;
+        preset.addTags = Object.assign({}, preset.addTags, { surface: 'asphalt' });
+    }
 }
 
 const FLATS_FIELD = 'flats';

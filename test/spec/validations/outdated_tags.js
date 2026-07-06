@@ -33,6 +33,33 @@ describe('iD.validations.outdated_tags', function () {
         delete iD.services.nsi;
     });
 
+    const UPSTREAM_HIGHWAY_PRESETS = {
+        'highway/residential': {
+            geometry: ['line'],
+            tags: { highway: 'residential' },
+            fields: ['surface'],
+            name: 'Residential Road'
+        },
+        'highway/primary': {
+            geometry: ['line'],
+            tags: { highway: 'primary' },
+            fields: ['surface'],
+            name: 'Primary Road'
+        },
+        'highway/unclassified': {
+            geometry: ['line'],
+            tags: { highway: 'unclassified' },
+            fields: ['surface'],
+            name: 'Unclassified Road'
+        }
+    };
+
+    beforeAll(async () => {
+        iD.fileFetcher.cache().preset_presets = UPSTREAM_HIGHWAY_PRESETS;
+        iD.fileFetcher.cache().preset_fields = {};
+        await iD.presetManager.ensureLoaded(true);
+    });
+
     beforeEach(function() {
         context = iD.coreContext().init();
     });
@@ -84,11 +111,30 @@ describe('iD.validations.outdated_tags', function () {
     });
 
     it('has no errors on good tags', async () => {
-        createWay({'highway': 'unclassified'});
+        createWay({'highway': 'unclassified', 'surface': 'asphalt'});
         var validator = iD.validationOutdatedTags(context);
         await setTimeout(20);
         var issues = validate(validator);
         expect(issues).to.have.lengthOf(0);
+    });
+
+    it.each([
+        ['missing surface', { highway: 'residential' }, 'incomplete_tags', { highway: 'residential', surface: 'asphalt' }],
+        ['surface=paved', { highway: 'primary', surface: 'paved' }, 'deprecated_tags', { highway: 'primary', surface: 'asphalt' }]
+    ])('flags imprecise surface (%s)', async (_label, tags, subtype, expected) => {
+        createWay(tags);
+        const validator = iD.validationOutdatedTags(context);
+        await setTimeout(20);
+        const issues = validate(validator);
+        expect(issues).toHaveLength(1);
+        expect(issues[0]).toMatchObject({
+            type: 'outdated_tags',
+            subtype,
+            severity: 'warning',
+            entityIds: ['w-1']
+        });
+        issues[0].dynamicFixes()[0].onClick(context);
+        expect(context.graph().entity('w-1').tags).toStrictEqual(expected);
     });
 
     it('flags deprecated tag with replacement', async () => {

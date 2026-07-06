@@ -13,6 +13,18 @@ import { getDeprecatedTags } from '../osm/deprecated';
 
 /** @import { TagDiff } from '../util/util'. */
 
+/**
+ * Whether a preset `addTags` value should be applied (v5 fork: surface=paved → asphalt).
+ * @param {Record<string, string>} tags
+ * @param {string} key
+ * @param {string} addTagValue
+ * @returns {boolean}
+ */
+function shouldApplyPresetAddTag(tags, key, addTagValue) {
+  if (!addTagValue || addTagValue === '*') return !tags[key];
+  if (!tags[key]) return true;
+  return key === 'surface' && tags[key] === 'paved' && addTagValue === 'asphalt';
+}
 
 export function validationOutdatedTags() {
   const type = 'outdated_tags';
@@ -82,12 +94,11 @@ export function validationOutdatedTags() {
         // if nsi suggestion already includes this tag: don't repeat it in "incomplete tags"
         return !nsiResult?.newTags[k];
       }).forEach(k => {
-        if (!newTags[k]) {
-          if (preset.addTags[k] === '*') {
-            newTags[k] = 'yes';
-          } else if (preset.addTags[k]) {
-            newTags[k] = preset.addTags[k];
-          }
+        if (!shouldApplyPresetAddTag(newTags, k, preset.addTags[k])) return;
+        if (preset.addTags[k] === '*') {
+          newTags[k] = 'yes';
+        } else if (preset.addTags[k]) {
+          newTags[k] = preset.addTags[k];
         }
       });
     }
