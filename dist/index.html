@@ -50,12 +50,6 @@
             .assetPath('')
             .containerNode(container);
           context.init();
-
-          // disable boundaries (unless we have an explicit disable_features list)
-          var q = iD.utilStringQs(window.location.hash);
-          if (!q.hasOwnProperty('disable_features')) {
-            context.features().disable('boundaries');
-          }
         }
       }
     </script>
