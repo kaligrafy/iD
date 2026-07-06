@@ -20,6 +20,7 @@ describe('custom presets — entrance', function() {
             expect(preset, id).to.exist;
             expect(preset.icon).to.equal(icon);
             expect(preset.matchGeometry('vertex')).to.be.true;
+            expect(preset.matchGeometry('point')).to.be.true;
             expect(preset.matchScore(tags)).to.be.above(0);
         });
     }
@@ -36,6 +37,7 @@ describe('custom presets — entrance', function() {
             expect(preset, id).to.exist;
             expect(preset.icon).to.equal('maki-marker');
             expect(preset.matchGeometry('vertex')).to.be.true;
+            expect(preset.matchGeometry('point')).to.be.true;
             expect(preset.matchScore(tags)).to.be.above(0);
             expect(preset.fields().map((f) => f.id)).to.include('routing_entrance');
         });
@@ -55,6 +57,14 @@ describe('custom presets — entrance', function() {
         const preset = iD.presetManager.match(point, graph);
         expect(preset.id).to.equal('entrance/main');
         expect(preset.icon).to.equal('iD-entrance-main');
+    });
+
+    it('matches home entrance on a standalone point node', function() {
+        const point = new iD.osmNode({ loc: [0, 0], tags: { entrance: 'home' } });
+        const graph = new iD.coreGraph([point]);
+        expect(point.geometry(graph)).to.equal('point');
+        const preset = iD.presetManager.match(point, graph);
+        expect(preset.id).to.equal('entrance/home');
     });
 
     it('defines private entrance preset tags and removeTags', function() {
