@@ -12,8 +12,8 @@ import {
  * Lens Shortcuts Behavior
  *
  * Activates an imported lens with `⌥`+letter. Letters are bound to lenses in the
- * Map data ▸ Lens section. Pressing the active lens's letter again toggles back
- * to the default lens. The letter is read from `event.code` (e.g. `KeyJ` → `j`)
+ * Map data ▸ Lens section. Pressing the same letter again keeps that lens active
+ * (no toggle off). Use `⌥D` to return to the default lens. The letter is read from `event.code` (e.g. `KeyJ` → `j`)
  * so it works regardless of the character `⌥`+letter produces (e.g. on macOS).
  *
  * @param {object} context - the iD application context
@@ -54,8 +54,12 @@ export function behaviorLensShortcuts(context) {
         } else {
             const lensId = getLensIdByShortcut(letter);
             if (!lensId) return;
-            // Toggle: pressing the active lens's letter returns to the default lens.
-            nextId = getSelectedLensId() === lensId ? DEFAULT_LENS_ID : lensId;
+            if (getSelectedLensId() === lensId) {
+                d3_event.preventDefault();
+                d3_event.stopPropagation();
+                return;
+            }
+            nextId = lensId;
         }
 
         d3_event.preventDefault();

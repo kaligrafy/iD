@@ -1,0 +1,494 @@
+/* ============================================================================
+ * Lens — Maxspeed colours
+ * ----------------------------------------------------------------------------
+ * Only saved highway ways are shown. Unsaved edits keep lens styling; selection
+ * restores core shadow/casing (advisory ring hidden while selected).
+ *   - maxspeed=* on highways → centre stroke colour (km/h buckets 10–100)
+ *   - maxspeed:advisory=* on highways → outer casing colour (same buckets)
+ *   - Both tags → 50/50 width split (casing = 2× stroke), slightly wider
+ * Import in Map data → Lens.
+ *
+ * 10 mauve · 20 bleu · 30 vert · 40 turquoise · 50 jaune · 60 orange
+ * 70 orange foncé · 80 rouge foncé · 90 magenta foncé · 100 rose
+ * Advisory (casing) : mêmes paliers, multiples de 5 km/h seulement (Québec).
+ * ============================================================================ */
+
+/* --- hide saved features except highway ways --- */
+/* Unsaved: .added .retagged .geometry-edited (ways/areas), .moved (nodes) */
+
+/* Polygons (buildings, landuse, etc.). */
+.layer-osm path.area.fill:not(.added):not(.retagged):not(.geometry-edited):not(.selected):not(.selected-member),
+.layer-osm path.area.stroke:not(.added):not(.retagged):not(.geometry-edited):not(.selected):not(.selected-member),
+.layer-osm path.area.shadow:not(.added):not(.retagged):not(.geometry-edited):not(.selected):not(.selected-member) {
+    display: none !important;
+}
+
+/* Junction / vertex nodes (incl. siblings of a selected way). */
+.layer-osm g.vertex:not(.added):not(.moved):not(.retagged):not(.selected):not(.selected-member):not(.sibling) {
+    display: none !important;
+}
+
+/* Standalone points without highway tag (stops, amenities, etc.). */
+.layer-osm g.point:not([class*="tag-highway"]):not(.added):not(.moved):not(.retagged):not(.selected):not(.selected-member) {
+    display: none !important;
+}
+
+/* Ways that are not highway=* (rail, waterway, power, barrier, …). */
+.layer-osm path.line.shadow:not([class*="tag-highway"]):not(.added):not(.retagged):not(.geometry-edited):not(.selected):not(.selected-member),
+.layer-osm path.line.casing:not([class*="tag-highway"]):not(.added):not(.retagged):not(.geometry-edited):not(.selected):not(.selected-member),
+.layer-osm path.line.stroke:not([class*="tag-highway"]):not(.added):not(.retagged):not(.geometry-edited):not(.selected):not(.selected-member),
+.layer-osm path.line.over-stroke:not([class*="tag-highway"]):not(.added):not(.retagged):not(.geometry-edited):not(.selected):not(.selected-member) {
+    display: none !important;
+}
+
+/* --- highway baseline: pale white stroke; casings hidden unless advisory --- */
+
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"]) {
+    stroke: rgb(255, 255, 255) !important;
+    fill: none !important;
+    opacity: 0.3 !important;
+    stroke-dasharray: none !important;
+}
+
+.layer-osm path.line.shadow[class*="tag-highway"],
+.layer-osm path.line.over-stroke[class*="tag-highway"],
+.layer-osm path.line.casing[class*="tag-highway"]:not([class*="tag-maxspeed_advisory-"]):not(.tag-has-maxspeed-advisory):not([class*="tag-xadv-"]) {
+    stroke: none !important;
+    opacity: 0 !important;
+}
+
+/* Neutralize fork access colours on highways (core 30_highways.css uses !important). */
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-access-"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-foot-private"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-foot-customers"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-foot-permissive"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-motor_vehicle-private"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-motor_vehicle-customers"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-motor_vehicle-permissive"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-service-private"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-service-customers"],
+.layer-osm path.line.stroke[class*="tag-highway"]:not([class*="tag-maxspeed-"])[class*="tag-service-permissive"] {
+    stroke: rgb(255, 255, 255) !important;
+    opacity: 0.3 !important;
+    stroke-dasharray: none !important;
+}
+
+.layer-osm path.line.casing[class*="tag-highway"]:not([class*="tag-maxspeed_advisory-"])[class*="tag-access-"],
+.layer-osm path.line.casing[class*="tag-highway"]:not([class*="tag-maxspeed_advisory-"])[class*="tag-motor_vehicle-"],
+.layer-osm path.line.casing[class*="tag-highway"]:not([class*="tag-maxspeed_advisory-"])[class*="tag-service-"],
+.layer-osm path.line.casing[class*="tag-highway"]:not([class*="tag-maxspeed_advisory-"]).tag-custom-access-emphasis {
+    stroke: none !important;
+    opacity: 0 !important;
+}
+
+/* --- maxspeed:advisory — 50/50 casing (outer) + stroke (centre), wider than default --- */
+
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-maxspeed_advisory-"],
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed_advisory-"],
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory {
+    stroke-linecap: butt !important;
+    stroke-linejoin: miter !important;
+    fill: none !important;
+}
+
+/* Default: links and minor roads (casing 20, stroke 10 → 50/50 ring). */
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-maxspeed_advisory-"],
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"] {
+    stroke-width: 20 !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed_advisory-"],
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory,
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-xadv-"] {
+    stroke-width: 10 !important;
+}
+
+/* Wide motor roads (not _link). */
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-motorway,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-trunk,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-primary,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-secondary,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-tertiary,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-motorway,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-trunk,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-primary,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-secondary,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-tertiary {
+    stroke-width: 22 !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-motorway,
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-trunk,
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-primary,
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-secondary,
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed_advisory-"].tag-highway-tertiary,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-motorway,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-trunk,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-primary,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-secondary,
+.layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory.tag-highway-tertiary {
+    stroke-width: 11 !important;
+}
+
+/* maxspeed (centre stroke) */
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-10 {
+    stroke: rgb(146, 106, 255) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-20 {
+    stroke: rgb(53, 188, 251) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-30 {
+    stroke: rgb(113, 179, 0) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-40 {
+    stroke: rgb(64, 224, 208) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-50 {
+    stroke: rgb(255, 230, 0) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-60 {
+    stroke: rgb(255, 136, 0) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-70 {
+    stroke: rgb(212, 67, 0) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-80 {
+    stroke: rgb(189, 0, 0) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-90 {
+    stroke: rgb(215, 10, 105) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+.layer-osm path.line.stroke[class*="tag-highway"].tag-maxspeed-100 {
+    stroke: rgb(255, 55, 188) !important;
+    fill: none !important;
+    opacity: 1 !important;
+    stroke-dasharray: none !important;
+}
+
+/* maxspeed:advisory (outer casing) — tag-xadv-* bucket colours, fully opaque */
+
+/* Fallback orange if bucket class missing; overridden below per tag-xadv-* */
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory {
+    stroke: rgb(255, 136, 0) !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-10 { stroke: rgb(146, 106, 255) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-20 { stroke: rgb(53, 188, 251) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-30 { stroke: rgb(113, 179, 0) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-40 { stroke: rgb(64, 224, 208) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-50 { stroke: rgb(255, 230, 0) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-60 { stroke: rgb(255, 136, 0) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-70 { stroke: rgb(212, 67, 0) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-80 { stroke: rgb(189, 0, 0) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-90 { stroke: rgb(215, 10, 105) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+.layer-osm path.line.casing[class*="tag-highway"].tag-xadv-100 { stroke: rgb(255, 55, 188) !important; stroke-opacity: 1 !important; opacity: 1 !important; }
+
+/* Neutralize core motorway/trunk casing brown on advisory ways */
+.layer-osm path.line.casing.tag-highway-motorway.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-motorway_link.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-trunk.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-trunk_link.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-primary.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-primary_link.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-secondary.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-secondary_link.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-tertiary.tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.tag-highway-tertiary_link.tag-has-maxspeed-advisory {
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+
+/* Bridge / tunnel / embankment / cutting — core 50_misc.css must not override advisory.
+ * Unlayered lens wins on stroke colour, but dasharray/opacity/width can leak from @layer ideditor. */
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-bridge,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-tunnel,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-embankment,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-cutting,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-location-underground,
+.layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory.tag-location-underwater,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-bridge,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-tunnel,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-embankment,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-cutting,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-location-underground,
+.layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-location-underwater {
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+
+/* Tunnels must not fade the maxspeed centre stroke. */
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed-"].tag-tunnel,
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed-"].tag-location-underground,
+.layer-osm path.line.stroke[class*="tag-highway"][class*="tag-maxspeed-"].tag-location-underwater {
+    opacity: 1 !important;
+    stroke-opacity: 1 !important;
+}
+
+/* --- selection: core shadow + casing; maxspeed stroke colour kept --- */
+.layer-osm path.line.shadow.selected,
+.layer-osm path.line.shadow.selected-member,
+.layer-osm path.line.casing.selected,
+.layer-osm path.line.casing.selected-member,
+.layer-osm path.line.over-stroke.selected,
+.layer-osm path.line.over-stroke.selected-member,
+.layer-osm path.area.shadow.selected,
+.layer-osm path.area.shadow.selected-member,
+.layer-osm path.area.stroke.selected,
+.layer-osm path.area.stroke.selected-member,
+.layer-osm path.area.fill.selected,
+.layer-osm path.area.fill.selected-member {
+    display: revert-layer !important;
+    opacity: revert-layer !important;
+    stroke: revert-layer !important;
+    stroke-width: revert-layer !important;
+    stroke-opacity: revert-layer !important;
+    stroke-dasharray: revert-layer !important;
+    fill: revert-layer !important;
+    color: revert-layer !important;
+}
+
+/* No core shadow halo on advisory highways (except when selected above). */
+.layer-osm path.line.shadow[class*="tag-highway"][class*="tag-maxspeed_advisory-"]:not(.selected):not(.selected-member),
+.layer-osm path.line.shadow[class*="tag-highway"].tag-has-maxspeed-advisory:not(.selected):not(.selected-member),
+.layer-osm path.line.shadow[class*="tag-highway"][class*="tag-xadv-"]:not(.selected):not(.selected-member) {
+    stroke: none !important;
+    stroke-opacity: 0 !important;
+    opacity: 0 !important;
+}
+
+/* Keep advisory colours at full opacity in insert-waypoint mode */
+.ideditor.mode-insert-waypoint .layer-osm path.line.casing[class*="tag-highway"].tag-has-maxspeed-advisory,
+.ideditor.mode-insert-waypoint .layer-osm path.line.stroke[class*="tag-highway"].tag-has-maxspeed-advisory {
+    opacity: 1 !important;
+    stroke-opacity: 1 !important;
+}
+
+.layer-osm g.vertex.selected,
+.layer-osm g.vertex.selected-member,
+.layer-osm g.point.selected,
+.layer-osm g.point.selected-member {
+    display: revert-layer !important;
+}
+
+.layer-osm g.vertex.selected circle.shadow,
+.layer-osm g.vertex.selected circle.stroke,
+.layer-osm g.vertex.selected circle.fill,
+.layer-osm g.vertex.selected-member circle.shadow,
+.layer-osm g.vertex.selected-member circle.stroke,
+.layer-osm g.vertex.selected-member circle.fill,
+.layer-osm g.point.selected path.shadow,
+.layer-osm g.point.selected path.stroke,
+.layer-osm g.point.selected-member path.shadow,
+.layer-osm g.point.selected-member path.stroke {
+    opacity: revert-layer !important;
+    stroke: revert-layer !important;
+    fill: revert-layer !important;
+}
+
+/* --- structure tags: beat .ideditor path.line.casing.tag-bridge { stroke:#000 !important }
+ * Core rules use the .ideditor prefix; generic .layer-osm xadv selectors can lose on
+ * specificity even inside an unlayered lens. These come last and match .ideditor too. */
+
+.ideditor .layer-osm path.line.shadow[class*="tag-highway"].tag-bridge,
+.ideditor .layer-osm path.line.shadow[class*="tag-highway"].tag-embankment,
+.ideditor .layer-osm path.line.shadow[class*="tag-highway"].tag-cutting {
+    stroke: none !important;
+    stroke-opacity: 0 !important;
+    opacity: 0 !important;
+}
+
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-10.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-10.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-10.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-10.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-10.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-10.tag-location-underwater {
+    stroke: rgb(146, 106, 255) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-20.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-20.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-20.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-20.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-20.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-20.tag-location-underwater {
+    stroke: rgb(53, 188, 251) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-30.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-30.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-30.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-30.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-30.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-30.tag-location-underwater {
+    stroke: rgb(113, 179, 0) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-40.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-40.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-40.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-40.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-40.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-40.tag-location-underwater {
+    stroke: rgb(64, 224, 208) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-50.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-50.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-50.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-50.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-50.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-50.tag-location-underwater {
+    stroke: rgb(255, 230, 0) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-60.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-60.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-60.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-60.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-60.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-60.tag-location-underwater {
+    stroke: rgb(255, 136, 0) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-70.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-70.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-70.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-70.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-70.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-70.tag-location-underwater {
+    stroke: rgb(212, 67, 0) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-80.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-80.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-80.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-80.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-80.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-80.tag-location-underwater {
+    stroke: rgb(189, 0, 0) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-90.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-90.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-90.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-90.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-90.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-90.tag-location-underwater {
+    stroke: rgb(215, 10, 105) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-100.tag-bridge,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-100.tag-embankment,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-100.tag-cutting,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-100.tag-tunnel,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-100.tag-location-underground,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"].tag-xadv-100.tag-location-underwater {
+    stroke: rgb(255, 55, 188) !important;
+    stroke-width: 20 !important;
+    stroke-dasharray: none !important;
+    stroke-linecap: butt !important;
+    stroke-opacity: 1 !important;
+    opacity: 1 !important;
+}
+
+/* Wide motor roads (not _link) with structure tags */
+.ideditor .layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-bridge.tag-highway-motorway,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-bridge.tag-highway-trunk,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-bridge.tag-highway-primary,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-bridge.tag-highway-secondary,
+.ideditor .layer-osm path.line.casing[class*="tag-highway"][class*="tag-xadv-"].tag-bridge.tag-highway-tertiary {
+    stroke-width: 22 !important;
+}
+
+/* Selected: hide advisory casing ring; core selection shadow/casing take over */
+.ideditor .layer-osm path.line.casing.selected[class*="tag-highway"].tag-has-maxspeed-advisory,
+.ideditor .layer-osm path.line.casing.selected[class*="tag-highway"][class*="tag-xadv-"],
+.ideditor .layer-osm path.line.casing.selected[class*="tag-highway"][class*="tag-maxspeed_advisory-"],
+.ideditor .layer-osm path.line.casing.selected-member[class*="tag-highway"].tag-has-maxspeed-advisory,
+.ideditor .layer-osm path.line.casing.selected-member[class*="tag-highway"][class*="tag-xadv-"],
+.ideditor .layer-osm path.line.casing.selected-member[class*="tag-highway"][class*="tag-maxspeed_advisory-"],
+.layer-osm path.line.casing.selected[class*="tag-highway"].tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.selected[class*="tag-highway"][class*="tag-xadv-"],
+.layer-osm path.line.casing.selected[class*="tag-highway"][class*="tag-maxspeed_advisory-"],
+.layer-osm path.line.casing.selected-member[class*="tag-highway"].tag-has-maxspeed-advisory,
+.layer-osm path.line.casing.selected-member[class*="tag-highway"][class*="tag-xadv-"],
+.layer-osm path.line.casing.selected-member[class*="tag-highway"][class*="tag-maxspeed_advisory-"] {
+    display: revert-layer !important;
+    opacity: revert-layer !important;
+    stroke: revert-layer !important;
+    stroke-width: revert-layer !important;
+    stroke-opacity: revert-layer !important;
+    stroke-dasharray: revert-layer !important;
+    stroke-linecap: revert-layer !important;
+    stroke-linejoin: revert-layer !important;
+}
