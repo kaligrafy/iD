@@ -731,10 +731,11 @@ path.line.casing.tag-highway-bridleway.tag-bridge {
 
 
 /* ============================================================================
- * Buildings (v5 fork — commercial fill, flat-count residential outlines)
+ * Buildings & landuse (v5 fork — css/50_misc.css + css/25_areas.css)
  * ----------------------------------------------------------------------------
- * `building=commercial` → `tag-building-commercial` (primary tag class).
- * Flat counts → `tag-has-flats` + `tag-flats-N` via tag_classes_custom.js.
+ * `building=*` / `landuse=*` → `tag-building-*` / `tag-landuse-*` (primary tags).
+ * Flat counts → `tag-has-flats` + `tag-flats-N` via tag_classes_custom.js
+ * (buildings and landuse=residential).
  * ============================================================================ */
 
 path.area.stroke.tag-building-commercial,
@@ -750,6 +751,72 @@ path.fill.tag-building-commercial,
 path.fill.tag-building-retail {
     stroke: rgba(0, 26, 255, 0.3);
     fill: rgba(0, 26, 255, 0.3);
+}
+
+path.area.stroke.tag-building-office,
+path.area.stroke.tag-building-office-yes,
+path.stroke.tag-building-office,
+path.stroke.tag-building-office-yes {
+    stroke: rgb(206, 0, 65);
+}
+
+path.area.fill.tag-building-office,
+path.area.fill.tag-building-office-yes,
+path.fill.tag-building-office,
+path.fill.tag-building-office-yes {
+    stroke: rgba(255, 0, 81, 0.3);
+}
+
+path.area.stroke.tag-building-public,
+path.area.stroke.tag-building-civic,
+path.area.stroke.tag-building-pavilion,
+path.stroke.tag-building-public,
+path.stroke.tag-building-civic,
+path.stroke.tag-building-pavilion {
+    stroke: rgb(255, 89, 0);
+}
+
+path.area.fill.tag-building-public,
+path.area.fill.tag-building-civic,
+path.area.fill.tag-building-pavilion,
+path.fill.tag-building-public,
+path.fill.tag-building-civic,
+path.fill.tag-building-pavilion {
+    stroke: rgba(255, 89, 0, 0.3);
+}
+
+path.area.stroke.tag-building-farm_auxiliary,
+path.area.stroke.tag-building-barn,
+path.stroke.tag-building-farm_auxiliary,
+path.stroke.tag-building-barn {
+    stroke: rgb(255, 196, 79);
+}
+
+path.area.fill.tag-building-farm_auxiliary,
+path.area.fill.tag-building-barn,
+path.fill.tag-building-farm_auxiliary,
+path.fill.tag-building-barn {
+    stroke: rgba(255, 196, 79, 0.3);
+}
+
+path.area.stroke.tag-building-service,
+path.stroke.tag-building-service {
+    stroke: rgb(75, 140, 150);
+}
+
+path.area.fill.tag-building-service,
+path.fill.tag-building-service {
+    stroke: rgba(36, 97, 106, 0.3);
+}
+
+path.area.stroke.tag-building-industrial,
+path.stroke.tag-building-industrial {
+    stroke: rgb(183, 0, 255);
+}
+
+path.area.fill.tag-building-industrial,
+path.fill.tag-building-industrial {
+    stroke: rgba(183, 0, 255, 0.3);
 }
 
 path.area.stroke.tag-building.tag-has-flats,
@@ -814,4 +881,27 @@ path.stroke.tag-building-semidetached_house {
 path.area.stroke.tag-building-house,
 path.stroke.tag-building-house {
     stroke: rgb(156, 36, 36);
+}
+
+path.area.stroke.tag-landuse-institutional,
+path.stroke.tag-landuse-institutional {
+    stroke: rgb(0, 157, 255);
+}
+
+path.area.fill.tag-landuse-institutional,
+path.fill.tag-landuse-institutional {
+    stroke: rgba(0, 157, 255, 0.3);
+    fill: rgba(0, 157, 255, 0.3);
+}
+
+path.area.stroke.tag-landuse-residential.tag-has-flats,
+path.stroke.tag-landuse-residential.tag-has-flats {
+    stroke: rgb(255, 255, 0);
+    stroke-width: 2;
+}
+
+path.area.fill.tag-landuse-residential.tag-has-flats,
+path.fill.tag-landuse-residential.tag-has-flats {
+    stroke: rgba(255, 255, 0, 0.3);
+    fill: rgba(255, 238, 0, 0.2);
 }
