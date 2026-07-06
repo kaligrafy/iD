@@ -364,6 +364,16 @@
         "terms": "uzns, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra",
         "aliases": "uzns"
     },
+    "highway/footway/crossing/uncontrolled-zebra_customers": {
+        "name": "Uncontrolled Zebra Footway Crossing (Customers)",
+        "terms": "uzcn, uzc, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra, customers",
+        "aliases": "uzcn"
+    },
+    "highway/footway/crossing/uncontrolled-zebra_private": {
+        "name": "Uncontrolled Zebra Footway Crossing (Private)",
+        "terms": "uznp, uzp, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra, private",
+        "aliases": "uznp"
+    },
     "highway/footway/crossing/unmarked": {
         "name": "Unmarked Footway Crossing",
         "terms": "uns, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing",
