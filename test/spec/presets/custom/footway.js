@@ -136,12 +136,33 @@ describe('custom presets — footway', function() {
     it('defines bicycle dismount footway presets by surface', function() {
         const asphalt = iD.presetManager.item('highway/footway/bicycle_dismount_asphalt');
         const concrete = iD.presetManager.item('highway/footway/bicycle_dismount_concrete');
+        const unpaved = iD.presetManager.item('highway/footway/bicycle_dismount_unpaved');
         const other = iD.presetManager.item('highway/footway/bicycle_dismount_other');
         expect(asphalt.tags).to.include({ highway: 'footway', bicycle: 'dismount', surface: 'asphalt' });
         expect(concrete.tags).to.include({ surface: 'concrete' });
+        expect(unpaved.tags).to.include({ surface: 'unpaved' });
         expect(other.tags).to.include({ bicycle: 'dismount' });
         expect(other.tags).to.not.have.property('surface');
         expect(other.tags).to.not.have.property('footway');
+    });
+
+    it('defines informal path presets with bicycle and surface', function() {
+        const dismountUnpaved = iD.presetManager.item('highway/footway/informal_bicycle_dismount_unpaved');
+        const dismountGrass = iD.presetManager.item('highway/footway/informal_bicycle_dismount_grass');
+        const yesUnpaved = iD.presetManager.item('highway/footway/informal_bicycle_yes_unpaved');
+        expect(dismountUnpaved.tags).to.eql({
+            highway: 'path',
+            informal: 'yes',
+            bicycle: 'dismount',
+            surface: 'unpaved'
+        });
+        expect(dismountGrass.tags).to.include({ bicycle: 'dismount', surface: 'grass' });
+        expect(yesUnpaved.tags).to.eql({
+            highway: 'path',
+            informal: 'yes',
+            bicycle: 'yes',
+            surface: 'unpaved'
+        });
     });
 
     it('defines sidewalk bicycle dismount and yes preset tags', function() {

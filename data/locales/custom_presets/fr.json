@@ -424,6 +424,11 @@
         "terms": "bdc, footway, chemin piéton, sentier, vélo à pied, béton",
         "aliases": "bdc"
     },
+    "highway/footway/bicycle_dismount_unpaved": {
+        "name": "Chemin piéton (vélo à pied, non revêtu)",
+        "terms": "bdu, footway, chemin piéton, sentier, vélo à pied, non revêtu, gravelle, terre",
+        "aliases": "bdu"
+    },
     "highway/footway/bicycle_dismount_other": {
         "name": "Chemin piéton (vélo à pied)",
         "terms": "bdo, footway, chemin piéton, sentier, vélo à pied",
@@ -453,6 +458,21 @@
         "name": "Sentier informel — clients",
         "terms": "cfi, footway, sentier informel, sentier, chemin de traverse, clients, randonnée",
         "aliases": "cfi"
+    },
+    "highway/footway/informal_bicycle_dismount_unpaved": {
+        "name": "Sentier informel (vélo à pied, non revêtu)",
+        "terms": "ibdu, path, sentier informel, chemin de traverse, vélo à pied, non revêtu, gravelle, terre, randonnée, marche",
+        "aliases": "ibdu"
+    },
+    "highway/footway/informal_bicycle_dismount_grass": {
+        "name": "Sentier informel (vélo à pied, gazon)",
+        "terms": "ibdg, path, sentier informel, chemin de traverse, vélo à pied, gazon, randonnée, marche",
+        "aliases": "ibdg"
+    },
+    "highway/footway/informal_bicycle_yes_unpaved": {
+        "name": "Sentier informel (vélo autorisé, non revêtu)",
+        "terms": "ibyu, path, sentier informel, chemin de traverse, vélo autorisé, cyclisme, non revêtu, gravelle, terre, randonnée, marche",
+        "aliases": "ibyu"
     },
     "highway/footway/customers_asphalt": {
         "name": "Chemin piéton — clients (asphalte)",

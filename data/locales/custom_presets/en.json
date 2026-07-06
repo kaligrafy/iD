@@ -424,6 +424,11 @@
         "terms": "bdc, footway, foot path, pedestrian path, bicycle dismount, dismount, concrete",
         "aliases": "bdc"
     },
+    "highway/footway/bicycle_dismount_unpaved": {
+        "name": "Foot path (bicycle dismount unpaved)",
+        "terms": "bdu, footway, foot path, pedestrian path, bicycle dismount, dismount, unpaved, gravel, dirt",
+        "aliases": "bdu"
+    },
     "highway/footway/bicycle_dismount_other": {
         "name": "Foot path (bicycle dismount)",
         "terms": "bdo, footway, foot path, pedestrian path, bicycle dismount, dismount",
@@ -453,6 +458,21 @@
         "name": "Customers informal path",
         "terms": "cfi, footway, informal path, desire path, trail, customers, hiking, walk",
         "aliases": "cfi"
+    },
+    "highway/footway/informal_bicycle_dismount_unpaved": {
+        "name": "Informal path (bicycle dismount unpaved)",
+        "terms": "ibdu, path, informal path, desire path, trail, bicycle dismount, dismount, unpaved, gravel, dirt, hiking, walk",
+        "aliases": "ibdu"
+    },
+    "highway/footway/informal_bicycle_dismount_grass": {
+        "name": "Informal path (bicycle dismount grass)",
+        "terms": "ibdg, path, informal path, desire path, trail, bicycle dismount, dismount, grass, hiking, walk",
+        "aliases": "ibdg"
+    },
+    "highway/footway/informal_bicycle_yes_unpaved": {
+        "name": "Informal path (bicycle yes unpaved)",
+        "terms": "ibyu, path, informal path, desire path, trail, bicycle yes, cycling, unpaved, gravel, dirt, hiking, walk",
+        "aliases": "ibyu"
     },
     "highway/footway/customers_asphalt": {
         "name": "Customers foot path (asphalt)",
