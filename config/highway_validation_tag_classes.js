@@ -57,6 +57,9 @@ export function appendHighwayValidationTagClasses(classes, t) {
     let widthLanesBackwardStartCount = null;
     let widthLanesBackwardEndCount = null;
 
+    let footway = null;
+    let hasCyclewayTag = false;
+    let hasName = false;
     let isOneWay = false;
     let hasLanes = false;
     let hasLanesForward = false;
@@ -69,6 +72,9 @@ export function appendHighwayValidationTagClasses(classes, t) {
         if (k === 'indoor') indoor = v;
         if (k === 'access') access = v;
         if (k === 'foot' || k === 'routing:foot') foot = v;
+        if (k === 'footway') footway = v;
+        if (k === 'cycleway') hasCyclewayTag = true;
+        if (k === 'name' && v) hasName = true;
         if (k === 'crossing') crossing = v;
         if (k === 'crossing:markings') crossingMarkings = v;
         if (k === 'segregated') segregated = v;
@@ -210,5 +216,13 @@ export function appendHighwayValidationTagClasses(classes, t) {
         if ((!surface || surface === 'paved') && indoor !== 'yes') {
             classes.push('tag-surface-undefined');
         }
+    }
+
+    // v5 parity: orange dashed over-stroke when name is missing (quebec lenses CSS)
+    const isSidewalk = footway !== null;
+    const isCrossing = crossing !== null;
+    const isStandaloneCycleway = highway === 'cycleway';
+    if (!hasName && (isSidewalk || isStandaloneCycleway || isCrossing || hasCyclewayTag)) {
+        classes.push('tag-name-no');
     }
 }
