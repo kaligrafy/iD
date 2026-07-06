@@ -10,6 +10,7 @@ import { appendHighwayValidationTagClasses } from './highway_validation_tag_clas
 export const customSecondaryTagKeys = [
     'cycleway',
     'stop',
+    'entrance',
     'fixme'
 ];
 
