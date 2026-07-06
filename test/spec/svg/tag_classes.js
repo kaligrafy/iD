@@ -387,6 +387,30 @@ describe('iD.svgTagClasses', function () {
         ['tag-name-no', { highway: 'residential', cycleway: 'lane' }]
     ];
 
+    const crossingStyleCases = [
+        ['tag-crossing-markings-zebra', { highway: 'cycleway', crossing: 'traffic_signals', 'crossing:markings': 'zebra' }],
+        ['tag-crossing-markings-lines', { highway: 'cycleway', crossing: 'uncontrolled', 'crossing:markings': 'lines' }],
+        ['tag-crossing-markings-surface', { highway: 'cycleway', crossing: 'traffic_signals', 'crossing:markings': 'surface' }],
+        ['tag-crossing-markings-dots', { highway: 'cycleway', crossing: 'traffic_signals', 'crossing:markings': 'dots' }],
+        ['tag-crossing-markings-dashes', { highway: 'cycleway', crossing: 'uncontrolled', 'crossing:markings': 'dashes' }],
+        ['tag-crossing-markings-dots', { highway: 'footway', footway: 'crossing', crossing: 'traffic_signals', 'crossing:markings': 'dots' }],
+        ['tag-crossing-markings-zebra', { highway: 'footway', footway: 'crossing', crossing: 'uncontrolled', 'crossing:markings': 'zebra' }],
+        ['tag-crossing-markings-lines', { highway: 'footway', footway: 'crossing', crossing: 'uncontrolled', 'crossing:markings': 'lines' }],
+        ['tag-segregated-yes', { highway: 'cycleway', crossing: 'unmarked', foot: 'designated', segregated: 'yes' }],
+        ['tag-segregated-no', { highway: 'cycleway', crossing: 'unmarked', foot: 'designated', segregated: 'no' }],
+        ['tag-foot-no', { highway: 'cycleway', crossing: 'unmarked', foot: 'no' }]
+    ];
+
+    for (const [expectedClass, tags] of crossingStyleCases) {
+        it(`adds ${expectedClass} for crossing styling (${tags.highway})`, function() {
+            const sel = d3.select(document.createElement('div'));
+            sel
+                .datum(new iD.osmWay({ tags }))
+                .call(iD.svgTagClasses());
+            expect(sel.classed(expectedClass)).to.be.true;
+        });
+    }
+
     for (const [expectedClass, tags] of nameNoCases) {
         it(`adds ${expectedClass} when name missing (${JSON.stringify(tags)})`, function() {
             const sel = d3.select(document.createElement('div'));

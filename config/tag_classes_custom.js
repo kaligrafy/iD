@@ -79,6 +79,26 @@ export function appendBuildingFlatsTagClasses(classes, t) {
  * @param {string[]} classes
  * @param {Record<string, string>} t entity tags
  */
+export function appendCrossingStyleTagClasses(classes, t) {
+    const markings = t['crossing:markings'];
+    if (markings) {
+        classes.push('tag-crossing-markings-' + markings.replace(/:/g, '_'));
+    }
+    if (t.segregated) {
+        classes.push('tag-segregated-' + t.segregated);
+    }
+    const foot = t.foot || t['routing:foot'];
+    if (foot === 'no') {
+        classes.push('tag-foot-no');
+    }
+}
+
+/**
+ * Append fork-specific tag classes for custom map styling.
+ *
+ * @param {string[]} classes
+ * @param {Record<string, string>} t entity tags
+ */
 export function appendCustomTagClasses(classes, t) {
     const emphasisValues = new Set(customAccessEmphasisValues);
     const excludeHighways = new Set(customAccessEmphasisExcludeHighways);
@@ -100,6 +120,7 @@ export function appendCustomTagClasses(classes, t) {
     }
 
     appendBuildingFlatsTagClasses(classes, t);
+    appendCrossingStyleTagClasses(classes, t);
     appendHighwayValidationTagClasses(classes, t);
 
     if (!highway || excludeHighways.has(highway)) return;
