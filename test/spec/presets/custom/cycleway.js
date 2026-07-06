@@ -1,7 +1,41 @@
 import { loadCustomPresets } from './setup.js';
 
+import { loadCustomPresets } from './setup.js';
+
+const CYCLEWAY_PATH_CASES = [
+    ['highway/cycleway', { highway: 'cycleway', foot: 'no' }, { lcn: 'yes', surface: 'asphalt' }],
+    ['highway/cycleway/bicycle_foot', { highway: 'cycleway', foot: 'designated', segregated: 'no' }, { lcn: 'yes', surface: 'asphalt' }],
+    ['highway/cycleway/bicycle_foot_segregated', { highway: 'cycleway', foot: 'designated', segregated: 'yes' }, { lcn: 'yes', surface: 'asphalt' }]
+];
+
+const CYCLEWAY_CROSSING_FOOT_MODES = [
+    ['no_foot', { foot: 'no' }],
+    ['not_segregated', { foot: 'designated', segregated: 'no' }],
+    ['segregated', { foot: 'designated', segregated: 'yes' }]
+];
+
 describe('custom presets — cycleway', function() {
     loadCustomPresets();
+
+    for (const [id, tags, addTags] of CYCLEWAY_PATH_CASES) {
+        it(`defines ${id} without required bicycle tag`, function() {
+            const preset = iD.presetManager.item(id);
+            expect(preset, id).to.exist;
+            expect(preset.tags).to.include(tags);
+            expect(preset.tags).to.not.have.property('bicycle');
+            expect(preset.addTags).to.include(addTags);
+            expect(preset.addTags).to.not.have.property('bicycle');
+            expect(preset.removeTags).to.have.property('bicycle', '*');
+            expect(preset.addable()).to.be.true;
+        });
+    }
+
+    it('finds cycleway path presets via search aliases', function() {
+        const pool = iD.presetManager.matchAllGeometry(['line']);
+        expect(pool.search('cnf', 'line').collection.map((p) => p.id)).to.include('highway/cycleway');
+        expect(pool.search('cns', 'line').collection.map((p) => p.id)).to.include('highway/cycleway/bicycle_foot');
+        expect(pool.search('cs', 'line').collection.map((p) => p.id)).to.include('highway/cycleway/bicycle_foot_segregated');
+    });
 
     it('loads cycleway link preset with expected name', function() {
         const cycleway = iD.presetManager.item('highway/cycleway/cycleway_link');
@@ -67,4 +101,20 @@ describe('custom presets — cycleway', function() {
         expect(notSegregated.tags).to.not.have.property('bicycle');
         expect(segregated.removeTags).to.have.property('bicycle', '*');
     });
+
+    for (const [footMode, footTags] of CYCLEWAY_CROSSING_FOOT_MODES) {
+        it(`defines unmarked cycleway crossing for ${footMode}`, function() {
+            const preset = iD.presetManager.item(`highway/cycleway/crossing/unmarked_${footMode}`);
+            expect(preset, `unmarked_${footMode}`).to.exist;
+            expect(preset.tags).to.include({
+                highway: 'cycleway',
+                cycleway: 'crossing',
+                crossing: 'unmarked',
+                'crossing:markings': 'no',
+                ...footTags
+            });
+            expect(preset.tags).to.not.have.property('bicycle');
+            expect(preset.addTags).to.not.have.property('bicycle');
+        });
+    }
 });

@@ -20,6 +20,7 @@ import { stopVariantPresets } from './presets/highway/stop_variants';
 import { trafficSignalsVariantPresets } from './presets/highway/traffic_signals_variants';
 import { cyclewayCrossingVariantPresets } from './presets/highway/cycleway/cycleway_crossing_variants';
 import { cyclewayLink } from './presets/highway/cycleway/cycleway_link';
+import { cyclewayPathVariantPresets } from './presets/highway/cycleway/cycleway_path_variants';
 import { parkingVariantPresets } from './presets/amenity/parking_variants';
 import { accessBarrierPresets } from './presets/barrier/access_barriers';
 import { constructionCompanyPresets } from './presets/office/construction_company';
@@ -68,6 +69,7 @@ export const customPresets: Record<string, CustomPreset> = {
     ...tactilePavingYesPresets,
     ...stopVariantPresets,
     ...trafficSignalsVariantPresets,
+    ...cyclewayPathVariantPresets,
     'highway/cycleway/cycleway_link': cyclewayLink,
     ...cyclewayCrossingVariantPresets,
     ...parkingVariantPresets,
