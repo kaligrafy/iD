@@ -902,6 +902,11 @@
         "terms": "put, track, private, woods road, forest road, logging road, fire road, farm road, agricultural road, unmaintained, offroad, 4wd, 4x4",
         "aliases": "put"
     },
+    "highway/motorway_link/placement_transition_oneway_1_100": {
+        "name": "Motorway link (transition, 1 lane, 100 km/h)",
+        "terms": "mlt1, motorway link, ramp, transition, placement transition, oneway, one lane, 1 lane, asphalt, 100, maxspeed 100",
+        "aliases": "mlt1"
+    },
     "highway/steps_customers": {
         "name": "Customers steps",
         "terms": "stc, customers, steps, stairs, staircase, stairway",

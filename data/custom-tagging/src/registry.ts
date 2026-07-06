@@ -14,6 +14,7 @@ import { sidewalkVariantPresets } from './presets/highway/footway/sidewalk_varia
 import { restrictedFootwayVariantPresets } from './presets/highway/footway/restricted_footway_variants';
 import { streetSidewalkVariantPresets } from './presets/highway/street_sidewalk_variants';
 import { serviceVariantPresets } from './presets/highway/service_variants';
+import { motorwayLinkTransitionPresets } from './presets/highway/motorway_link_transition';
 import { trackPrivatePresets } from './presets/highway/track_private';
 import { stepsVariantPresets } from './presets/highway/steps_variants';
 import { tactilePavingYesPresets } from './presets/highway/crossing/tactile_paving_yes';
@@ -67,6 +68,7 @@ export const customPresets: Record<string, CustomPreset> = {
     ...footwayCrossingVariantPresets,
     ...streetSidewalkVariantPresets,
     ...serviceVariantPresets,
+    ...motorwayLinkTransitionPresets,
     ...trackPrivatePresets,
     ...stepsVariantPresets,
     ...tactilePavingYesPresets,

@@ -902,6 +902,11 @@
         "terms": "put, chemin, piste, privé, chemin forestier, chemin de ferme, non entretenu, hors route, 4x4",
         "aliases": "put"
     },
+    "highway/motorway_link/placement_transition_oneway_1_100": {
+        "name": "Lien autoroute (transition, 1 voie, 100 km/h)",
+        "terms": "mlt1, lien autoroute, bretelle, transition, placement transition, sens unique, une voie, 1 voie, asphalt, 100, maxspeed 100",
+        "aliases": "mlt1"
+    },
     "highway/steps_customers": {
         "name": "Escalier clients",
         "terms": "stc, clients, escalier, escaliers, marches",
