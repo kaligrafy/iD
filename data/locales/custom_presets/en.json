@@ -617,6 +617,26 @@
         "terms": "pso, primary, road, street, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
         "aliases": "pso"
     },
+    "highway/motorway_link": {
+        "name": "Motorway link",
+        "terms": "ml, exit, ramp, on ramp, off ramp, link, motorway link, side road"
+    },
+    "highway/primary_link": {
+        "name": "Primary link",
+        "terms": "plk, on ramp, off ramp, ramp, link, primary link, side road"
+    },
+    "highway/secondary_link": {
+        "name": "Secondary link",
+        "terms": "slk, on ramp, off ramp, ramp, link, secondary link, side road"
+    },
+    "highway/tertiary_link": {
+        "name": "Tertiary link",
+        "terms": "tlk, on ramp, off ramp, ramp, link, tertiary link, side road"
+    },
+    "highway/trunk_link": {
+        "name": "Trunk link",
+        "terms": "tl, on ramp, off ramp, ramp, link, trunk link, side road"
+    },
     "highway/residential_sidewalk_both": {
         "name": "Residential road (separate sidewalk, both sides)",
         "terms": "rsb, residential, road, street, sidewalk, sidepath, separate, both, use_sidepath",

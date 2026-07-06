@@ -617,6 +617,26 @@
         "terms": "po, route primaire, route, rue, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
         "aliases": "pso"
     },
+    "highway/motorway_link": {
+        "name": "Bretelle d'autoroute",
+        "terms": "ml, bretelle, autoroute, rampe, voie d'accès"
+    },
+    "highway/primary_link": {
+        "name": "Voie d'accès à une route primaire",
+        "terms": "plk, bretelle, route primaire, rampe, voie d'accès"
+    },
+    "highway/secondary_link": {
+        "name": "Voie d'accès à une route secondaire",
+        "terms": "slk, bretelle, route secondaire, rampe, voie d'accès"
+    },
+    "highway/tertiary_link": {
+        "name": "Voie d'accès à une route tertiaire",
+        "terms": "tlk, bretelle, route tertiaire, rampe, voie d'accès"
+    },
+    "highway/trunk_link": {
+        "name": "Voie d'accès à une voie rapide",
+        "terms": "tl, bretelle, voie rapide, express, rampe, voie d'accès"
+    },
     "highway/residential_sidewalk_both": {
         "name": "Rue résidentielle (trottoir séparé, deux côtés)",
         "terms": "rb, rue résidentielle, route, rue, trottoir, sidepath, séparé, deux côtés, use_sidepath",
