@@ -7,12 +7,14 @@ describe('custom presets — highway=crossing node', function() {
         {
             id: 'highway/crossing/traffic_signals',
             tags: { highway: 'crossing', crossing: 'traffic_signals', 'crossing:markings': 'no' },
-            geometry: ['vertex']
+            geometry: ['vertex'],
+            icon: 'temaki-railway_signals'
         },
         {
             id: 'highway/crossing/traffic_signals-dots',
             tags: { highway: 'crossing', crossing: 'traffic_signals', 'crossing:markings': 'dots' },
-            alias: 'tsdn'
+            alias: 'tsdn',
+            icon: 'temaki-railway_signals'
         },
         {
             id: 'highway/crossing/traffic_signals-pictograms',
@@ -35,13 +37,14 @@ describe('custom presets — highway=crossing node', function() {
         }
     ];
 
-    for (const { id, tags, geometry = ['vertex'], alias } of vertexCases) {
+    for (const { id, tags, geometry = ['vertex'], alias, icon } of vertexCases) {
         it(`defines ${id}`, function() {
             const preset = iD.presetManager.item(id);
             expect(preset, id).to.exist;
             expect(preset.geometry).to.eql(geometry);
             expect(preset.tags).to.eql(tags);
             expect(preset.addTags).to.eql(tags);
+            if (icon) expect(preset.icon).to.equal(icon);
             expect(preset.tags).to.not.have.property('footway');
             expect(preset.tags).to.not.have.property('cycleway');
             expect(preset.tags).to.not.have.property('foot');
