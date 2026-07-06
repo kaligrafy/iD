@@ -81,6 +81,7 @@ export function rendererMap(context) {
             _pointerDown = false;
         });
     var _doubleUpHandler = utilDoubleUp();
+    var _prevSelectedIDs = [];
 
     var scheduleRedraw = throttle(redraw, 750);
     // var isRedrawScheduled = false;
@@ -247,24 +248,38 @@ export function rendererMap(context) {
             map.transformEase(t);
         });
 
+        function addSelectionAndParents(ids, graph, into) {
+            ids.forEach(function(id) {
+                var entity = graph.hasEntity(id);
+                if (entity) {
+                    into[entity.id] = entity;
+                    if (entity.type === 'node') {
+                        graph.parentWays(entity).forEach(function(parent) {
+                            into[parent.id] = parent;
+                        });
+                    }
+                }
+            });
+        }
+
         context.on('enter.map',  function() {
             if (!map.editableDataEnabled(true /* skip zoom check */)) return;
             if (_isTransformed) return;
 
             // redraw immediately any objects affected by a change in selectedIDs.
+            // Include the previous selection too (like drawVertices.drawSelected) so
+            // deselected ways regain normal styling without waiting for scheduleRedraw.
             var graph = context.graph();
             var selectedAndParents = {};
-            context.selectedIDs().forEach(function(id) {
-                var entity = graph.hasEntity(id);
-                if (entity) {
-                    selectedAndParents[entity.id] = entity;
-                    if (entity.type === 'node') {
-                        graph.parentWays(entity).forEach(function(parent) {
-                            selectedAndParents[parent.id] = parent;
-                        });
-                    }
-                }
-            });
+            addSelectionAndParents(_prevSelectedIDs, graph, selectedAndParents);
+            addSelectionAndParents(context.selectedIDs(), graph, selectedAndParents);
+
+            if (context.mode()?.id === 'select') {
+                _prevSelectedIDs = context.selectedIDs().slice();
+            } else {
+                _prevSelectedIDs = [];
+            }
+
             var data = Object.values(selectedAndParents);
             var filter = function(d) { return d.id in selectedAndParents; };
 
