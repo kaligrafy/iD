@@ -327,6 +327,36 @@ g.vertex.tag-highway-stop.tag-stop-minor .icon {
     color: #FFC9C9;
 }
 
+/* Gates & entrances — opaque background, white icon */
+g.vertex.tag-barrier-gate.tag-access-customers circle.stroke,
+g.vertex.tag-barrier-lift_gate.tag-access-customers circle.stroke {
+    fill: #FF8800;
+}
+g.vertex.tag-barrier-gate.tag-access-private circle.stroke,
+g.vertex.tag-barrier-lift_gate.tag-access-private circle.stroke,
+g.vertex.tag-entrance-yes.tag-access-private circle.stroke {
+    fill: #AB0000;
+}
+g.vertex.tag-barrier-gate.tag-foot-yes.tag-bicycle-yes:not(.tag-access-private):not(.tag-access-customers) circle.stroke {
+    fill: #2E8B57;
+}
+g.vertex.tag-barrier-gate.tag-access-customers .icon,
+g.vertex.tag-barrier-lift_gate.tag-access-customers .icon,
+g.vertex.tag-barrier-gate.tag-access-private .icon,
+g.vertex.tag-barrier-lift_gate.tag-access-private .icon,
+g.vertex.tag-entrance-yes.tag-access-private .icon,
+g.vertex.tag-barrier-gate.tag-foot-yes.tag-bicycle-yes:not(.tag-access-private):not(.tag-access-customers) .icon {
+    color: #fff;
+}
+.layer-osm g.vertex.tag-barrier-gate.tag-access-customers use.icon path,
+.layer-osm g.vertex.tag-barrier-lift_gate.tag-access-customers use.icon path,
+.layer-osm g.vertex.tag-barrier-gate.tag-access-private use.icon path,
+.layer-osm g.vertex.tag-barrier-lift_gate.tag-access-private use.icon path,
+.layer-osm g.vertex.tag-entrance-yes.tag-access-private use.icon path,
+.layer-osm g.vertex.tag-barrier-gate.tag-foot-yes.tag-bicycle-yes:not(.tag-access-private):not(.tag-access-customers) use.icon path {
+    fill: #fff;
+}
+
 /* Selected Members */
 g.vertex.selected-member .shadow,
 g.point.selected-member .shadow,

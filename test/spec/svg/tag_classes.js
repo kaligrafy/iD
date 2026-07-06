@@ -447,6 +447,22 @@ describe('iD.svgTagClasses', function () {
         expect(selection.classed('tag-surface-undefined')).to.be.false;
     });
 
+    it('adds tag-entrance-yes for entrance nodes', function() {
+        selection
+            .datum(new iD.osmNode({ tags: { entrance: 'yes', access: 'private' } }))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-entrance-yes')).to.be.true;
+        expect(selection.classed('tag-access-private')).to.be.true;
+    });
+
+    it('adds gate access classes for barrier vertices', function() {
+        selection
+            .datum(new iD.osmNode({ tags: { barrier: 'gate', access: 'customers' } }))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-barrier-gate')).to.be.true;
+        expect(selection.classed('tag-access-customers')).to.be.true;
+    });
+
     it('maxspeed lens omits bridge structure classes', function() {
         setLensSecondaryTagKeys(['maxspeed', 'maxspeed_advisory']);
         const classes = iD.svgTagClasses().getClassesString({
