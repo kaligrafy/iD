@@ -26,8 +26,14 @@ const MARKED_NODE_MARKINGS: NodeMarkingSlug[] = [
     'dots', 'lines', 'zebra', 'pictograms', 'dashes', 'surface', 'other'
 ];
 
-function crossingNodeIcon(markings: NodeMarkingSlug): string {
-    return markings === 'zebra' ? 'temaki-pedestrian_crosswalk' : 'temaki-pedestrian';
+function crossingNodeIcon(crossing: CrossingType, markings: NodeMarkingSlug): string {
+    if (crossing === 'traffic_signals') {
+        return 'temaki-railway_signals';
+    }
+    if (markings === 'zebra') {
+        return 'temaki-pedestrian_crosswalk';
+    }
+    return 'temaki-pedestrian';
 }
 
 function buildVariantList(): CrossingNodeVariant[] {
@@ -37,14 +43,14 @@ function buildVariantList(): CrossingNodeVariant[] {
         id: 'highway/crossing/traffic_signals',
         crossing: 'traffic_signals',
         markings: 'no',
-        icon: crossingNodeIcon('no')
+        icon: crossingNodeIcon('traffic_signals', 'no')
     });
     for (const markings of MARKED_NODE_MARKINGS) {
         variants.push({
             id: `highway/crossing/traffic_signals-${markings}`,
             crossing: 'traffic_signals',
             markings,
-            icon: crossingNodeIcon(markings)
+            icon: crossingNodeIcon('traffic_signals', markings)
         });
     }
     for (const markings of MARKED_NODE_MARKINGS) {
@@ -52,14 +58,14 @@ function buildVariantList(): CrossingNodeVariant[] {
             id: `highway/crossing/uncontrolled-${markings}`,
             crossing: 'uncontrolled',
             markings,
-            icon: crossingNodeIcon(markings)
+            icon: crossingNodeIcon('uncontrolled', markings)
         });
     }
     variants.push({
         id: 'highway/crossing/unmarked',
         crossing: 'unmarked',
         markings: 'no',
-        icon: crossingNodeIcon('no')
+        icon: crossingNodeIcon('unmarked', 'no')
     });
     return variants;
 }
