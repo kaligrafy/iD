@@ -6,6 +6,9 @@ export type CrossingType = 'traffic_signals' | 'uncontrolled' | 'unmarked';
 /** Crossing marking style; `other` leaves `crossing:markings` unset, `no` means unmarked. */
 export type MarkingSlug = 'dots' | 'lines' | 'zebra' | 'surface' | 'dashes' | 'other' | 'no';
 
+/** Markings for `highway=crossing` vertex presets (includes pictograms). */
+export type NodeMarkingSlug = MarkingSlug | 'pictograms';
+
 /** OSM `crossing:markings` value per slug; `other` omits the key (unspecified markings). */
 export const MARKING_TAG: Record<MarkingSlug, string | null> = {
     dots: 'dots',
@@ -15,4 +18,10 @@ export const MARKING_TAG: Record<MarkingSlug, string | null> = {
     dashes: 'dashes',
     other: null,
     no: 'no'
+};
+
+/** OSM `crossing:markings` for junction node presets. */
+export const NODE_MARKING_TAG: Record<NodeMarkingSlug, string | null> = {
+    ...MARKING_TAG,
+    pictograms: 'pictograms'
 };

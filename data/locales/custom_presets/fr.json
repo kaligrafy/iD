@@ -829,6 +829,86 @@
         "terms": "std, vélo à pied, descendre du vélo, escalier, escaliers, marches",
         "aliases": "std"
     },
+    "highway/crossing/traffic_signals": {
+        "name": "Traversée (nœud) — Feux, sans marquage",
+        "terms": "tsn, ts, nœud, jonction, traversée, passage piéton, feux, feux de circulation, sans marquage",
+        "aliases": "tsn"
+    },
+    "highway/crossing/traffic_signals-dashes": {
+        "name": "Traversée (nœud) — Feux, tirets",
+        "terms": "tsdashn, nœud, jonction, traversée, passage piéton, feux, tirets, marquage en tirets",
+        "aliases": "tsdashn"
+    },
+    "highway/crossing/traffic_signals-dots": {
+        "name": "Traversée (nœud) — Feux, pointillés",
+        "terms": "tsdn, td, nœud, jonction, traversée, passage piéton, feux, pointillés",
+        "aliases": "tsdn"
+    },
+    "highway/crossing/traffic_signals-lines": {
+        "name": "Traversée (nœud) — Feux, lignes",
+        "terms": "tsln, tsl, nœud, jonction, traversée, passage piéton, feux, lignes",
+        "aliases": "tsln"
+    },
+    "highway/crossing/traffic_signals-other": {
+        "name": "Traversée (nœud) — Feux, autre marquage",
+        "terms": "tso, nœud, jonction, traversée, passage piéton, feux, autre marquage",
+        "aliases": "tso"
+    },
+    "highway/crossing/traffic_signals-pictograms": {
+        "name": "Traversée (nœud) — Feux, pictogrammes",
+        "terms": "tspict, nœud, jonction, traversée, passage piéton, feux, pictogrammes",
+        "aliases": "tspict"
+    },
+    "highway/crossing/traffic_signals-surface": {
+        "name": "Traversée (nœud) — Feux, surface",
+        "terms": "tssurf, nœud, jonction, traversée, passage piéton, feux, surface",
+        "aliases": "tssurf"
+    },
+    "highway/crossing/traffic_signals-zebra": {
+        "name": "Traversée (nœud) — Feux, zébrures",
+        "terms": "tsz, tz, nœud, jonction, traversée, passage piéton, feux, zébrures, zebra",
+        "aliases": "tsz"
+    },
+    "highway/crossing/uncontrolled-dashes": {
+        "name": "Traversée (nœud) — Non contrôlée, tirets",
+        "terms": "udashn, nœud, jonction, traversée, passage piéton, non contrôlée, tirets",
+        "aliases": "udashn"
+    },
+    "highway/crossing/uncontrolled-dots": {
+        "name": "Traversée (nœud) — Non contrôlée, pointillés",
+        "terms": "udots, ud, nœud, jonction, traversée, passage piéton, non contrôlée, pointillés",
+        "aliases": "udots"
+    },
+    "highway/crossing/uncontrolled-lines": {
+        "name": "Traversée (nœud) — Non contrôlée, lignes",
+        "terms": "uln, ul, nœud, jonction, traversée, passage piéton, non contrôlée, lignes",
+        "aliases": "uln"
+    },
+    "highway/crossing/uncontrolled-other": {
+        "name": "Traversée (nœud) — Non contrôlée, autre marquage",
+        "terms": "uo, nœud, jonction, traversée, passage piéton, non contrôlée, autre marquage",
+        "aliases": "uo"
+    },
+    "highway/crossing/uncontrolled-pictograms": {
+        "name": "Traversée (nœud) — Non contrôlée, pictogrammes",
+        "terms": "upict, up, nœud, jonction, traversée, passage piéton, non contrôlée, pictogrammes",
+        "aliases": "upict"
+    },
+    "highway/crossing/uncontrolled-surface": {
+        "name": "Traversée (nœud) — Non contrôlée, surface",
+        "terms": "usurf, nœud, jonction, traversée, passage piéton, non contrôlée, surface",
+        "aliases": "usurf"
+    },
+    "highway/crossing/uncontrolled-zebra": {
+        "name": "Traversée (nœud) — Non contrôlée, zébrures",
+        "terms": "uz, unz, nœud, jonction, traversée, passage piéton, non contrôlée, zébrures, zebra",
+        "aliases": "uz"
+    },
+    "highway/crossing/unmarked": {
+        "name": "Traversée (nœud) — Sans marquage",
+        "terms": "uc, nœud, jonction, traversée, passage piéton, sans marquage, unmarked",
+        "aliases": "uc"
+    },
     "highway/crossing/tactile_paving_yes": {
         "name": "Surface podotactile (oui)",
         "terms": "tp, podotactile, tactile, oui, bande podotactile",

@@ -829,6 +829,86 @@
         "terms": "std, dismount, bicycle, steps, stairs, staircase, stairway",
         "aliases": "std"
     },
+    "highway/crossing/traffic_signals": {
+        "name": "Traffic Signals Crossing (no markings) (node)",
+        "terms": "tsn, ts, traffic, crossing node, traffic signals crossing, traffic signals crosswalk, traffic signals pedestrian crossing, no marking crossing",
+        "aliases": "tsn"
+    },
+    "highway/crossing/traffic_signals-dashes": {
+        "name": "Traffic Signals Dashes Crossing (node)",
+        "terms": "tsdashn, tsdashns, crossing node, traffic signals crossing, traffic signals crosswalk, dashes crossing, dashes",
+        "aliases": "tsdashn"
+    },
+    "highway/crossing/traffic_signals-dots": {
+        "name": "Traffic Signals Dots Crossing (node)",
+        "terms": "tsdn, td, tdots, crossing node, traffic signals crossing, traffic signals crosswalk, dots crossing, dots",
+        "aliases": "tsdn"
+    },
+    "highway/crossing/traffic_signals-lines": {
+        "name": "Traffic Signals Lines Crossing (node)",
+        "terms": "tsln, tsl, tl, crossing node, traffic signals crossing, traffic signals crosswalk, lines crossing, lines",
+        "aliases": "tsln"
+    },
+    "highway/crossing/traffic_signals-other": {
+        "name": "Traffic Signals Crossing (other) (node)",
+        "terms": "tso, to, crossing node, traffic signals crossing, traffic signals crosswalk, other marking",
+        "aliases": "tso"
+    },
+    "highway/crossing/traffic_signals-pictograms": {
+        "name": "Traffic Signals Pictogram Crossing (node)",
+        "terms": "tspict, tpict, pict, crossing node, traffic signals crossing, pictograms crossing, pictograms",
+        "aliases": "tspict"
+    },
+    "highway/crossing/traffic_signals-surface": {
+        "name": "Traffic Signals Surface Crossing (node)",
+        "terms": "tssurf, crossing node, traffic signals crossing, surface crossing, surface",
+        "aliases": "tssurf"
+    },
+    "highway/crossing/traffic_signals-zebra": {
+        "name": "Traffic Signals Zebra Crossing (node)",
+        "terms": "tsz, tz, zt, crossing node, traffic signals crossing, zebra crossing, zebra",
+        "aliases": "tsz"
+    },
+    "highway/crossing/uncontrolled-dashes": {
+        "name": "Uncontrolled Dashes Crossing (node)",
+        "terms": "udashn, crossing node, uncontrolled crossing, uncontrolled crosswalk, dashes crossing, dashes",
+        "aliases": "udashn"
+    },
+    "highway/crossing/uncontrolled-dots": {
+        "name": "Uncontrolled Dots Crossing (node)",
+        "terms": "udots, ud, crossing node, uncontrolled crossing, uncontrolled crosswalk, dots crossing, dots",
+        "aliases": "udots"
+    },
+    "highway/crossing/uncontrolled-lines": {
+        "name": "Uncontrolled Lines Crossing (node)",
+        "terms": "uln, ul, crossing node, uncontrolled crossing, uncontrolled crosswalk, lines crossing, lines",
+        "aliases": "uln"
+    },
+    "highway/crossing/uncontrolled-other": {
+        "name": "Uncontrolled Crossing (other) (node)",
+        "terms": "uo, uno, crossing node, uncontrolled crossing, other marking",
+        "aliases": "uo"
+    },
+    "highway/crossing/uncontrolled-pictograms": {
+        "name": "Uncontrolled Pictogram Crossing (node)",
+        "terms": "upict, up, pict, crossing node, uncontrolled crossing, pictograms crossing, pictograms",
+        "aliases": "upict"
+    },
+    "highway/crossing/uncontrolled-surface": {
+        "name": "Uncontrolled Surface Crossing (node)",
+        "terms": "usurf, crossing node, uncontrolled crossing, surface crossing, surface",
+        "aliases": "usurf"
+    },
+    "highway/crossing/uncontrolled-zebra": {
+        "name": "Uncontrolled Zebra Crossing (node)",
+        "terms": "uz, unz, zu, crossing node, uncontrolled crossing, zebra crossing, zebra, crosswalk",
+        "aliases": "uz"
+    },
+    "highway/crossing/unmarked": {
+        "name": "Unmarked Crossing (node)",
+        "terms": "uc, unmarked, crossing node, unmarked crossing",
+        "aliases": "uc"
+    },
     "highway/crossing/tactile_paving_yes": {
         "name": "Tactile paving (yes)",
         "terms": "tp, tactile paving, tactile_paving, yes, rumble strip",
