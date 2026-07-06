@@ -309,6 +309,21 @@
         "terms": "cus, us, un, traversée cyclable, passage cyclable, passage pour vélo, traversée, non marqué, sans marquage, ségrégué",
         "aliases": "cus"
     },
+    "highway/cycleway/crossing/traffic_signals_no_foot": {
+        "name": "Traversée cyclable — Feux, sans marquage, sans piétons",
+        "terms": "ctsnf, ctsn, traversée cyclable, passage cyclable, passage pour vélo, traversée, feux, feux de circulation, signalisation, sans marquage, sans piétons, piétons interdits",
+        "aliases": "ctsnf"
+    },
+    "highway/cycleway/crossing/traffic_signals_not_segregated": {
+        "name": "Traversée cyclable — Feux, sans marquage, non ségrégué",
+        "terms": "ctsnns, ctsn, traversée cyclable, passage cyclable, passage pour vélo, traversée, feux, feux de circulation, signalisation, sans marquage, non ségrégué, mixte",
+        "aliases": "ctsnns"
+    },
+    "highway/cycleway/crossing/traffic_signals_segregated": {
+        "name": "Traversée cyclable — Feux, sans marquage, ségrégué",
+        "terms": "ctsns, ctsn, traversée cyclable, passage cyclable, passage pour vélo, traversée, feux, feux de circulation, signalisation, sans marquage, ségrégué",
+        "aliases": "ctsns"
+    },
     "highway/cycleway/cycleway_link": {
         "name": "Lien cyclable",
         "aliases": "cl",
