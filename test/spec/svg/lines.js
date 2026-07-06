@@ -261,4 +261,136 @@ describe('iD.svgLines', function () {
                 .to.eql('url(#ideditor-sided-marker-dual_carriageway)');
         });
     });
+
+    describe('highlighted groups (partial redraw)', function() {
+        var nodes, ways, graph;
+
+        beforeEach(function() {
+            nodes = [
+                new iD.osmNode({id: 'n1', loc: [0, 0]}),
+                new iD.osmNode({id: 'n2', loc: [0.001, 0]}),
+                new iD.osmNode({id: 'n3', loc: [0.002, 0]}),
+                new iD.osmNode({id: 'n4', loc: [0.003, 0]}),
+                new iD.osmNode({id: 'n5', loc: [0, 0.001]}),
+                new iD.osmNode({id: 'n6', loc: [0.001, 0.001]}),
+                new iD.osmNode({id: 'n7', loc: [0.002, 0.001]}),
+                new iD.osmNode({id: 'n8', loc: [0.003, 0.001]}),
+            ];
+            ways = [
+                new iD.osmWay({id: 'w1', tags: {highway: 'motorway'}, nodes: ['n1', 'n2']}),
+                new iD.osmWay({id: 'w2', tags: {highway: 'motorway'}, nodes: ['n3', 'n4']}),
+                new iD.osmWay({id: 'w3', tags: {highway: 'secondary'}, nodes: ['n5', 'n6']}),
+                new iD.osmWay({id: 'w4', tags: {highway: 'secondary'}, nodes: ['n7', 'n8']}),
+            ];
+            graph = new iD.coreGraph(nodes.concat(ways));
+            context.history().merge(nodes.concat(ways));
+            surface.call(iD.svgLines(projection, context), graph, ways, all);
+        });
+
+        function partialRedraw(ids) {
+            var selectedAndParents = {};
+            ids.forEach(function(id) { selectedAndParents[id] = graph.entity(id); });
+            var data = Object.values(selectedAndParents);
+            var filter = function(d) { return d.id in selectedAndParents; };
+            surface.call(iD.svgLines(projection, context), graph, data, filter);
+        }
+
+        function shadowGroup(isHighlighted) {
+            return surface.selectAll(
+                isHighlighted ? 'g.line-shadow-highlighted' : 'g.line-shadow'
+            );
+        }
+
+        function expectWaysHighlighted(ids) {
+            ids.forEach(function(id) {
+                var paths = shadowGroup(true).selectAll('path.' + id);
+                expect(paths.empty(), id + ' in shadow-highlighted').to.be.false;
+                paths.each(function() {
+                    expect(d3.select(this).classed('selected'), id + ' selected class').to.be.true;
+                });
+            });
+        }
+
+        function expectWaysNotInNormalShadow(ids) {
+            ids.forEach(function(id) {
+                expect(shadowGroup(false).selectAll('path.' + id).empty(), id + ' not in shadow')
+                    .to.be.true;
+            });
+        }
+
+        [1, 2, 3, 4].forEach(function(n) {
+            it('keeps ' + n + ' selected way(s) in highlighted shadow after partial redraw', function() {
+                var ids = ways.slice(0, n).map(function(w) { return w.id; });
+                context.enter(iD.modeSelect(context, ids));
+                partialRedraw(ids);
+                expectWaysHighlighted(ids);
+                expectWaysNotInNormalShadow(ids);
+            });
+        });
+
+        it('survives incremental partial redraws on the same surface (multi-shift+click)', function() {
+            var ids = [ways[0].id];
+            context.enter(iD.modeSelect(context, ids));
+            partialRedraw(ids);
+            expectWaysHighlighted(ids);
+
+            for (var n = 1; n < ways.length; n++) {
+                ids = ways.slice(0, n + 1).map(function(w) { return w.id; });
+                context.enter(iD.modeSelect(context, ids));
+                partialRedraw(ids);
+                expectWaysHighlighted(ids);
+                expectWaysNotInNormalShadow(ids);
+            }
+        });
+
+        it('drops deselected ways from highlighted shadow on partial redraw', function() {
+            var allIds = ways.map(function(w) { return w.id; });
+            context.enter(iD.modeSelect(context, allIds));
+            partialRedraw(allIds);
+            expectWaysHighlighted(allIds);
+
+            var fewer = allIds.slice(0, 3);
+            context.enter(iD.modeSelect(context, fewer));
+            partialRedraw(fewer);
+            expectWaysHighlighted(fewer);
+            expect(shadowGroup(true).selectAll('path.' + allIds[3]).empty()).to.be.true;
+        });
+
+        it('moves highway over-stroke into highlighted group when selected', function() {
+            var id = ways[0].id;
+            context.enter(iD.modeSelect(context, [id]));
+            partialRedraw([id]);
+            expect(surface.selectAll('g.line-over-stroke-highlighted path.' + id).empty()).to.be.false;
+            expect(surface.selectAll('g.line-over-stroke path.' + id).empty()).to.be.true;
+        });
+
+        [
+            ['w1', 'w3'],
+            ['w3', 'w1'],
+            ['w1', 'w2'],
+            ['w2', 'w1'],
+        ].forEach(function(pair) {
+            it('keeps both halos when incrementally selecting ' + pair.join(' then '), function() {
+                context.enter(iD.modeSelect(context, [pair[0]]));
+                partialRedraw([pair[0]]);
+                expectWaysHighlighted([pair[0]]);
+
+                context.enter(iD.modeSelect(context, pair));
+                partialRedraw([pair[1]]);
+                expectWaysHighlighted(pair);
+                expectWaysNotInNormalShadow(pair);
+            });
+        });
+
+        it('skips touch-target updates on partial redraw in select mode', function() {
+            context.enter(iD.modeSelect(context, ['w1', 'w3']));
+            surface.call(iD.svgLines(projection, context), graph, ways, all);
+            var touchLayer = surface.select('.layer-touch.lines');
+            var before = touchLayer.node().innerHTML;
+
+            partialRedraw(['w3']);
+
+            expect(touchLayer.node().innerHTML).to.eql(before);
+        });
+    });
 });
