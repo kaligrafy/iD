@@ -75,18 +75,30 @@ function accessRoadPresets(access: string): Record<string, CustomPreset> {
 }
 
 interface SubtypeVariant {
-    access: 'customers' | 'private';
+    access: 'customers' | 'private' | 'destination';
     service: 'driveway' | 'parking_aisle';
     unpaved?: boolean;
 }
 
+const SUBTYPE_ACCESS_TAGS: Record<SubtypeVariant['access'], Record<string, string>> = {
+    customers: { access: 'customers' },
+    private: { access: 'private' },
+    destination: { motor_vehicle: 'destination' }
+};
+
 const SUBTYPES: SubtypeVariant[] = [
     { access: 'customers', service: 'driveway' },
     { access: 'customers', service: 'parking_aisle' },
+    { access: 'customers', service: 'driveway', unpaved: true },
+    { access: 'customers', service: 'parking_aisle', unpaved: true },
     { access: 'private', service: 'driveway' },
     { access: 'private', service: 'parking_aisle' },
     { access: 'private', service: 'driveway', unpaved: true },
-    { access: 'private', service: 'parking_aisle', unpaved: true }
+    { access: 'private', service: 'parking_aisle', unpaved: true },
+    { access: 'destination', service: 'driveway' },
+    { access: 'destination', service: 'parking_aisle' },
+    { access: 'destination', service: 'driveway', unpaved: true },
+    { access: 'destination', service: 'parking_aisle', unpaved: true }
 ];
 
 function subtypeId(v: SubtypeVariant): string {
@@ -95,7 +107,11 @@ function subtypeId(v: SubtypeVariant): string {
 }
 
 function subtypePreset(v: SubtypeVariant): CustomPreset {
-    const tags: Record<string, string> = { highway: 'service', service: v.service, access: v.access };
+    const tags: Record<string, string> = {
+        highway: 'service',
+        service: v.service,
+        ...SUBTYPE_ACCESS_TAGS[v.access]
+    };
     if (v.unpaved) tags.surface = 'unpaved';
     const addTags = v.unpaved ? { ...tags } : { ...tags, surface: 'asphalt' };
 

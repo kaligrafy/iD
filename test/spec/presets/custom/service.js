@@ -38,12 +38,18 @@ const ROAD_CASES = Object.keys(ACCESS).flatMap((access) => {
 });
 
 const SUBTYPE_CASES = [
-    { id: 'highway/service/customers_driveway', service: 'driveway', access: 'customers', paved: true },
-    { id: 'highway/service/customers_parking_aisle', service: 'parking_aisle', access: 'customers', paved: true },
-    { id: 'highway/service/private_driveway', service: 'driveway', access: 'private', paved: true },
-    { id: 'highway/service/private_parking_aisle', service: 'parking_aisle', access: 'private', paved: true },
-    { id: 'highway/service/private_unpaved_driveway', service: 'driveway', access: 'private', paved: false },
-    { id: 'highway/service/private_unpaved_parking_aisle', service: 'parking_aisle', access: 'private', paved: false }
+    { id: 'highway/service/customers_driveway', service: 'driveway', restrictionTags: { access: 'customers' }, paved: true },
+    { id: 'highway/service/customers_parking_aisle', service: 'parking_aisle', restrictionTags: { access: 'customers' }, paved: true },
+    { id: 'highway/service/customers_unpaved_driveway', service: 'driveway', restrictionTags: { access: 'customers' }, paved: false },
+    { id: 'highway/service/customers_unpaved_parking_aisle', service: 'parking_aisle', restrictionTags: { access: 'customers' }, paved: false },
+    { id: 'highway/service/private_driveway', service: 'driveway', restrictionTags: { access: 'private' }, paved: true },
+    { id: 'highway/service/private_parking_aisle', service: 'parking_aisle', restrictionTags: { access: 'private' }, paved: true },
+    { id: 'highway/service/private_unpaved_driveway', service: 'driveway', restrictionTags: { access: 'private' }, paved: false },
+    { id: 'highway/service/private_unpaved_parking_aisle', service: 'parking_aisle', restrictionTags: { access: 'private' }, paved: false },
+    { id: 'highway/service/destination_driveway', service: 'driveway', restrictionTags: { motor_vehicle: 'destination' }, paved: true },
+    { id: 'highway/service/destination_parking_aisle', service: 'parking_aisle', restrictionTags: { motor_vehicle: 'destination' }, paved: true },
+    { id: 'highway/service/destination_unpaved_driveway', service: 'driveway', restrictionTags: { motor_vehicle: 'destination' }, paved: false },
+    { id: 'highway/service/destination_unpaved_parking_aisle', service: 'parking_aisle', restrictionTags: { motor_vehicle: 'destination' }, paved: false }
 ];
 
 describe('custom presets — service roads', function() {
@@ -65,11 +71,11 @@ describe('custom presets — service roads', function() {
         });
     });
 
-    SUBTYPE_CASES.forEach(function({ id, service, access, paved }) {
+    SUBTYPE_CASES.forEach(function({ id, service, restrictionTags, paved }) {
         it(`defines subtype ${id}`, function() {
             const preset = iD.presetManager.item(id);
             expect(preset, id).to.exist;
-            expect(preset.tags).to.include({ highway: 'service', service, access });
+            expect(preset.tags).to.include({ highway: 'service', service, ...restrictionTags });
             expect(preset.addTags.surface).to.equal(paved ? 'asphalt' : 'unpaved');
         });
     });
@@ -93,8 +99,14 @@ describe('custom presets — service roads', function() {
         const pool = iD.presetManager.matchAllGeometry(['line']);
         const byScsb = pool.search('scsb', 'line').collection.map((p) => p.id);
         expect(byScsb).to.include('highway/service/customers_sidewalk_both');
-        const bySpud = pool.search('spud', 'line').collection.map((p) => p.id);
-        expect(bySpud).to.include('highway/service/private_unpaved_driveway');
+        const by4du = pool.search('4du', 'line').collection.map((p) => p.id);
+        expect(by4du).to.include('highway/service/customers_unpaved_driveway');
+        const by5du = pool.search('5du', 'line').collection.map((p) => p.id);
+        expect(by5du).to.include('highway/service/private_unpaved_driveway');
+        const by6d = pool.search('6d', 'line').collection.map((p) => p.id);
+        expect(by6d).to.include('highway/service/destination_driveway');
+        const by6pu = pool.search('6pu', 'line').collection.map((p) => p.id);
+        expect(by6pu).to.include('highway/service/destination_unpaved_parking_aisle');
     });
 
     it('defines the private unmaintained track preset', function() {
