@@ -20,7 +20,7 @@ var MAX_INSERT_M = 50;       // meters from the nearest edge
 
 /**
  * Mode that keeps inserting waypoints into a single way: each click adds a node
- * on the nearest edge, until a double-click (or Escape/Enter) returns to the
+ * on the nearest edge at the pointer location (not snapped onto the line), until a double-click (or Escape/Enter) returns to the
  * normal selection of that way. Entered from the `insert_waypoint` operation
  * (menu entry or its keyboard shortcut), mirroring how the "continue" operation
  * enters the line-drawing mode.
@@ -135,8 +135,13 @@ export function modeInsertWaypoint(context, wayID) {
     }
 
 
-    function onClick(loc) {
-        var point = context.projection(loc);
+    // behaviorDraw snaps clickWay/clickNode to geometry; use the raw pointer
+    // position so waypoints land where the user clicked (v5 parity).
+    function onClick() {
+        var point = context.map().mouse();
+        if (!point) return;
+
+        var loc = context.projection.invert(point);
         var now = Date.now();
         // A quick second click near the previous one ends the mode, like the
         // double-click that finishes line drawing.
@@ -192,8 +197,8 @@ export function modeInsertWaypoint(context, wayID) {
     mode.enter = function() {
         behavior
             .on('click', onClick)
-            .on('clickWay', onClick)                       // dispatched as (loc, edge)
-            .on('clickNode', function(node) { onClick(node.loc); })
+            .on('clickWay', onClick)
+            .on('clickNode', onClick)
             .on('finish', finish)                          // Enter / Escape
             .on('cancel', finish)                          // Delete
             .on('undo', function() { context.undo(); });   // Backspace removes the last insert
