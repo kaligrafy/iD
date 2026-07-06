@@ -771,10 +771,10 @@ g.midpoint.tag-highway-bridleway .fill {
  *
  * Not in upstream iD. Depends on config/tag_classes_custom.js and
  * appendCustomTagClasses() in modules/svg/tag_classes.js.
- * Duplicated in lenses/v5-quebec.css for lens-only users.
+ * Duplicated in lenses/quebec.css for lens-only users.
  * ----------------------------------------------------------------------------- */
 
-/* Motor roads: colored casing (mirrored in lenses/v5-quebec.css). */
+/* Motor roads: colored casing (mirrored in lenses/quebec.css). */
 path.line.casing.tag-access-customers:not(.tag-highway-footway):not(.tag-highway-path),
 path.line.casing.tag-motor_vehicle-customers:not(.tag-highway-footway):not(.tag-highway-path) {
     stroke: rgb(255, 136, 0) !important;
@@ -809,7 +809,7 @@ path.line.casing.tag-highway-service.tag-custom-access-emphasis {
     stroke-width: 8 !important;
 }
 
-/* Footways / paths: colored dash only; white casing and selection halo (mirrored in lenses/v5-quebec.css) */
+/* Footways / paths: colored dash only; white casing and selection halo (mirrored in lenses/quebec.css) */
 path.line.stroke.tag-highway-footway.tag-access-private,
 path.line.stroke.tag-highway-footway.tag-foot-private,
 path.line.stroke.tag-highway-path.tag-access-private,
@@ -896,7 +896,7 @@ path.line.shadow.related.tag-highway-path.tag-foot-permissive {
     stroke-opacity: 0.45 !important;
 }
 
-/* footway=link / cycleway=link — continuous lines (mirrored in lenses/v5-quebec.css) */
+/* footway=link / cycleway=link — continuous lines (mirrored in lenses/quebec.css) */
 path.line.stroke.tag-highway-footway.tag-footway-link,
 path.line.stroke.tag-highway-footway.tag-footway-link.tag-unpaved {
     stroke: rgb(255, 241, 202);
@@ -922,7 +922,7 @@ path.line.casing.tag-highway-path.tag-cycleway-link {
     opacity: 0.5 !important;
 }
 
-/* placement=transition — wider road (+4px on shadow, casing, stroke; mirrored in lenses/v5-quebec.css) */
+/* placement=transition — wider road (+4px on shadow, casing, stroke; mirrored in lenses/quebec.css) */
 path.line.shadow.tag-highway.tag-placement-transition {
     stroke-width: 24;
 }

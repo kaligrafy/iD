@@ -6,6 +6,9 @@ import {
     pickMaxspeedAdvisoryRaw,
     pickMaxspeedRaw
 } from '../../config/maxspeed_lens.js';
+import { BUNDLED_LENSES, DEFAULT_BUNDLED_LENS_ID, SURFACE_COLOURS_LENS_ID } from '../../config/bundled_lenses.js';
+
+export { DEFAULT_BUNDLED_LENS_ID, SURFACE_COLOURS_LENS_ID };
 
 // UI lens support. A lens is a CSS file imported by the user and kept in
 // localStorage (a single stylesheet is well within the ~5 MB quota). The active
@@ -23,12 +26,35 @@ export const LENS_SHORTCUTS_PREF = 'preferences.lens.shortcuts';
 export const DEFAULT_LENS_ID = 'default';
 /** Fixed `⌥`+letter shortcut that switches back to the default lens (lens off). */
 export const DEFAULT_LENS_SHORTCUT = 'd';
+/** Fixed `⌥`+letter shortcuts for fork lenses bundled at build time. */
+export const BUNDLED_LENS_SHORTCUTS: Readonly<Record<string, string>> = {
+    q: 'bundled-quebec',
+    s: 'bundled-quebec-surfaces',
+    m: 'bundled-maxspeed-colors'
+};
+/** Renamed bundled lens ids (local prefs may still hold the old values). */
+const LEGACY_BUNDLED_LENS_IDS: Record<string, string> = {
+    'bundled-v5-quebec': 'bundled-quebec',
+    'bundled-v5-quebec-surfaces': 'bundled-quebec-surfaces'
+};
 /**
  * Letters that cannot be assigned to a lens because `⌥`+letter is already taken:
  *   - `w` -> global `⌥W` toggles the OSM layer (see modules/ui/init.js)
- *   - `d` -> reserved here for the default lens (DEFAULT_LENS_SHORTCUT)
+ *   - `d` -> reserved for the default lens (DEFAULT_LENS_SHORTCUT)
+ *   - `q`, `s`, `m` -> reserved for bundled lenses (BUNDLED_LENS_SHORTCUTS)
  */
-export const RESERVED_LENS_SHORTCUTS = new Set(['w', DEFAULT_LENS_SHORTCUT]);
+export const RESERVED_LENS_SHORTCUTS = new Set([
+    'w',
+    DEFAULT_LENS_SHORTCUT,
+    ...Object.keys(BUNDLED_LENS_SHORTCUTS)
+]);
+
+/** A CSS lens shipped with this fork (bundled at build time). */
+export interface BundledLens {
+    id: string;
+    nameKey: string;
+    css: string;
+}
 
 /** A CSS lens imported by the user and stored in localStorage. */
 export interface UploadedLens {
@@ -41,7 +67,8 @@ export interface UploadedLens {
 export interface LensEntry {
     id: string;
     name?: string;
-    source: 'default' | 'uploaded';
+    nameKey?: string;
+    source: 'default' | 'bundled' | 'uploaded';
 }
 
 /**
@@ -108,10 +135,16 @@ export function removeUploadedLens(id: string): void {
     if (getSelectedLensId() === id) setSelectedLensId(DEFAULT_LENS_ID);
 }
 
-/** @returns the selected lens id (DEFAULT_LENS_ID when unset). */
+/** @returns the fork lenses shipped in the build. */
+export function getBundledLenses(): readonly BundledLens[] {
+    return BUNDLED_LENSES;
+}
+
+/** @returns the selected lens id (DEFAULT_BUNDLED_LENS_ID when unset). */
 export function getSelectedLensId(): string {
     const raw = prefs(LENS_PREF);
-    return (typeof raw === 'string' && raw) ? raw : DEFAULT_LENS_ID;
+    if (typeof raw === 'string' && raw) return LEGACY_BUNDLED_LENS_IDS[raw] ?? raw;
+    return DEFAULT_BUNDLED_LENS_ID;
 }
 
 /** @param id - the lens id to select */
@@ -125,14 +158,17 @@ export function setSelectedLensId(id: string): void {
 export function getActiveLensCss(): string {
     const id = getSelectedLensId();
     if (id === DEFAULT_LENS_ID) return '';
+    const bundled = BUNDLED_LENSES.find((t) => t.id === id);
+    if (bundled) return bundled.css;
     const uploaded = getUploadedLenses().find((t) => t.id === id);
     return uploaded ? uploaded.css : '';
 }
 
-/** All selectable lenses: built-in default, then uploaded ones. */
+/** All selectable lenses: default, fork bundles, then uploaded imports. */
 export function listLenses(): LensEntry[] {
     return [
         { id: DEFAULT_LENS_ID, source: 'default' },
+        ...BUNDLED_LENSES.map((t) => ({ id: t.id, nameKey: t.nameKey, source: 'bundled' as const })),
         ...getUploadedLenses().map((t) => ({ id: t.id, name: t.name, source: 'uploaded' as const }))
     ];
 }
@@ -152,11 +188,12 @@ function isAssignableShortcut(letter: string): boolean {
 }
 
 /**
- * The `{ letter: lensId }` shortcut map, dropping entries whose lens no longer
- * exists so stale shortcuts never fire.
- * @returns the cleaned shortcut map (empty on missing/invalid data)
+ * User-assigned `{ letter: lensId }` shortcuts from prefs (uploaded lenses only).
+ * Reserved letters and bundled lens ids are dropped so stale prefs never override
+ * the fixed bundled bindings.
+ * @returns the cleaned user shortcut map (empty on missing/invalid data)
  */
-export function getLensShortcuts(): Record<string, string> {
+function getUserLensShortcuts(): Record<string, string> {
     let parsed: unknown;
     try {
         const raw = prefs(LENS_SHORTCUTS_PREF);
@@ -165,12 +202,21 @@ export function getLensShortcuts(): Record<string, string> {
         return {};
     }
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
-    const existingIds = new Set(getUploadedLenses().map((l) => l.id));
+    const uploadedIds = new Set(getUploadedLenses().map((l) => l.id));
     const result: Record<string, string> = {};
     for (const [letter, id] of Object.entries(parsed as Record<string, string>)) {
-        if (typeof id === 'string' && existingIds.has(id)) result[letter] = id;
+        if (RESERVED_LENS_SHORTCUTS.has(letter)) continue;
+        if (typeof id === 'string' && uploadedIds.has(id)) result[letter] = id;
     }
     return result;
+}
+
+/**
+ * Full shortcut map: fixed bundled bindings plus user-assigned uploaded-lens letters.
+ * @returns the merged shortcut map
+ */
+export function getLensShortcuts(): Record<string, string> {
+    return { ...BUNDLED_LENS_SHORTCUTS, ...getUserLensShortcuts() };
 }
 
 function saveLensShortcuts(shortcuts: Record<string, string>): void {
@@ -183,7 +229,10 @@ function saveLensShortcuts(shortcuts: Record<string, string>): void {
  * @returns the letter, or undefined
  */
 export function getShortcutForLens(id: string): string | undefined {
-    const shortcuts = getLensShortcuts();
+    for (const [letter, lensId] of Object.entries(BUNDLED_LENS_SHORTCUTS)) {
+        if (lensId === id) return letter;
+    }
+    const shortcuts = getUserLensShortcuts();
     return Object.keys(shortcuts).find((letter) => shortcuts[letter] === id);
 }
 
@@ -207,7 +256,7 @@ export function setLensShortcut(id: string, letter: string): void {
     if (!isAssignableShortcut(letter)) {
         throw new Error(`Invalid lens shortcut letter: ${letter}`);
     }
-    const shortcuts = getLensShortcuts();
+    const shortcuts = getUserLensShortcuts();
     for (const existing of Object.keys(shortcuts)) {
         if (existing === letter || shortcuts[existing] === id) delete shortcuts[existing];
     }
@@ -220,7 +269,8 @@ export function setLensShortcut(id: string, letter: string): void {
  * @param id - lens id
  */
 export function removeLensShortcut(id: string): void {
-    const shortcuts = getLensShortcuts();
+    if (Object.values(BUNDLED_LENS_SHORTCUTS).includes(id)) return;
+    const shortcuts = getUserLensShortcuts();
     let changed = false;
     for (const letter of Object.keys(shortcuts)) {
         if (shortcuts[letter] === id) { delete shortcuts[letter]; changed = true; }
@@ -458,8 +508,21 @@ export function injectLensCss(): void {
     style.textContent = getActiveLensCss();
 }
 
-/** Apply the active lens: refresh its tag keys and inject its CSS. */
+/** Apply the active lens: refresh its tag keys, inject its CSS, sync surface-mode class. */
 export function applyLens(): void {
     refreshLensTagKeys();
     injectLensCss();
+    syncDebugSurfacesClass();
+}
+
+/**
+ * v5 parity: core orange `tag-name-no` over-stroke uses
+ * `svg#surface:not(.debug-surfaces)` with `!important`. The surfaces lens always
+ * enables surface colours on over-stroke, so toggle that class while it is active.
+ */
+function syncDebugSurfacesClass(): void {
+    if (typeof document === 'undefined') return;
+    const surface = document.getElementById('surface');
+    if (!surface) return;
+    surface.classList.toggle('debug-surfaces', getSelectedLensId() === SURFACE_COLOURS_LENS_ID);
 }

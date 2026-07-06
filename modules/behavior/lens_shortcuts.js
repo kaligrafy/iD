@@ -2,6 +2,7 @@ import { t } from '../core/localizer';
 import {
     DEFAULT_LENS_ID,
     DEFAULT_LENS_SHORTCUT,
+    getBundledLenses,
     getLensIdByShortcut,
     getSelectedLensId,
     getUploadedLenses,
@@ -13,7 +14,8 @@ import {
  *
  * Activates an imported lens with `⌥`+letter. Letters are bound to lenses in the
  * Map data ▸ Lens section. Pressing the same letter again keeps that lens active
- * (no toggle off). Use `⌥D` to return to the default lens. The letter is read from `event.code` (e.g. `KeyJ` → `j`)
+ * (no toggle off). Use `⌥D` for the default lens, `⌥Q`/`⌥S`/`⌥M` for bundled fork lenses.
+ * The letter is read from `event.code` (e.g. `KeyJ` → `j`)
  * so it works regardless of the character `⌥`+letter produces (e.g. on macOS).
  *
  * @param {object} context - the iD application context
@@ -28,6 +30,8 @@ export function behaviorLensShortcuts(context) {
     /** Display label for the now-active lens (default is localized). */
     function lensLabel(id) {
         if (id === DEFAULT_LENS_ID) return t('map_data.lens.default');
+        const bundled = getBundledLenses().find((l) => l.id === id);
+        if (bundled) return t(`map_data.lens.bundled.${bundled.nameKey}`);
         const lens = getUploadedLenses().find((l) => l.id === id);
         return lens ? lens.name : id;
     }

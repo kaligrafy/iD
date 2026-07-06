@@ -41,6 +41,11 @@ export function uiSectionLenses(context: any) {
         if (entry.source === 'default') {
             return `${t('map_data.lens.default')} (⌥${DEFAULT_LENS_SHORTCUT.toUpperCase()})`;
         }
+        if (entry.source === 'bundled' && entry.nameKey) {
+            const letter = getShortcutForLens(entry.id);
+            const name = t(`map_data.lens.bundled.${entry.nameKey}`);
+            return letter ? `${name} (⌥${letter.toUpperCase()})` : name;
+        }
         return entry.name || entry.id;
     }
 
