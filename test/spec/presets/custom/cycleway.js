@@ -1,11 +1,9 @@
 import { loadCustomPresets } from './setup.js';
 
-import { loadCustomPresets } from './setup.js';
-
 const CYCLEWAY_PATH_CASES = [
-    ['highway/cycleway', { highway: 'cycleway', foot: 'no' }, { lcn: 'yes', surface: 'asphalt' }],
-    ['highway/cycleway/bicycle_foot', { highway: 'cycleway', foot: 'designated', segregated: 'no' }, { lcn: 'yes', surface: 'asphalt' }],
-    ['highway/cycleway/bicycle_foot_segregated', { highway: 'cycleway', foot: 'designated', segregated: 'yes' }, { lcn: 'yes', surface: 'asphalt' }]
+    ['highway/cycleway', { highway: 'cycleway', foot: 'no' }, { surface: 'asphalt' }],
+    ['highway/cycleway/bicycle_foot', { highway: 'cycleway', foot: 'designated', segregated: 'no' }, { surface: 'asphalt' }],
+    ['highway/cycleway/bicycle_foot_segregated', { highway: 'cycleway', foot: 'designated', segregated: 'yes' }, { surface: 'asphalt' }]
 ];
 
 const CYCLEWAY_CROSSING_FOOT_MODES = [
@@ -18,14 +16,17 @@ describe('custom presets — cycleway', function() {
     loadCustomPresets();
 
     for (const [id, tags, addTags] of CYCLEWAY_PATH_CASES) {
-        it(`defines ${id} without required bicycle tag`, function() {
+        it(`defines ${id} without required bicycle or lcn tags`, function() {
             const preset = iD.presetManager.item(id);
             expect(preset, id).to.exist;
             expect(preset.tags).to.include(tags);
             expect(preset.tags).to.not.have.property('bicycle');
+            expect(preset.tags).to.not.have.property('lcn');
             expect(preset.addTags).to.include(addTags);
             expect(preset.addTags).to.not.have.property('bicycle');
+            expect(preset.addTags).to.not.have.property('lcn');
             expect(preset.removeTags).to.have.property('bicycle', '*');
+            expect(preset.removeTags).to.have.property('lcn', '*');
             expect(preset.addable()).to.be.true;
         });
     }

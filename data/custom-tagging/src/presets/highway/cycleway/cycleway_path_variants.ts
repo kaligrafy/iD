@@ -5,7 +5,6 @@ import { presetNameEn } from '../../../preset_name_en';
 const CYCLEWAY_REFERENCE = { key: 'highway', value: 'cycleway' } as const;
 
 const CYCLEWAY_PATH_ADD = {
-    lcn: 'yes',
     surface: 'asphalt'
 } as const;
 
@@ -34,8 +33,8 @@ const CYCLEWAY_PATH_VARIANTS: CyclewayPathVariant[] = [
 ];
 
 /**
- * v5 parity cycleway path presets. `bicycle=designated` is omitted from tags and
- * addTags (implicit for `highway=cycleway`); removeTags clears it when switching.
+ * v5 parity cycleway path presets. `bicycle=designated` and `lcn=yes` are omitted
+ * from tags and addTags; removeTags clears them when switching presets.
  *
  * @param variant - preset id and discriminating tags
  */
@@ -48,7 +47,7 @@ function cyclewayPathPreset(variant: CyclewayPathVariant): CustomPreset {
         moreFields: ['{highway/cycleway}'],
         tags: variant.tags,
         addTags,
-        removeTags: buildRemoveTags(addTags, { bicycle: ANY }),
+        removeTags: buildRemoveTags(addTags, { bicycle: ANY, lcn: ANY }),
         matchScore: 2,
         reference: CYCLEWAY_REFERENCE,
         name: presetNameEn(variant.id)
