@@ -3,6 +3,7 @@ import { capacityCharging } from './fields/capacity_charging';
 import { parkingCondition } from './fields/parking_condition';
 import { routingEntrance } from './fields/routing_entrance';
 import { placement } from './fields/placement';
+import { roofLevels } from './fields/roof_levels';
 import { bicycleDismountVariantPresets } from './presets/highway/footway/bicycle_dismount_variants';
 import { accessAisleVariantPresets } from './presets/highway/footway/access_aisle_variants';
 import { footwayLinkVariantPresets } from './presets/highway/footway/footway_link_variants';
@@ -40,7 +41,8 @@ export const customFields: Record<string, CustomField> = {
     access_restricted: accessRestricted,
     capacity_charging: capacityCharging,
     'parking/condition': parkingCondition,
-    routing_entrance: routingEntrance
+    routing_entrance: routingEntrance,
+    'roof/levels': roofLevels
 };
 
 /** Template name (filename without .json) → virtual preset under `presets/@templates/`. */

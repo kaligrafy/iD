@@ -31,6 +31,10 @@
                     "label": "Capacité de recharge pour véhicules électriques",
                     "placeholder": "1, 5, 10..."
                 },
+                "roof/levels": {
+                    "label": "Niveaux dans le toit",
+                    "placeholder": "0, 1, 2..."
+                },
                 "parking/condition": {
                     "label": "Condition de stationnement",
                     "options": {

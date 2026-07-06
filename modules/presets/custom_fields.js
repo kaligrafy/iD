@@ -249,6 +249,7 @@ export function applyCustomFields(presetManager) {
     customizeAccess(presetManager);
     customizePostBox(presetManager);
     customizeCyclewaySidewalk(presetManager);
+    customizeBuildingLevels(presetManager);
     setCycleFootPathDefaultSurface(presetManager);
     markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
@@ -492,5 +493,91 @@ function setCycleFootPathDefaultSurface(presetManager) {
     const preset = presetManager.item('highway/cycleway/bicycle_foot');
     if (!preset) return;
     preset.addTags = Object.assign({}, preset.addTags, { surface: 'asphalt' });
+}
+
+const UNDERGROUND_LEVELS_FIELD = 'building/levels/underground';
+const ROOF_LEVELS_FIELD = 'roof/levels';
+const VISIBLE_BUILDING_LEVEL_FIELDS = [UNDERGROUND_LEVELS_FIELD, ROOF_LEVELS_FIELD];
+
+/** @param {string} fieldID */
+function isPresetFieldReference(fieldID) {
+    return fieldID.startsWith('{') && fieldID.endsWith('}');
+}
+
+/**
+ * True when `preset` is a building preset (including subtypes under `building/`).
+ * @param {{ id: string, tags?: Record<string, string>, addTags?: Record<string, string> }} preset
+ * @returns {boolean}
+ */
+function isBuildingPreset(preset) {
+    if (preset.id === 'building' || preset.id.startsWith('building/')) return true;
+    if (preset.tags?.building !== undefined) return true;
+    if (preset.addTags?.building !== undefined) return true;
+    return false;
+}
+
+/**
+ * True when default fields inherit from a parent building preset via `{building…}`.
+ * @param {{ originalFields: string[] }} preset
+ * @returns {boolean}
+ */
+function inheritsBuildingDefaults(preset) {
+    return preset.originalFields.some(fieldID => {
+        if (!isPresetFieldReference(fieldID)) return false;
+        const parentID = fieldID.slice(1, -1);
+        return parentID === 'building' || parentID.startsWith('building/');
+    });
+}
+
+/**
+ * Move underground/roof level fields into default fields (after `building/levels`
+ * when present, else after `height` or `building`, else at the end). Removes them
+ * from moreFields so they are always visible, not hidden behind "+ add field".
+ *
+ * @param {string[]} fields
+ * @param {string[]} moreFields
+ */
+function promoteBuildingLevelFields(fields, moreFields) {
+    VISIBLE_BUILDING_LEVEL_FIELDS.forEach(id => {
+        removeField(fields, id);
+        removeField(moreFields, id);
+    });
+
+    const anchors = ['building/levels', 'height', 'building'];
+    let anchorIndex = -1;
+    for (const anchor of anchors) {
+        anchorIndex = fields.indexOf(anchor);
+        if (anchorIndex !== -1) break;
+    }
+    if (anchorIndex === -1) {
+        for (const anchor of anchors) {
+            anchorIndex = moreFields.indexOf(anchor);
+            if (anchorIndex !== -1) break;
+        }
+    }
+
+    const insertAt = anchorIndex === -1 ? fields.length : anchorIndex + 1;
+    fields.splice(insertAt, 0, ...VISIBLE_BUILDING_LEVEL_FIELDS);
+}
+
+/**
+ * Show `building:levels:underground` and `roof:levels` on building presets.
+ * Upstream keeps underground levels in moreFields; roof levels is a custom field.
+ * Presets that inherit default fields from `{building}` pick up the base preset.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizeBuildingLevels(presetManager) {
+    presetManager.collection.forEach(preset => {
+        if (!isBuildingPreset(preset)) return;
+
+        const fields = preset.originalFields;
+        const moreFields = preset.originalMoreFields;
+
+        if (fields.length && fields.every(isPresetFieldReference)) return;
+        if (preset.id !== 'building' && inheritsBuildingDefaults(preset)) return;
+
+        promoteBuildingLevelFields(fields, moreFields);
+    });
 }
 
