@@ -27,6 +27,15 @@
                         "sidewalk": "Oui"
                     }
                 },
+                "is_side_road": {
+                    "label": "Boisé latéral (carmain)",
+                    "options": {
+                        "undefined": "Inconnu",
+                        "yes": "Oui (carmain)",
+                        "double": "Double voie",
+                        "rotary": "Voie de virage"
+                    }
+                },
                 "capacity_charging": {
                     "label": "Capacité de recharge pour véhicules électriques",
                     "placeholder": "1, 5, 10..."

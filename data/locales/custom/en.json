@@ -30,6 +30,15 @@
                         "sidewalk": "Yes"
                     }
                 },
+                "is_side_road": {
+                    "label": "Side road",
+                    "options": {
+                        "undefined": "Unknown",
+                        "yes": "Yes (pocket)",
+                        "double": "Double carriageway",
+                        "rotary": "Turn pocket"
+                    }
+                },
                 "post_box/type": {
                     "label": "Box type",
                     "options": {
