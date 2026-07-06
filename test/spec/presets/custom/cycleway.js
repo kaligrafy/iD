@@ -19,6 +19,7 @@ describe('custom presets — cycleway', function() {
         it(`defines ${id} without required bicycle or lcn tags`, function() {
             const preset = iD.presetManager.item(id);
             expect(preset, id).to.exist;
+            expect(preset.originalFields).to.include('name');
             expect(preset.tags).to.include(tags);
             expect(preset.tags).to.not.have.property('bicycle');
             expect(preset.tags).to.not.have.property('lcn');
@@ -61,6 +62,7 @@ describe('custom presets — cycleway', function() {
     it('loads cycleway link preset with expected name', function() {
         const cycleway = iD.presetManager.item('highway/cycleway/cycleway_link');
         expect(cycleway, 'cycleway link preset').to.exist;
+        expect(cycleway.originalFields).to.include('name');
         expect(cycleway.addable()).to.be.true;
     });
 
@@ -73,6 +75,7 @@ describe('custom presets — cycleway', function() {
     it('defines traffic signals dots cycleway crossing preset tags', function() {
         const preset = iD.presetManager.item('highway/cycleway/crossing/traffic_signals-dots_no_foot');
         expect(preset, 'traffic signals dots no foot').to.exist;
+        expect(preset.originalFields).to.include('name');
         expect(preset.name()).to.equal('Traffic Signals Dots Cycleway Crossing No Foot');
         expect(preset.tags).to.include({
             highway: 'cycleway',

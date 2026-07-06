@@ -6,6 +6,7 @@ describe('custom presets — footway crossing', function() {
     it('defines traffic signals footway crossing without markings', function() {
         const preset = iD.presetManager.item('highway/footway/crossing/traffic_signals');
         expect(preset, 'traffic signals no markings').to.exist;
+        expect(preset.originalFields).to.include('name');
         expect(preset.tags).to.include({
             crossing: 'traffic_signals',
             'crossing:markings': 'no'
