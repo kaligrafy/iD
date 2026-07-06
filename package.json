@@ -17,8 +17,9 @@
   "type": "module",
   "scripts": {
     "all": "run-s clean build dist",
-    "build": "run-s build:css build:presets:custom build:data build:js",
+    "build": "run-s build:css build:presets:custom build:lenses build:data build:js",
     "build:css": "node scripts/build_css.js",
+    "build:lenses": "node scripts/build_quebec_surfaces_lens.js && node scripts/build_bundled_lenses.js",
     "build:data": "shx mkdir -p dist/data && node scripts/build_data.js",
     "build:presets:custom": "tsx scripts/build_custom_presets.ts",
     "generate:presets:custom": "tsx scripts/compile_custom_presets_sources.ts",
