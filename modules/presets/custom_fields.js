@@ -462,21 +462,30 @@ function customizePostBox(presetManager) {
     fields.splice(refIndex === -1 ? fields.length : refIndex + 1, 0, 'post_box/type');
 }
 
-// Presets that should offer the `is_sidewalk` check. Their `{...}` variants
-// (e.g. highway/path/bicycle_foot → {highway/cycleway/bicycle_foot}) inherit it.
-const IS_SIDEWALK_PRESETS = ['highway/cycleway', 'highway/cycleway/bicycle_foot'];
+/**
+ * Line cycleway presets that may carry `footway=sidewalk` (paths and links, not crossings).
+ * Custom presets reference `{highway/cycleway}`; the build expands that to a frozen field
+ * list from upstream (see scripts/custom_presets_config.js), so runtime fields like
+ * `is_sidewalk` must be spliced onto each preset here — not only the parent.
+ *
+ * @param {{ id: string, geometry?: string[] }} preset
+ * @returns {boolean}
+ */
+function isCyclewayLinePreset(preset) {
+    if (!preset.id.startsWith('highway/cycleway')) return false;
+    if (preset.id.includes('/crossing/')) return false;
+    return preset.geometry && preset.geometry.indexOf('line') !== -1;
+}
 
 /**
- * Offer the `is_sidewalk` check on the cycleway / cycle-and-foot-path presets, to
- * flag a way that runs along a sidewalk (footway=sidewalk). Inserted after
- * `oneway`; idempotent.
+ * Offer the `is_sidewalk` check on cycleway line presets, to flag a way that runs
+ * along a sidewalk (footway=sidewalk). Inserted after `oneway`; idempotent.
  *
  * @param {Object} presetManager - the preset system (`presetManager`)
  */
 function customizeCyclewaySidewalk(presetManager) {
-    IS_SIDEWALK_PRESETS.forEach(id => {
-        const preset = presetManager.item(id);
-        if (!preset) return;
+    presetManager.collection.forEach(preset => {
+        if (!isCyclewayLinePreset(preset)) return;
         const fields = preset.originalFields;
         if (fields.indexOf('is_sidewalk') !== -1) return;
         const onewayIndex = fields.indexOf('oneway');
