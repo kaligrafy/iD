@@ -24,6 +24,14 @@ export const FOOTWAY_CROSSING_UNMARKED_RESTRICTED_FIELDS = [
     'access_restricted'
 ] as const;
 
+/** Uncontrolled zebra crossings with fixed `access` (use `access_restricted` field). */
+export const FOOTWAY_CROSSING_UNCONTROLLED_RESTRICTED_FIELDS = [
+    'crossing',
+    '{@templates/crossing/markings_yes}',
+    'surface',
+    'access_restricted'
+] as const;
+
 export const FOOTWAY_CROSSING_MORE_FIELDS = [
     '{@templates/crossing/defaults}',
     '{@templates/crossing/geometry_way_more}',

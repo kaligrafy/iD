@@ -62,4 +62,39 @@ describe('custom presets — footway crossing', function() {
             access: 'customers'
         });
     });
+
+    const zebraAccessCases = [
+        {
+            id: 'highway/footway/crossing/uncontrolled-zebra_customers',
+            access: 'customers',
+            name: 'Uncontrolled Zebra Footway Crossing (Customers)'
+        },
+        {
+            id: 'highway/footway/crossing/uncontrolled-zebra_private',
+            access: 'private',
+            name: 'Uncontrolled Zebra Footway Crossing (Private)'
+        }
+    ];
+
+    zebraAccessCases.forEach(function({ id, access, name }) {
+        it(`${id} sets zebra crossing tags, default asphalt, and ${access} access`, function() {
+            const preset = iD.presetManager.item(id);
+            expect(preset, id).to.exist;
+            expect(preset.name()).to.equal(name);
+            expect(preset.tags).to.include({
+                highway: 'footway',
+                footway: 'crossing',
+                crossing: 'uncontrolled',
+                'crossing:markings': 'zebra',
+                access
+            });
+            expect(preset.tags).to.not.have.property('surface');
+            expect(preset.addTags).to.include({
+                surface: 'asphalt',
+                access
+            });
+            expect(preset.originalFields).to.include('surface');
+            expect(preset.originalFields).to.include('access_restricted');
+        });
+    });
 });

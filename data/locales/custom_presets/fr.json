@@ -364,6 +364,16 @@
         "terms": "uzns, uzns, uz, zns, zuns, uczns, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, zébrée, passage zébré, bandes zébrées",
         "aliases": "uzns"
     },
+    "highway/footway/crossing/uncontrolled-zebra_customers": {
+        "name": "Traversée piétonne — Zébrée (clients)",
+        "terms": "uzcn, uzc, traversée piétonne, passage piéton, traversée, non contrôlé, zébrée, passage zébré, bandes zébrées, clients",
+        "aliases": "uzcn"
+    },
+    "highway/footway/crossing/uncontrolled-zebra_private": {
+        "name": "Traversée piétonne — Zébrée (privé)",
+        "terms": "uznp, uzp, traversée piétonne, passage piéton, traversée, non contrôlé, zébrée, passage zébré, bandes zébrées, privé",
+        "aliases": "uznp"
+    },
     "highway/footway/crossing/unmarked": {
         "name": "Traversée piétonne — Non marqué",
         "terms": "uns, uns, un, traversée piétonne, passage piéton, passage piéton, traversée, non marqué, sans marquage",
