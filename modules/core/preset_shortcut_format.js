@@ -58,3 +58,58 @@ export function shouldCapturePresetShortcutBuffer(buffer) {
     }
     return false;
 }
+
+/**
+ * Drawing mode kind for a preset shortcut, or `null` when unsupported.
+ * Vertex presets use point drawing mode (same as iD's add-point behavior).
+ * @param {{ geometry?: string[] }} preset
+ * @returns {'point' | 'line' | 'area' | null}
+ */
+export function presetShortcutDrawingGeometry(preset) {
+    const geometries = preset.geometry || [];
+    if (geometries.includes('line')) return 'line';
+    if (geometries.includes('area')) return 'area';
+    if (geometries.includes('point') || geometries.includes('vertex')) return 'point';
+    return null;
+}
+
+/**
+ * Whether a preset shortcut may be applied to a selected entity geometry.
+ * Vertex nodes may use point presets (e.g. tree on a way node); vertex-only
+ * presets (e.g. noexit) do not apply to standalone points.
+ * @param {{ matchGeometry: (geom: string) => boolean }} preset
+ * @param {string} entityGeometry - `point`, `vertex`, `line`, or `area`
+ * @returns {boolean}
+ */
+export function presetShortcutMatchesEntity(preset, entityGeometry) {
+    if (!preset || !entityGeometry) return false;
+    if (preset.matchGeometry(entityGeometry)) return true;
+    if (entityGeometry === 'vertex' && preset.matchGeometry('point')) return true;
+    return false;
+}
+
+/**
+ * True when the shortcut should start drawing a new feature instead of
+ * re-applying the preset to the current selection (same preset + same shortcut).
+ * @param {string} shortcut - normalized shortcut being pressed
+ * @param {{ id: string }} preset - preset bound to the shortcut
+ * @param {string[]} currentPresetIds - matched preset id per selected entity
+ * @param {(string|undefined)[]} currentShortcuts - shortcut key per entity's current preset
+ * @param {boolean[]} compatible - whether `preset` matches each entity geometry
+ * @returns {boolean}
+ */
+export function presetShortcutShouldRedraw(shortcut, preset, currentPresetIds, currentShortcuts, compatible) {
+    if (!presetShortcutDrawingGeometry(preset)) return false;
+    if (!currentPresetIds.length) return false;
+
+    const normalized = normalizePresetShortcut(shortcut);
+
+    for (let i = 0; i < currentPresetIds.length; i++) {
+        if (!compatible[i]) return false;
+        if (currentPresetIds[i] !== preset.id) return false;
+        const current = currentShortcuts[i];
+        if (!current || normalizePresetShortcut(current) !== normalized) return false;
+    }
+
+    return true;
+}
