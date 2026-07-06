@@ -18,7 +18,7 @@ function assertCustomDistBuilt() {
 }
 
 /** @returns {Promise<{ customFields: object, customPresets: object }>} */
-async function loadCustomDistJson() {
+export async function loadCustomDistJson() {
     assertCustomDistBuilt();
     const [{ default: customFields }, { default: customPresets }] = await Promise.all([
         import(pathToFileURL(CUSTOM_FIELDS_PATH).href),

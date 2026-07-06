@@ -12,6 +12,10 @@
                     "label": "Capacity for charging electric vehicles",
                     "placeholder": "1, 5, 10..."
                 },
+                "roof/levels": {
+                    "label": "Roof Levels",
+                    "placeholder": "0, 1, 2..."
+                },
                 "maxspeed_advisory": {
                     "label": "Advisory Speed Limit"
                 },
