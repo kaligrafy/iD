@@ -1,5 +1,6 @@
 import { accessRestricted } from './fields/access_restricted';
 import { capacityCharging } from './fields/capacity_charging';
+import { flats } from './fields/flats';
 import { parkingCondition } from './fields/parking_condition';
 import { routingEntrance } from './fields/routing_entrance';
 import { placement } from './fields/placement';
@@ -41,6 +42,7 @@ export const customFields: Record<string, CustomField> = {
     placement,
     access_restricted: accessRestricted,
     capacity_charging: capacityCharging,
+    flats,
     'parking/condition': parkingCondition,
     routing_entrance: routingEntrance,
     'roof/levels': roofLevels
