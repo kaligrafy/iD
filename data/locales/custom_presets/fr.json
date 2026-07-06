@@ -114,6 +114,21 @@
         "name": "Entrée de routage / sortie (oui)",
         "terms": "routage, entrée, sortie, oui"
     },
+    "highway/cycleway": {
+        "name": "Piste cyclable (sans piétons)",
+        "terms": "cnf, piste cyclable, voie cyclable, sans piétons, piétons interdits",
+        "aliases": "cnf"
+    },
+    "highway/cycleway/bicycle_foot": {
+        "name": "Piste cyclable et piétons (non ségréguée)",
+        "terms": "cns, piste cyclable et piétons, voie mixte, sentier polyvalent, non ségréguée, mixte",
+        "aliases": "cns"
+    },
+    "highway/cycleway/bicycle_foot_segregated": {
+        "name": "Piste cyclable et piétons (ségréguée)",
+        "terms": "cs, piste cyclable et piétons, voie mixte, sentier polyvalent, ségréguée",
+        "aliases": "cs"
+    },
     "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
         "name": "Traversée cyclable — Feux, tirets, sans piétons",
         "terms": "ctsdcnf, tsdashnf, traversée cyclable, passage cyclable, passage pour vélo, traversée, feux, feux de circulation, signalisation, tirets, marquage en tirets, sans piétons, piétons interdits",
