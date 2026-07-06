@@ -12,6 +12,10 @@
                     "label": "Capacity for charging electric vehicles",
                     "placeholder": "1, 5, 10..."
                 },
+                "flats": {
+                    "label": "Number of flats",
+                    "placeholder": "1, 2, 3..."
+                },
                 "roof/levels": {
                     "label": "Roof Levels",
                     "placeholder": "0, 1, 2..."

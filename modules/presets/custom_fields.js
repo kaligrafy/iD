@@ -249,6 +249,7 @@ export function applyCustomFields(presetManager) {
     customizeAccess(presetManager);
     customizePostBox(presetManager);
     customizeCyclewaySidewalk(presetManager);
+    customizeLanduseFlats(presetManager);
     customizeBuildingLevels(presetManager);
     customizeBusStopBench(presetManager);
     setCycleFootPathDefaultSurface(presetManager);
@@ -496,13 +497,52 @@ function setCycleFootPathDefaultSurface(presetManager) {
     preset.addTags = Object.assign({}, preset.addTags, { surface: 'asphalt' });
 }
 
+const FLATS_FIELD = 'flats';
 const UNDERGROUND_LEVELS_FIELD = 'building/levels/underground';
 const ROOF_LEVELS_FIELD = 'roof/levels';
 const VISIBLE_BUILDING_LEVEL_FIELDS = [UNDERGROUND_LEVELS_FIELD, ROOF_LEVELS_FIELD];
 
+/**
+ * True when `preset` is a landuse preset (including subtypes under `landuse/`).
+ * @param {{ id: string, tags?: Record<string, string>, addTags?: Record<string, string> }} preset
+ * @returns {boolean}
+ */
+function isLandusePreset(preset) {
+    if (preset.id.startsWith('landuse/')) return true;
+    if (preset.tags?.landuse !== undefined) return true;
+    if (preset.addTags?.landuse !== undefined) return true;
+    return false;
+}
+
 /** @param {string} fieldID */
 function isPresetFieldReference(fieldID) {
     return fieldID.startsWith('{') && fieldID.endsWith('}');
+}
+
+/**
+ * Offer the `flats` field on every landuse preset (v5 fork). Inserted after
+ * `name` when present; otherwise appended to moreFields. Skips hidden presets
+ * that only inherit fields from a parent reference.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizeLanduseFlats(presetManager) {
+    presetManager.collection.forEach(preset => {
+        if (!isLandusePreset(preset)) return;
+
+        const fields = preset.originalFields;
+        const moreFields = preset.originalMoreFields;
+
+        if (fields.length && fields.every(isPresetFieldReference)) return;
+        if (fields.indexOf(FLATS_FIELD) !== -1 || moreFields.indexOf(FLATS_FIELD) !== -1) return;
+
+        const nameIndex = fields.indexOf('name');
+        if (nameIndex !== -1) {
+            fields.splice(nameIndex + 1, 0, FLATS_FIELD);
+        } else {
+            moreFields.push(FLATS_FIELD);
+        }
+    });
 }
 
 /**
