@@ -5,6 +5,7 @@ import { parkingCondition } from './fields/parking_condition';
 import { routingEntrance } from './fields/routing_entrance';
 import { placement } from './fields/placement';
 import { roofLevels } from './fields/roof_levels';
+import { informalPathVariantPresets } from './presets/highway/footway/informal_path_variants';
 import { bicycleDismountVariantPresets } from './presets/highway/footway/bicycle_dismount_variants';
 import { accessAisleVariantPresets } from './presets/highway/footway/access_aisle_variants';
 import { footwayLinkVariantPresets } from './presets/highway/footway/footway_link_variants';
@@ -58,6 +59,7 @@ export const customTemplates: Record<string, CustomTemplatePreset> = {
 /** Preset path (e.g. `highway/footway/footway_link_bicycle_dismount`) → definition under `presets/`. */
 export const customPresets: Record<string, CustomPreset> = {
     ...bicycleDismountVariantPresets,
+    ...informalPathVariantPresets,
     ...accessAisleVariantPresets,
     ...footwayLinkVariantPresets,
     ...restrictedFootwayVariantPresets,
