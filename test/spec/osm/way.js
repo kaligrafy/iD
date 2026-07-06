@@ -1096,4 +1096,17 @@ describe('iD.osmWay', function() {
         });
     });
 
+    it('gives each segment its own spatial extent', function() {
+        var n1 = new iD.osmNode({ id: 'n1', loc: [0, 0] });
+        var n2 = new iD.osmNode({ id: 'n2', loc: [1, 0] });
+        var n3 = new iD.osmNode({ id: 'n3', loc: [5, 0] });
+        var way = new iD.osmWay({ id: 'w1', nodes: ['n1', 'n2', 'n3'] });
+        var graph = new iD.coreGraph([n1, n2, n3, way]);
+
+        var segments = way.segments(graph);
+        expect(segments).to.have.lengthOf(2);
+        expect(segments[0].extent(graph).bbox()).to.eql({ minX: 0, minY: 0, maxX: 1, maxY: 0 });
+        expect(segments[1].extent(graph).bbox()).to.eql({ minX: 1, minY: 0, maxX: 5, maxY: 0 });
+    });
+
 });
