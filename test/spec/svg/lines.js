@@ -392,5 +392,46 @@ describe('iD.svgLines', function () {
 
             expect(touchLayer.node().innerHTML).to.eql(before);
         });
+
+        it('refreshes touch targets after topology change (e.g. split)', function() {
+            var splitNodes = [
+                new iD.osmNode({id: 'sn1', loc: [0, 0]}),
+                new iD.osmNode({id: 'sn2', loc: [0.001, 0]}),
+                new iD.osmNode({id: 'sn3', loc: [0.002, 0]}),
+            ];
+            var longWay = new iD.osmWay({
+                id: 'w-long',
+                tags: {highway: 'residential'},
+                nodes: ['sn1', 'sn2', 'sn3']
+            });
+            context.perform(
+                iD.actionAddEntity(splitNodes[0]),
+                iD.actionAddEntity(splitNodes[1]),
+                iD.actionAddEntity(splitNodes[2]),
+                iD.actionAddEntity(longWay)
+            );
+            var graph = context.graph();
+            surface.call(iD.svgLines(projection, context), graph, [longWay], all);
+            var touchLayer = surface.select('.layer-touch.lines');
+            expect(touchLayer.selectAll('.line.target-allowed').size()).to.eql(2);
+
+            context.perform(iD.actionSplit(['sn2']));
+            graph = context.graph();
+            var splitWays = graph.parentWays(graph.entity('sn2'));
+            expect(splitWays).to.have.lengthOf(2);
+
+            context.enter(iD.modeSelect(context, splitWays.map(function(w) { return w.id; }).concat(['sn2'])));
+            surface.call(
+                iD.svgLines(projection, context),
+                graph,
+                [splitWays[1]],
+                function(d) { return d.id === splitWays[1].id; }
+            );
+
+            expect(touchLayer.selectAll('.line.target-allowed.w-long').empty()).to.be.true;
+            splitWays.forEach(function(w) {
+                expect(touchLayer.selectAll('.line.target-allowed[class*="' + w.id + '"]').empty()).to.be.false;
+            });
+        });
     });
 });
