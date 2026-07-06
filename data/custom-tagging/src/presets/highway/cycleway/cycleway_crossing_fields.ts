@@ -3,18 +3,21 @@ export const CYCLEWAY_CROSSING_TRAFFIC_SIGNALS_FIELDS = [
     'crossing',
     '{@templates/crossing/traffic_signal}',
     '{@templates/crossing/markings}',
-    'surface'
+    'surface',
+    'name'
 ] as const;
 
 export const CYCLEWAY_CROSSING_UNCONTROLLED_FIELDS = [
     'crossing',
     '{@templates/crossing/markings_yes}',
-    'surface'
+    'surface',
+    'name'
 ] as const;
 
 export const CYCLEWAY_CROSSING_UNMARKED_FIELDS = [
     'crossing',
-    'surface'
+    'surface',
+    'name'
 ] as const;
 
 export const CYCLEWAY_CROSSING_MORE_FIELDS = [

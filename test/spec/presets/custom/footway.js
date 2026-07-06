@@ -177,6 +177,8 @@ describe('custom presets — footway', function() {
         });
         expect(yes.tags).to.include({ footway: 'sidewalk', bicycle: 'yes' });
         expect(dismount.addTags.surface).to.equal('concrete');
+        expect(dismount.originalFields).to.include('name');
+        expect(yes.originalFields).to.include('name');
     });
 
     it('finds sidewalk presets via alias search', function() {

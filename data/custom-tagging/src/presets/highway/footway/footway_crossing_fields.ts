@@ -3,25 +3,29 @@ export const FOOTWAY_CROSSING_TRAFFIC_SIGNALS_FIELDS = [
     'crossing',
     '{@templates/crossing/traffic_signal}',
     '{@templates/crossing/markings}',
-    'surface'
+    'surface',
+    'name'
 ] as const;
 
 export const FOOTWAY_CROSSING_UNCONTROLLED_FIELDS = [
     'crossing',
     '{@templates/crossing/markings_yes}',
-    'surface'
+    'surface',
+    'name'
 ] as const;
 
 export const FOOTWAY_CROSSING_UNMARKED_FIELDS = [
     'crossing',
-    'surface'
+    'surface',
+    'name'
 ] as const;
 
 /** Unmarked crossings with `access` (use `access_restricted` field). */
 export const FOOTWAY_CROSSING_UNMARKED_RESTRICTED_FIELDS = [
     'crossing',
     'surface',
-    'access_restricted'
+    'access_restricted',
+    'name'
 ] as const;
 
 /** Uncontrolled zebra crossings with fixed `access` (use `access_restricted` field). */
@@ -29,7 +33,8 @@ export const FOOTWAY_CROSSING_UNCONTROLLED_RESTRICTED_FIELDS = [
     'crossing',
     '{@templates/crossing/markings_yes}',
     'surface',
-    'access_restricted'
+    'access_restricted',
+    'name'
 ] as const;
 
 export const FOOTWAY_CROSSING_MORE_FIELDS = [
