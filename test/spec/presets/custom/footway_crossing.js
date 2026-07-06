@@ -58,26 +58,45 @@ describe('custom presets — footway crossing', function() {
         });
         const asphalt = iD.presetManager.item('highway/footway/crossing/unmarked_asphalt');
         expect(asphalt.tags).to.include({ surface: 'asphalt' });
-        expect(iD.presetManager.item('highway/footway/crossing/unmarked_customers').tags).to.include({
-            access: 'customers'
-        });
+        const customers = iD.presetManager.item('highway/footway/crossing/unmarked_customers');
+        expect(customers.tags).to.include({ access: 'customers' });
+        expect(customers.tags).to.not.have.property('surface');
+        expect(customers.addTags).to.include({ surface: 'asphalt', access: 'customers' });
     });
 
-    const zebraAccessCases = [
+    const uncontrolledAccessCases = [
         {
             id: 'highway/footway/crossing/uncontrolled-zebra_customers',
+            markings: 'zebra',
             access: 'customers',
-            name: 'Uncontrolled Zebra Footway Crossing (Customers)'
+            name: 'Uncontrolled Zebra Footway Crossing (Customers)',
+            alias: '4k'
         },
         {
             id: 'highway/footway/crossing/uncontrolled-zebra_private',
+            markings: 'zebra',
             access: 'private',
-            name: 'Uncontrolled Zebra Footway Crossing (Private)'
+            name: 'Uncontrolled Zebra Footway Crossing (Private)',
+            alias: '5k'
+        },
+        {
+            id: 'highway/footway/crossing/uncontrolled-lines_customers',
+            markings: 'lines',
+            access: 'customers',
+            name: 'Uncontrolled Lines Footway Crossing (Customers)',
+            alias: '4l'
+        },
+        {
+            id: 'highway/footway/crossing/uncontrolled-lines_private',
+            markings: 'lines',
+            access: 'private',
+            name: 'Uncontrolled Lines Footway Crossing (Private)',
+            alias: '5l'
         }
     ];
 
-    zebraAccessCases.forEach(function({ id, access, name }) {
-        it(`${id} sets zebra crossing tags, default asphalt, and ${access} access`, function() {
+    uncontrolledAccessCases.forEach(function({ id, markings, access, name, alias }) {
+        it(`${id} sets ${markings} crossing tags, default asphalt, and ${access} access`, function() {
             const preset = iD.presetManager.item(id);
             expect(preset, id).to.exist;
             expect(preset.name()).to.equal(name);
@@ -85,7 +104,7 @@ describe('custom presets — footway crossing', function() {
                 highway: 'footway',
                 footway: 'crossing',
                 crossing: 'uncontrolled',
-                'crossing:markings': 'zebra',
+                'crossing:markings': markings,
                 access
             });
             expect(preset.tags).to.not.have.property('surface');
@@ -96,5 +115,19 @@ describe('custom presets — footway crossing', function() {
             expect(preset.originalFields).to.include('surface');
             expect(preset.originalFields).to.include('access_restricted');
         });
+
+        it(`finds ${id} by alias ${alias}`, function() {
+            const pool = iD.presetManager.matchAllGeometry(['line']);
+            const byAlias = pool.search(alias, 'line').collection.map((p) => p.id);
+            expect(byAlias).to.include(id);
+        });
+    });
+
+    it('finds restricted unmarked crossings by alias', function() {
+        const pool = iD.presetManager.matchAllGeometry(['line']);
+        expect(pool.search('4u', 'line').collection.map((p) => p.id))
+            .to.include('highway/footway/crossing/unmarked_customers');
+        expect(pool.search('5u', 'line').collection.map((p) => p.id))
+            .to.include('highway/footway/crossing/unmarked_private');
     });
 });

@@ -68,6 +68,8 @@ interface UnmarkedExtraVariant {
     extraTags: Record<string, string>;
     fields: readonly string[];
     removeWildcards?: Record<string, typeof ANY>;
+    /** Default `surface=asphalt` when drawing (not baked into `tags`). */
+    defaultAsphalt?: boolean;
 }
 
 /** v5 unmarked footway crossings (surface or access variants). */
@@ -86,26 +88,52 @@ const UNMARKED_EXTRA_VARIANTS: UnmarkedExtraVariant[] = [
         id: 'highway/footway/crossing/unmarked_customers',
         extraTags: { access: 'customers' },
         fields: FOOTWAY_CROSSING_UNMARKED_RESTRICTED_FIELDS,
-        removeWildcards: { bicycle: ANY }
+        removeWildcards: { bicycle: ANY },
+        defaultAsphalt: true
     },
     {
         id: 'highway/footway/crossing/unmarked_private',
         extraTags: { access: 'private' },
         fields: FOOTWAY_CROSSING_UNMARKED_RESTRICTED_FIELDS,
-        removeWildcards: { bicycle: ANY }
+        removeWildcards: { bicycle: ANY },
+        defaultAsphalt: true
     }
 ];
 
-/** v5 zebra footway crossings with restricted access. */
-const ZEBRA_ACCESS_VARIANTS: UnmarkedExtraVariant[] = [
+interface UncontrolledAccessVariant {
+    id: string;
+    markings: Extract<MarkingSlug, 'zebra' | 'lines'>;
+    extraTags: Record<string, string>;
+    fields: readonly string[];
+    removeWildcards?: Record<string, typeof ANY>;
+}
+
+/** v5 uncontrolled zebra/lines footway crossings with restricted access. */
+const UNCONTROLLED_ACCESS_VARIANTS: UncontrolledAccessVariant[] = [
     {
         id: 'highway/footway/crossing/uncontrolled-zebra_customers',
+        markings: 'zebra',
         extraTags: { access: 'customers' },
         fields: FOOTWAY_CROSSING_UNCONTROLLED_RESTRICTED_FIELDS,
         removeWildcards: { bicycle: ANY }
     },
     {
         id: 'highway/footway/crossing/uncontrolled-zebra_private',
+        markings: 'zebra',
+        extraTags: { access: 'private' },
+        fields: FOOTWAY_CROSSING_UNCONTROLLED_RESTRICTED_FIELDS,
+        removeWildcards: { bicycle: ANY }
+    },
+    {
+        id: 'highway/footway/crossing/uncontrolled-lines_customers',
+        markings: 'lines',
+        extraTags: { access: 'customers' },
+        fields: FOOTWAY_CROSSING_UNCONTROLLED_RESTRICTED_FIELDS,
+        removeWildcards: { bicycle: ANY }
+    },
+    {
+        id: 'highway/footway/crossing/uncontrolled-lines_private',
+        markings: 'lines',
         extraTags: { access: 'private' },
         fields: FOOTWAY_CROSSING_UNCONTROLLED_RESTRICTED_FIELDS,
         removeWildcards: { bicycle: ANY }
@@ -122,6 +150,7 @@ function unmarkedExtraPreset(variant: UnmarkedExtraVariant): CustomPreset {
         'crossing:markings': 'no',
         ...variant.extraTags
     };
+    const addTags = variant.defaultAsphalt ? { ...tags, surface: 'asphalt' } : { ...tags };
 
     return {
         icon: 'temaki-pedestrian',
@@ -129,20 +158,20 @@ function unmarkedExtraPreset(variant: UnmarkedExtraVariant): CustomPreset {
         fields: [...variant.fields],
         moreFields: [...FOOTWAY_CROSSING_MORE_FIELDS],
         tags,
-        addTags: { ...tags },
-        removeTags: buildRemoveTags({ ...tags }, variant.removeWildcards ?? FOOTWAY_CROSSING_REMOVE_WILDCARDS),
+        addTags,
+        removeTags: buildRemoveTags(addTags, variant.removeWildcards ?? FOOTWAY_CROSSING_REMOVE_WILDCARDS),
         matchScore: 2,
         reference: FOOTWAY_CROSSING_REFERENCE,
         name: presetNameEn(variant.id)
     };
 }
 
-function zebraAccessPreset(variant: UnmarkedExtraVariant): CustomPreset {
+function uncontrolledAccessPreset(variant: UncontrolledAccessVariant): CustomPreset {
     const tags: Record<string, string> = {
         highway: 'footway',
         footway: 'crossing',
         crossing: 'uncontrolled',
-        'crossing:markings': 'zebra',
+        'crossing:markings': variant.markings,
         ...variant.extraTags
     };
     const addTags: Record<string, string> = {
@@ -151,7 +180,7 @@ function zebraAccessPreset(variant: UnmarkedExtraVariant): CustomPreset {
     };
 
     return {
-        icon: 'temaki-pedestrian_crosswalk',
+        icon: footwayCrossingIcon(variant.markings),
         geometry: ['line'],
         fields: [...variant.fields],
         moreFields: [...FOOTWAY_CROSSING_MORE_FIELDS],
@@ -214,5 +243,5 @@ function footwayCrossingPreset(variant: FootwayCrossingVariant): CustomPreset {
 export const footwayCrossingVariantPresets: Record<string, CustomPreset> = {
     ...Object.fromEntries(buildVariantList().map((v) => [v.id, footwayCrossingPreset(v)] as const)),
     ...Object.fromEntries(UNMARKED_EXTRA_VARIANTS.map((v) => [v.id, unmarkedExtraPreset(v)] as const)),
-    ...Object.fromEntries(ZEBRA_ACCESS_VARIANTS.map((v) => [v.id, zebraAccessPreset(v)] as const))
+    ...Object.fromEntries(UNCONTROLLED_ACCESS_VARIANTS.map((v) => [v.id, uncontrolledAccessPreset(v)] as const))
 };
