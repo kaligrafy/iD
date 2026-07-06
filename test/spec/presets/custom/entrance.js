@@ -10,7 +10,8 @@ describe('custom presets — entrance', function() {
         ['entrance/home', 'iD-entrance-home', { entrance: 'home' }],
         ['entrance/garage', 'iD-entrance-garage', { entrance: 'garage' }],
         ['entrance/secondary', 'iD-entrance-secondary', { entrance: 'secondary' }],
-        ['entrance/emergency', 'iD-entrance-emergency', { entrance: 'emergency' }]
+        ['entrance/emergency', 'iD-entrance-emergency', { entrance: 'emergency' }],
+        ['entrance/private', 'iD-entrance', { entrance: 'yes', access: 'private' }]
     ];
 
     for (const [id, icon, tags] of entranceIcons) {
@@ -54,5 +55,12 @@ describe('custom presets — entrance', function() {
         const preset = iD.presetManager.match(point, graph);
         expect(preset.id).to.equal('entrance/main');
         expect(preset.icon).to.equal('iD-entrance-main');
+    });
+
+    it('defines private entrance preset tags and removeTags', function() {
+        const preset = iD.presetManager.item('entrance/private');
+        expect(preset.tags).to.eql({ entrance: 'yes', access: 'private' });
+        expect(preset.addTags).to.eql({ entrance: 'yes', access: 'private' });
+        expect(preset.removeTags).to.include({ access: '*' });
     });
 });

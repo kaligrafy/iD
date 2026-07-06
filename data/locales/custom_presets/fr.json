@@ -94,6 +94,11 @@
         "name": "Entrée principale / sortie",
         "terms": "entrée, porte, accès, principal, principale, sortie"
     },
+    "entrance/private": {
+        "name": "Entrée privée / sortie",
+        "terms": "pe, entrée, sortie, porte, privé, privée",
+        "aliases": "pe"
+    },
     "entrance/secondary": {
         "name": "Sortie secondaire",
         "terms": "sortie secondaire, porte"

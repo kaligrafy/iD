@@ -94,6 +94,11 @@
         "name": "Main Entrance / Exit",
         "terms": "entrance, exit, door, main"
     },
+    "entrance/private": {
+        "name": "Private Entrance / Exit",
+        "terms": "pe, entrance, exit, door, private",
+        "aliases": "pe"
+    },
     "entrance/secondary": {
         "name": "Secondary Exit",
         "terms": "secondary exit, door"
