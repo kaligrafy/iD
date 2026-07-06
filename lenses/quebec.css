@@ -29,6 +29,12 @@ g.vertex.tag-highway-stop.tag-stop-minor .icon {
 }
 
 
+/* Motorways — v5 parity: motorway_link paler pink than motorway (#CF2081 in core). */
+path.line.stroke.tag-highway-motorway_link {
+    stroke: #d05699;
+}
+
+
 /* --- v5 highway/crossing/sidewalk/cycleway/access rules --- */
 
 /* cycleway marked crossing with no foot */
