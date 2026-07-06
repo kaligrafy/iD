@@ -1,13 +1,10 @@
 /* ============================================================================
- * Lens — v5 Québec map styling + surface colours (always on)
+ * Lens — Québec map styling + surface colours (always on)
  * ----------------------------------------------------------------------------
- * Same rules as lenses/v5-quebec.css, but with v5 "debug surfaces" (touche S)
- * visualization active by default: over-stroke coloured by surface=*, and
- * missing/generic surface highlighted in blue. Over-stroke overlays for
- * cycleway lanes, bus lanes, etc. are omitted (as in v5 surface mode).
- *
- * Fork rules from css/30_highways.css (access emphasis) and css/50_misc.css
- * (bridges) are duplicated here so they are not overridden by this lens.
+ * Generated from lenses/quebec.css (scripts/build_quebec_surfaces_lens.js).
+ * Same highway/crossing/access/validation rules as the Québec lens, but with v5
+ * "debug surfaces" always on: over-stroke coloured by surface=*, and missing
+ * surface highlighted in blue. Lane/bus/cycleway over-stroke overlays are omitted.
  *
  * Import in Map data → Lens. Selectors use v6 paths
  * (`path.line.stroke`, `path.line.casing`, `path.line.over-stroke`).
@@ -15,17 +12,8 @@
  * Surface legend (over-stroke centre line):
  *   asphalt #000, concrete #fff, grass #71b300, unpaved/ground/dirt #81613d,
  *   gravel/fine_gravel/compacted #969696, paving_stones #00a2ff,
- *   sand #fff067, wood #a75e00, undefined #0080ff dashed stroke.
- *
- * Partial parity notes:
- *   - Maxspeed colours: import lenses/maxspeed-colors.css (separate lens).
- *   - tag-surface-undefined is emitted by tag_classes_custom.js (v5 parity).
- *   - Building flat-count outlines (`tag-has-flats`, `tag-flats-N`) need
- *     `appendBuildingFlatsTagClasses` in config/tag_classes_custom.js.
- *   - Other validation classes (maxspeed-undefined, sidewalk-invalid, etc.)
- *     still need v5 tag_classes logic — rules included, classes may be absent.
+ *   sand #fff067, wood #a75e00, undefined/paved #0080ff dashed stroke.
  * ============================================================================ */
-
 
 /* Stop signs — included for lens-only users (also in core 20_map.css) */
 g.vertex.tag-highway-stop.tag-stop-all .icon {
@@ -34,17 +22,13 @@ g.vertex.tag-highway-stop.tag-stop-all .icon {
 g.vertex.tag-highway-stop.tag-stop-minor .icon {
     color: #FFC9C9;
 }
-
-
 /* --- v5 highway/crossing/sidewalk/cycleway/access rules --- */
-
 /* Surface mode: narrower over-stroke on service/road (v5 debug-surfaces parity). */
 path.line.over-stroke.tag-highway-service,
 path.line.over-stroke.tag-highway-road {
   stroke-width: 2;
 }
 
-/* cycleways */
 path.line.casing.tag-highway-cycleway {
   stroke: rgb(93, 159, 190);
   stroke-linecap: butt;
@@ -61,7 +45,6 @@ path.line.stroke.tag-highway-cycleway.tag-foot-designated, path.line.stroke.tag-
   stroke-dasharray: 12, 3;
   stroke-linecap: butt;
 }
-
 /* cycleways segregated and not segregated */
 path.line.stroke.tag-highway-cycleway.tag-segregated-yes {
   stroke-dasharray: 12, 3, 2, 3;
@@ -69,29 +52,22 @@ path.line.stroke.tag-highway-cycleway.tag-segregated-yes {
 path.line.stroke.tag-crossing-marked.tag-highway-cycleway.tag-segregated-yes , path.line.stroke.tag-crossing-zebra.tag-highway-cycleway.tag-segregated-yes {
   stroke-dasharray: 6, 2, 2, 2;
 }
-
 path.line.stroke.tag-highway-cycleway.tag-foot-designated, path.line.stroke.tag-highway-cycleway.tag-foot-yes {
   stroke:rgb(182, 232, 255);
   stroke-dasharray: 12, 3;
   stroke-linecap: butt;
 }
-
-
-
-
 /* footways */
 path.line.casing.tag-highway-footway, 
 path.line.casing.tag-highway-footway.tag-unpaved {
   stroke: rgb(141, 101, 40);
 }
-
 path.line.stroke.tag-highway-footway, 
 path.line.stroke.tag-highway-footway.tag-unpaved {
   stroke:rgb(255, 255, 255);
   stroke-linecap: butt;
   stroke-dasharray: 6, 6;
 }
-
 /* access aisles */
 path.line.casing.tag-highway-footway.tag-footway-access_aisle, 
 path.line.casing.tag-highway-footway.tag-footway-access_aisle.tag-unpaved,
@@ -135,14 +111,10 @@ path.line.stroke.tag-highway-footway.tag-footway-access_aisle.tag-unpaved {
   stroke-linecap: butt;
   stroke-dasharray: 4 4;
 }
-
-
 path.line.casing.tag-highway-footway.tag-footway-link, 
 path.line.casing.tag-highway-footway.tag-footway-link.tag-unpaved {
   opacity: 0.7;
 }
-
-
 /* crossings */
 path.line.casing.tag-crossing-uncontrolled, path.line.casing.tag-crossing-unmarked {
   opacity: 0.6;
@@ -171,27 +143,17 @@ path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-yes 
   opacity: 0.8;
   stroke-linecap: butt;
 }
-
-
-
 path.line.stroke.tag-crossing-unmarked.tag-foot-no,
 path.line.stroke.tag-crossing-unmarked.tag-foot-no.tag-highway-cycleway
 {
   stroke-dasharray: none;
 }
-
-
-
 path.line.stroke.tag-crossing-unmarked,
 path.line.stroke.tag-crossing-unmarked.tag-highway-cycleway.tag-foot-designated,
 path.line.stroke.tag-crossing.tag-cycleway-link {
   opacity: 0.4;
   stroke-dasharray: 6, 6;
 }
-
-
-
-
 path.line.casing.tag-crossing-unmarked {
   opacity: 0.4;
 }
@@ -237,8 +199,6 @@ path.line.casing.tag-crossing-uncontrolled.tag-crossing-markings-surface {
   stroke: none !important;
   opacity: 0 !important;
 }
-
-
 /* sidewalks */
 path.line.casing.tag-highway-footway.tag-footway-sidewalk, 
 path.line.casing.tag-highway-footway.tag-footway-traffic_island, 
@@ -281,8 +241,6 @@ path.line.casing.tag-crossing-uncontrolled-empty-crossing-markings {
   stroke-linecap: butt;
   stroke-dasharray: none;
 }
-
-
 /* paths */
 path.line.stroke.tag-highway-path {
   stroke: rgb(235, 205, 160);
@@ -297,7 +255,6 @@ path.line.casing.tag-highway-path {
   stroke-dasharray: none;
   stroke-width: 4;
 }
-
 /* bicycle=yes (blue) / bicycle=dismount (mauve) — footway & path, not only sidewalk */
 path.line.casing.tag-highway-footway.tag-bicycle-dismount,
 path.line.casing.tag-highway-path.tag-bicycle-dismount {
@@ -307,7 +264,6 @@ path.line.casing.tag-highway-footway.tag-bicycle-yes,
 path.line.casing.tag-highway-path.tag-bicycle-yes {
   stroke: rgb(22, 96, 255);
 }
-
 /* steps */
 path.line.casing.tag-highway-steps {
   stroke: rgb(141, 101, 40);
@@ -319,8 +275,7 @@ path.line.stroke.tag-highway-steps {
   stroke-linecap: butt;
   stroke-dasharray: 3, 3;
 }
-
-/* access: motor roads (mirrors css/30_highways.css) */
+/* access: private, customers, delivery... (motor roads — mirrors css/30_highways.css) */
 path.line.casing.tag-access-customers:not(.tag-highway-footway):not(.tag-highway-path),
 path.line.casing.tag-motor_vehicle-customers:not(.tag-highway-footway):not(.tag-highway-path) {
   stroke: rgb(255, 136, 0) !important;
@@ -354,7 +309,6 @@ path.line.casing.tag-highway-service.tag-custom-access-emphasis {
 .low-zoom path.line.casing.tag-custom-access-emphasis {
   stroke-width: 8 !important;
 }
-
 /* Footways / paths: colored dash only; white casing and selection halo (mirrors core) */
 path.line.stroke.tag-highway-footway.tag-access-private,
 path.line.stroke.tag-highway-footway.tag-foot-private,
@@ -441,7 +395,6 @@ path.line.shadow.related.tag-highway-path.tag-foot-permissive {
   stroke: #fff !important;
   stroke-opacity: 0.45 !important;
 }
-
 /* footway=link / cycleway=link — continuous lines (mirrors core) */
 path.line.stroke.tag-highway-footway.tag-footway-link,
 path.line.stroke.tag-highway-footway.tag-footway-link.tag-unpaved {
@@ -467,7 +420,6 @@ path.line.casing.tag-highway-cycleway.tag-cycleway-link,
 path.line.casing.tag-highway-path.tag-cycleway-link {
   opacity: 0.5 !important;
 }
-
 /* placement=transition — wider road (+4px on shadow, casing, stroke; mirrors core) */
 path.line.shadow.tag-highway.tag-placement-transition {
   stroke-width: 24;
@@ -478,7 +430,6 @@ path.line.casing.tag-highway.tag-placement-transition {
 path.line.stroke.tag-highway.tag-placement-transition {
   stroke-width: 12;
 }
-
 path.line.casing.tag-access-delivery:not(.tag-highway-footway):not(.tag-highway-path),
 path.line.casing.tag-motor_vehicle-delivery:not(.tag-highway-footway):not(.tag-highway-path) {
   stroke: rgb(63, 214, 156);
@@ -487,16 +438,11 @@ path.line.casing.tag-access-destination:not(.tag-highway-footway):not(.tag-highw
 path.line.casing.tag-motor_vehicle-destination:not(.tag-highway-footway):not(.tag-highway-path) {
   stroke: rgb(255, 55, 188);
 }
-
-
-
 /* unpaved, gravel, etc. */
 /*path.line.casing.tag-surface-unpaved {
   stroke: rgb(63, 214, 202);
 }*/
-
 /* cycleway unmarked crossing */
-
 /* sidewalk separate */
 path.line.stroke.tag-sidewalk-separate {
   stroke-width: 8;
@@ -510,9 +456,20 @@ path.line.casing.tag-sidewalk-separate-right {
 path.line.casing.tag-sidewalk-separate-left {
   stroke: rgb(190, 196, 21);
 }
-
+/* cycleway lanes/shared on road */
+/* cycleway lanes/shared on road */
+/* bus designated/yes */
+/* busway/bus:lanes */
+/* foot/bicycle shared */
+{
+  stroke-width: 2;
+  /*stroke-dasharray: 8, 4;*/
+  stroke:  rgb(255, 124, 244);
+}
+/* sidewalk/crossing/cycleway no-name */
+/* cycleway separate (no biicycle access) */
+/* turn lanes */
 /* --- v5 validation/error highlights + surface colours --- */
-
 /* errors */
 path.line.casing.tag-highway-cycleway.tag-segregated-undefined.tag-foot-designated, 
 path.line.casing.tag-highway-cycleway.tag-segregated-undefined.tag-foot-yes,
@@ -520,6 +477,7 @@ path.line.casing.tag-highway.tag-sidewalk-undefined,
 path.line.casing.tag-highway.tag-sidewalk-invalid,
 path.line.casing.tag-highway.tag-maxspeed-undefined,
 path.line.casing.tag-highway.tag-surface-undefined:not(.tag-bridge),
+path.line.casing.tag-highway.tag-surface-paved:not(.tag-bridge),
 path.line.casing.tag-highway.tag-lanes-undefined,
 path.line.casing.tag-highway.tag-lanes-error-count-lanes,
 path.line.casing.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
@@ -528,13 +486,13 @@ path.line.casing.tag-highway.tag-fixme {
   stroke: rgb(0, 0, 0);
   stroke-dasharray: none;
 }
-
 .high-zoom path.line.casing.tag-highway-cycleway.tag-segregated-undefined.tag-foot-designated, 
 .high-zoom path.line.casing.tag-highway-cycleway.tag-segregated-undefined.tag-foot-yes,
 .high-zoom path.line.casing.tag-highway.tag-sidewalk-undefined,
 .high-zoom path.line.casing.tag-highway.tag-sidewalk-invalid,
 .high-zoom path.line.casing.tag-highway.tag-maxspeed-undefined,
 .high-zoom path.line.casing.tag-highway.tag-surface-undefined:not(.tag-bridge),
+.high-zoom path.line.casing.tag-highway.tag-surface-paved:not(.tag-bridge),
 .high-zoom path.line.casing.tag-highway.tag-lanes-undefined,
 .high-zoom path.line.casing.tag-highway.tag-lanes-error-count-lanes,
 .high-zoom path.line.casing.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
@@ -543,7 +501,6 @@ path.line.casing.tag-highway.tag-fixme {
   stroke-width: 3;
   opacity: 0.5;
 }
-
 .high-zoom path.line.stroke.tag-highway-cycleway.tag-segregated-undefined.tag-foot-designated,
 .high-zoom path.line.stroke.tag-highway-cycleway.tag-segregated-undefined.tag-foot-yes,
 .high-zoom path.line.stroke.tag-highway.tag-sidewalk-undefined,
@@ -551,6 +508,7 @@ path.line.casing.tag-highway.tag-fixme {
 .high-zoom path.line.stroke.tag-highway.tag-sidewalk-separate.tag-foot-not-use_sidepath:not(.tag-sidewalk-shared):not(.tag-sidewalk_left-shared):not(.tag-sidewalk_right-shared):not(.tag-sidewalk_both-shared),
 .high-zoom path.line.stroke.tag-highway.tag-maxspeed-undefined,
 .high-zoom path.line.stroke.tag-highway.tag-surface-undefined:not(.tag-bridge),
+.high-zoom path.line.stroke.tag-highway.tag-surface-paved:not(.tag-bridge),
 .high-zoom path.line.stroke.tag-highway.tag-maxspeed-more_than_70.tag-highway-residential,
 .high-zoom path.line.stroke.tag-highway.tag-lanes-undefined,
 .high-zoom path.line.stroke.tag-highway.tag-lanes-error-count-lanes,
@@ -560,13 +518,11 @@ path.line.casing.tag-highway.tag-fixme {
   stroke-width: 2;
   opacity: 0.5;
 }
-
 path.line.stroke.tag-highway.tag-fixme {
   stroke: rgb(255, 123, 123);
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
 }
-
 path.line.stroke.tag-highway.tag-lanes-error-count-lanes,
 path.line.stroke.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
 path.line.stroke.tag-highway.tag-lanes-error-width-lanes {
@@ -574,7 +530,6 @@ path.line.stroke.tag-highway.tag-lanes-error-width-lanes {
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
 }
-
 path.line.stroke.tag-highway-cycleway.tag-segregated-undefined.tag-foot-designated,
 path.line.stroke.tag-highway-cycleway.tag-segregated-undefined.tag-foot-yes {
   stroke: rgb(255, 0, 0);
@@ -586,9 +541,8 @@ path.line.stroke.tag-highway.tag-sidewalk-undefined, path.line.stroke.tag-highwa
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
 }
-
-path.line.stroke.tag-highway.tag-sidewalk-undefined:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined),
-path.line.stroke.tag-highway.tag-sidewalk-invalid:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined) {
+path.line.stroke.tag-highway.tag-sidewalk-undefined:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined):not(.tag-surface-paved),
+path.line.stroke.tag-highway.tag-sidewalk-invalid:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined):not(.tag-surface-paved) {
   stroke: rgb(101, 179, 12);
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
@@ -609,14 +563,8 @@ path.line.stroke.tag-highway.tag-maxspeed-more_than_70.tag-highway-residential {
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
 }
-/*path.line.over-stroke.tag-cycleway-track,
-path.line.over-stroke.tag-cycleway_left-track,
-path.line.over-stroke.tag-cycleway_right-track,
-path.line.over-stroke.tag-cycleway_both-track {
-  stroke-width: 1;
-  stroke:  rgb(255, 0, 0);
-}*/
-path.line.stroke.tag-highway.tag-surface-undefined:not(.tag-bridge) {
+path.line.stroke.tag-highway.tag-surface-undefined:not(.tag-bridge),
+path.line.stroke.tag-highway.tag-surface-paved:not(.tag-bridge) {
   stroke: rgb(0, 128, 255);
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
@@ -625,6 +573,7 @@ path.line.over-stroke.tag-highway {
   stroke: none;
   stroke-width: 3;
 }
+
 path.line.over-stroke.tag-highway.tag-surface-asphalt {
   stroke: rgb(0, 0, 0);
 }
@@ -653,20 +602,12 @@ path.line.over-stroke.tag-highway.tag-surface-sand {
 path.line.over-stroke.tag-highway.tag-surface-wood {
   stroke: rgb(167, 94, 0);
 }
-
-/* sidewalk/crossing/cycleway no-name — after surface over-stroke so it wins in cascade */
-svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-sidewalk.tag-name-no,
-svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-traffic_island.tag-name-no,
-svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-crossing.tag-name-no,
-svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-name-no,
-svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-name-no,
-svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-highway-cycleway.tag-name-no {
-  stroke-width: 1 !important;
-  stroke-dasharray: 6, 6 !important;
-  stroke: rgb(255, 81, 0) !important;
-  stroke-linecap: butt !important;
+path.line.over-stroke.tag-highway.tag-surface-undefined:not(.tag-bridge),
+path.line.over-stroke.tag-highway.tag-surface-paved:not(.tag-bridge) {
+  stroke: rgb(0, 128, 255);
+  stroke-dasharray: 2, 2;
+  stroke-linecap: butt;
 }
-
 
 /* bridges — duplicated from css/50_misc.css (lens overrides core @layer) */
 path.line.casing.tag-bridge {
@@ -742,7 +683,6 @@ path.line.casing.tag-highway-bridleway.tag-bridge {
   stroke-width: 6 !important;
 }
 
-
 /* ============================================================================
  * Buildings & landuse (v5 fork — css/50_misc.css + css/25_areas.css)
  * ----------------------------------------------------------------------------
@@ -750,14 +690,12 @@ path.line.casing.tag-highway-bridleway.tag-bridge {
  * Flat counts → `tag-has-flats` + `tag-flats-N` via tag_classes_custom.js
  * (buildings and landuse=residential).
  * ============================================================================ */
-
 path.area.stroke.tag-building-commercial,
 path.area.stroke.tag-building-retail,
 path.stroke.tag-building-commercial,
 path.stroke.tag-building-retail {
     stroke: rgb(0, 26, 255);
 }
-
 path.area.fill.tag-building-commercial,
 path.area.fill.tag-building-retail,
 path.fill.tag-building-commercial,
@@ -765,21 +703,18 @@ path.fill.tag-building-retail {
     stroke: rgba(0, 26, 255, 0.3);
     fill: rgba(0, 26, 255, 0.3);
 }
-
 path.area.stroke.tag-building-office,
 path.area.stroke.tag-building-office-yes,
 path.stroke.tag-building-office,
 path.stroke.tag-building-office-yes {
     stroke: rgb(206, 0, 65);
 }
-
 path.area.fill.tag-building-office,
 path.area.fill.tag-building-office-yes,
 path.fill.tag-building-office,
 path.fill.tag-building-office-yes {
     stroke: rgba(255, 0, 81, 0.3);
 }
-
 path.area.stroke.tag-building-public,
 path.area.stroke.tag-building-civic,
 path.area.stroke.tag-building-pavilion,
@@ -788,7 +723,6 @@ path.stroke.tag-building-civic,
 path.stroke.tag-building-pavilion {
     stroke: rgb(255, 89, 0);
 }
-
 path.area.fill.tag-building-public,
 path.area.fill.tag-building-civic,
 path.area.fill.tag-building-pavilion,
@@ -797,47 +731,39 @@ path.fill.tag-building-civic,
 path.fill.tag-building-pavilion {
     stroke: rgba(255, 89, 0, 0.3);
 }
-
 path.area.stroke.tag-building-farm_auxiliary,
 path.area.stroke.tag-building-barn,
 path.stroke.tag-building-farm_auxiliary,
 path.stroke.tag-building-barn {
     stroke: rgb(255, 196, 79);
 }
-
 path.area.fill.tag-building-farm_auxiliary,
 path.area.fill.tag-building-barn,
 path.fill.tag-building-farm_auxiliary,
 path.fill.tag-building-barn {
     stroke: rgba(255, 196, 79, 0.3);
 }
-
 path.area.stroke.tag-building-service,
 path.stroke.tag-building-service {
     stroke: rgb(75, 140, 150);
 }
-
 path.area.fill.tag-building-service,
 path.fill.tag-building-service {
     stroke: rgba(36, 97, 106, 0.3);
 }
-
 path.area.stroke.tag-building-industrial,
 path.stroke.tag-building-industrial {
     stroke: rgb(183, 0, 255);
 }
-
 path.area.fill.tag-building-industrial,
 path.fill.tag-building-industrial {
     stroke: rgba(183, 0, 255, 0.3);
 }
-
 path.area.stroke.tag-building.tag-has-flats,
 path.stroke.tag-building.tag-has-flats {
     stroke: rgb(226, 0, 0);
     stroke-width: 2;
 }
-
 path.area.stroke.tag-building.tag-flats-1,
 path.stroke.tag-building.tag-flats-1 {
     stroke: rgb(0, 204, 255);
@@ -870,49 +796,40 @@ path.area.stroke.tag-building.tag-flats-8,
 path.stroke.tag-building.tag-flats-8 {
     stroke: rgb(255, 166, 0);
 }
-
 path.area.stroke.tag-building-detached,
 path.stroke.tag-building-detached {
     stroke: rgb(233, 153, 61);
 }
-
 path.area.stroke.tag-building-apartments,
 path.stroke.tag-building-apartments {
     stroke: rgb(192, 211, 85);
 }
-
 path.area.stroke.tag-building-terrace,
 path.stroke.tag-building-terrace {
     stroke: rgb(114, 211, 85);
 }
-
 path.area.stroke.tag-building-semidetached_house,
 path.stroke.tag-building-semidetached_house {
     stroke: rgb(85, 211, 152);
 }
-
 path.area.stroke.tag-building-house,
 path.stroke.tag-building-house {
     stroke: rgb(156, 36, 36);
 }
-
 path.area.stroke.tag-landuse-institutional,
 path.stroke.tag-landuse-institutional {
     stroke: rgb(0, 157, 255);
 }
-
 path.area.fill.tag-landuse-institutional,
 path.fill.tag-landuse-institutional {
     stroke: rgba(0, 157, 255, 0.3);
     fill: rgba(0, 157, 255, 0.3);
 }
-
 path.area.stroke.tag-landuse-residential.tag-has-flats,
 path.stroke.tag-landuse-residential.tag-has-flats {
     stroke: rgb(255, 255, 0);
     stroke-width: 2;
 }
-
 path.area.fill.tag-landuse-residential.tag-has-flats,
 path.fill.tag-landuse-residential.tag-has-flats {
     stroke: rgba(255, 255, 0, 0.3);

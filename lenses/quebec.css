@@ -1,5 +1,5 @@
 /* ============================================================================
- * Lens — v5 Québec map styling (non-upstream fork rules)
+ * Lens — Québec map styling (non-upstream fork rules)
  * ----------------------------------------------------------------------------
  * Import this file in Map data → Lens. Selectors use v6 map paths
  * (`path.line.stroke`, `path.line.casing`, `path.line.over-stroke`).
@@ -11,9 +11,8 @@
  *   - Maxspeed colours: import lenses/maxspeed-colors.css (separate lens).
  *   - Validation/error highlights (tag-maxspeed-undefined, tag-sidewalk-invalid,
  *     tag-lanes-error-*, tag-segregated-undefined, tag-surface-undefined, etc.)
- *     require v5 computed tag classes — rules are included but classes are NOT
- *     emitted unless tag_classes_custom.js is extended (openstreetmap/iD#11189).
- *   - Surface colours: use lenses/v5-quebec-surfaces.css (v5 touche S, always on).
+ *     via config/highway_validation_tag_classes.js (tag_classes_custom.js).
+ *   - Surface colours: use lenses/quebec-surfaces.css (⌥S, always on).
  *   - Compound classes tag-crossing-markings-*, tag-segregated-*, tag-foot-no
  *     are emitted in config/tag_classes_custom.js.
  *   - Building flat-count outlines (`tag-has-flats`, `tag-flats-N`) need
@@ -616,7 +615,8 @@ path.line.casing.tag-highway-cycleway.tag-segregated-undefined.tag-foot-yes,
 path.line.casing.tag-highway.tag-sidewalk-undefined,
 path.line.casing.tag-highway.tag-sidewalk-invalid,
 path.line.casing.tag-highway.tag-maxspeed-undefined,
-.debug-surfaces path.line.casing.tag-highway.tag-surface-undefined,
+path.line.casing.tag-highway.tag-surface-undefined,
+path.line.casing.tag-highway.tag-surface-paved,
 path.line.casing.tag-highway.tag-lanes-undefined,
 path.line.casing.tag-highway.tag-lanes-error-count-lanes,
 path.line.casing.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
@@ -631,7 +631,8 @@ path.line.casing.tag-highway.tag-fixme {
 .high-zoom path.line.casing.tag-highway.tag-sidewalk-undefined,
 .high-zoom path.line.casing.tag-highway.tag-sidewalk-invalid,
 .high-zoom path.line.casing.tag-highway.tag-maxspeed-undefined,
-.debug-surfaces .high-zoom path.line.casing.tag-highway.tag-surfaced-undefined,
+.high-zoom path.line.casing.tag-highway.tag-surface-undefined,
+.high-zoom path.line.casing.tag-highway.tag-surface-paved,
 .high-zoom path.line.casing.tag-highway.tag-lanes-undefined,
 .high-zoom path.line.casing.tag-highway.tag-lanes-error-count-lanes,
 .high-zoom path.line.casing.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
@@ -647,7 +648,8 @@ path.line.casing.tag-highway.tag-fixme {
 .high-zoom path.line.stroke.tag-highway.tag-sidewalk-invalid,
 .high-zoom path.line.stroke.tag-highway.tag-sidewalk-separate.tag-foot-not-use_sidepath:not(.tag-sidewalk-shared):not(.tag-sidewalk_left-shared):not(.tag-sidewalk_right-shared):not(.tag-sidewalk_both-shared),
 .high-zoom path.line.stroke.tag-highway.tag-maxspeed-undefined,
-.debug-surfaces .high-zoom path.line.stroke.tag-highway.tag-surface-undefined,
+.high-zoom path.line.stroke.tag-highway.tag-surface-undefined,
+.high-zoom path.line.stroke.tag-highway.tag-surface-paved,
 .high-zoom path.line.stroke.tag-highway.tag-maxspeed-more_than_70.tag-highway-residential,
 .high-zoom path.line.stroke.tag-highway.tag-lanes-undefined,
 .high-zoom path.line.stroke.tag-highway.tag-lanes-error-count-lanes,
@@ -684,8 +686,8 @@ path.line.stroke.tag-highway.tag-sidewalk-undefined, path.line.stroke.tag-highwa
   stroke-linecap: butt;
 }
 
-path.line.stroke.tag-highway.tag-sidewalk-undefined:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined),
-path.line.stroke.tag-highway.tag-sidewalk-invalid:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined) {
+path.line.stroke.tag-highway.tag-sidewalk-undefined:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined):not(.tag-surface-paved),
+path.line.stroke.tag-highway.tag-sidewalk-invalid:not(.tag-maxspeed-undefined):not(.tag-lanes-undefined):not(.tag-surface-undefined):not(.tag-surface-paved) {
   stroke: rgb(101, 179, 12);
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
@@ -706,6 +708,12 @@ path.line.stroke.tag-highway.tag-maxspeed-more_than_70.tag-highway-residential {
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
 }
+path.line.stroke.tag-highway.tag-surface-undefined,
+path.line.stroke.tag-highway.tag-surface-paved {
+  stroke: rgb(0, 128, 255);
+  stroke-dasharray: 2, 2;
+  stroke-linecap: butt;
+}
 /*path.line.over-stroke.tag-cycleway-track,
 path.line.over-stroke.tag-cycleway_left-track,
 path.line.over-stroke.tag-cycleway_right-track,
@@ -713,11 +721,6 @@ path.line.over-stroke.tag-cycleway_both-track {
   stroke-width: 1;
   stroke:  rgb(255, 0, 0);
 }*/
-.debug-surfaces path.line.stroke.tag-highway.tag-surface-undefined {
-  stroke: rgb(0, 128, 255);
-  stroke-dasharray: 2, 2;
-  stroke-linecap: butt;
-}
 .debug-surfaces path.line.over-stroke.tag-highway {
   stroke: none;
   stroke-width: 3;
@@ -749,6 +752,12 @@ path.line.over-stroke.tag-cycleway_both-track {
 }
 .debug-surfaces path.line.over-stroke.tag-highway.tag-surface-wood {
   stroke: rgb(167, 94, 0);
+}
+.debug-surfaces path.line.over-stroke.tag-highway.tag-surface-undefined,
+.debug-surfaces path.line.over-stroke.tag-highway.tag-surface-paved {
+  stroke: rgb(0, 128, 255);
+  stroke-dasharray: 2, 2;
+  stroke-linecap: butt;
 }
 
 
