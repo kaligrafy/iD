@@ -814,6 +814,11 @@
         "terms": "std, vélo à pied, descendre du vélo, escalier, escaliers, marches",
         "aliases": "std"
     },
+    "highway/crossing/tactile_paving_yes": {
+        "name": "Surface podotactile (oui)",
+        "terms": "tp, podotactile, tactile, oui, bande podotactile",
+        "aliases": "tp"
+    },
     "highway/stop_forward_minor": {
         "name": "Panneau d'arrêt avant (priorité mineure)",
         "terms": "stfm, arrêt, stop, panneau, avant, forward, minor, mineure",

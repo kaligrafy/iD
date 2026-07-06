@@ -814,6 +814,11 @@
         "terms": "std, dismount, bicycle, steps, stairs, staircase, stairway",
         "aliases": "std"
     },
+    "highway/crossing/tactile_paving_yes": {
+        "name": "Tactile paving (yes)",
+        "terms": "tp, tactile paving, tactile_paving, yes, rumble strip",
+        "aliases": "tp"
+    },
     "highway/stop_forward_minor": {
         "name": "Stop Sign Forward (minor)",
         "terms": "stfm, stop, halt, sign, forward, minor",
