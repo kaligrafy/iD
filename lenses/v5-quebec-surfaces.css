@@ -496,7 +496,6 @@ path.line.casing.tag-motor_vehicle-destination:not(.tag-highway-footway):not(.ta
 
 /* cycleway unmarked crossing */
 
-
 /* sidewalk separate */
 path.line.stroke.tag-sidewalk-separate {
   stroke-width: 8;
@@ -652,6 +651,19 @@ path.line.over-stroke.tag-highway.tag-surface-sand {
 }
 path.line.over-stroke.tag-highway.tag-surface-wood {
   stroke: rgb(167, 94, 0);
+}
+
+/* sidewalk/crossing/cycleway no-name — after surface over-stroke so it wins in cascade */
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-sidewalk.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-traffic_island.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-crossing.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-highway-cycleway.tag-name-no {
+  stroke-width: 1 !important;
+  stroke-dasharray: 6, 6 !important;
+  stroke: rgb(255, 81, 0) !important;
+  stroke-linecap: butt !important;
 }
 
 

@@ -577,14 +577,17 @@ svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-sidewalk-shared-right
   stroke:  rgb(255, 124, 244);
 }
 
-/* sidewalk/crossings no-name */
+/* sidewalk/crossing/cycleway no-name */
 svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-sidewalk.tag-name-no,
 svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-traffic_island.tag-name-no,
-svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-name-no {
-  stroke-width: 1;
-  stroke-dasharray: 6, 6;
-  stroke:  rgb(255, 81, 0);
-  stroke-linecap: butt;
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-crossing.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-highway-cycleway.tag-name-no {
+  stroke-width: 1 !important;
+  stroke-dasharray: 6, 6 !important;
+  stroke: rgb(255, 81, 0) !important;
+  stroke-linecap: butt !important;
 }
 
 /* cycleway separate (no biicycle access) */

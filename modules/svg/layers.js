@@ -52,8 +52,10 @@ export function svgLayers(projection, context) {
 
         svg = svg.enter()
             .append('svg')
+            .attr('id', 'surface')
             .attr('class', 'surface')
-            .merge(svg);
+            .merge(svg)
+            .attr('id', 'surface');
 
         var defs = svg.selectAll('.surface-defs')
             .data([0]);

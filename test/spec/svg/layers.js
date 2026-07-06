@@ -14,6 +14,7 @@ describe('iD.svgLayers', function () {
     it('creates a surface', function () {
         container.call(iD.svgLayers(projection, context));
         expect(container.selectAll('svg').classed('surface')).to.be.true;
+        expect(container.select('svg#surface').empty()).to.be.false;
     });
 
     it('creates surface defs', function () {

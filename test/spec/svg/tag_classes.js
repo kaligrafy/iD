@@ -378,6 +378,34 @@ describe('iD.svgTagClasses', function () {
         ['tag-fixme', { highway: 'residential', fixme: 'yes' }]
     ];
 
+    const nameNoCases = [
+        ['tag-name-no', { highway: 'footway', footway: 'sidewalk' }],
+        ['tag-name-no', { highway: 'footway', footway: 'traffic_island' }],
+        ['tag-name-no', { highway: 'footway', footway: 'crossing', crossing: 'unmarked' }],
+        ['tag-name-no', { highway: 'cycleway' }],
+        ['tag-name-no', { highway: 'cycleway', crossing: 'marked' }],
+        ['tag-name-no', { highway: 'residential', cycleway: 'lane' }]
+    ];
+
+    for (const [expectedClass, tags] of nameNoCases) {
+        it(`adds ${expectedClass} when name missing (${JSON.stringify(tags)})`, function() {
+            const sel = d3.select(document.createElement('div'));
+            sel
+                .datum(new iD.osmWay({ tags }))
+                .call(iD.svgTagClasses());
+            expect(sel.classed(expectedClass)).to.be.true;
+        });
+    }
+
+    it('does not add tag-name-no when name is set on sidewalk', function() {
+        selection
+            .datum(new iD.osmWay({
+                tags: { highway: 'footway', footway: 'sidewalk', name: 'Rue Example' }
+            }))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-name-no')).to.be.false;
+    });
+
     for (const [expectedClass, tags] of validationCases) {
         it(`adds ${expectedClass} (v5 validation)`, function() {
             const sel = d3.select(document.createElement('div'));

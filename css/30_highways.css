@@ -40,6 +40,18 @@ path.line.over-stroke {
     fill: none;
 }
 
+/* v5 fork: default over-stroke width on paths/cycleways (transparent until a rule sets colour). */
+path.line.over-stroke.tag-highway-track,
+path.line.over-stroke.tag-highway-path,
+path.line.over-stroke.tag-highway-footway,
+path.line.over-stroke.tag-highway-cycleway,
+path.line.over-stroke.tag-highway-bridleway,
+path.line.over-stroke.tag-highway-corridor,
+path.line.over-stroke.tag-highway-pedestrian,
+path.line.over-stroke.tag-highway-steps {
+    stroke-width: 2;
+}
+
 .preset-icon .icon.tag-highway-motorway,
 .preset-icon .icon.tag-highway-motorway_link {
     color: #CF2081;
@@ -919,4 +931,17 @@ path.line.casing.tag-highway.tag-placement-transition {
 }
 path.line.stroke.tag-highway.tag-placement-transition {
     stroke-width: 12;
+}
+
+/* sidewalk/crossing/cycleway no-name — orange dashed over-stroke (v5 parity) */
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-sidewalk.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-traffic_island.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-footway-crossing.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-name-no,
+svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-crossing.tag-highway-cycleway.tag-name-no {
+    stroke-width: 1 !important;
+    stroke-dasharray: 6, 6 !important;
+    stroke: rgb(255, 81, 0) !important;
+    stroke-linecap: butt !important;
 }
