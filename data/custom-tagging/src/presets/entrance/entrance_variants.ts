@@ -56,7 +56,7 @@ function entrancePreset(variant: EntranceVariant): CustomPreset {
     const addTags = variant.addTags ?? variant.tags;
     return {
         icon: variant.icon,
-        geometry: ['vertex'],
+        geometry: ['point', 'vertex'],
         fields: [...variant.fields],
         tags: variant.tags,
         ...(variant.addTags || variant.removeWildcards ? {
@@ -82,7 +82,7 @@ const ROUTING_ENTRANCE_VARIANTS: RoutingEntranceVariant[] = [
 function routingEntrancePreset(variant: RoutingEntranceVariant): CustomPreset {
     return {
         icon: 'maki-marker',
-        geometry: ['vertex'],
+        geometry: ['point', 'vertex'],
         fields: ['routing_entrance'],
         tags: variant.tags,
         matchScore: 0.8,
