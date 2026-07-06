@@ -289,7 +289,8 @@ export function rendererMap(context) {
                 .call(drawVertices.drawSelected, graph, map.extent())
                 .call(drawLines, graph, data, filter)
                 .call(drawAreas, graph, data, filter)
-                .call(drawMidpoints, graph, data, filter, map.trimmedExtent());
+                .call(drawMidpoints, graph, data, filter, map.trimmedExtent())
+                .call(drawMidpoints.drawGlyphs, graph);
 
             dispatch.call('drawn', this, { full: false });
 
@@ -401,7 +402,8 @@ export function rendererMap(context) {
             .call(drawAreas, graph, data, filter)
             .call(drawMidpoints, graph, data, filter, map.trimmedExtent())
             .call(drawPoints, graph, data, filter)
-            .call(drawLabels, graph, data, filter, _dimensions, fullRedraw);
+            .call(drawLabels, graph, data, filter, _dimensions, fullRedraw)
+            .call(drawMidpoints.drawGlyphs, graph);
 
         dispatch.call('drawn', this, {full: true});
     }

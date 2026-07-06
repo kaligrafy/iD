@@ -5,6 +5,9 @@ import { geoAngle, geoLineIntersection, geoVecInterp, geoVecLength } from '../ge
 
 export function svgMidpoints(projection, context) {
     var targetRadius = 8;
+    var SHADOW_POINTS = '-12,16 18,0 -12,-16';
+    var FILL_POINTS = '-5,8 10,0 -5,-8';
+    var _glyphData = [];
 
     function drawTargets(selection, graph, entities, filter) {
         var fillClass = context.getDebug('target') ? 'pink ' : 'nocolor ';
@@ -51,6 +54,7 @@ export function svgMidpoints(projection, context) {
         if ((mode && mode.id !== 'select') || !context.map().withinEditableZoom()) {
             drawLayer.selectAll('.midpoint').remove();
             touchLayer.selectAll('.midpoint.target').remove();
+            _glyphData = [];
             return;
         }
 
@@ -68,10 +72,10 @@ export function svgMidpoints(projection, context) {
             for (var j = 0; j < nodes.length - 1; j++) {
                 var a = nodes[j];
                 var b = nodes[j + 1];
-                var id = [a.id, b.id].sort().join('-');
+                var edgeId = [a.id, b.id].sort().join('-');
 
-                if (midpoints[id]) {
-                    midpoints[id].parents.push(entity);
+                if (midpoints[edgeId]) {
+                    midpoints[edgeId].parents.push(entity);
                 } else if (geoVecLength(projection(a.loc), projection(b.loc)) > 40) {
                     var point = geoVecInterp(a.loc, b.loc, 0.5);
                     var loc = null;
@@ -91,9 +95,9 @@ export function svgMidpoints(projection, context) {
                     }
 
                     if (loc) {
-                        midpoints[id] = {
+                        midpoints[edgeId] = {
                             type: 'midpoint',
-                            id: id,
+                            id: edgeId,
                             loc: loc,
                             edge: [a.id, b.id],
                             parents: [entity]
@@ -130,12 +134,12 @@ export function svgMidpoints(projection, context) {
 
         enter
             .append('polygon')
-            .attr('points', '-6,8 10,0 -6,-8')
+            .attr('points', SHADOW_POINTS)
             .attr('class', 'shadow');
 
         enter
             .append('polygon')
-            .attr('points', '-3,4 5,0 -3,-4')
+            .attr('points', FILL_POINTS)
             .attr('class', 'fill');
 
         groups = groups
@@ -155,11 +159,59 @@ export function svgMidpoints(projection, context) {
         groups.select('polygon.shadow');
         groups.select('polygon.fill');
 
+        _glyphData = groups.data();
+
 
         // Draw touch targets..
         touchLayer
             .call(drawTargets, graph, Object.values(midpoints), midpointFilter);
     }
 
+
+    // Direction glyphs above street labels (labels layer is painted later).
+    function drawGlyphs(selection, graph) {
+        var glyphLayer = selection.selectAll('.layer-osm.midpoint-glyphs');
+        var mode = context.mode();
+
+        if ((mode && mode.id !== 'select') || !context.map().withinEditableZoom()) {
+            glyphLayer.selectAll('.midpoint').remove();
+            return;
+        }
+
+        var glyphs = glyphLayer.selectAll('.midpoint')
+            .data(_glyphData, function(d) { return d.id; });
+
+        glyphs.exit()
+            .remove();
+
+        var enter = glyphs.enter()
+            .append('g')
+            .attr('class', 'midpoint midpoint-glyph');
+
+        enter
+            .append('polygon')
+            .attr('points', SHADOW_POINTS)
+            .attr('class', 'shadow');
+
+        enter
+            .append('polygon')
+            .attr('points', FILL_POINTS)
+            .attr('class', 'fill');
+
+        glyphs.merge(enter)
+            .attr('transform', function(d) {
+                var translate = svgPointTransform(projection);
+                var a = graph.entity(d.edge[0]);
+                var b = graph.entity(d.edge[1]);
+                var angle = geoAngle(a, b, projection) * (180 / Math.PI);
+                return translate(d) + ' rotate(' + angle + ')';
+            })
+            .call(svgTagClasses().tags(
+                function(d) { return d.parents[0].tags; }
+            ));
+    }
+
+
+    drawMidpoints.drawGlyphs = drawGlyphs;
     return drawMidpoints;
 }
