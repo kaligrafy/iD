@@ -54,6 +54,10 @@
         "terms": "cg, gate, customers",
         "aliases": "cg"
     },
+    "barrier/customers_gate_line": {
+        "name": "Customers gate (line)",
+        "terms": "customers gate barrier line"
+    },
     "barrier/customers_liftgate": {
         "name": "Customers lift gate",
         "terms": "clg, lift gate, customers",
@@ -68,6 +72,10 @@
         "name": "Private gate",
         "terms": "pg, gate, private",
         "aliases": "pg"
+    },
+    "barrier/private_gate_line": {
+        "name": "Private gate (line)",
+        "terms": "private gate barrier line"
     },
     "barrier/private_liftgate": {
         "name": "Private lift gate",
@@ -384,6 +392,16 @@
         "terms": "ulns, ul, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, lines crossing, lines",
         "aliases": "ulns"
     },
+    "highway/footway/crossing/uncontrolled-lines_customers": {
+        "name": "Uncontrolled Lines Footway Crossing (Customers)",
+        "terms": "ulcn, 4l, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, lines crossing, lines, customers",
+        "aliases": "4l"
+    },
+    "highway/footway/crossing/uncontrolled-lines_private": {
+        "name": "Uncontrolled Lines Footway Crossing (Private)",
+        "terms": "ulnp, 5l, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, lines crossing, lines, private",
+        "aliases": "5l"
+    },
     "highway/footway/crossing/uncontrolled-other": {
         "name": "Uncontrolled Footway Crossing (Other)",
         "terms": "ucons, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, other marking",
@@ -401,13 +419,13 @@
     },
     "highway/footway/crossing/uncontrolled-zebra_customers": {
         "name": "Uncontrolled Zebra Footway Crossing (Customers)",
-        "terms": "uzcn, uzc, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra, customers",
-        "aliases": "uzcn"
+        "terms": "uzcn, 4k, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra, customers",
+        "aliases": "4k"
     },
     "highway/footway/crossing/uncontrolled-zebra_private": {
         "name": "Uncontrolled Zebra Footway Crossing (Private)",
-        "terms": "uznp, uzp, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra, private",
-        "aliases": "uznp"
+        "terms": "uznp, 5k, footway crossing, uncontrolled footway crossing, uncontrolled crosswalk, uncontrolled pedestrian crossing, zebra crossing, zebra, private",
+        "aliases": "5k"
     },
     "highway/footway/crossing/unmarked": {
         "name": "Unmarked Footway Crossing",
@@ -426,13 +444,13 @@
     },
     "highway/footway/crossing/unmarked_customers": {
         "name": "Unmarked Footway Crossing (Customers)",
-        "terms": "ucn, uc, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, customers",
-        "aliases": "ucn"
+        "terms": "ucn, 4u, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, customers, asphalt",
+        "aliases": "4u"
     },
     "highway/footway/crossing/unmarked_private": {
         "name": "Unmarked Footway Crossing (Private)",
-        "terms": "unp, up, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, private",
-        "aliases": "unp"
+        "terms": "unp, 5u, footway crossing, unmarked footway crossing, unmarked crosswalk, no marking crossing, private, asphalt",
+        "aliases": "5u"
     },
     "highway/footway/bicycle_dismount_asphalt": {
         "name": "Foot path (bicycle dismount asphalt)",
@@ -739,6 +757,16 @@
         "terms": "scpa, customers, parking aisle, service, access road",
         "aliases": "scpa"
     },
+    "highway/service/customers_unpaved_driveway": {
+        "name": "Customers unpaved driveway",
+        "terms": "scud, 4du, customers, unpaved, driveway, service, access road",
+        "aliases": "4du"
+    },
+    "highway/service/customers_unpaved_parking_aisle": {
+        "name": "Customers unpaved parking aisle",
+        "terms": "scupa, 4pu, customers, unpaved, parking aisle, service, access road",
+        "aliases": "4pu"
+    },
     "highway/service/private_driveway": {
         "name": "Private driveway",
         "terms": "spd, private, driveway, service, access road",
@@ -751,13 +779,33 @@
     },
     "highway/service/private_unpaved_driveway": {
         "name": "Private unpaved driveway",
-        "terms": "spud, private, unpaved, driveway, service, access road",
-        "aliases": "spud"
+        "terms": "spud, 5du, private, unpaved, driveway, service, access road",
+        "aliases": "5du"
     },
     "highway/service/private_unpaved_parking_aisle": {
         "name": "Private unpaved parking aisle",
-        "terms": "spupa, private, unpaved, parking aisle, service, access road",
-        "aliases": "spupa"
+        "terms": "spupa, 5pu, private, unpaved, parking aisle, service, access road",
+        "aliases": "5pu"
+    },
+    "highway/service/destination_driveway": {
+        "name": "Destination driveway",
+        "terms": "sdd, 6d, destination, driveway, service, motor_vehicle",
+        "aliases": "6d"
+    },
+    "highway/service/destination_parking_aisle": {
+        "name": "Destination parking aisle",
+        "terms": "sdpa, 6p, destination, parking aisle, service, motor_vehicle",
+        "aliases": "6p"
+    },
+    "highway/service/destination_unpaved_driveway": {
+        "name": "Destination unpaved driveway",
+        "terms": "sdud, 6du, destination, unpaved, driveway, service, motor_vehicle",
+        "aliases": "6du"
+    },
+    "highway/service/destination_unpaved_parking_aisle": {
+        "name": "Destination unpaved parking aisle",
+        "terms": "sdupa, 6pu, destination, unpaved, parking aisle, service, motor_vehicle",
+        "aliases": "6pu"
     },
     "highway/service/customers": {
         "name": "Customers service road",

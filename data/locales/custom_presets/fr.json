@@ -54,6 +54,10 @@
         "terms": "cg, bc, barrière, clients",
         "aliases": "cg"
     },
+    "barrier/customers_gate_line": {
+        "name": "Barrière Clients (ligne)",
+        "terms": "barrière clients ligne"
+    },
     "barrier/customers_liftgate": {
         "name": "Barrière levante Clients",
         "terms": "clg, blc, barrière levante, clients",
@@ -68,6 +72,10 @@
         "name": "Barrière Privée",
         "terms": "pg, bp, barrière, privée",
         "aliases": "pg"
+    },
+    "barrier/private_gate_line": {
+        "name": "Barrière Privée (ligne)",
+        "terms": "barrière privée ligne"
     },
     "barrier/private_liftgate": {
         "name": "Barrière levante Privée",
@@ -384,6 +392,16 @@
         "terms": "ulns, ulns, ul, uclns, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, lignes, marquage en lignes",
         "aliases": "ulns"
     },
+    "highway/footway/crossing/uncontrolled-lines_customers": {
+        "name": "Traversée piétonne — Lignes (clients)",
+        "terms": "ulcn, 4l, traversée piétonne, passage piéton, traversée, non contrôlé, lignes, marquage lignes, clients",
+        "aliases": "4l"
+    },
+    "highway/footway/crossing/uncontrolled-lines_private": {
+        "name": "Traversée piétonne — Lignes (privé)",
+        "terms": "ulnp, 5l, traversée piétonne, passage piéton, traversée, non contrôlé, lignes, marquage lignes, privé",
+        "aliases": "5l"
+    },
     "highway/footway/crossing/uncontrolled-other": {
         "name": "Traversée piétonne — Non contrôlé, autre",
         "terms": "ucons, ucons, traversée piétonne, passage piéton, passage piéton, traversée, non contrôlé, sans signalisation, autre marquage, marquage autre",
@@ -401,13 +419,13 @@
     },
     "highway/footway/crossing/uncontrolled-zebra_customers": {
         "name": "Traversée piétonne — Zébrée (clients)",
-        "terms": "uzcn, uzc, traversée piétonne, passage piéton, traversée, non contrôlé, zébrée, passage zébré, bandes zébrées, clients",
-        "aliases": "uzcn"
+        "terms": "uzcn, 4k, traversée piétonne, passage piéton, traversée, non contrôlé, zébrée, passage zébré, bandes zébrées, clients",
+        "aliases": "4k"
     },
     "highway/footway/crossing/uncontrolled-zebra_private": {
         "name": "Traversée piétonne — Zébrée (privé)",
-        "terms": "uznp, uzp, traversée piétonne, passage piéton, traversée, non contrôlé, zébrée, passage zébré, bandes zébrées, privé",
-        "aliases": "uznp"
+        "terms": "uznp, 5k, traversée piétonne, passage piéton, traversée, non contrôlé, zébrée, passage zébré, bandes zébrées, privé",
+        "aliases": "5k"
     },
     "highway/footway/crossing/unmarked": {
         "name": "Traversée piétonne — Non marqué",
@@ -426,13 +444,13 @@
     },
     "highway/footway/crossing/unmarked_customers": {
         "name": "Traversée piétonne — Non marqué (clients)",
-        "terms": "ucn, uc, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, clients",
-        "aliases": "ucn"
+        "terms": "ucn, 4u, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, clients, asphalte",
+        "aliases": "4u"
     },
     "highway/footway/crossing/unmarked_private": {
         "name": "Traversée piétonne — Non marqué (privé)",
-        "terms": "unp, up, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, privé",
-        "aliases": "unp"
+        "terms": "unp, 5u, traversée piétonne, passage piéton, traversée, non marqué, sans marquage, privé, asphalte",
+        "aliases": "5u"
     },
     "highway/footway/bicycle_dismount_asphalt": {
         "name": "Chemin piéton (vélo à pied, asphalte)",
@@ -739,6 +757,16 @@
         "terms": "scpa, clients, allée de stationnement, voie de service, service",
         "aliases": "scpa"
     },
+    "highway/service/customers_unpaved_driveway": {
+        "name": "Entrée clients non revêtue",
+        "terms": "scud, 4du, clients, non revêtue, entrée, allée, voie de service",
+        "aliases": "4du"
+    },
+    "highway/service/customers_unpaved_parking_aisle": {
+        "name": "Allée de stationnement clients non revêtue",
+        "terms": "scupa, 4pu, clients, non revêtue, allée de stationnement, voie de service",
+        "aliases": "4pu"
+    },
     "highway/service/private_driveway": {
         "name": "Entrée privée",
         "terms": "spd, privé, entrée, allée, voie de service, service",
@@ -751,13 +779,33 @@
     },
     "highway/service/private_unpaved_driveway": {
         "name": "Entrée privée non revêtue",
-        "terms": "spud, privé, non revêtue, entrée, allée, voie de service",
-        "aliases": "spud"
+        "terms": "spud, 5du, privé, non revêtue, entrée, allée, voie de service",
+        "aliases": "5du"
     },
     "highway/service/private_unpaved_parking_aisle": {
         "name": "Allée de stationnement privée non revêtue",
-        "terms": "spupa, privé, non revêtue, allée de stationnement, voie de service",
-        "aliases": "spupa"
+        "terms": "spupa, 5pu, privé, non revêtue, allée de stationnement, voie de service",
+        "aliases": "5pu"
+    },
+    "highway/service/destination_driveway": {
+        "name": "Entrée destination",
+        "terms": "sdd, 6d, destination, entrée, allée, voie de service, motor_vehicle",
+        "aliases": "6d"
+    },
+    "highway/service/destination_parking_aisle": {
+        "name": "Allée de stationnement destination",
+        "terms": "sdpa, 6p, destination, allée de stationnement, voie de service, motor_vehicle",
+        "aliases": "6p"
+    },
+    "highway/service/destination_unpaved_driveway": {
+        "name": "Entrée destination non revêtue",
+        "terms": "sdud, 6du, destination, non revêtue, entrée, allée, voie de service",
+        "aliases": "6du"
+    },
+    "highway/service/destination_unpaved_parking_aisle": {
+        "name": "Allée de stationnement destination non revêtue",
+        "terms": "sdupa, 6pu, destination, non revêtue, allée de stationnement, voie de service",
+        "aliases": "6pu"
     },
     "highway/service/customers": {
         "name": "Voie de service clients",
