@@ -26,6 +26,13 @@ const UPSTREAM_ROAD_PRESETS = {
         geometry: ['line'],
         tags: { highway: 'primary_link' },
         name: 'Primary Link'
+    },
+    'highway/motorway_link': {
+        icon: 'fas-road',
+        fields: ['name', 'oneway', 'maxspeed', 'lanes', 'surface', 'structure', 'access'],
+        geometry: ['line'],
+        tags: { highway: 'motorway_link' },
+        name: 'Motorway Link'
     }
 };
 
@@ -63,7 +70,13 @@ describe('custom fields — is_side_road (upstream road presets)', function() {
         expect(sideRoadIndex).to.equal(dualIndex + 1);
     });
 
-    for (const id of ['highway/motorway', 'highway/primary_link']) {
+    it('offers is_side_road on highway/primary_link', function() {
+        const preset = iD.presetManager.item('highway/primary_link');
+        expect(preset).to.exist;
+        expect(preset.fields().map((f) => f.id)).to.include('is_side_road');
+    });
+
+    for (const id of ['highway/motorway', 'highway/motorway_link']) {
         it(`does not offer is_side_road on ${id}`, function() {
             const preset = iD.presetManager.item(id);
             expect(preset, id).to.exist;

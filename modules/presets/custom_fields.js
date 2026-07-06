@@ -221,9 +221,11 @@ const SMALL_FIELDS = [
     'oneway', 'maxspeed', 'maxspeed_advisory', 'minspeed', 'surface', 'sidewalk', 'ref_road_number', 'dual_carriageway', 'is_sidewalk', 'is_side_road'
 ];
 
-// highway=* values that may carry side_road=* (car mains; not motorway or *_link ramps).
+// highway=* values that may carry side_road=* (car mains). Excludes motorway and
+// motorway_link only; other *_link ramps are included.
 const SIDE_ROAD_HIGHWAYS = new Set([
-    'residential', 'unclassified', 'tertiary', 'secondary', 'primary', 'trunk'
+    'residential', 'unclassified', 'tertiary', 'secondary', 'primary', 'trunk',
+    'trunk_link', 'tertiary_link', 'secondary_link', 'primary_link'
 ]);
 
 // highway=* values that should offer the sidewalk field
