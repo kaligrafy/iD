@@ -63,6 +63,11 @@
         "terms": "clg, lift gate, customers",
         "aliases": "clg"
     },
+    "barrier/block_motor_vehicle_no": {
+        "name": "Block (no motor vehicles)",
+        "terms": "bmnv, block, motor vehicle, no motor vehicles",
+        "aliases": "bmnv"
+    },
     "barrier/gate_foot_bicycle_yes": {
         "name": "Public gate (foot and bicycle, no motor vehicles)",
         "terms": "pugfb, pubg, gate, foot, bicycle, pedestrian, cycling, no motor vehicles",

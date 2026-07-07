@@ -1,5 +1,7 @@
 import type { CustomPreset, PresetGeometry } from '../../types';
+import { ANY, buildRemoveTags } from '../../lib/tag_helpers';
 import { presetNameEn } from '../../preset_name_en';
+import { blockMotorVehicleNo } from './block_motor_vehicle_no';
 import { gateFootBicycleYes } from './gate_foot_bicycle_yes';
 
 type AccessKind = 'customers' | 'private';
@@ -18,17 +20,21 @@ const ACCESS_BARRIERS: AccessBarrierVariant[] = [
 ];
 
 function accessBarrierPreset(presetId: string, variant: AccessBarrierVariant, geometry: PresetGeometry[]): CustomPreset {
-    const icon = variant.barrier === 'lift_gate' ? 'temaki-lift_gate' : 'maki-barrier';
+    const isLiftGate = variant.barrier === 'lift_gate';
+    const icon = isLiftGate ? 'temaki-lift_gate' : 'maki-barrier';
+    const addTags = { barrier: variant.barrier, access: variant.access };
     const preset: CustomPreset = {
         icon,
         geometry,
-        fields: ['access', 'opening_hours'],
-        tags: { barrier: variant.barrier, access: variant.access },
-        name: presetNameEn(presetId)
+        // Lift gates: `access_restricted` only — full `access` field would preserve motor_vehicle.
+        fields: isLiftGate ? ['access_restricted', 'opening_hours'] : ['access', 'opening_hours'],
+        tags: { ...addTags },
+        name: presetNameEn(presetId),
+        matchScore: 2
     };
-    // Beat generic `barrier/gate` when matching nodes on ways.
-    if (geometry.includes('vertex') && !geometry.includes('line')) {
-        preset.matchScore = 2;
+    if (isLiftGate) {
+        preset.addTags = { ...addTags };
+        preset.removeTags = buildRemoveTags(addTags, { motor_vehicle: ANY, foot: ANY, bicycle: ANY });
     }
     return preset;
 }
@@ -46,5 +52,6 @@ function accessBarrierPresetsForVariant(variant: AccessBarrierVariant): [string,
 /** Customer/private gates, lift gates, and public foot/bicycle gate (v5 Transition). */
 export const accessBarrierPresets: Record<string, CustomPreset> = {
     ...Object.fromEntries(ACCESS_BARRIERS.flatMap(accessBarrierPresetsForVariant)),
-    'barrier/gate_foot_bicycle_yes': gateFootBicycleYes
+    'barrier/gate_foot_bicycle_yes': gateFootBicycleYes,
+    'barrier/block_motor_vehicle_no': blockMotorVehicleNo
 };
