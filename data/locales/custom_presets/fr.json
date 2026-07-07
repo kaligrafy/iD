@@ -63,6 +63,11 @@
         "terms": "clg, blc, barrière levante, clients",
         "aliases": "clg"
     },
+    "barrier/block_motor_vehicle_no": {
+        "name": "Bloc (pas de véhicules motorisés)",
+        "terms": "bpmv, bloc, véhicule motorisé, pas de véhicules motorisés",
+        "aliases": "bpmv"
+    },
     "barrier/gate_foot_bicycle_yes": {
         "name": "Barrière Publique (piétons et vélos, pas de véhicules motorisés)",
         "terms": "pugfb, bppv, barrière, piéton, vélo, cyclisme, pas de véhicules motorisés",
