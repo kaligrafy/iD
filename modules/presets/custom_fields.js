@@ -48,7 +48,7 @@ export const customFields = {
         geometry: ['line'],
         prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'lanes', valueGreaterThan: 2 }] }
     },
-    // Centre bidirectional lane count (rare); optional via "+ add field", not in lanes_group.
+    // Centre bidirectional lane count; ⇄ row in lanes_group (hidden until lanes > 2).
     lanes_both_ways: {
         key: 'lanes:both_ways',
         type: 'number',
@@ -69,7 +69,8 @@ export const customFields = {
         members: [
             { id: 'lanes', label: '↕' },
             { id: 'lanes_forward', label: '↑' },
-            { id: 'lanes_backward', label: '↓' }
+            { id: 'lanes_backward', label: '↓' },
+            { id: 'lanes_both_ways', label: '⇄' }
         ]
     },
     placement_group: {
@@ -388,10 +389,6 @@ export function applyCustomFields(presetManager) {
         const maxspeedIndex = fields.indexOf('maxspeed');
         if (maxspeedIndex === -1) moreFields.push('maxspeed_advisory');
         else fields.splice(maxspeedIndex + 1, 0, 'maxspeed_advisory');
-
-        // Centre bidirectional lane count: optional only (rare), not in lanes_group.
-        removeField(fields, 'lanes_both_ways');
-        if (moreFields.indexOf('lanes_both_ways') === -1) moreFields.push('lanes_both_ways');
 
         // minimum speed: default field on motorways (common in Québec), just
         // below the advisory/maxspeed rows. Upstream keeps it in moreFields.
