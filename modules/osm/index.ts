@@ -19,6 +19,17 @@ export {
 } from './lanes';
 
 export {
+    getLaneConsistencyIssues,
+    laneConsistencyTagClasses,
+    perLaneCountKey,
+    pipeLaneCount,
+    parseLanesTagCount,
+    isPerLaneValueTag,
+    PER_LANE_VALUE_PREFIXES,
+    LANE_CONSISTENCY_TAG_CLASS
+} from './lane_tag_consistency';
+
+export {
     osmJoinWays
 } from './multipolygon';
 

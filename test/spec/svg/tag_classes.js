@@ -374,6 +374,19 @@ describe('iD.svgTagClasses', function () {
         ['tag-sidewalk-undefined', { highway: 'residential' }],
         ['tag-maxspeed-more_than_70', { highway: 'motorway', maxspeed: '90' }],
         ['tag-lanes-error-count-lanes', { highway: 'primary', lanes: '4' }],
+        ['tag-lanes-error-count-lanes-total-mismatch', {
+            highway: 'primary',
+            lanes: '3',
+            'lanes:forward': '2',
+            'lanes:backward': '2'
+        }],
+        ['tag-lanes-error-lane-tags', {
+            highway: 'primary',
+            lanes: '4',
+            'lanes:forward': '3',
+            'lanes:backward': '1',
+            'turn:lanes:forward': '|left'
+        }],
         ['tag-segregated-undefined', { highway: 'cycleway', foot: 'designated' }],
         ['tag-fixme', { highway: 'residential', fixme: 'yes' }]
     ];

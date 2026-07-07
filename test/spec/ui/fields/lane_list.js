@@ -11,7 +11,8 @@ describe('iD.uiFieldLaneList helpers', () => {
             ['change:lanes:backward', 'lanes:backward'],
             ['turn:lanes', 'lanes'],
             ['turn:lanes:forward', 'lanes:forward'],
-            ['turn:lanes:backward', 'lanes:backward']
+            ['turn:lanes:backward', 'lanes:backward'],
+            ['turn:lanes:both_ways', 'lanes:both_ways']
         ])('%s', (key, expected) => {
             it(`reads count from ${expected}`, () => {
                 expect(iD.laneCountKey(key)).toBe(expected);

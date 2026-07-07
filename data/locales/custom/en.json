@@ -317,6 +317,22 @@
             "oneway_directional_tags": "This one-way road uses directional lane tags ({tags}). Use the undirected tags (lanes, turn:lanes, bus:lanes, motor_vehicle:lanes, etc.) without :forward or :backward."
         },
         "issues": {
+            "mismatched_lanes": {
+                "title": "Inconsistent Lane Tags",
+                "tip": "Find roads where lane counts or per-lane tags (turn, change, width) do not agree.",
+                "missing_directional": {
+                    "message": "{feature} has more than two lanes but is missing lanes:forward or lanes:backward.",
+                    "reference": "On two-way roads with more than two lanes, tag lanes:forward and lanes:backward (and lanes:both_ways when centre lanes allow both directions)."
+                },
+                "total_mismatch": {
+                    "message": "{feature} has a lane total that does not match lanes:forward, lanes:backward, and lanes:both_ways.",
+                    "reference": "lanes should equal lanes:forward + lanes:backward + lanes:both_ways (omit both_ways when unused)."
+                },
+                "lane_tag_count": {
+                    "message": "{feature}: “{tag}” describes {actual} lanes but {countTag} is {count}.",
+                    "reference": "Per-lane tags (turn:lanes*, change:lanes*, width:lanes*) use one `|`-separated value per lane counted in the matching lanes* tag."
+                }
+            },
             "redundant_directional_tag": {
                 "title": "Redundant Plain Tag",
                 "tip": "Find features where a plain tag is overridden by its directional variants.",

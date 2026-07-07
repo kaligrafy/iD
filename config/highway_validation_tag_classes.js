@@ -1,7 +1,9 @@
 /**
  * v5 fork highway validation tag classes (missing maxspeed/lanes/surface, sidewalk errors, etc.).
- * Used by lenses/quebec-validation.css.
+ * Used by lenses/quebec.css and lenses/quebec-surfaces.css.
  */
+
+import { getLaneConsistencyIssues, laneConsistencyTagClasses } from '../modules/osm/lane_tag_consistency.js';
 
 /** Highways excluded from sidewalk validation (v5 parity). */
 const IGNORE_SIDEWALK_HIGHWAYS = new Set([
@@ -43,28 +45,11 @@ export function appendHighwayValidationTagClasses(classes, t) {
     let access = null;
     let surface = null;
     let maxSpeed = null;
-    let lanes = null;
-    let lanesForward = null;
-    let lanesBackward = null;
-    let lanesBothWays = null;
-    let widthLanesCount = null;
-    let widthLanesStartCount = null;
-    let widthLanesEndCount = null;
-    let widthLanesForwardCount = null;
-    let widthLanesForwardStartCount = null;
-    let widthLanesForwardEndCount = null;
-    let widthLanesBackwardCount = null;
-    let widthLanesBackwardStartCount = null;
-    let widthLanesBackwardEndCount = null;
 
     let footway = null;
     let hasCyclewayTag = false;
     let hasName = false;
-    let isOneWay = false;
     let hasLanes = false;
-    let hasLanesForward = false;
-    let hasLanesBackward = false;
-    let hasLanesBothWays = false;
 
     for (const k of Object.keys(t)) {
         const v = t[k];
@@ -94,32 +79,9 @@ export function appendHighwayValidationTagClasses(classes, t) {
             maxSpeed = Number(v);
         }
         if (k === 'surface' && v) surface = v;
-        if (k === 'oneway' && v === 'yes') isOneWay = true;
         if (k === 'lanes' && v >= 1 && v <= 8) {
-            lanes = Number(v);
             hasLanes = true;
         }
-        if (k === 'lanes:forward' && v >= 1 && v <= 8) {
-            lanesForward = Number(v);
-            hasLanesForward = true;
-        }
-        if (k === 'lanes:backward' && v >= 1 && v <= 8) {
-            lanesBackward = Number(v);
-            hasLanesBackward = true;
-        }
-        if (k === 'lanes:both_ways' && v >= 1 && v <= 8) {
-            lanesBothWays = Number(v);
-            hasLanesBothWays = true;
-        }
-        if (k === 'width:lanes') widthLanesCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:start') widthLanesStartCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:end') widthLanesEndCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:forward') widthLanesForwardCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:forward:start') widthLanesForwardStartCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:forward:end') widthLanesForwardEndCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:backward') widthLanesBackwardCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:backward:start') widthLanesBackwardStartCount = (v.match(/\|/g) || []).length + 1;
-        if (k === 'width:lanes:backward:end') widthLanesBackwardEndCount = (v.match(/\|/g) || []).length + 1;
     }
 
     if (!ignoreSidewalk) {
@@ -172,27 +134,7 @@ export function appendHighwayValidationTagClasses(classes, t) {
         }
     }
 
-    if (!isOneWay && hasLanes && lanes > 2 && (!hasLanesForward || !hasLanesBackward)) {
-        classes.push('tag-lanes-error-count-lanes');
-    }
-    if (hasLanesForward && hasLanesBackward && lanes !== lanesForward + lanesBackward) {
-        if (hasLanesBothWays && lanes !== lanesForward + lanesBackward + lanesBothWays) {
-            classes.push('tag-lanes-error-count-lanes-total-mismatch');
-        }
-    }
-    if (
-        (widthLanesCount && widthLanesCount !== lanes) ||
-        (widthLanesStartCount && widthLanesStartCount !== lanes) ||
-        (widthLanesEndCount && widthLanesEndCount !== lanes) ||
-        (widthLanesForwardCount && widthLanesForwardCount !== lanesForward) ||
-        (widthLanesForwardStartCount && widthLanesForwardStartCount !== lanesForward) ||
-        (widthLanesForwardEndCount && widthLanesForwardEndCount !== lanesForward) ||
-        (widthLanesBackwardCount && widthLanesBackwardCount !== lanesBackward) ||
-        (widthLanesBackwardStartCount && widthLanesBackwardStartCount !== lanesBackward) ||
-        (widthLanesBackwardEndCount && widthLanesBackwardEndCount !== lanesBackward)
-    ) {
-        classes.push('tag-lanes-error-width-lanes');
-    }
+    laneConsistencyTagClasses(getLaneConsistencyIssues(t)).forEach(cls => classes.push(cls));
 
     if (highway === 'cycleway' && !segregated) {
         classes.push('tag-segregated-undefined');
