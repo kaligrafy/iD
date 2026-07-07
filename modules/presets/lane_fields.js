@@ -27,6 +27,7 @@ export const laneFields = {
     turn_lanes:          laneField('turn:lanes',          { allOf: [ONE_WAY, { key: 'lanes' }] }),
     turn_lanes_forward:  laneField('turn:lanes:forward',  { allOf: [TWO_WAY, { key: 'lanes:forward' }] }),
     turn_lanes_backward: laneField('turn:lanes:backward', { allOf: [TWO_WAY, { key: 'lanes:backward' }] }),
+    turn_lanes_both_ways: laneField('turn:lanes:both_ways', { key: 'lanes:both_ways', valueGreaterThan: 0 }),
     change_lanes:          laneField('change:lanes',          { allOf: [ONE_WAY, { key: 'lanes' }] }),
     change_lanes_forward:  laneField('change:lanes:forward',  { allOf: [TWO_WAY, { key: 'lanes:forward' }] }),
     change_lanes_backward: laneField('change:lanes:backward', { allOf: [TWO_WAY, { key: 'lanes:backward' }] }),

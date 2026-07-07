@@ -103,16 +103,28 @@
                     "label": "Placement"
                 },
                 "placement_forward": {
-                    "label": "Placement ↑"
+                    "label": "Placement ↑",
+                    "options": {
+                        "middle_of:0": "Middle of centre buffer (lane 0)"
+                    }
                 },
                 "placement_backward": {
-                    "label": "Placement ↓"
+                    "label": "Placement ↓",
+                    "options": {
+                        "middle_of:0": "Middle of centre buffer (lane 0)"
+                    }
                 },
                 "lanes_forward": {
                     "label": "Lanes ↑"
                 },
                 "lanes_backward": {
                     "label": "Lanes ↓"
+                },
+                "lanes_both_ways": {
+                    "label": "Lanes ⇄"
+                },
+                "turn_lanes_both_ways": {
+                    "label": "Turn ⇄"
                 },
                 "width_lanes_start": {
                     "label": "Lane transition start"
