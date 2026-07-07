@@ -48,6 +48,14 @@ export const customFields = {
         geometry: ['line'],
         prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'lanes', valueGreaterThan: 2 }] }
     },
+    // Centre bidirectional lane count (rare); optional via "+ add field", not in lanes_group.
+    lanes_both_ways: {
+        key: 'lanes:both_ways',
+        type: 'number',
+        minValue: 0,
+        geometry: ['line'],
+        prerequisiteTag: { allOf: [{ key: 'oneway', valueNot: 'yes' }, { key: 'lanes', valueGreaterThan: 2 }] }
+    },
     // Directional groups: one header with compact `↕` / `↑` / `↓` sub-rows for a
     // bare key and its per-direction variants (see uiFieldDirectionalGroup). Each
     // sub-row reuses its member field's renderer and prerequisite, so the
@@ -81,12 +89,14 @@ export const customFields = {
         prerequisiteTag: [
             laneFields.turn_lanes.prerequisiteTag,
             laneFields.turn_lanes_forward.prerequisiteTag,
-            laneFields.turn_lanes_backward.prerequisiteTag
+            laneFields.turn_lanes_backward.prerequisiteTag,
+            laneFields.turn_lanes_both_ways.prerequisiteTag
         ],
         members: [
             { id: 'turn_lanes', label: '↕' },
             { id: 'turn_lanes_forward', label: '↑' },
-            { id: 'turn_lanes_backward', label: '↓' }
+            { id: 'turn_lanes_backward', label: '↓' },
+            { id: 'turn_lanes_both_ways', label: '⇄' }
         ]
     },
     change_lanes_group: {
@@ -207,9 +217,9 @@ const LANE_BLOCK = [
 // order and never duplicate an entry.
 const MANAGED_LANE_FIELDS = [
     'lanes', ...LANE_BLOCK,
-    'lanes_forward', 'lanes_backward',
+    'lanes_forward', 'lanes_backward', 'lanes_both_ways',
     'placement', 'placement_forward', 'placement_backward',
-    'turn_lanes', 'turn_lanes_forward', 'turn_lanes_backward',
+    'turn_lanes', 'turn_lanes_forward', 'turn_lanes_backward', 'turn_lanes_both_ways',
     'change_lanes', 'change_lanes_forward', 'change_lanes_backward'
 ];
 
@@ -262,6 +272,7 @@ export function applyCustomFields(presetManager) {
     customizeCycleway(presetManager);
     customizeOnewayBicycle(presetManager);
     customizeAccess(presetManager);
+    customizePlacement(presetManager);
     customizePostBox(presetManager);
     customizeCyclewaySidewalk(presetManager);
     customizeLanduseFlats(presetManager);
@@ -378,6 +389,10 @@ export function applyCustomFields(presetManager) {
         if (maxspeedIndex === -1) moreFields.push('maxspeed_advisory');
         else fields.splice(maxspeedIndex + 1, 0, 'maxspeed_advisory');
 
+        // Centre bidirectional lane count: optional only (rare), not in lanes_group.
+        removeField(fields, 'lanes_both_ways');
+        if (moreFields.indexOf('lanes_both_ways') === -1) moreFields.push('lanes_both_ways');
+
         // minimum speed: default field on motorways (common in Québec), just
         // below the advisory/maxspeed rows. Upstream keeps it in moreFields.
         if (highway === 'motorway') {
@@ -468,6 +483,24 @@ function customizeAccess(presetManager) {
         'access', 'foot', 'motor_vehicle', 'routing:motor_vehicle',
         'bicycle', 'routing:bicycle', 'bus', 'routing:bus', 'psv'
     ];
+}
+
+const PLACEMENT_MIDDLE_OF_ZERO = 'middle_of:0';
+
+/**
+ * Add `middle_of:0` to directional placement combos (centre buffer between carriageways).
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function customizePlacement(presetManager) {
+    for (const id of ['placement_forward', 'placement_backward']) {
+        const field = presetManager.field(id);
+        if (!field) continue;
+        if (!field.options) field.options = [];
+        if (field.options.indexOf(PLACEMENT_MIDDLE_OF_ZERO) === -1) {
+            field.options.unshift(PLACEMENT_MIDDLE_OF_ZERO);
+        }
+    }
 }
 
 /**

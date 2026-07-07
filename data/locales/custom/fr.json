@@ -103,16 +103,28 @@
                     "label": "Placement"
                 },
                 "placement_forward": {
-                    "label": "Placement ↑"
+                    "label": "Placement ↑",
+                    "options": {
+                        "middle_of:0": "Milieu du tampon central (voie 0)"
+                    }
                 },
                 "placement_backward": {
-                    "label": "Placement ↓"
+                    "label": "Placement ↓",
+                    "options": {
+                        "middle_of:0": "Milieu du tampon central (voie 0)"
+                    }
                 },
                 "lanes_forward": {
                     "label": "Voies ↑"
                 },
                 "lanes_backward": {
                     "label": "Voies ↓"
+                },
+                "lanes_both_ways": {
+                    "label": "Voies ⇄"
+                },
+                "turn_lanes_both_ways": {
+                    "label": "Virage ⇄"
                 },
                 "width_lanes_start": {
                     "label": "Transition de largeurs début"
