@@ -22,9 +22,11 @@ describe('custom fields — lanes both_ways and placement', function() {
         await iD.presetManager.ensureLoaded(true);
     });
 
-    it('keeps lanes_both_ways optional and exposes turn_lanes_both_ways when set', function() {
+    it('adds lanes_both_ways to lanes group and turn_lanes_both_ways when set', function() {
         const lanesGroup = iD.presetManager.field('lanes_group');
-        expect(lanesGroup.members.map((m) => m.id)).to.eql(['lanes', 'lanes_forward', 'lanes_backward']);
+        expect(lanesGroup.members.map((m) => m.id)).to.eql([
+            'lanes', 'lanes_forward', 'lanes_backward', 'lanes_both_ways'
+        ]);
 
         const turnGroup = iD.presetManager.field('turn_lanes_group');
         expect(turnGroup.members.map((m) => m.id)).to.eql([
@@ -38,11 +40,11 @@ describe('custom fields — lanes both_ways and placement', function() {
         expect(prerequisiteTagSatisfied(turnBoth.prerequisiteTag, {})).to.be.false;
     });
 
-    it('offers lanes_both_ways via moreFields on residential roads', function() {
+    it('includes lanes_both_ways in lanes_group on residential roads', function() {
         const preset = iD.presetManager.item('highway/residential');
         expect(preset).to.exist;
-        expect(preset.originalFields).to.not.include('lanes_both_ways');
-        expect(preset.originalMoreFields).to.include('lanes_both_ways');
+        expect(preset.originalFields).to.include('lanes_group');
+        expect(preset.originalMoreFields).to.not.include('lanes_both_ways');
     });
 
     it.each(['placement_forward', 'placement_backward'])(
