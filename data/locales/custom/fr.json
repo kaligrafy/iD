@@ -317,6 +317,22 @@
             "oneway_directional_tags": "Cette route à sens unique utilise des tags de voies directionnels ({tags}). Utilisez les tags non directionnels (lanes, turn:lanes, bus:lanes, motor_vehicle:lanes, etc.) sans :forward ni :backward."
         },
         "issues": {
+            "mismatched_lanes": {
+                "title": "Tags de voies incohérents",
+                "tip": "Repérer les routes dont le nombre de voies ou les tags par voie (tour, changement, largeur) ne concordent pas.",
+                "missing_directional": {
+                    "message": "{feature} a plus de deux voies mais lanes:forward ou lanes:backward est manquant.",
+                    "reference": "Sur une route à double sens de plus de deux voies, taguer lanes:forward et lanes:backward (et lanes:both_ways pour les voies centrales bidirectionnelles)."
+                },
+                "total_mismatch": {
+                    "message": "{feature} : le total lanes ne correspond pas à lanes:forward, lanes:backward et lanes:both_ways.",
+                    "reference": "lanes doit égaler lanes:forward + lanes:backward + lanes:both_ways (omettre both_ways si inutilisé)."
+                },
+                "lane_tag_count": {
+                    "message": "{feature} : « {tag} » décrit {actual} voies mais {countTag} vaut {count}.",
+                    "reference": "Les tags par voie (turn:lanes*, change:lanes*, width:lanes*) utilisent une valeur par voie, séparée par |, selon le tag lanes* correspondant."
+                }
+            },
             "redundant_directional_tag": {
                 "title": "Tag simple redondant",
                 "tip": "Repérer les objets où un tag simple est supplanté par ses variantes directionnelles.",

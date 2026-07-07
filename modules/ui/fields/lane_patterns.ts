@@ -11,6 +11,7 @@ export interface LaneOption { value: string; title: string; terms?: string[]; }
 
 /** The `lanes*` tag whose value gives the lane count for a value key. */
 export function laneCountKey(valueKey: string): string {
+    if (/:both_ways(?::|$)/.test(valueKey)) return 'lanes:both_ways';
     const match = valueKey.match(/:(forward|backward)(?::(?:start|end))?$/);
     return match ? `lanes:${match[1]}` : 'lanes';
 }
