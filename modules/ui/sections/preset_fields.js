@@ -9,6 +9,12 @@ import { uiField } from '../field';
 import { uiFormFields } from '../form_fields';
 import { uiSection } from '../section';
 
+// v6 fork: always show building level fields on any entity tagged `building=*`,
+// even when the matched preset isn't a building preset (e.g. `amenity=restaurant`
+// + `building=yes`). See `modules/presets/custom_fields.js` `customizeBuildingLevels`,
+// which only promotes these fields on building presets themselves.
+const BUILDING_LEVEL_FIELD_IDS = ['building/levels', 'building/levels/underground', 'roof/levels'];
+
 export function uiSectionPresetFields(context) {
 
     var section = uiSection('preset-fields', context)
@@ -22,6 +28,7 @@ export function uiSectionPresetFields(context) {
     var _presets = [];
     var _tags;
     var _entityIDs;
+    var _hasBuildingTag = false;
 
     function renderDisclosureContent(selection) {
         if (!_fieldsArr) {
@@ -84,6 +91,17 @@ export function uiSectionPresetFields(context) {
                 );
             }
 
+            if (_tags && _tags.building && _tags.building !== 'no') {
+                BUILDING_LEVEL_FIELD_IDS.forEach(function(fieldID) {
+                    var field = presetsManager.field(fieldID);
+                    if (!field || sharedFields.indexOf(field) !== -1) return;  // already shown by the preset itself
+                    if (!field.matchAllGeometry(geometries)) return;
+                    _fieldsArr.push(
+                        uiField(context, field, _entityIDs)
+                    );
+                });
+            }
+
             var additionalFields = utilArrayUnion(sharedMoreFields, presetsManager.universal());
             additionalFields.sort(function(field1, field2) {
                 return field1.title().localeCompare(field2.title(), localizer.localeCode());
@@ -142,7 +160,13 @@ export function uiSectionPresetFields(context) {
     section.tags = function(val) {
         if (!arguments.length) return _tags;
         _tags = val;
-        // Don't reset _fieldsArr here.
+        // Don't reset _fieldsArr here, except when the presence of `building`
+        // toggles: that's what decides whether BUILDING_LEVEL_FIELD_IDS show.
+        var hasBuildingTag = !!(val && val.building && val.building !== 'no');
+        if (hasBuildingTag !== _hasBuildingTag) {
+            _hasBuildingTag = hasBuildingTag;
+            _fieldsArr = null;
+        }
         return section;
     };
 
