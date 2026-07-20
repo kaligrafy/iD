@@ -542,6 +542,35 @@ describe('iD.validations.crossing_ways', function () {
         expect(validate()).to.have.lengthOf(0);
     });
 
+    // a link/path that only touches the road at one end (a T-junction) merges
+    // into it rather than crossing over it, so it needs no crossing tags
+    [
+        { highway: 'footway', footway: 'crossing' },
+        { highway: 'footway', crossing: 'unmarked' },
+        { highway: 'cycleway', crossing: 'unmarked' }
+    ].forEach(function(pathTags) {
+        it('ignores ' + JSON.stringify(pathTags) + ' link ending at a shared road node without crossing through', function() {
+            var n1 = new iD.osmNode({ id: 'n-1', loc: [1, 1] });
+            var nMid = new iD.osmNode({ id: 'n-mid', loc: [1.5, 1] });
+            var n2 = new iD.osmNode({ id: 'n-2', loc: [3, 1] });
+            var wRoad = new iD.osmWay({ id: 'w-road', nodes: ['n-1', 'n-mid', 'n-2'], tags: { highway: 'residential' } });
+
+            var n3 = new iD.osmNode({ id: 'n-3', loc: [1.5, 0.5] });
+            var wLink = new iD.osmWay({ id: 'w-link', nodes: ['n-mid', 'n-3'], tags: pathTags });
+
+            context.perform(
+                iD.actionAddEntity(n1),
+                iD.actionAddEntity(nMid),
+                iD.actionAddEntity(n2),
+                iD.actionAddEntity(n3),
+                iD.actionAddEntity(wRoad),
+                iD.actionAddEntity(wLink)
+            );
+
+            expect(validate()).to.have.lengthOf(0);
+        });
+    });
+
     it('flags road crossing road twice', function() {
         createWaysWithTwoCrossingPoint();
         var issues = validate();

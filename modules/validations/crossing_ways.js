@@ -243,6 +243,15 @@ export function validationCrossingWays(context) {
     }
 
 
+    // A path only crosses the road at a node if it continues past that node on
+    // both sides. A path/link that ends there (its first or last node) merges
+    // into the road/junction instead, which needs no crossing tags.
+    function isInteriorNode(way, nodeId) {
+        var idx = way.nodes.indexOf(nodeId);
+        return idx > 0 && idx < way.nodes.length - 1;
+    }
+
+
     function findSharedVertexCrossings(way1, graph) {
         var edgeCrossInfos = [];
         if (way1.type !== 'way') return edgeCrossInfos;
@@ -284,6 +293,8 @@ export function validationCrossingWays(context) {
                 } else if (!way1IsCrossingPath) {
                     return;
                 }
+
+                if (!isInteriorNode(pathWay, node.id)) return;
 
                 var entity1IsPath = osmPathHighwayTagValues[pathFeature.tags.highway];
                 var entity2IsPath = osmPathHighwayTagValues[roadFeature.tags.highway];
