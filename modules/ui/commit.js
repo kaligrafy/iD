@@ -181,7 +181,13 @@ export function uiCommit(context) {
         const warnings = context.validator()
             .getIssuesBySeverity({ what: 'edited', where: 'all', includeIgnored: true, includeDisabledRules: true })
             .warning
-            .filter(function(issue) { return issue.type !== 'help_request'; });    // exclude 'fixme' and similar - #8603
+            .filter(function(issue) {
+                if (issue.type === 'help_request') return false;    // exclude 'fixme' and similar - #8603
+                // v5 fork: missing/imprecise surface is a local convention, not a real
+                // OSM tagging error - keep it out of the changeset, it's for the user only
+                if (issue.type === 'outdated_tags' && issue.subtype === 'imprecise_surface') return false;
+                return true;
+            });
 
         // also include "incompatible_source" warnings caused by changeset tags
         [   ...getIncompatibleSources(tags.comment),

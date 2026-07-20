@@ -120,10 +120,14 @@ export function validationOutdatedTags() {
     if (deprecationDiff.length) {
       const isOnlyAddingTags = !deprecationDiff.some(d => d.type === '-');
       const prefix = isOnlyAddingTags ? 'incomplete.' : '';
+      // v5 fork: missing/imprecise `surface` (including surface=paved -> asphalt) is
+      // an opinionated local convention, not a real OSM tagging error, so give it its
+      // own subtype - it's excluded from the changeset `warnings:*` tags (see commit.js)
+      const isSurfaceOnly = deprecationDiff.every(d => d.key === 'surface');
 
       issues.push(new validationIssue({
         type: type,
-        subtype: isOnlyAddingTags ? 'incomplete_tags' : 'deprecated_tags',
+        subtype: isSurfaceOnly ? 'imprecise_surface' : (isOnlyAddingTags ? 'incomplete_tags' : 'deprecated_tags'),
         severity: 'warning',
         message: (context) => {
           const currEntity = context.hasEntity(entity.id);
