@@ -617,9 +617,10 @@ function setEmergencyAccessDefaultTags(presetManager) {
 }
 
 const FLATS_FIELD = 'flats';
+const LEVELS_FIELD = 'building/levels';
 const UNDERGROUND_LEVELS_FIELD = 'building/levels/underground';
 const ROOF_LEVELS_FIELD = 'roof/levels';
-const VISIBLE_BUILDING_LEVEL_FIELDS = [UNDERGROUND_LEVELS_FIELD, ROOF_LEVELS_FIELD];
+const VISIBLE_BUILDING_LEVEL_FIELDS = [LEVELS_FIELD, UNDERGROUND_LEVELS_FIELD, ROOF_LEVELS_FIELD];
 
 /**
  * True when `preset` is a landuse preset (including subtypes under `landuse/`).
@@ -690,20 +691,26 @@ function inheritsBuildingDefaults(preset) {
 }
 
 /**
- * Move underground/roof level fields into default fields (after `building/levels`
- * when present, else after `height` or `building`, else at the end). Removes them
- * from moreFields so they are always visible, not hidden behind "+ add field".
+ * Move the levels/underground/roof level fields into default fields. A preset
+ * that already shows `building/levels` keeps it in place, followed by the two
+ * others. Otherwise the three go after `building` when present, else after
+ * `height`, else at the end. Removes them from moreFields so they are always
+ * visible, not hidden behind "+ add field", regardless of the building's
+ * other tags.
  *
  * @param {string[]} fields
  * @param {string[]} moreFields
  */
 function promoteBuildingLevelFields(fields, moreFields) {
-    VISIBLE_BUILDING_LEVEL_FIELDS.forEach(id => {
+    const promotedFields = fields.includes(LEVELS_FIELD)
+        ? [UNDERGROUND_LEVELS_FIELD, ROOF_LEVELS_FIELD]
+        : VISIBLE_BUILDING_LEVEL_FIELDS;
+    promotedFields.forEach(id => {
         removeField(fields, id);
         removeField(moreFields, id);
     });
 
-    const anchors = ['building/levels', 'height', 'building'];
+    const anchors = [LEVELS_FIELD, 'building', 'height'];
     let anchorIndex = -1;
     for (const anchor of anchors) {
         anchorIndex = fields.indexOf(anchor);
@@ -717,13 +724,15 @@ function promoteBuildingLevelFields(fields, moreFields) {
     }
 
     const insertAt = anchorIndex === -1 ? fields.length : anchorIndex + 1;
-    fields.splice(insertAt, 0, ...VISIBLE_BUILDING_LEVEL_FIELDS);
+    fields.splice(insertAt, 0, ...promotedFields);
 }
 
 /**
- * Show `building:levels:underground` and `roof:levels` on building presets.
- * Upstream keeps underground levels in moreFields; roof levels is a custom field.
- * Presets that inherit default fields from `{building}` pick up the base preset.
+ * Show `building:levels`, `building:levels:underground` and `roof:levels` on
+ * every building preset, regardless of its other tags. Upstream sometimes
+ * hides these behind "+ add field" (or omits `building:levels` entirely on
+ * presets like hangar/garages/roof); roof levels is a custom field. Presets
+ * that inherit default fields from `{building}` pick up the base preset.
  *
  * @param {Object} presetManager - the preset system (`presetManager`)
  */
