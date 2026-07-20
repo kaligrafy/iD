@@ -1,6 +1,5 @@
 import { osmNode } from '../osm/node';
 import { actionDeleteNode } from './delete_node';
-import { geoLonToMeters, geoLatToMeters } from '../geo';
 
 // =============================================================================
 // SMOOTH - For motorways and long gentle curves
@@ -17,13 +16,6 @@ const POINT_REDUCTION_FACTOR = 2;
 
 // Spacing balance ratio around intersections - nodes closer than this ratio are removed
 const INTERSECTION_SPACING_RATIO = 0.4;
-
-// Max deviation (meters) allowed when dropping a smoothed point that is
-// (near-)collinear with its neighbours. Douglas-Peucker guarantees the
-// simplified line stays within this distance of the smoothed line, so straight
-// runs are cleaned up while the curve itself is preserved (a point is only
-// dropped when removing it moves the line by less than this, i.e. imperceptibly).
-const COLLINEAR_TOLERANCE_METERS = 0.05;
 
 /** Way node ids, typed (works around the never[] inference of OsmWay.nodes). */
 function nodeIds(way: iD.OsmWay): EntityID[] {
@@ -55,90 +47,6 @@ function chaikinSmooth(points: number[][], iterations: number, factor: number): 
         result = next;
     }
     return result;
-}
-
-/** Point-to-segment distance; all coordinates are already in meters. */
-function segmentDistanceMeters(p: number[], a: number[], b: number[]): number {
-    const dx = b[0] - a[0];
-    const dy = b[1] - a[1];
-    if (dx === 0 && dy === 0) {
-        return Math.hypot(p[0] - a[0], p[1] - a[1]);
-    }
-    let t = ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / (dx * dx + dy * dy);
-    t = Math.max(0, Math.min(1, t));
-    return Math.hypot(p[0] - (a[0] + t * dx), p[1] - (a[1] + t * dy));
-}
-
-/**
- * Douglas-Peucker: recursively mark the points needed so the polyline between
- * indices `lo` and `hi` stays within `tol` of the original. Points whose max
- * deviation is below `tol` are left unmarked (i.e. droppable).
- */
-function douglasPeuckerMark(meters: number[][], lo: number, hi: number, tol: number, keep: boolean[]) {
-    if (hi <= lo + 1) return;
-    let maxDist = -1;
-    let idx = -1;
-    for (let i = lo + 1; i < hi; i++) {
-        const d = segmentDistanceMeters(meters[i], meters[lo], meters[hi]);
-        if (d > maxDist) {
-            maxDist = d;
-            idx = i;
-        }
-    }
-    if (maxDist > tol) {
-        keep[idx] = true;
-        douglasPeuckerMark(meters, lo, idx, tol, keep);
-        douglasPeuckerMark(meters, idx, hi, tol, keep);
-    }
-}
-
-/**
- * Decide which points of a smoothed polyline to keep so that superfluous points
- * left on straight runs are dropped while the curve stays within
- * `toleranceMeters` of the original (Douglas-Peucker). The first and last points
- * and every anchor (intersection/tagged/boundary node) are always kept and act
- * as fixed break points, so protected geometry is never altered.
- *
- * @param locs - polyline points as [lon, lat]
- * @param isAnchor - per-point flag; true forces the point to be kept (DP anchor)
- * @param toleranceMeters - max deviation allowed when removing a point
- * @returns a per-point keep flag (true = keep, false = drop)
- */
-function collinearKeepFlags(locs: number[][], isAnchor: boolean[], toleranceMeters: number): boolean[] {
-    const n = locs.length;
-    const keep: boolean[] = new Array(n).fill(false);
-    if (n === 0) return keep;
-    keep[0] = true;
-    keep[n - 1] = true;
-    for (let i = 0; i < n; i++) {
-        if (isAnchor[i]) keep[i] = true;
-    }
-
-    // local equirectangular metric (meters), relative to the first point
-    const lon0 = locs[0][0];
-    const lat0 = locs[0][1];
-    const meters = locs.map((c) => [geoLonToMeters(c[0] - lon0, lat0), geoLatToMeters(c[1] - lat0)]);
-
-    // run Douglas-Peucker on each run between consecutive anchors
-    let lo = 0;
-    for (let i = 1; i < n; i++) {
-        if (!keep[i]) continue;
-        douglasPeuckerMark(meters, lo, i, toleranceMeters, keep);
-        lo = i;
-    }
-    return keep;
-}
-
-/** True when a coordinate exactly matches a stored intersection position. */
-function isIntersectionCoord(
-    coord: number[],
-    intersectionNodeIds: EntityID[],
-    intersectionOriginalCoords: { [id: EntityID]: number[] }
-): boolean {
-    return intersectionNodeIds.some((id) => {
-        const ic = intersectionOriginalCoords[id];
-        return coord[0] === ic[0] && coord[1] === ic[1];
-    });
 }
 
 // Helper function to remove nodes that are too close to boundaries
@@ -530,13 +438,6 @@ function smoothSingleWay(graph: iD.Graph, way: iD.OsmWay, node1: iD.OsmNode, nod
     // Balance spacing around intersections
     selectionSmoothedCoords = balanceSpacingAroundIntersections(selectionSmoothedCoords, intersectionPointIndices);
 
-    // Drop superfluous collinear points left on straight runs, keeping the span
-    // endpoints and intersections as fixed anchors so the curve is preserved.
-    const singleWayAnchors = selectionSmoothedCoords.map((c) =>
-        isIntersectionCoord(c, intersectionNodeIds, intersectionOriginalCoords));
-    const singleWayKeep = collinearKeepFlags(selectionSmoothedCoords, singleWayAnchors, COLLINEAR_TOLERANCE_METERS);
-    selectionSmoothedCoords = selectionSmoothedCoords.filter((_, i) => singleWayKeep[i]);
-
     // Create new nodes
     const smoothedNodes = selectionSmoothedCoords.map((coord): iD.OsmNode => {
         // Check if this should reuse an intersection node
@@ -911,14 +812,6 @@ function smoothAcrossWays(graph: iD.Graph, node1: iD.OsmNode, node2: iD.OsmNode,
     // Remove superfluous nodes near boundaries (too close to endpoints)
     removeNodesNearBoundaries(smoothedNodes, intersectionNodeIds, [node1.id, node2.id]);
 
-    // Drop superfluous collinear points left on straight runs, keeping boundary
-    // and intersection/tagged nodes as fixed anchors so the curve is preserved.
-    const acrossAnchors = smoothedNodes.map((nd) =>
-        intersectionNodeIds.indexOf(nd.id) !== -1 || nd.hasNonGeometryTags());
-    const acrossKeep = collinearKeepFlags(smoothedNodes.map((nd) => nd.loc), acrossAnchors, COLLINEAR_TOLERANCE_METERS);
-    const simplifiedNodes = smoothedNodes.filter((_, i) => acrossKeep[i]);
-    smoothedNodes.splice(0, smoothedNodes.length, ...simplifiedNodes);
-
     // Add new nodes to graph and track which ones we add
     const addedNewNodeIds: EntityID[] = [];
     for (let n = 0; n < smoothedNodes.length; n++) {
@@ -1055,7 +948,7 @@ function smoothEntireWay(graph: iD.Graph, way: iD.OsmWay): iD.Graph {
 
     // Apply smoothing (Chaikin's algorithm)
     // Treat the loop closing point as a boundary - just smooth the way as-is
-    let smoothedCoords = applySmoothAlgorithm(nodeCoords);
+    const smoothedCoords = applySmoothAlgorithm(nodeCoords);
 
     // For closed ways, add the closing point back
     if (isClosed) {
@@ -1080,14 +973,6 @@ function smoothEntireWay(graph: iD.Graph, way: iD.OsmWay): iD.Graph {
         }
         smoothedCoords[closestIdx] = originalCoord;
     }
-
-    // Drop superfluous collinear points left on straight runs, keeping the way
-    // endpoints (incl. the closing point of closed ways) and intersections as
-    // fixed anchors so the curve is preserved.
-    const entireWayAnchors = smoothedCoords.map((c) =>
-        isIntersectionCoord(c, intersectionNodeIds, intersectionOriginalCoords));
-    const entireWayKeep = collinearKeepFlags(smoothedCoords, entireWayAnchors, COLLINEAR_TOLERANCE_METERS);
-    smoothedCoords = smoothedCoords.filter((_, i) => entireWayKeep[i]);
 
     // Create new nodes for sampled points - with distance merging
     const MIN_NODE_DISTANCE = 0.000005; // ~0.5 meters
