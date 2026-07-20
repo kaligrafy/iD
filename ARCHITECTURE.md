@@ -492,6 +492,7 @@ A feature does not conform to the limits and rules imposed by the OSM API, such 
 A feature has nonstandard tags.
 
 * `deprecated_tags`: the feature has tags that should be replaced or removed, as specified in `deprecated.json` or the `replacement` property of a preset
+* `imprecise_surface` (v5 fork): the feature is missing `surface` or has `surface=paved`, which is too imprecise; this is a local convention, not a real OSM tagging error, so it's excluded from the changeset `warnings:*` tags (see `modules/ui/commit.js`)
 * `incomplete_tags`: the feature has tags that indicate it should also have some other tags
 * `noncanonical_brand`: the feature indicates it should match a name-suggestion-index entry but does not have all of the given tags
 * `old_multipolygon`: the feature is a multipolygon relation with its defining tags set on its outer member way

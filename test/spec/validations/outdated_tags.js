@@ -119,9 +119,9 @@ describe('iD.validations.outdated_tags', function () {
     });
 
     it.each([
-        ['missing surface', { highway: 'residential' }, 'incomplete_tags', { highway: 'residential', surface: 'asphalt' }],
-        ['surface=paved', { highway: 'primary', surface: 'paved' }, 'deprecated_tags', { highway: 'primary', surface: 'asphalt' }]
-    ])('flags imprecise surface (%s)', async (_label, tags, subtype, expected) => {
+        ['missing surface', { highway: 'residential' }, { highway: 'residential', surface: 'asphalt' }],
+        ['surface=paved', { highway: 'primary', surface: 'paved' }, { highway: 'primary', surface: 'asphalt' }]
+    ])('flags imprecise surface (%s) with its own subtype, excluded from changeset warnings', async (_label, tags, expected) => {
         createWay(tags);
         const validator = iD.validationOutdatedTags(context);
         await setTimeout(20);
@@ -129,7 +129,7 @@ describe('iD.validations.outdated_tags', function () {
         expect(issues).toHaveLength(1);
         expect(issues[0]).toMatchObject({
             type: 'outdated_tags',
-            subtype,
+            subtype: 'imprecise_surface',
             severity: 'warning',
             entityIds: ['w-1']
         });
