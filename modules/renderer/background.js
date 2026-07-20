@@ -18,6 +18,38 @@ import { patchHash } from '../behavior';
 
 let _imageryIndex = null;
 
+// TEMPORARY (v6 fork, 2020 Bing aerial vintage): Bing's imagery is
+// noticeably misaligned in the Greater Montreal area, so nudge it back into
+// place by default when editing there. Remove once Bing refreshes its
+// Montreal-area orthophotos.
+export const BING_MONTREAL_DEFAULT_OFFSET_METERS = [0.6, -1.54];
+const GREATER_MONTREAL_EXTENT = new geoExtent([-74.3, 45.2], [-73.0, 45.9]);
+
+/**
+ * Whether `loc` falls within the Greater Montreal area affected by the
+ * temporary Bing default offset (see {@link BING_MONTREAL_DEFAULT_OFFSET_METERS}).
+ * @param {[number, number]} loc `[lon, lat]`
+ * @returns {boolean}
+ */
+export function isGreaterMontreal(loc) {
+  return GREATER_MONTREAL_EXTENT.contains(loc);
+}
+
+/**
+ * Nudge a freshly-selected Bing source to {@link BING_MONTREAL_DEFAULT_OFFSET_METERS}
+ * when editing in the Greater Montreal area, unless it already has a
+ * (presumably manually-set) non-zero offset.
+ * @param {ReturnType<typeof rendererBackgroundSource>} source
+ * @param {[number, number]} mapCenter `[lon, lat]`
+ */
+export function applyBingMontrealDefaultOffset(source, mapCenter) {
+  if (!source || source.id !== 'Bing') return;
+  const [x, y] = source.offset();
+  if (x !== 0 || y !== 0) return;  // already nudged/offset - don't override
+  if (!isGreaterMontreal(mapCenter)) return;
+  source.offset(geoMetersToOffset(BING_MONTREAL_DEFAULT_OFFSET_METERS));
+}
+
 export function rendererBackground(context) {
   const dispatch = d3_dispatch('change');
   const baseLayer = rendererTileLayer(context).projection(context.projection);
@@ -325,6 +357,7 @@ export function rendererBackground(context) {
     }
 
     baseLayer.source(!fail ? d : background.findSource('none'));
+    applyBingMontrealDefaultOffset(baseLayer.source(), context.map().center());
     dispatch.call('change');
     background.updateImagery();
     return background;
