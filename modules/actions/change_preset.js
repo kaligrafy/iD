@@ -1,11 +1,22 @@
 import { utilArrayDifference, utilObjectOmit } from '../util';
 
+// Presets that always start from a blank tag set when picked, instead of
+// preserving leftover tags from whatever the entity used to be. Used for
+// "fresh start" presets (e.g. a disused road) where surviving subtags like
+// surface/lit/lanes/name from the old preset would be misleading.
+const RESET_TAGS_PRESET_IDS = new Set(['highway/service/disused']);
+
 export function actionChangePreset(entityID, oldPreset, newPreset, skipFieldDefaults) {
     return function action(graph) {
         const entity = graph.entity(entityID);
         const geometry = entity.geometry(graph);
         let tags = entity.tags;
         const loc = entity.extent(graph).center();
+
+        if (newPreset && RESET_TAGS_PRESET_IDS.has(newPreset.id)) {
+            tags = newPreset.setTags({}, geometry, skipFieldDefaults, loc);
+            return graph.replace(entity.update({tags: tags}));
+        }
 
         // preserve tags that the new preset might care about, if any
         let preserveKeys;
