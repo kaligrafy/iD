@@ -2,7 +2,7 @@ import type { CustomPreset, PresetGeometry } from '../../types';
 import { ANY, buildRemoveTags } from '../../lib/tag_helpers';
 import { presetNameEn } from '../../preset_name_en';
 import { blockMotorVehicleNo } from './block_motor_vehicle_no';
-import { gateFootBicycleYes } from './gate_foot_bicycle_yes';
+import { gateFootBicycleYes, gateFootBicycleYesLine } from './gate_foot_bicycle_yes';
 
 type AccessKind = 'customers' | 'private';
 
@@ -53,5 +53,6 @@ function accessBarrierPresetsForVariant(variant: AccessBarrierVariant): [string,
 export const accessBarrierPresets: Record<string, CustomPreset> = {
     ...Object.fromEntries(ACCESS_BARRIERS.flatMap(accessBarrierPresetsForVariant)),
     'barrier/gate_foot_bicycle_yes': gateFootBicycleYes,
+    'barrier/gate_foot_bicycle_yes_line': gateFootBicycleYesLine,
     'barrier/block_motor_vehicle_no': blockMotorVehicleNo
 };
