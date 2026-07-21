@@ -73,6 +73,10 @@
         "terms": "pugfb, bppv, barrière, piéton, vélo, cyclisme, pas de véhicules motorisés",
         "aliases": "pugfb"
     },
+    "barrier/gate_foot_bicycle_yes_line": {
+        "name": "Barrière Publique (piétons et vélos, pas de véhicules motorisés) (ligne)",
+        "terms": "barrière publique piéton vélo ligne"
+    },
     "barrier/private_gate": {
         "name": "Barrière Privée",
         "terms": "pg, bp, barrière, privée",

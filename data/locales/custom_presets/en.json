@@ -73,6 +73,10 @@
         "terms": "pugfb, pubg, gate, foot, bicycle, pedestrian, cycling, no motor vehicles",
         "aliases": "pugfb"
     },
+    "barrier/gate_foot_bicycle_yes_line": {
+        "name": "Public gate (foot and bicycle, no motor vehicles) (line)",
+        "terms": "public gate foot bicycle barrier line"
+    },
     "barrier/private_gate": {
         "name": "Private gate",
         "terms": "pg, gate, private",

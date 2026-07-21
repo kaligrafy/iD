@@ -39,6 +39,13 @@ describe('custom presets — barrier', function() {
             bicycle: 'yes',
             motor_vehicle: 'no'
         });
+        expect(publicGate.geometry).to.eql(['vertex']);
+        expect(presetShortcutDrawingGeometry(publicGate)).to.equal('point');
+
+        const publicGateLine = iD.presetManager.item('barrier/gate_foot_bicycle_yes_line');
+        expect(publicGateLine, 'public foot/bicycle gate line').to.exist;
+        expect(publicGateLine.geometry).to.eql(['line']);
+        expect(presetShortcutDrawingGeometry(publicGateLine)).to.equal('line');
 
         const customersLiftgate = iD.presetManager.item('barrier/customers_liftgate');
         expect(customersLiftgate, 'customers lift gate').to.exist;
