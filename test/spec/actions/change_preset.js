@@ -331,4 +331,20 @@ describe('iD.actionChangePreset', function() {
         const action = iD.actionChangePreset(entity.id, oldPreset, newPreset);
         expect(action(graph).entity(entity.id).tags).to.eql({highway: 'service', name: 'foo bar'});
     });
+
+    // fork-specific: "fresh start" presets (e.g. disused service road) discard
+    // every leftover tag instead of preserving fields/tags from the old preset
+    it('discards all other tags when changing to a reset-tags preset', () => {
+        const entity = new iD.osmWay({
+            tags: {highway: 'service', service: 'driveway', surface: 'asphalt', name: 'foo bar'}
+        });
+        const graph = new iD.coreGraph([entity]);
+        const oldPreset = iD.presetPreset('highway/service/driveway', {
+            tags: {highway: 'service', service: 'driveway'},
+            fields: ['name']
+        }, undefined, {name: iD.presetField('name', {key: 'name'})});
+        const newPreset = iD.presetPreset('highway/service/disused', {tags: {'disused:highway': 'service'}});
+        const action = iD.actionChangePreset(entity.id, oldPreset, newPreset);
+        expect(action(graph).entity(entity.id).tags).to.eql({'disused:highway': 'service'});
+    });
 });
