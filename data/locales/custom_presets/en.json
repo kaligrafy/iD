@@ -906,6 +906,11 @@
         "terms": "sdo, destination, service, road, sidewalk, sidepath, divided, dual carriageway, opposite, use_sidepath",
         "aliases": "sdo"
     },
+    "highway/service/disused": {
+        "name": "Disused service road",
+        "terms": "sdis, disused, service, road, abandoned",
+        "aliases": "sdis"
+    },
     "highway/track_private": {
         "name": "Private unmaintained track",
         "terms": "put, track, private, woods road, forest road, logging road, fire road, farm road, agricultural road, unmaintained, offroad, 4wd, 4x4",

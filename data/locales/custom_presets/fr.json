@@ -906,6 +906,11 @@
         "terms": "sdo, desserte locale, destination, voie de service, chaussées séparées, trottoir, sidepath, côté opposé, use_sidepath",
         "aliases": "sdo"
     },
+    "highway/service/disused": {
+        "name": "Voie de service désaffectée",
+        "terms": "sdis, désaffectée, voie de service, abandonnée",
+        "aliases": "sdis"
+    },
     "highway/track_private": {
         "name": "Chemin non entretenu privé",
         "terms": "put, chemin, piste, privé, chemin forestier, chemin de ferme, non entretenu, hors route, 4x4",

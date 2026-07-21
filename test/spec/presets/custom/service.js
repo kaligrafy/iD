@@ -115,4 +115,12 @@ describe('custom presets — service roads', function() {
         expect(preset.tags).to.eql({ highway: 'track', access: 'private' });
         expect(preset.addTags.surface).to.equal('unpaved');
     });
+
+    it('defines the disused service road preset', function() {
+        const preset = iD.presetManager.item('highway/service/disused');
+        expect(preset).to.exist;
+        expect(preset.name()).to.equal('Disused service road');
+        expect(preset.tags).to.eql({ 'disused:highway': 'service' });
+        expect(preset.geometry).to.eql(['line']);
+    });
 });
