@@ -427,18 +427,19 @@ path.line.casing.tag-highway-track.tag-tunnel.tag-tracktype-grade3 { stroke-dash
 path.line.casing.tag-highway-track.tag-tunnel.tag-tracktype-grade4 { stroke-dasharray: 6, 6; }
 path.line.casing.tag-highway-track.tag-tunnel.tag-tracktype-grade5 { stroke-dasharray: 4, 8; }
 
-/* Status (e.g. proposed, abandoned) */
-path.area.stroke.tag-status:not(.tag-status-disused),
-path.line.stroke.tag-status:not(.tag-status-disused),
-path.area.casing.tag-status:not(.tag-status-disused),
-path.line.casing.tag-status:not(.tag-status-disused) {
+/* Status (e.g. proposed, abandoned, disused) - v5 parity: disused features
+   are dashed like any other status, unlike upstream which excludes them. */
+path.area.stroke.tag-status,
+path.line.stroke.tag-status,
+path.area.casing.tag-status,
+path.line.casing.tag-status {
     stroke-linecap: butt;
     stroke-dasharray: 7, 3;
 }
-.low-zoom path.area.stroke.tag-status:not(.tag-status-disused),
-.low-zoom path.line.stroke.tag-status:not(.tag-status-disused),
-.low-zoom path.area.casing.tag-status:not(.tag-status-disused),
-.low-zoom path.line.casing.tag-status:not(.tag-status-disused) {
+.low-zoom path.area.stroke.tag-status,
+.low-zoom path.line.stroke.tag-status,
+.low-zoom path.area.casing.tag-status,
+.low-zoom path.line.casing.tag-status {
     stroke-dasharray: 5, 2;
 }
 
