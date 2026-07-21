@@ -386,6 +386,17 @@ export function applyCustomFields(presetManager) {
         removeField(moreFields, 'maxspeed/advisory');
         removeField(fields, 'maxspeed_advisory');
         removeField(moreFields, 'maxspeed_advisory');
+
+        // some US/CA `_link` presets (e.g. motorway_link) hide legal `maxspeed`
+        // in moreFields, showing only advisory by default; promote it back so
+        // both are visible together, like the base (non-US/CA) presets.
+        if (fields.indexOf('maxspeed') === -1 && moreFields.indexOf('maxspeed') !== -1) {
+            removeField(moreFields, 'maxspeed');
+            const onewayIndex = fields.indexOf('oneway');
+            const insertAt = onewayIndex === -1 ? fields.indexOf('structure') : onewayIndex + 1;
+            fields.splice(insertAt < 0 ? fields.length : insertAt, 0, 'maxspeed');
+        }
+
         const maxspeedIndex = fields.indexOf('maxspeed');
         if (maxspeedIndex === -1) moreFields.push('maxspeed_advisory');
         else fields.splice(maxspeedIndex + 1, 0, 'maxspeed_advisory');
