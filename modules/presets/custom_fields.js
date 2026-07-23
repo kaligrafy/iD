@@ -281,6 +281,7 @@ export function applyCustomFields(presetManager) {
     customizeBusStopBench(presetManager);
     setCycleFootPathDefaultSurface(presetManager);
     setCarHighwayDefaultSurface(presetManager);
+    setEmergencyAccessDefaultTags(presetManager);
     markSmallFields(presetManager, SMALL_FIELDS);
     registerCustomStrings(localizer);
 
@@ -598,6 +599,21 @@ function setCarHighwayDefaultSurface(presetManager) {
         if (!preset) continue;
         preset.addTags = Object.assign({}, preset.addTags, { surface: 'asphalt' });
     }
+}
+
+/**
+ * Default the Emergency Access service road preset (upstream
+ * `highway/service/emergency_access`) to access=no + emergency=designated
+ * (v5 fork parity): only emergency vehicles are allowed through. Added to
+ * `addTags` so it's written when the preset is chosen, without affecting
+ * matching (which uses `tags`). Idempotent.
+ *
+ * @param {Object} presetManager - the preset system (`presetManager`)
+ */
+function setEmergencyAccessDefaultTags(presetManager) {
+    const preset = presetManager.item('highway/service/emergency_access');
+    if (!preset) return;
+    preset.addTags = Object.assign({}, preset.addTags, { access: 'no', emergency: 'designated' });
 }
 
 const FLATS_FIELD = 'flats';
