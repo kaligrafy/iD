@@ -951,6 +951,31 @@
         "terms": "mla75, lien autoroute, bretelle, sens unique, une voie, 1 voie, maxspeed 100, vitesse conseillée, 75",
         "aliases": "mla75"
     },
+    "highway/motorway/left_of_2_lanes_3_change_yes_not_right_no": {
+        "name": "Autoroute (3 voies, décalée à gauche de 2, perte de voie à droite)",
+        "terms": "m3lc, autoroute, 3 voies, placement, left_of, changement de voie, perte de voie, fusion",
+        "aliases": "m3lc"
+    },
+    "highway/motorway/placement_transition_lanes_2_to_3": {
+        "name": "Autoroute (gain de voie, 2 à 3 voies)",
+        "terms": "m23t, autoroute, voies, transition, placement transition, largeur, gain de voie, voie ajoutée",
+        "aliases": "m23t"
+    },
+    "highway/motorway/placement_transition_lanes_3_to_4": {
+        "name": "Autoroute (gain de voie, 3 à 4 voies)",
+        "terms": "m34t, autoroute, voies, transition, placement transition, largeur, gain de voie, voie ajoutée",
+        "aliases": "m34t"
+    },
+    "highway/motorway/placement_transition_lanes_3_to_2": {
+        "name": "Autoroute (perte de voie, 3 à 2 voies)",
+        "terms": "m32t, autoroute, voies, transition, placement transition, largeur, perte de voie, voie supprimée",
+        "aliases": "m32t"
+    },
+    "highway/motorway/placement_transition_lanes_4_to_3": {
+        "name": "Autoroute (perte de voie, 4 à 3 voies)",
+        "terms": "m43t, autoroute, voies, transition, placement transition, largeur, perte de voie, voie supprimée",
+        "aliases": "m43t"
+    },
     "highway/steps_customers": {
         "name": "Escalier clients",
         "terms": "stc, clients, escalier, escaliers, marches",
