@@ -29,6 +29,36 @@ describe('custom presets — motorway link transition', function() {
     });
 });
 
+const ADVISORY_CASES = [25, 35, 45, 55, 65, 75].map((speed) => ({
+    id: `highway/motorway_link/oneway_1_100_advisory_${speed}`,
+    alias: `mla${speed}`,
+    speed
+}));
+
+describe('custom presets — motorway link advisory speed', function() {
+    loadCustomPresets();
+
+    ADVISORY_CASES.forEach(function({ id, alias, speed }) {
+        it(`defines ${id} with expected tags`, function() {
+            const preset = iD.presetManager.item(id);
+            expect(preset, id).to.exist;
+            expect(preset.tags).to.eql({
+                highway: 'motorway_link',
+                lanes: '1',
+                oneway: 'yes',
+                maxspeed: '100',
+                'maxspeed:advisory': String(speed)
+            });
+        });
+
+        it(`finds ${id} via search alias ${alias}`, function() {
+            const pool = iD.presetManager.matchAllGeometry(['line']);
+            const ids = pool.search(alias, 'line').collection.map((p) => p.id);
+            expect(ids).to.include(id);
+        });
+    });
+});
+
 // Regression: the US/CA regional variant of `highway/motorway_link` lists
 // `maxspeed/advisory` in `fields` but legal `maxspeed` only in `moreFields`
 // (upstream shows advisory-only by default on ramps there). Our advisory-speed
