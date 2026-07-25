@@ -921,6 +921,36 @@
         "terms": "mlt1, motorway link, ramp, transition, placement transition, oneway, one lane, 1 lane, asphalt, 100, maxspeed 100",
         "aliases": "mlt1"
     },
+    "highway/motorway_link/oneway_1_100_advisory_25": {
+        "name": "Motorway link (1 lane, 100 km/h, advisory 25 km/h)",
+        "terms": "mla25, motorway link, ramp, oneway, one lane, 1 lane, maxspeed 100, advisory speed, 25",
+        "aliases": "mla25"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_35": {
+        "name": "Motorway link (1 lane, 100 km/h, advisory 35 km/h)",
+        "terms": "mla35, motorway link, ramp, oneway, one lane, 1 lane, maxspeed 100, advisory speed, 35",
+        "aliases": "mla35"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_45": {
+        "name": "Motorway link (1 lane, 100 km/h, advisory 45 km/h)",
+        "terms": "mla45, motorway link, ramp, oneway, one lane, 1 lane, maxspeed 100, advisory speed, 45",
+        "aliases": "mla45"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_55": {
+        "name": "Motorway link (1 lane, 100 km/h, advisory 55 km/h)",
+        "terms": "mla55, motorway link, ramp, oneway, one lane, 1 lane, maxspeed 100, advisory speed, 55",
+        "aliases": "mla55"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_65": {
+        "name": "Motorway link (1 lane, 100 km/h, advisory 65 km/h)",
+        "terms": "mla65, motorway link, ramp, oneway, one lane, 1 lane, maxspeed 100, advisory speed, 65",
+        "aliases": "mla65"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_75": {
+        "name": "Motorway link (1 lane, 100 km/h, advisory 75 km/h)",
+        "terms": "mla75, motorway link, ramp, oneway, one lane, 1 lane, maxspeed 100, advisory speed, 75",
+        "aliases": "mla75"
+    },
     "highway/steps_customers": {
         "name": "Customers steps",
         "terms": "stc, customers, steps, stairs, staircase, stairway",

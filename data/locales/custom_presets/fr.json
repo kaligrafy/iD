@@ -921,6 +921,36 @@
         "terms": "mlt1, lien autoroute, bretelle, transition, placement transition, sens unique, une voie, 1 voie, asphalt, 100, maxspeed 100",
         "aliases": "mlt1"
     },
+    "highway/motorway_link/oneway_1_100_advisory_25": {
+        "name": "Lien autoroute (1 voie, 100 km/h, vitesse conseillée 25 km/h)",
+        "terms": "mla25, lien autoroute, bretelle, sens unique, une voie, 1 voie, maxspeed 100, vitesse conseillée, 25",
+        "aliases": "mla25"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_35": {
+        "name": "Lien autoroute (1 voie, 100 km/h, vitesse conseillée 35 km/h)",
+        "terms": "mla35, lien autoroute, bretelle, sens unique, une voie, 1 voie, maxspeed 100, vitesse conseillée, 35",
+        "aliases": "mla35"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_45": {
+        "name": "Lien autoroute (1 voie, 100 km/h, vitesse conseillée 45 km/h)",
+        "terms": "mla45, lien autoroute, bretelle, sens unique, une voie, 1 voie, maxspeed 100, vitesse conseillée, 45",
+        "aliases": "mla45"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_55": {
+        "name": "Lien autoroute (1 voie, 100 km/h, vitesse conseillée 55 km/h)",
+        "terms": "mla55, lien autoroute, bretelle, sens unique, une voie, 1 voie, maxspeed 100, vitesse conseillée, 55",
+        "aliases": "mla55"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_65": {
+        "name": "Lien autoroute (1 voie, 100 km/h, vitesse conseillée 65 km/h)",
+        "terms": "mla65, lien autoroute, bretelle, sens unique, une voie, 1 voie, maxspeed 100, vitesse conseillée, 65",
+        "aliases": "mla65"
+    },
+    "highway/motorway_link/oneway_1_100_advisory_75": {
+        "name": "Lien autoroute (1 voie, 100 km/h, vitesse conseillée 75 km/h)",
+        "terms": "mla75, lien autoroute, bretelle, sens unique, une voie, 1 voie, maxspeed 100, vitesse conseillée, 75",
+        "aliases": "mla75"
+    },
     "highway/steps_customers": {
         "name": "Escalier clients",
         "terms": "stc, clients, escalier, escaliers, marches",
