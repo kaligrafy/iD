@@ -951,6 +951,31 @@
         "terms": "mla75, motorway link, ramp, oneway, one lane, 1 lane, maxspeed 100, advisory speed, 75",
         "aliases": "mla75"
     },
+    "highway/motorway/left_of_2_lanes_3_change_yes_not_right_no": {
+        "name": "Motorway (3 lanes, offset left of 2, lane drop on the right)",
+        "terms": "m3lc, motorway, 3 lanes, placement, left_of, change lanes, lane drop, merge",
+        "aliases": "m3lc"
+    },
+    "highway/motorway/placement_transition_lanes_2_to_3": {
+        "name": "Motorway (lane gain, 2 to 3 lanes)",
+        "terms": "m23t, motorway, lanes, transition, placement transition, width, lane gain, added lane",
+        "aliases": "m23t"
+    },
+    "highway/motorway/placement_transition_lanes_3_to_4": {
+        "name": "Motorway (lane gain, 3 to 4 lanes)",
+        "terms": "m34t, motorway, lanes, transition, placement transition, width, lane gain, added lane",
+        "aliases": "m34t"
+    },
+    "highway/motorway/placement_transition_lanes_3_to_2": {
+        "name": "Motorway (lane loss, 3 to 2 lanes)",
+        "terms": "m32t, motorway, lanes, transition, placement transition, width, lane loss, dropped lane",
+        "aliases": "m32t"
+    },
+    "highway/motorway/placement_transition_lanes_4_to_3": {
+        "name": "Motorway (lane loss, 4 to 3 lanes)",
+        "terms": "m43t, motorway, lanes, transition, placement transition, width, lane loss, dropped lane",
+        "aliases": "m43t"
+    },
     "highway/steps_customers": {
         "name": "Customers steps",
         "terms": "stc, customers, steps, stairs, staircase, stairway",

@@ -17,6 +17,8 @@ import { serviceVariantPresets } from './presets/highway/service_variants';
 import { serviceDisusedPresets } from './presets/highway/service_disused';
 import { motorwayLinkTransitionPresets } from './presets/highway/motorway_link_transition';
 import { motorwayLinkAdvisoryPresets } from './presets/highway/motorway_link_advisory';
+import { motorwayLaneChangePresets } from './presets/highway/motorway_lane_change';
+import { motorwayLaneTransitionPresets } from './presets/highway/motorway_lane_transition';
 import { trackPrivatePresets } from './presets/highway/track_private';
 import { stepsVariantPresets } from './presets/highway/steps_variants';
 import { tactilePavingYesPresets } from './presets/highway/crossing/tactile_paving_yes';
@@ -73,6 +75,8 @@ export const customPresets: Record<string, CustomPreset> = {
     ...serviceDisusedPresets,
     ...motorwayLinkTransitionPresets,
     ...motorwayLinkAdvisoryPresets,
+    ...motorwayLaneChangePresets,
+    ...motorwayLaneTransitionPresets,
     ...trackPrivatePresets,
     ...stepsVariantPresets,
     ...tactilePavingYesPresets,
