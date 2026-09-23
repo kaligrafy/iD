@@ -108,29 +108,40 @@ describe('building level fields (custom_fields)', function() {
         await iD.presetManager.ensureLoaded(true);
     });
 
+    const LEVEL_FIELDS = ['building/levels', 'building/levels/underground', 'roof/levels'];
+
     const expectLevelFieldsAfter = (id, anchor) => {
-        it(`${id} shows underground and roof levels after ${anchor}`, function() {
+        it(`${id} shows levels, underground and roof levels after ${anchor}`, function() {
             const preset = iD.presetManager.item(id);
             expect(preset, id).to.exist;
             const fields = preset.originalFields;
             const anchorIndex = fields.indexOf(anchor);
             expect(anchorIndex, `${id} fields`).to.be.at.least(0);
-            expect(fields[anchorIndex + 1]).to.equal('building/levels/underground');
-            expect(fields[anchorIndex + 2]).to.equal('roof/levels');
-            expect(preset.originalMoreFields.indexOf('building/levels/underground')).to.equal(-1);
-            expect(preset.originalMoreFields.indexOf('roof/levels')).to.equal(-1);
+            expect(fields[anchorIndex + 1]).to.equal('building/levels');
+            expect(fields[anchorIndex + 2]).to.equal('building/levels/underground');
+            expect(fields[anchorIndex + 3]).to.equal('roof/levels');
+            LEVEL_FIELDS.forEach(fieldID => {
+                expect(preset.originalMoreFields.indexOf(fieldID), `${id} moreFields ${fieldID}`).to.equal(-1);
+            });
         });
     };
 
-    expectLevelFieldsAfter('building', 'building/levels');
-    expectLevelFieldsAfter('building/roof', 'height');
-    expectLevelFieldsAfter('building/garages', 'capacity');
+    expectLevelFieldsAfter('building', 'building');
+    expectLevelFieldsAfter('building/roof', 'building');
+
+    it('building/garages appends level fields to default fields (no building/height anchor there)', function() {
+        const preset = iD.presetManager.item('building/garages');
+        const fields = preset.originalFields;
+        expect(fields).to.eql(['capacity', 'building/levels', 'building/levels/underground', 'roof/levels']);
+        LEVEL_FIELDS.forEach(fieldID => {
+            expect(preset.originalMoreFields.indexOf(fieldID)).to.equal(-1);
+        });
+    });
 
     it('building/hangar appends level fields to default fields', function() {
         const preset = iD.presetManager.item('building/hangar');
         const fields = preset.originalFields;
-        expect(fields[fields.length - 2]).to.equal('building/levels/underground');
-        expect(fields[fields.length - 1]).to.equal('roof/levels');
+        expect(fields).to.eql(['name', 'building/levels', 'building/levels/underground', 'roof/levels']);
     });
 
     const inheritsFromBuilding = [
@@ -141,10 +152,12 @@ describe('building level fields (custom_fields)', function() {
     inheritsFromBuilding.forEach(function(id) {
         it(`${id} inherits level fields from {building}`, function() {
             const preset = iD.presetManager.item(id);
-            expect(preset.originalFields.indexOf('building/levels/underground')).to.equal(-1);
-            expect(preset.originalFields.indexOf('roof/levels')).to.equal(-1);
+            LEVEL_FIELDS.forEach(fieldID => {
+                expect(preset.originalFields.indexOf(fieldID)).to.equal(-1);
+            });
             const resolved = preset.fields();
             const keys = resolved.map(f => f.key);
+            expect(keys.indexOf('building:levels')).to.be.at.least(0);
             expect(keys.indexOf('building:levels:underground')).to.be.at.least(0);
             expect(keys.indexOf('roof:levels')).to.be.at.least(0);
         });
@@ -152,13 +165,15 @@ describe('building level fields (custom_fields)', function() {
 
     it('does not add level fields to non-building presets', function() {
         const preset = iD.presetManager.item('highway/residential');
-        expect(preset.originalFields.indexOf('building/levels/underground')).to.equal(-1);
-        expect(preset.originalFields.indexOf('roof/levels')).to.equal(-1);
+        LEVEL_FIELDS.forEach(fieldID => {
+            expect(preset.originalFields.indexOf(fieldID)).to.equal(-1);
+        });
     });
 
     it('skips building presets that only inherit fields from a parent', function() {
         const preset = iD.presetManager.item('building/garage');
-        expect(preset.originalFields.indexOf('building/levels/underground')).to.equal(-1);
-        expect(preset.originalFields.indexOf('roof/levels')).to.equal(-1);
+        LEVEL_FIELDS.forEach(fieldID => {
+            expect(preset.originalFields.indexOf(fieldID)).to.equal(-1);
+        });
     });
 });
