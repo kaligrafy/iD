@@ -446,6 +446,7 @@ en:
       annotation:
         points: Followed a line.
       nodes_are_not_shared_by_both_ways: The two nodes are not shared by both the source and target ways.
+      nodes_are_not_consecutive_in_target: The two nodes are not one after the other in the target way.
       source_or_target_way_is_closed_but_has_less_than_4_nodes: The source or target way is closed but has fewer than 4 nodes.
       connected_to_hidden: This can't be followed because it is connected to a hidden feature.
       not_downloaded: This can't be followed because parts of it have not yet been downloaded.
