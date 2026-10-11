@@ -1,11 +1,13 @@
 import { t } from '../core/localizer';
-import { actionClone } from '../actions/clone';
+import { actionClone, tagHasPrefix } from '../actions/clone';
 import { behaviorOperation } from '../behavior/operation';
 
 /** A clone type: the menu/i18n id, the tags it copies, and optional extras. */
 interface CloneType {
     id: string;
     tags: string[];
+    /** Copy every source key equal to the prefix or starting with `prefix:`. */
+    tagPrefixes?: string[];
     /** Language suffixes (e.g. ['fr','en']) whose `<tag>:<suffix>` variants are also copied. */
     languageSuffixes?: string[];
     /** Keyboard shortcut. Left undefined for now; set it to enable a per-type shortcut. */
@@ -33,12 +35,7 @@ export const cloneTypes: CloneType[] = [
     { id: 'clone_lanes', tags: ['lanes', 'lanes:forward', 'lanes:backward'] },
     { id: 'clone_turn_lanes', tags: ['turn:lanes', 'turn:lanes:forward', 'turn:lanes:backward'] },
     { id: 'clone_sidewalk', key: '*', tags: ['sidewalk', 'sidewalk:both', 'sidewalk:right', 'sidewalk:left', 'foot'] },
-    { id: 'clone_cycleway', key: '@', tags: [
-        'bicycle', 'cycleway', 'cycleway:both', 'cycleway:right', 'cycleway:buffer', 'cycleway:marking',
-        'cycleway:right:marking', 'cycleway:left:marking', 'cycleway:separation', 'cycleway:right:separation',
-        'cycleway:right:buffer', 'cycleway:right:oneway', 'cycleway:left:separation', 'cycleway:left:buffer',
-        'cycleway:left:oneway', 'cycleway:left', 'oneway:bicycle', 'lcn'
-    ] },
+    { id: 'clone_cycleway', key: '@', tags: ['bicycle', 'oneway:bicycle', 'lcn'], tagPrefixes: ['cycleway'] },
     { id: 'clone_bicycle_tag', tags: ['bicycle'] },
     { id: 'clone_bus_lanes', tags: [
         'bus:lanes', 'bus:lanes:forward', 'bus:lanes:backward', 'lanes:bus', 'lanes:bus:forward',
@@ -54,11 +51,13 @@ export const cloneTypes: CloneType[] = [
     { id: 'clone_dual_carriageway', tags: ['dual_carriageway'] }
 ];
 
-/** True when at least one of `tags` is set on the source (first selected) entity. */
-function sourceHasAnyTag(context: iD.Context, selectedIDs: EntityID[], tags: string[]): boolean {
+/** True when the source has one of `tags`, or a key covered by `tagPrefixes`. */
+function sourceHasAnyTag(context: iD.Context, selectedIDs: EntityID[], tags: string[], tagPrefixes: string[] = []): boolean {
     if (selectedIDs.length < 2) return false;
     const source = context.hasEntity(selectedIDs[0]);
-    return !!source && tags.some((tag) => source.tags[tag] !== undefined);
+    if (!source) return false;
+    if (tags.some((tag) => source.tags[tag] !== undefined)) return true;
+    return Object.keys(source.tags).some((key) => tagHasPrefix(key, tagPrefixes));
 }
 
 /**
@@ -72,7 +71,7 @@ function sourceHasAnyTag(context: iD.Context, selectedIDs: EntityID[], tags: str
 function makeCloneOperation(type: CloneType) {
     return function (context: iD.Context, selectedIDs: EntityID[]) {
 
-        const action = actionClone(selectedIDs, type.tags, type.languageSuffixes);
+        const action = actionClone(selectedIDs, type.tags, type.languageSuffixes, type.tagPrefixes);
 
         function operation() {
             context.perform(action, operation.annotation());
@@ -83,7 +82,7 @@ function makeCloneOperation(type: CloneType) {
         }
 
         operation.available = function (): boolean {
-            return sourceHasAnyTag(context, selectedIDs, type.tags);
+            return sourceHasAnyTag(context, selectedIDs, type.tags, type.tagPrefixes);
         };
 
         operation.disabled = function (): boolean {
@@ -127,7 +126,7 @@ export function operationClone(context: iD.Context, selectedIDs: EntityID[]) {
     }
 
     operation.available = function (): boolean {
-        return cloneTypes.some((type) => sourceHasAnyTag(context, selectedIDs, type.tags));
+        return cloneTypes.some((type) => sourceHasAnyTag(context, selectedIDs, type.tags, type.tagPrefixes));
     };
 
     operation.disabled = function (): boolean {
