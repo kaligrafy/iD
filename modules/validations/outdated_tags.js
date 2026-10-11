@@ -29,6 +29,41 @@ function shouldApplyPresetAddTag(tags, key, addTagValue) {
   return key === 'surface' && tags[key] === 'paved' && addTagValue === 'asphalt';
 }
 
+/** Service roads and paths: a missing or generic surface is an editor hint. */
+const SURFACE_HINT_HIGHWAYS = new Set([
+  'service', 'path', 'footway', 'cycleway', 'pedestrian', 'bridleway', 'steps'
+]);
+
+/** Private ways of these types are not flagged for surface, matching the map style. */
+const PRIVATE_SURFACE_SKIP = new Set(['path', 'footway', 'steps']);
+
+const SURFACE_HINT_VALUE = 'asphalt';
+
+/**
+ * Missing or generic `surface` on a service road or path.
+ * @param {Record<string, string>} tags
+ * @returns {boolean}
+ */
+function isSurfaceHint(tags) {
+  const highway = tags.highway;
+  if (!highway || !SURFACE_HINT_HIGHWAYS.has(highway)) return false;
+  if (tags.indoor === 'yes') return false;
+  if (tags.access === 'private' && PRIVATE_SURFACE_SKIP.has(highway)) return false;
+  return !tags.surface || tags.surface === 'paved';
+}
+
+/**
+ * Whether this issue is counted on the changeset (`warnings:*` / `resolved:*`)
+ * and listed on the save screen. `fixme` notes and surface hints are editor-only.
+ * @param {{ type?: string, subtype?: string }} issue
+ * @returns {boolean}
+ */
+export function includeIssueInChangeset(issue) {
+  if (issue.type === 'help_request') return false;
+  if (issue.type === 'outdated_tags' && issue.subtype === 'imprecise_surface') return false;
+  return true;
+}
+
 export function validationOutdatedTags() {
   const type = 'outdated_tags';
   let _waitingForDeprecated = true;
@@ -48,6 +83,8 @@ export function validationOutdatedTags() {
     if (!preset) return [];
 
     const oldTags = Object.assign({}, entity.tags);  // shallow copy
+    // Captured before deprecated-tag upgrades rewrite `entity`.
+    const surfaceHint = entity.type === 'way' && isSurfaceHint(oldTags);
 
     // Upgrade preset, if a replacement is available..
     if (preset.replacement) {
@@ -113,17 +150,21 @@ export function validationOutdatedTags() {
     let issues = [];
     issues.provisional = (_waitingForDeprecated || waitingForNsi);
 
-    if (deprecationDiff.some(d => d.type !== '~')) {
-      const isOnlyAddingTags = !deprecationDiff.some(d => d.type === '-');
-      const prefix = isOnlyAddingTags ? 'incomplete.' : '';
-      // v5 fork: missing/imprecise `surface` (including surface=paved -> asphalt) is
-      // an opinionated local convention, not a real OSM tagging error, so give it its
-      // own subtype - it's excluded from the changeset `warnings:*` tags (see commit.js)
-      const isSurfaceOnly = deprecationDiff.every(d => d.key === 'surface');
+    // A surface-only diff is its own issue on every highway. On a service road or
+    // path, surface is split out of a mixed diff too, and a missing surface with
+    // no preset suggestion still raises the hint. `includeIssueInChangeset` drops it.
+    const actionable = deprecationDiff.filter(d => d.type !== '~');
 
+    /**
+     * @param {TagDiff[]} diff
+     * @param {string} subtype
+     */
+    function pushTagIssue(diff, subtype) {
+      const isOnlyAddingTags = !diff.some(d => d.type === '-');
+      const prefix = isOnlyAddingTags ? 'incomplete.' : '';
       issues.push(new validationIssue({
         type: type,
-        subtype: isSurfaceOnly ? 'imprecise_surface' : (isOnlyAddingTags ? 'incomplete_tags' : 'deprecated_tags'),
+        subtype: subtype,
         severity: 'warning',
         message: (context) => {
           const currEntity = context.hasEntity(entity.id);
@@ -136,22 +177,48 @@ export function validationOutdatedTags() {
         reference: selection => showTagDiffReference(
           selection,
           t.append(`issues.outdated_tags.${prefix}reference`),
-          deprecationDiff
+          diff
         ),
         entityIds: [entity.id],
-        hash: utilHashcode(JSON.stringify(deprecationDiff)),
+        hash: utilHashcode(JSON.stringify(diff)),
         dynamicFixes: () => {
           let fixes = [
             new validationIssueFix({
               title: t.append('issues.fix.upgrade_tags.title'),
               onClick: (context) => {
-                context.perform(graph => doUpgrade(graph, deprecationDiff), t('issues.fix.upgrade_tags.annotation'));
+                context.perform(graph => doUpgrade(graph, diff), t('issues.fix.upgrade_tags.annotation'));
               }
             })
           ];
           return fixes;
         }
       }));
+    }
+
+    if (!surfaceHint) {
+      if (actionable.length) {
+        const isOnlyAddingTags = !deprecationDiff.some(d => d.type === '-');
+        const isSurfaceOnly = deprecationDiff.every(d => d.key === 'surface');
+        pushTagIssue(
+          deprecationDiff,
+          isSurfaceOnly ? 'imprecise_surface' : (isOnlyAddingTags ? 'incomplete_tags' : 'deprecated_tags')
+        );
+      }
+    } else {
+      let surfaceDiff = actionable.filter(d => d.key === 'surface');
+      const otherDiff = actionable.filter(d => d.key !== 'surface');
+      const contextDiff = deprecationDiff.filter(d => d.type === '~');
+      if (!surfaceDiff.length) {
+        surfaceDiff = utilTagDiff(oldTags, Object.assign({}, oldTags, { surface: SURFACE_HINT_VALUE }))
+          .filter(d => d.type !== '~');
+      }
+      if (surfaceDiff.length) {
+        pushTagIssue(surfaceDiff, 'imprecise_surface');
+      }
+      if (otherDiff.length) {
+        const isOnlyAddingTags = !otherDiff.some(d => d.type === '-');
+        pushTagIssue(otherDiff.concat(contextDiff), isOnlyAddingTags ? 'incomplete_tags' : 'deprecated_tags');
+      }
     }
 
     if (nsiDiff.length) {

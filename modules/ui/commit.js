@@ -15,6 +15,7 @@ import { uiSectionRawTagEditor } from './sections/raw_tag_editor';
 import { utilArrayGroupBy, utilRebind, utilUniqueDomId } from '../util';
 import { utilDetect } from '../util/detect';
 import { getIncompatibleSources } from '../validations/incompatible_source';
+import { includeIssueInChangeset } from '../validations/outdated_tags';
 import { changesetEditorName } from '../../config/id.js';
 
 
@@ -181,13 +182,7 @@ export function uiCommit(context) {
         const warnings = context.validator()
             .getIssuesBySeverity({ what: 'edited', where: 'all', includeIgnored: true, includeDisabledRules: true })
             .warning
-            .filter(function(issue) {
-                if (issue.type === 'help_request') return false;    // exclude 'fixme' and similar - #8603
-                // v5 fork: missing/imprecise surface is a local convention, not a real
-                // OSM tagging error - keep it out of the changeset, it's for the user only
-                if (issue.type === 'outdated_tags' && issue.subtype === 'imprecise_surface') return false;
-                return true;
-            });
+            .filter(includeIssueInChangeset);
 
         // also include "incompatible_source" warnings caused by changeset tags
         [   ...getIncompatibleSources(tags.comment),
@@ -199,7 +194,7 @@ export function uiCommit(context) {
         addIssueCounts(warnings, 'warnings');
 
         // add counts of issues resolved by the user's edits
-        var resolvedIssues = context.validator().getResolvedIssues();
+        var resolvedIssues = context.validator().getResolvedIssues().filter(includeIssueInChangeset);
         addIssueCounts(resolvedIssues, 'resolved');
 
         context.changeset = context.changeset.update({ tags: tags });
