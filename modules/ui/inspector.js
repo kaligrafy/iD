@@ -18,6 +18,8 @@ export function uiInspector(context) {
 
 
     function inspector(selection, options = {}) {
+        if (!_entityIDs?.length) return;
+
         presetList
             .entityIDs(_entityIDs)
             .autofocus(_newFeature)
@@ -114,7 +116,7 @@ export function uiInspector(context) {
 
         footer
             .call(uiViewOnOSM(context)
-                .what(context.hasEntity(_entityIDs.length === 1 && _entityIDs[0]))
+                .what(context.hasEntity(_entityIDs?.length === 1 && _entityIDs[0]))
             );
     }
 

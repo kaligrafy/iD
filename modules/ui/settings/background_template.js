@@ -2,7 +2,7 @@ import { dispatch as d3_dispatch } from 'd3-dispatch';
 import { marked } from 'marked';
 
 import { prefs } from '../../core/preferences';
-import { t } from '../../core/localizer';
+import { localizer, t } from '../../core/localizer';
 import { uiConfirm } from '../confirm';
 import { utilNoAuto, utilRebind } from '../../util';
 
@@ -70,25 +70,25 @@ export function uiSettingsBackgroundTemplate(config) {
         const textSection = modal.select('.modal-section.message-text');
 
         const instructions = `
-${t.html(`settings.${stringsKey}.instructions.info`)}
+${localizer.t_html(`settings.${stringsKey}.instructions.info`)}
 
-${t.html(`settings.${stringsKey}.instructions.license_disclaimer`)}
-[${t.html(`settings.${stringsKey}.instructions.license_faq`)}](${t(`settings.${stringsKey}.instructions.license_faq_url`)})
+${localizer.t_html(`settings.${stringsKey}.instructions.license_disclaimer`)}
+[${localizer.t_html(`settings.${stringsKey}.instructions.license_faq`)}](${t(`settings.${stringsKey}.instructions.license_faq_url`)})
 
-#### ${t.html(`settings.${stringsKey}.instructions.wms.tokens_label`)}
-* ${t.html(`settings.${stringsKey}.instructions.wms.tokens.proj`)}
-* ${t.html(`settings.${stringsKey}.instructions.wms.tokens.wkid`)}
-* ${t.html(`settings.${stringsKey}.instructions.wms.tokens.dimensions`)}
-* ${t.html(`settings.${stringsKey}.instructions.wms.tokens.bbox`)}
+#### ${localizer.t_html(`settings.${stringsKey}.instructions.wms.tokens_label`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.wms.tokens.proj`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.wms.tokens.wkid`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.wms.tokens.dimensions`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.wms.tokens.bbox`)}
 
-#### ${t.html(`settings.${stringsKey}.instructions.tms.tokens_label`)}
-* ${t.html(`settings.${stringsKey}.instructions.tms.tokens.xyz`)}
-* ${t.html(`settings.${stringsKey}.instructions.tms.tokens.flipped_y`)}
-* ${t.html(`settings.${stringsKey}.instructions.tms.tokens.switch`)}
-* ${t.html(`settings.${stringsKey}.instructions.tms.tokens.quadtile`)}
-* ${t.html(`settings.${stringsKey}.instructions.tms.tokens.scale_factor`)}
+#### ${localizer.t_html(`settings.${stringsKey}.instructions.tms.tokens_label`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.tms.tokens.xyz`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.tms.tokens.flipped_y`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.tms.tokens.switch`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.tms.tokens.quadtile`)}
+* ${localizer.t_html(`settings.${stringsKey}.instructions.tms.tokens.scale_factor`)}
 
-#### ${t.html(`settings.${stringsKey}.instructions.example`)}
+#### ${localizer.t_html(`settings.${stringsKey}.instructions.example`)}
     ${example}
 `;
 

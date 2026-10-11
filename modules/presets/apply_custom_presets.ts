@@ -4,24 +4,23 @@
  */
 
 import { fileFetcher } from '../core/file_fetcher';
+import type { presetIndex } from './index';
 
 type PresetDataMap = Record<string, Record<string, unknown>>;
-
-interface PresetManagerWithMerge {
-    merge(data: { fields?: PresetDataMap; presets?: PresetDataMap }): void;
-}
 
 /**
  * @param presetManager - preset index after upstream schema merge
  */
-export function applyCustomPresets(presetManager: PresetManagerWithMerge): Promise<void> {
+export function applyCustomPresets(presetManager: presetIndex): Promise<void> {
     return Promise.all([
         fileFetcher.get('preset_custom_fields').catch(() => ({})),
         fileFetcher.get('preset_custom_presets').catch(() => ({}))
     ]).then(([fields, presets]) => {
         const merge: { fields?: PresetDataMap; presets?: PresetDataMap } = {};
-        if (fields && Object.keys(fields).length) merge.fields = fields as PresetDataMap;
-        if (presets && Object.keys(presets).length) merge.presets = presets as PresetDataMap;
-        if (Object.keys(merge).length) presetManager.merge(merge);
+        if (fields && Object.keys(fields).length) merge.fields = fields;
+        if (presets && Object.keys(presets).length) merge.presets = presets;
+        if (Object.keys(merge).length) {
+            presetManager.merge(merge as Parameters<presetIndex['merge']>[0]);
+        }
     });
 }

@@ -22,7 +22,7 @@ export function actionClone(selectedIds: EntityID[], cloneTags: string[], langua
         const sourceTags = entities[0].tags;
 
         for (let i = 1; i < entities.length; i++) {
-            const tags = Object.assign({}, entities[i].tags);
+            const tags: Tags = Object.assign({}, entities[i].tags);
             for (const cloneTag of cloneTags) {
                 if (sourceTags[cloneTag] !== undefined) {
                     tags[cloneTag] = sourceTags[cloneTag];
@@ -40,7 +40,7 @@ export function actionClone(selectedIds: EntityID[], cloneTags: string[], langua
         return graph;
     }
 
-    action.disabled = function (): boolean {
+    action.disabled = function (): false {
         return false;
     };
 

@@ -47,7 +47,7 @@ export function uiSectionStreetLevelImagery(context: any) {
                 d3_event.preventDefault();
                 context.container().call(settings);
             })
-            .call(svgIcon('#iD-icon-more'));
+            .call(svgIcon('#iD-icon-more', ''));
 
         item = itemEnter.merge(item);
         item.select('label span').text(customLabel());

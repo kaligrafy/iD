@@ -1,3 +1,5 @@
+import { select as d3_select, selectAll as d3_selectAll } from 'd3-selection';
+
 describe('iD.uiSectionLocationLinks', function () {
     var context;
 
@@ -6,12 +8,12 @@ describe('iD.uiSectionLocationLinks', function () {
     });
 
     afterEach(function () {
-        d3.selectAll('.ui-wrap').remove();
+        d3_selectAll('.ui-wrap').remove();
     });
 
     function render(entityIDs) {
         var section = iD.uiSectionLocationLinks(context).entityIDs(entityIDs);
-        var element = d3.select('body')
+        var element = d3_select('body')
             .append('div')
             .attr('class', 'ui-wrap')
             .call(section.render);

@@ -1,3 +1,4 @@
+import { select as d3_select } from 'd3-selection';
 import { loadCustomDistJson } from '../../presets/custom/setup.js';
 
 /** Minimal upstream presets: a non-building POI preset that can carry building=* too. */
@@ -62,7 +63,7 @@ describe('iD.uiSectionPresetFields - building level fields on non-building prese
 
     beforeEach(function() {
         context = iD.coreContext().assetPath('../dist/').init();
-        container = d3.select(document.createElement('div'));
+        container = d3_select(document.createElement('div'));
     });
 
     const LEVEL_FIELD_CLASSES = ['.form-field-building_levels', '.form-field-building_levels_underground', '.form-field-roof_levels'];

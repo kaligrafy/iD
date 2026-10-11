@@ -97,7 +97,7 @@ function crossingNodePreset(variant: CrossingNodeVariant): CustomPreset {
         tags['crossing:markings'] = markingTag;
     }
 
-    const removeWildcards = variant.markings === 'other'
+    const removeWildcards: Record<string, typeof ANY> = variant.markings === 'other'
         ? { 'crossing:markings': ANY }
         : {};
 

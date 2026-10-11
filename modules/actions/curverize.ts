@@ -1,4 +1,5 @@
 import { osmNode } from '../osm/node';
+import type { NodeId } from '../osm';
 import {
     geoRotate,
     geoVecAngle,
@@ -174,7 +175,7 @@ export function actionCurverize(selectedIds: EntityID[], projection: iD.Projecti
 
             const radiusNodesIds = radiusNodes.map((node) => node.id);
 
-            const wayNodes: EntityID[] = [...way.nodes];
+            const wayNodes: NodeId[] = [...way.nodes];
             wayNodes.splice(segmentNodeStartIdx + 1, 0, ...radiusNodesIds);
 
             addedPreviousNodesCount += radiusNodes.length + 2;
@@ -186,7 +187,7 @@ export function actionCurverize(selectedIds: EntityID[], projection: iD.Projecti
         return graph;
     }
 
-    action.disabled = function (): boolean {
+    action.disabled = function (): false {
         return false;
     };
 

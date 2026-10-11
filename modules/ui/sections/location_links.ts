@@ -171,7 +171,7 @@ export function uiSectionLocationLinks(context: any) {
         itemsEnter.append('button')
             .attr('class', 'form-field-button location-coordinate-copy')
             .attr('title', t('icons.copy'))
-            .call(svgIcon('#iD-operation-copy'))
+            .call(svgIcon('#iD-operation-copy', ''))
             .on('click', (d3_event: Event, d: CopyableRow) => {
                 d3_event.preventDefault();
                 navigator.clipboard?.writeText(d.value);
