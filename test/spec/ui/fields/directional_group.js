@@ -39,6 +39,15 @@ describe('iD.uiFieldDirectionalGroup', function() {
         });
     });
 
+    it('renders an input for the integer lanes member', function() {
+        const context = iD.coreContext().assetPath('../dist/').init();
+        const selection = d3_select(document.createElement('div'));
+        renderInstance(context, 'lanes_group', selection);
+
+        expect(selection.selectAll('li.directional-group-row').size()).to.be.greaterThan(0);
+        expect(selection.selectAll('input').size()).to.be.greaterThan(0);
+    });
+
     it('keeps combo member rows rendered with an input after re-render', function() {
         const context = iD.coreContext().assetPath('../dist/').init();
         const selection = d3_select(document.createElement('div'));
