@@ -3,6 +3,7 @@
  * Used by lenses/quebec.css and lenses/quebec-surfaces.css.
  */
 
+import { hasAdvisoryWithoutMaxspeed } from '../modules/validations/advisory_maxspeed.js';
 import { getLaneConsistencyIssues, laneConsistencyTagClasses } from '../modules/osm/lane_tag_consistency.js';
 
 /** Highways excluded from sidewalk validation (v5 parity). */
@@ -141,7 +142,9 @@ export function appendHighwayValidationTagClasses(classes, t) {
     }
 
     if (!ignoreMaxSpeed) {
-        if (maxSpeed) {
+        if (hasAdvisoryWithoutMaxspeed(t)) {
+            classes.push('tag-maxspeed-advisory-only');
+        } else if (maxSpeed) {
             if (maxSpeed > 70) classes.push('tag-maxspeed-more_than_70');
         } else if (highway !== 'service') {
             classes.push('tag-maxspeed-undefined');

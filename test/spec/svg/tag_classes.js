@@ -369,6 +369,8 @@ describe('iD.svgTagClasses', function () {
 
     const validationCases = [
         ['tag-maxspeed-undefined', { highway: 'residential' }],
+        ['tag-maxspeed-advisory-only', { highway: 'primary', 'maxspeed:advisory': '50' }],
+        ['tag-maxspeed-advisory-only', { highway: 'trunk_link', 'maxspeed:advisory:forward': '40' }],
         ['tag-lanes-undefined', { highway: 'primary' }],
         ['tag-surface-undefined', { highway: 'secondary', surface: 'paved' }],
         ['tag-surface-undefined', { highway: 'tertiary' }],
@@ -442,6 +444,23 @@ describe('iD.svgTagClasses', function () {
             }))
             .call(iD.svgTagClasses());
         expect(selection.classed('tag-name-no')).to.be.false;
+    });
+
+    it('does not mark advisory speed when maxspeed is set', function() {
+        const sel = d3_select(document.createElement('div'));
+        sel
+            .datum(new iD.osmWay({ tags: { highway: 'primary', maxspeed: '70', 'maxspeed:advisory': '50' } }))
+            .call(iD.svgTagClasses());
+        expect(sel.classed('tag-maxspeed-advisory-only')).to.be.false;
+        expect(sel.classed('tag-maxspeed-undefined')).to.be.false;
+    });
+
+    it('does not also mark maxspeed undefined when only the advisory speed is set', function() {
+        const sel = d3_select(document.createElement('div'));
+        sel
+            .datum(new iD.osmWay({ tags: { highway: 'primary', 'maxspeed:advisory': '50' } }))
+            .call(iD.svgTagClasses());
+        expect(sel.classed('tag-maxspeed-undefined')).to.be.false;
     });
 
     for (const [expectedClass, tags] of validationCases) {
