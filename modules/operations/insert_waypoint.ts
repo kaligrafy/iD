@@ -1,6 +1,7 @@
 import { t } from '../core/localizer';
 import { modeInsertWaypoint } from '../modes/insert_waypoint';
 import { behaviorOperation } from '../behavior/operation';
+import type { Mode } from '../core/context';
 
 /**
  * Operation that starts insert-waypoint mode on the selected way. Like the
@@ -23,7 +24,7 @@ export function operationInsertWaypoint(context: iD.Context, selectedIDs: Entity
     function operation() {
         const way = selectedWay();
         if (!way) return;
-        context.enter(modeInsertWaypoint(context, way.id));
+        context.enter(modeInsertWaypoint(context, way.id) as Mode);
     }
 
 

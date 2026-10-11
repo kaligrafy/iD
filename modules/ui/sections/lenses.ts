@@ -151,7 +151,7 @@ export function uiSectionLenses(context: any) {
             .attr('class', 'lens-uploaded-remove')
             .attr('title', () => t('map_data.lens.remove'))
             .on('click', (_d3_event: any, d: any) => removeUploadedLens(d.id))
-            .call(svgIcon('#iD-operation-delete'));
+            .call(svgIcon('#iD-operation-delete', ''));
 
         const itemsMerged = itemsEnter.merge(items);
         itemsMerged.select('.lens-uploaded-name').text((d: any) => d.name);

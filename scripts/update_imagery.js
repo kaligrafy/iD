@@ -71,10 +71,6 @@ if (fs.existsSync('./data/manual_imagery.json')) {
 
 let imagery = [];
 
-// ignore imagery more than 20 years old..
-let cutoffDate = new Date();
-cutoffDate.setFullYear(cutoffDate.getFullYear() - 20);
-
 const discard = [
   /^osmbe$/,                              // 'OpenStreetMap (Belgian Style)'
   /^osmfr(-(basque|breton|occitan))?$/,   // 'OpenStreetMap (French, Basque, Breton, Occitan Style)'
@@ -162,7 +158,6 @@ sources.features.forEach(feature => {
     endDate = new Date(source.end_date);
     isValid = !isNaN(endDate.getTime());
     if (isValid) {
-      if (endDate <= cutoffDate) return;  // too old
       im.endDate = endDate;
     }
   }
@@ -209,9 +204,6 @@ sources.features.forEach(feature => {
   }
   if (attribution.text) {
     im.terms_text = attribution.text;
-  }
-  if (attribution.html) {
-    im.terms_html = attribution.html;
   }
 
   ['best', 'default', 'description', 'encrypted', 'icon', 'overlay', 'tileSize'].forEach(prop => {

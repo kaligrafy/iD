@@ -5,7 +5,7 @@ import { utilRebind, utilUniqueDomId } from '../../util';
 import { presetManager } from '../../presets';
 import { prerequisiteTagSatisfied } from '../field';
 import { uiFieldCombo } from './combo';
-import { uiFieldNumber } from './input';
+import { uiFieldInteger, uiFieldNumber } from './input';
 import { uiFieldLaneList } from './lane_list';
 
 // =============================================================================
@@ -20,9 +20,12 @@ import { uiFieldLaneList } from './lane_list';
 
 // Sub-field renderers a group member may use, mapped by field type. Imported
 // directly (not via the `uiFields` registry) to avoid a circular import.
+// `lanes` is an integer field in the tagging schema; without this entry the
+// row is dropped and the Lanes block renders with no input.
 const RENDERERS: Record<string, any> = {
     combo: uiFieldCombo,
     number: uiFieldNumber,
+    integer: uiFieldInteger,
     laneList: uiFieldLaneList
 };
 

@@ -1,3 +1,4 @@
+import { select as d3_select } from 'd3-selection';
 import { loadCustomPresets } from '../../presets/custom/setup.js';
 
 // Directional group members are rendered per visible row. The inspector recycles
@@ -30,7 +31,7 @@ describe('iD.uiFieldDirectionalGroup', function() {
     ['placement_group', 'lanes_group', 'turn_lanes_group', 'change_lanes_group'].forEach(function(fieldId) {
         it(`re-renders ${fieldId} when a new instance lands on recycled DOM`, function() {
             const context = iD.coreContext().assetPath('../dist/').init();
-            const selection = d3.select(document.createElement('div'));
+            const selection = d3_select(document.createElement('div'));
             // first instance populates the DOM, second instance reuses the same
             // recycled rows (the failing case before the fix)
             renderInstance(context, fieldId, selection);
@@ -38,16 +39,25 @@ describe('iD.uiFieldDirectionalGroup', function() {
         });
     });
 
+    it('renders an input for the integer lanes member', function() {
+        const context = iD.coreContext().assetPath('../dist/').init();
+        const selection = d3_select(document.createElement('div'));
+        renderInstance(context, 'lanes_group', selection);
+
+        expect(selection.selectAll('li.directional-group-row').size()).to.be.greaterThan(0);
+        expect(selection.selectAll('input').size()).to.be.greaterThan(0);
+    });
+
     it('keeps combo member rows rendered with an input after re-render', function() {
         const context = iD.coreContext().assetPath('../dist/').init();
-        const selection = d3.select(document.createElement('div'));
+        const selection = d3_select(document.createElement('div'));
         renderInstance(context, 'placement_group', selection);
         renderInstance(context, 'placement_group', selection);
 
         const rows = selection.selectAll('li.directional-group-row');
         expect(rows.size()).to.be.greaterThan(0);
         rows.each(function() {
-            expect(d3.select(this).selectAll('input').size()).to.be.greaterThan(0);
+            expect(d3_select(this).selectAll('input').size()).to.be.greaterThan(0);
         });
     });
 });

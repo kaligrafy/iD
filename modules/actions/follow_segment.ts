@@ -15,9 +15,10 @@
 // =============================================================================
 
 import { actionDeleteNode } from './delete_node';
+import type { NodeId } from '../osm';
 
 /** Index after `i`, wrapping on a closed way; `null` past an open way's end. */
-function nextNodeIdx(nodes: string[], closed: boolean, i: number): number | null {
+function nextNodeIdx(nodes: NodeId[], closed: boolean, i: number): number | null {
     if (closed) {
         if (nodes.length < 3) return null;
         return i === nodes.length - 1 ? 1 : i + 1;   // skip index 0 (duplicate of last)
@@ -26,7 +27,7 @@ function nextNodeIdx(nodes: string[], closed: boolean, i: number): number | null
 }
 
 /** True when `i` is the (duplicated) first/last node of a closed way. */
-function indexIsFirstOrLastOfClosed(nodes: string[], closed: boolean, i: number): boolean {
+function indexIsFirstOrLastOfClosed(nodes: NodeId[], closed: boolean, i: number): boolean {
     return closed && (i === 0 || i === nodes.length - 1);
 }
 
@@ -35,7 +36,7 @@ function indexIsFirstOrLastOfClosed(nodes: string[], closed: boolean, i: number)
  * forward (wrapping); an open way walks in natural order and is always returned
  * oriented start -> end.
  */
-function nodesBetween(nodes: string[], closed: boolean, startIdx: number, endIdx: number): string[] {
+function nodesBetween(nodes: NodeId[], closed: boolean, startIdx: number, endIdx: number): NodeId[] {
     if (nodes.length < 2 || startIdx < 0 || endIdx < 0 || startIdx === endIdx ||
         (indexIsFirstOrLastOfClosed(nodes, closed, startIdx) && indexIsFirstOrLastOfClosed(nodes, closed, endIdx))) {
         return [];
@@ -60,7 +61,7 @@ function nodesBetween(nodes: string[], closed: boolean, startIdx: number, endIdx
 type Loc = [number, number];
 
 /** Location of a node id (the union entity type hides `loc`, so narrow it here). */
-function nodeLoc(graph: iD.Graph, id: string): Loc {
+function nodeLoc(graph: iD.Graph, id: EntityID): Loc {
     return (graph.entity(id) as { loc: Loc }).loc;
 }
 
@@ -79,7 +80,7 @@ function closestPointOnSegment(p: Loc, a: Loc, b: Loc): { point: Loc; t: number;
 }
 
 /** Closest point on the polyline `nodeIds` to `p`, with the segment it lands on. */
-function closestPointOnPath(graph: iD.Graph, p: Loc, nodeIds: string[]) {
+function closestPointOnPath(graph: iD.Graph, p: Loc, nodeIds: NodeId[]) {
     let best: { point: Loc; segmentIndex: number; t: number; distance: number } | null = null;
     let bestDistance = Infinity;
     for (let i = 0; i < nodeIds.length - 1; i++) {
@@ -98,7 +99,7 @@ function closestPointOnPath(graph: iD.Graph, p: Loc, nodeIds: string[]) {
  * which the two shared nodes were selected. An arc with no interior (a direct
  * edge between the two shared nodes) counts as closest.
  */
-function arcDistanceToPath(graph: iD.Graph, arc: string[], path: string[]): number {
+function arcDistanceToPath(graph: iD.Graph, arc: NodeId[], path: NodeId[]): number {
     const interior = arc.slice(1, -1);
     if (interior.length === 0) return 0;
     let sum = 0;
@@ -112,14 +113,14 @@ function arcDistanceToPath(graph: iD.Graph, arc: string[], path: string[]): numb
 export function actionFollowSegment(selectedIDs: EntityID[], reverse = false) {
 
     /** First target node that is also on the source way (or the explicit one). */
-    function getStartNodeId(explicit: EntityID | undefined, tgtNodes: string[], srcNodes: string[]): string | null {
-        if (explicit) return explicit;
+    function getStartNodeId(explicit: EntityID | undefined, tgtNodes: NodeId[], srcNodes: NodeId[]): NodeId | null {
+        if (explicit) return explicit as NodeId;
         return tgtNodes.find(id => srcNodes.indexOf(id) >= 0) ?? null;
     }
 
     /** Next shared node after the start (or the explicit one). */
-    function getEndNodeId(startNodeId: string | null, explicit: EntityID | undefined, tgtNodes: string[], srcNodes: string[]): string | null {
-        if (explicit) return explicit;
+    function getEndNodeId(startNodeId: NodeId | null, explicit: EntityID | undefined, tgtNodes: NodeId[], srcNodes: NodeId[]): NodeId | null {
+        if (explicit) return explicit as NodeId;
         return tgtNodes.find(id => srcNodes.indexOf(id) >= 0 && id !== startNodeId) ?? null;
     }
 
@@ -130,7 +131,7 @@ export function actionFollowSegment(selectedIDs: EntityID[], reverse = false) {
      * the new path and kept. Returns the new run (endpoints included), the updated
      * graph, and the set of preserved node ids.
      */
-    function replaceArc(graph: iD.Graph, replacedArc: string[], orientedSrc: string[]) {
+    function replaceArc(graph: iD.Graph, replacedArc: NodeId[], orientedSrc: NodeId[]) {
         const interior = replacedArc.slice(1, -1);
 
         // intersection nodes: connected to another way or carrying tags
@@ -138,17 +139,17 @@ export function actionFollowSegment(selectedIDs: EntityID[], reverse = false) {
             .map(id => graph.entity(id) as any)
             .filter(node => graph.parentWays(node).length > 1 || node.hasNonGeometryTags());
 
-        const toInsert: { segmentIndex: number; t: number; nodeId: string }[] = [];
+        const toInsert: { segmentIndex: number; t: number; nodeId: NodeId }[] = [];
         for (const node of intersections) {
             const closest = closestPointOnPath(graph, node.loc, orientedSrc);
             if (!closest) continue;
             graph = graph.replace((graph.entity(node.id) as any).move(closest.point));
-            toInsert.push({ segmentIndex: closest.segmentIndex, t: closest.t, nodeId: node.id });
+            toInsert.push({ segmentIndex: closest.segmentIndex, t: closest.t, nodeId: node.id as NodeId });
         }
         toInsert.sort((a, b) => a.segmentIndex !== b.segmentIndex ? a.segmentIndex - b.segmentIndex : a.t - b.t);
 
         // weave the snapped intersection nodes into the source path
-        const seq: string[] = [];
+        const seq: NodeId[] = [];
         let k = 0;
         for (let i = 0; i < orientedSrc.length; i++) {
             seq.push(orientedSrc[i]);
@@ -157,16 +158,16 @@ export function actionFollowSegment(selectedIDs: EntityID[], reverse = false) {
                 k++;
             }
         }
-        return { seq, graph, preserved: new Set(intersections.map(n => n.id)) };
+        return { seq, graph, preserved: new Set<NodeId>(intersections.map(n => n.id as NodeId)) };
     }
 
     /** Delete the replaced interior nodes that became orphan and tagless. */
-    function deleteOrphans(graph: iD.Graph, interior: string[], preserved: Set<string>): iD.Graph {
+    function deleteOrphans(graph: iD.Graph, interior: NodeId[], preserved: Set<NodeId>): iD.Graph {
         for (const nodeId of interior) {
             if (preserved.has(nodeId) || !graph.hasEntity(nodeId)) continue;
             const node = graph.entity(nodeId);
             if (!node.hasNonGeometryTags() && !graph.isShared(node) && graph.parentWays(node).length === 0) {
-                graph = actionDeleteNode(node.id)(graph);
+                graph = actionDeleteNode(nodeId)(graph);
             }
         }
         return graph;
@@ -175,18 +176,18 @@ export function actionFollowSegment(selectedIDs: EntityID[], reverse = false) {
     const action = function (graph: iD.Graph): iD.Graph {
         const tgtWay = graph.entity(selectedIDs[0]) as any;
         const tgtClosed = tgtWay.isClosed();
-        const tgtNodes: string[] = tgtWay.nodes.slice();
+        const tgtNodes: NodeId[] = tgtWay.nodes.slice();
         const srcWay = graph.entity(selectedIDs[1]) as any;
         const srcClosed = srcWay.isClosed();
-        const srcNodes: string[] = srcWay.nodes.slice();
+        const srcNodes: NodeId[] = srcWay.nodes.slice();
 
         const startNodeId = getStartNodeId(selectedIDs[2], tgtNodes, srcNodes);
         const endNodeId = getEndNodeId(startNodeId, selectedIDs[3], tgtNodes, srcNodes);
 
-        const startTgt = tgtNodes.indexOf(startNodeId as string);
-        const endTgt = tgtNodes.indexOf(endNodeId as string);
-        const startSrc = srcNodes.indexOf(startNodeId as string);
-        const endSrc = srcNodes.indexOf(endNodeId as string);
+        const startTgt = tgtNodes.indexOf(startNodeId as NodeId);
+        const endTgt = tgtNodes.indexOf(endNodeId as NodeId);
+        const startSrc = srcNodes.indexOf(startNodeId as NodeId);
+        const endSrc = srcNodes.indexOf(endNodeId as NodeId);
 
         // source geometry oriented from the start node to the end node
         const srcPath = nodesBetween(srcNodes, srcClosed, startSrc, endSrc);
@@ -230,16 +231,16 @@ export function actionFollowSegment(selectedIDs: EntityID[], reverse = false) {
 
     action.disabled = function (graph: iD.Graph): string | false {
         const tgtWay = graph.entity(selectedIDs[0]) as any;
-        const tgtNodes: string[] = tgtWay.nodes.slice();
+        const tgtNodes: NodeId[] = tgtWay.nodes.slice();
         const srcWay = graph.entity(selectedIDs[1]) as any;
-        const srcNodes: string[] = srcWay.nodes.slice();
+        const srcNodes: NodeId[] = srcWay.nodes.slice();
         const startNodeId = getStartNodeId(selectedIDs[2], tgtNodes, srcNodes);
         const endNodeId = getEndNodeId(startNodeId, selectedIDs[3], tgtNodes, srcNodes);
 
-        const startTgt = tgtNodes.indexOf(startNodeId as string);
-        const endTgt = tgtNodes.indexOf(endNodeId as string);
-        const startSrc = srcNodes.indexOf(startNodeId as string);
-        const endSrc = srcNodes.indexOf(endNodeId as string);
+        const startTgt = tgtNodes.indexOf(startNodeId as NodeId);
+        const endTgt = tgtNodes.indexOf(endNodeId as NodeId);
+        const startSrc = srcNodes.indexOf(startNodeId as NodeId);
+        const endSrc = srcNodes.indexOf(endNodeId as NodeId);
 
         if (startTgt === -1 || endTgt === -1 || startSrc === -1 || endSrc === -1) {
             return 'nodes_are_not_shared_by_both_ways';

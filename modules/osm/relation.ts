@@ -10,6 +10,7 @@ import type { coreGraph } from '../core/graph';
 import type { Vec2 } from '../geo/vector';
 
 export interface RelationMember { type: OsmType; id: EntityId; role: string };
+export interface RelationMemberWithIndex extends RelationMember { index: number }
 
 export class osmRelation extends OsmAbstractEntity {
     declare readonly type: 'relation';
@@ -49,7 +50,7 @@ export class osmRelation extends OsmAbstractEntity {
         return copy;
     }
 
-    extent(resolver: coreGraph, memo?: { [id: EntityId]: boolean }): geoExtent {
+    extent(resolver: coreGraph, memo?: { [id: RelationId]: boolean }): geoExtent {
         return resolver.transient(this, 'extent', () => {
             if (memo && memo[this.id]) return geoExtent();
             memo = memo || {};
@@ -79,7 +80,7 @@ export class osmRelation extends OsmAbstractEntity {
     // Return an array of members, each extended with an 'index' property whose value
     // is the member index.
     indexedMembers() {
-        var result = new Array(this.members.length);
+        const result: RelationMemberWithIndex[] = [];
         for (var i = 0; i < this.members.length; i++) {
             result[i] = Object.assign({}, this.members[i], {index: i});
         }
@@ -298,7 +299,7 @@ export class osmRelation extends OsmAbstractEntity {
         const _outers = this.members.filter(function(m) { return 'outer' === (m.role || 'outer'); });
         const _inners = this.members.filter(function(m) { return 'inner' === m.role; });
 
-        const sequenceToLineString = function (sequence: Sequence) {
+        const sequenceToLineString = function (sequence: Sequence<RelationMember>) {
             if (sequence.nodes.length > 2 &&
                 sequence.nodes[0] !== sequence.nodes[sequence.nodes.length - 1]) {
                 // close unclosed parts to ensure correct area rendering - #2945

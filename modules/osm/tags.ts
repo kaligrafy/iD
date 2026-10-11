@@ -38,7 +38,7 @@ export const osmLifecyclePrefixes = {
     // dilapidated to nonexistent
     abandoned: true, was: true,
     // nonexistent, still may appear in imagery
-    dismantled: true, razed: true, demolished: true, destroyed: true, removed: true, obliterated: true,
+    dismantled: true, razed: true, demolished: true, destroyed: true, removed: true,
     // existent occasionally, e.g. stormwater drainage basin
     intermittent: true
 };
@@ -57,6 +57,12 @@ export function osmRemoveLifecyclePrefix(key: TagKey): TagKey {
 export let osmAreaKeys: TagDictionary<true> = {};
 export function osmSetAreaKeys(value: TagDictionary<true>): void {
     osmAreaKeys = value;
+}
+
+/** Primary tags of presets that can be lines, keyed by the first tag key. */
+export let osmLineTags: Record<TagKey, Tags[]> = {};
+export function osmSetLineTags(value: Record<TagKey, Tags[]>): void {
+    osmLineTags = value;
 }
 
 // `highway` and `railway` are typically linear features, but there
@@ -119,11 +125,6 @@ export function osmTagSuggestingArea(tags: Tags): Tags | null {
         }
     }
     return null;
-}
-
-export let osmLineTags: TagDictionary<true> = {};
-export function osmSetLineTags(value: TagDictionary<true>): void {
-    osmLineTags = value;
 }
 
 // Tags that indicate a node can be a standalone point
@@ -239,7 +240,7 @@ export const osmOneWayTags = merge(
     osmOneWayBiDirectionalTags,
 );
 
-// solid and smooth surfaces akin to the assumed default road surface in OSM
+// solid and smooth surfaces akin to the assumed default road or path surface
 export const osmPavedTags: TagDictionary<boolean> = {
     'surface': {
         'paved': true,
@@ -248,6 +249,7 @@ export const osmPavedTags: TagDictionary<boolean> = {
         'chipseal': true,
         'concrete:lanes': true,
         'concrete:plates': true,
+        'metal': true,
         'tiles': true
     },
     'tracktype': {
@@ -255,7 +257,7 @@ export const osmPavedTags: TagDictionary<boolean> = {
     }
 };
 
-// solid, if somewhat uncommon surfaces with a high range of smoothness
+// solid, if somewhat uncommon surfaces with a high range of smoothness used on roads or paths
 export const osmSemipavedTags: TagDictionary<boolean> = {
     'surface': {
         'bricks': true,
@@ -264,7 +266,6 @@ export const osmSemipavedTags: TagDictionary<boolean> = {
         'sett': true,
         'paving_stones': true,
         'grass_paver': true,
-        'metal': true,
         'metal_grid': true,
         'fibre_reinforced_polymer_grate': true,
         'wood': true
@@ -281,8 +282,8 @@ export const osmSemipavedTags: TagDictionary<boolean> = {
  * strings indicate special cases:
  *   - coastlines have the land on the right hand side, but we want to mark the ocean
  *   - guard rails have the road on the right, but we use dedicated markers that represent the posts of the guard rail
- *   - embankments can be on either or (typically) both sides of a road  or railway
- *   - cuttings (see embankments, and they also) use inverted triangles as markers
+ *   - embankments can be on either or (typically) both sides of a road  or railway, they use inverted triangles as markers
+ *   - cuttings (see embankments, triangles have reversed directions)
  */
 export const osmSidednessTags: TagDictionary<true | string> = {
     'natural': {

@@ -1,5 +1,6 @@
 import { actionAddMidpoint } from './add_midpoint';
 import { osmNode } from '../osm/node';
+import type { Vec2 } from '../geo/vector';
 
 /** A point on a way, as returned by `geoChooseEdge`. */
 interface EdgeChoice {
@@ -24,7 +25,7 @@ export function actionInsertWaypoint(way: iD.OsmWay, choice: EdgeChoice, loc?: n
     const next = way.nodes[choice.index];
 
     return actionAddMidpoint({
-        loc: loc || choice.loc,
+        loc: (loc || choice.loc) as Vec2,
         edge: [prev, next]
     }, new osmNode());
 }

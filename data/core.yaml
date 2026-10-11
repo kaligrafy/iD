@@ -1054,7 +1054,7 @@ en:
       description: Indoor Features
       tooltip: "Rooms, Corridors, Stairwells, etc."
     landuse:
-      description: Landuse Features
+      description: Land Use Features
       tooltip: "Forests, Farmland, Parks, Residential, Commercial, etc."
     boundaries:
       description: Boundaries
@@ -1117,7 +1117,7 @@ en:
             scale_factor: "`{@2x}` or `{r}`: resolution scale factor"
         example: "Example:"
       template:
-        placeholder: Enter a url template
+        placeholder: Enter a URL template
       private_url:
         label: Private or cached tile server
         description: For URL to private servers that should not be shared
@@ -1134,7 +1134,7 @@ en:
       or: "Or"
       url:
         instructions: "Enter a data file URL or vector tile URL template. Valid tokens are:\n   {zoom} or {z}, {x}, {y} for Z/X/Y tile scheme"
-        placeholder: Enter a url
+        placeholder: Enter a URL
   preferences:
     title: Preferences
     description: Preferences
@@ -1155,7 +1155,7 @@ en:
       privacy_link: View the iD privacy policy
       third_party_icons:
         description: Show Third Party Icons
-        tooltip: Uncheck this box to avoid loading icons from third party sites such as Wikimedia Commons, Facebook, or Twitter.
+        tooltip: Uncheck this box to avoid loading icons from third-party sites such as Wikimedia Commons or Facebook.
   restore:
     heading: You have unsaved changes
     description: "Do you wish to restore unsaved changes from a previous editing session?"
@@ -1411,7 +1411,7 @@ en:
       before_start: "You should be familiar with OpenStreetMap and this editor before you start editing. iD contains a walkthrough to teach you the basics of editing OpenStreetMap. Press the \"{start_the_walkthrough}\" button on this screen to start the tutorial—it takes only about 15 minutes."
       open_source_h: "Open Source"
       open_source: "The iD editor is a collaborative open source project, and you are using version {version} now. The source code is available [on GitHub](https://github.com/openstreetmap/iD)."
-      open_source_attribution: "This project includes icons from [Maki](https://github.com/mapbox/maki) (CC0), [temaki](https://github.com/ideditor/temaki) (CC0), [Fontawesome](https://github.com/FortAwesome/Font-Awesome) (CC BY 4.0) and [Röntgen](https://github.com/enzet/Roentgen) (CC BY 4.0)."
+      open_source_attribution: "This project includes icons from [Maki](https://github.com/mapbox/maki) (CC0), [temaki](https://github.com/ideditor/temaki) (CC0), [Fontawesome](https://github.com/FortAwesome/Font-Awesome) (CC BY 4.0), [Röntgen](https://github.com/enzet/Roentgen) (CC BY 4.0) and [Pinhead](https://pinhead.ink/) (CC0)."
       open_source_help: "You can help iD by [translating](https://github.com/openstreetmap/iD/blob/develop/CONTRIBUTING.md#translating) or [reporting bugs](https://github.com/openstreetmap/iD/issues)."
     overview:
       title: Overview
@@ -1919,6 +1919,9 @@ en:
         title: Connect this feature
       connect_features:
         title: Connect the features
+      connect_features_manually:
+        title: Connect the features manually
+        tooltip: For example by mapping missing sections of roads or paths, or fixing disconnected road intersections.
       connect_using_crossing:
         title: Connect using a crossing
       connect_using_ford:

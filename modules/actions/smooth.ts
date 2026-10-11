@@ -1,5 +1,7 @@
 import { osmNode } from '../osm/node';
 import { actionDeleteNode } from './delete_node';
+import type { NodeId } from '../osm';
+import type { Vec2 } from '../geo/vector';
 
 // =============================================================================
 // SMOOTH - For motorways and long gentle curves
@@ -18,7 +20,7 @@ const POINT_REDUCTION_FACTOR = 2;
 const INTERSECTION_SPACING_RATIO = 0.4;
 
 /** Way node ids, typed (works around the never[] inference of OsmWay.nodes). */
-function nodeIds(way: iD.OsmWay): EntityID[] {
+function nodeIds(way: iD.OsmWay): NodeId[] {
     return way.nodes;
 }
 
@@ -106,10 +108,10 @@ function removeNodesNearBoundaries(nodes: iD.OsmNode[], intersectionNodeIds: Ent
 }
 
 // Check if two ways share exactly one node (and return it)
-function findSingleConnectingNode(way1: iD.OsmWay, way2: iD.OsmWay): EntityID | null {
+function findSingleConnectingNode(way1: iD.OsmWay, way2: iD.OsmWay): NodeId | null {
     const nodes1 = nodeIds(way1);
     const nodes2 = nodeIds(way2);
-    const sharedNodes: EntityID[] = [];
+    const sharedNodes: NodeId[] = [];
     for (let i = 0; i < nodes1.length; i++) {
         if (nodes2.indexOf(nodes1[i]) !== -1) {
             sharedNodes.push(nodes1[i]);
@@ -122,7 +124,7 @@ function findSingleConnectingNode(way1: iD.OsmWay, way2: iD.OsmWay): EntityID | 
 }
 
 // Order ways as a connected chain starting from the way containing node1
-function orderWaysAsChain(ways: iD.OsmWay[], node1Id: EntityID) {
+function orderWaysAsChain(ways: iD.OsmWay[], node1Id: NodeId) {
     if (ways.length === 1) return ways;
 
     // Find which way contains node1
@@ -447,7 +449,7 @@ function smoothSingleWay(graph: iD.Graph, way: iD.OsmWay, node1: iD.OsmNode, nod
                 return graph.entity<iD.OsmNode>(intersectionNodeIds[m]);
             }
         }
-        return new osmNode({ loc: coord });
+        return new osmNode({ loc: coord as Vec2 });
     });
 
     const smoothedNodesIds = smoothedNodes.map((node) => node.id);
@@ -485,8 +487,8 @@ interface WaySegment {
     reversed: boolean;
     startIdxInAll: number;
     endIdxInAll: number;
-    nodesBeforeSmooth: EntityID[];
-    nodesAfterSmooth: EntityID[];
+    nodesBeforeSmooth: NodeId[];
+    nodesAfterSmooth: NodeId[];
 }
 
 // Smooth across multiple connected ways
@@ -544,8 +546,8 @@ function smoothAcrossWays(graph: iD.Graph, node1: iD.OsmNode, node2: iD.OsmNode,
         // Determine which portion of this way to smooth
         let startIdx = 0;
         let endIdx = orderedNodeIds.length - 1;
-        const nodesBeforeSmooth: EntityID[] = [];
-        const nodesAfterSmooth: EntityID[] = [];
+        const nodesBeforeSmooth: NodeId[] = [];
+        const nodesAfterSmooth: NodeId[] = [];
 
         if (w === 0) {
             const n1Idx = orderedNodeIds.indexOf(node1.id);
@@ -718,7 +720,7 @@ function smoothAcrossWays(graph: iD.Graph, node1: iD.OsmNode, node2: iD.OsmNode,
             }
 
             if (!tooCloseToPrevious) {
-                const newNode = new osmNode({ loc: coord });
+                const newNode = new osmNode({ loc: coord as Vec2 });
                 smoothedNodes.push(newNode);
                 lastCoord = coord;
             }
@@ -813,7 +815,7 @@ function smoothAcrossWays(graph: iD.Graph, node1: iD.OsmNode, node2: iD.OsmNode,
     removeNodesNearBoundaries(smoothedNodes, intersectionNodeIds, [node1.id, node2.id]);
 
     // Add new nodes to graph and track which ones we add
-    const addedNewNodeIds: EntityID[] = [];
+    const addedNewNodeIds: NodeId[] = [];
     for (let n = 0; n < smoothedNodes.length; n++) {
         if (smoothedNodes[n].isNew()) {
             graph = graph.replace(smoothedNodes[n]);
@@ -850,7 +852,7 @@ function smoothAcrossWays(graph: iD.Graph, node1: iD.OsmNode, node2: iD.OsmNode,
         const waySmoothedNodes = smoothedNodes.slice(smoothedStartIdx, smoothedEndIdx + 1);
 
         // Build new way nodes
-        let newWayNodes: EntityID[] = [];
+        let newWayNodes: NodeId[] = [];
 
         // Add nodes before the smoothed segment
         for (let bIdx = 0; bIdx < seg.nodesBeforeSmooth.length; bIdx++) {
@@ -1014,7 +1016,7 @@ function smoothEntireWay(graph: iD.Graph, way: iD.OsmWay): iD.Graph {
                 lastCoord = coord;
             }
         } else if (!tooCloseToPrevious) {
-            const newNode = new osmNode({ loc: coord });
+            const newNode = new osmNode({ loc: coord as Vec2 });
             smoothedNodes.push(newNode);
             lastCoord = coord;
         }
@@ -1179,7 +1181,7 @@ export function actionSmooth(selectedIds: EntityID[]) {
         return smoothSingleWay(graph, way, node1, node2);
     }
 
-    action.disabled = function (): boolean {
+    action.disabled = function (): false {
         return false;
     };
 
