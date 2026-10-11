@@ -67,6 +67,34 @@ describe('custom presets — entrance', function() {
         expect(preset.id).to.equal('entrance/home');
     });
 
+    it.each([
+        ['routing_entrance_main', { 'routing:entrance': 'main' }],
+        ['routing_entrance_yes', { 'routing:entrance': 'yes' }],
+        ['routing_entrance', { 'routing:entrance': 'yes' }]
+    ])('adds %s without removing tags already on the node', function(id, added) {
+        const oldPreset = iD.presetManager.item('entrance/main');
+        const newPreset = iD.presetManager.item(id);
+        const node = new iD.osmNode({ loc: [0, 0], tags: { entrance: 'main', ref: '12' } });
+        const graph = new iD.coreGraph([node]);
+        const tags = iD.actionChangePreset(node.id, oldPreset, newPreset)(graph).entity(node.id).tags;
+
+        expect(tags).to.include({ entrance: 'main', ref: '12', ...added });
+    });
+
+    it('removes routing:entrance when switching back to an entrance preset', function() {
+        const oldPreset = iD.presetManager.item('routing_entrance_main');
+        const newPreset = iD.presetManager.item('entrance/main');
+        const node = new iD.osmNode({
+            loc: [0, 0],
+            tags: { entrance: 'main', ref: '12', 'routing:entrance': 'main' }
+        });
+        const graph = new iD.coreGraph([node]);
+        const tags = iD.actionChangePreset(node.id, oldPreset, newPreset)(graph).entity(node.id).tags;
+
+        expect(tags).to.include({ entrance: 'main', ref: '12' });
+        expect(tags).to.not.have.property('routing:entrance');
+    });
+
     it('defines private entrance preset tags and removeTags', function() {
         const preset = iD.presetManager.item('entrance/private');
         expect(preset.tags).to.eql({ entrance: 'yes', access: 'private' });

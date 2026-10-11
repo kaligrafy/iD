@@ -9,6 +9,15 @@ import { utilArrayDifference, utilObjectOmit } from '../util';
 // surface/lit/lanes/name from the old preset would be misleading.
 const RESET_TAGS_PRESET_IDS = new Set(['highway/service/disused']);
 
+/**
+ * True for `routing:entrance` presets. Applying one only adds its tag.
+ * It must not strip tags already on the node, such as `entrance=main`.
+ * @param preset - the preset being applied
+ */
+function addsTagsOnly(preset: presetPreset): boolean {
+    return preset.id === 'routing_entrance' || preset.id.startsWith('routing_entrance_');
+}
+
 export function actionChangePreset(entityID: EntityId, oldPreset: presetPreset | undefined, newPreset: presetPreset | undefined, skipFieldDefaults?: boolean): Action {
     return function action(graph) {
         const entity = graph.entity(entityID);
@@ -18,6 +27,11 @@ export function actionChangePreset(entityID: EntityId, oldPreset: presetPreset |
 
         if (newPreset && RESET_TAGS_PRESET_IDS.has(newPreset.id)) {
             tags = newPreset.setTags({}, geometry, skipFieldDefaults, loc);
+            return graph.replace(entity.update({tags: tags}));
+        }
+
+        if (newPreset && addsTagsOnly(newPreset)) {
+            tags = newPreset.setTags(tags, geometry, skipFieldDefaults, loc);
             return graph.replace(entity.update({tags: tags}));
         }
 
