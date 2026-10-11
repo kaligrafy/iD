@@ -345,6 +345,12 @@
                     "reference": "Les tags par voie (turn:lanes*, change:lanes*, width:lanes*) utilisent une valeur par voie, séparée par |, selon le tag lanes* correspondant."
                 }
             },
+            "advisory_maxspeed": {
+                "title": "Vitesse conseillée sans vitesse maximale",
+                "tip": "Repérer les objets tagués maxspeed:advisory sans maxspeed.",
+                "message": "{feature} a une vitesse conseillée mais pas de maxspeed.",
+                "reference": "maxspeed:advisory est une vitesse recommandée. Elle ne remplace pas le tag maxspeed légal."
+            },
             "redundant_directional_tag": {
                 "title": "Tag simple redondant",
                 "tip": "Repérer les objets où un tag simple est supplanté par ses variantes directionnelles.",

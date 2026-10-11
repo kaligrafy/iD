@@ -1,3 +1,4 @@
+export { validationAdvisoryMaxspeed } from './advisory_maxspeed';
 export { validationAlmostJunction } from './almost_junction';
 export { validationCloseNodes } from './close_nodes';
 export { validationCrossingWays } from './crossing_ways';

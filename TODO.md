@@ -7,7 +7,6 @@
 ## Features
 
 - angle snap in draw (45/90 degrees edit with a key like v3)
-- do not accept only maxspeed:advistory without maxspeed (show as error/warning)
 
 ## Styles
 
@@ -18,7 +17,7 @@
 - cycleway segregated=yes should be different from segregated=no (use distinct dash pattern)
 - access=no should be easily seen on map on any theme.
 - show new error color when cycleway:both/left/right is not present on highway (all highways except service, motorways and motorway_link)
-- show error if motorway in quebec with 100 maxspeed does not have minspeed of 60
+- show error if motorway in quebec with 100 maxspeed does not have minspeed of 60. (use the style error violet like missing forward/backward lanes when lanes >=3)
 
 ## Presets
 

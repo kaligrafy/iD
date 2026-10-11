@@ -345,6 +345,12 @@
                     "reference": "Per-lane tags (turn:lanes*, change:lanes*, width:lanes*) use one `|`-separated value per lane counted in the matching lanes* tag."
                 }
             },
+            "advisory_maxspeed": {
+                "title": "Advisory Speed Without a Legal Speed",
+                "tip": "Find features tagged with maxspeed:advisory but no maxspeed.",
+                "message": "{feature} has an advisory speed but no maxspeed.",
+                "reference": "maxspeed:advisory is a recommended speed. It does not replace the legal maxspeed tag."
+            },
             "redundant_directional_tag": {
                 "title": "Redundant Plain Tag",
                 "tip": "Find features where a plain tag is overridden by its directional variants.",
