@@ -1106,9 +1106,9 @@
         "terms": "tsbw, feux, lumière, traffic light, signals, arrière, backward",
         "aliases": "tsbw"
     },
-    "office/construction_company": {
-        "name": "Entreprise de construction (bâtiments)",
-        "terms": "construction, bâtiment, entrepreneur, constructeur, bâtisseur, contracteur"
+    "craft/builder": {
+        "name": "Entreprise de construction",
+        "terms": "construction, bâtiment, entrepreneur, constructeur, bâtisseur, contracteur, génie civil, routes, ponts, ouvrages"
     },
     "office/government/public_works": {
         "name": "Bureau des travaux publics",
@@ -1121,10 +1121,6 @@
     "landuse/public_works": {
         "name": "Terrain de travaux publics",
         "terms": "travaux publics, cour de voirie, garage municipal, dépôt de véhicules, ateliers municipaux, aqueduc, terrain gouvernemental"
-    },
-    "office/company/construction": {
-        "name": "Entrepreneur en construction (général)",
-        "terms": "construction, entrepreneur, génie civil, routes, ponts, ouvrages, constructeur"
     },
     "office/company/bus/school": {
         "name": "Opérateur de bus scolaire",

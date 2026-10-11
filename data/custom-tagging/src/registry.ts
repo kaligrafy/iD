@@ -30,8 +30,7 @@ import { cyclewayLink } from './presets/highway/cycleway/cycleway_link';
 import { cyclewayPathVariantPresets } from './presets/highway/cycleway/cycleway_path_variants';
 import { parkingVariantPresets } from './presets/amenity/parking_variants';
 import { accessBarrierPresets } from './presets/barrier/access_barriers';
-import { constructionCompanyPresets } from './presets/office/construction_company';
-import { companyConstructionPresets } from './presets/office/company_construction';
+import { builderPresets } from './presets/craft/builder';
 import { publicWorksPresets } from './presets/office/government/public_works';
 import { institutionalPresets } from './presets/landuse/institutional';
 import { landusePublicWorksPresets } from './presets/landuse/public_works';
@@ -88,8 +87,7 @@ export const customPresets: Record<string, CustomPreset> = {
     ...cyclewayCrossingVariantPresets,
     ...parkingVariantPresets,
     ...accessBarrierPresets,
-    ...constructionCompanyPresets,
-    ...companyConstructionPresets,
+    ...builderPresets,
     ...publicWorksPresets,
     ...institutionalPresets,
     ...landusePublicWorksPresets,

@@ -1106,9 +1106,9 @@
         "terms": "tsbw, light, stoplight, traffic light, signals, backward",
         "aliases": "tsbw"
     },
-    "office/construction_company": {
-        "name": "Building Construction Company",
-        "terms": "construction, builder, building, contractor, general contractor"
+    "craft/builder": {
+        "name": "Construction Company",
+        "terms": "construction, builder, building, contractor, general contractor, civil works, roads, bridges"
     },
     "office/government/public_works": {
         "name": "Public Works Office",
@@ -1121,10 +1121,6 @@
     "landuse/public_works": {
         "name": "Public Works Grounds",
         "terms": "public works, highway maintenance yard, works yard, municipal yard, vehicle depot, waterworks, government land, workshops"
-    },
-    "office/company/construction": {
-        "name": "Construction Company (general)",
-        "terms": "construction, contractor, general contractor, civil works, roads, bridges, entrepreneur"
     },
     "office/company/bus/school": {
         "name": "School Bus Operator",
