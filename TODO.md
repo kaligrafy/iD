@@ -4,10 +4,6 @@
 
 ## Bugs
 
-- sidewalk et cycleway tags missing in trunk/trunk_link
-- routing:entrance presets should not remove other tags (like remove entrance=main), it should ony add to the node tags.
-- clone cycleway tags is missing separations, markings, etc. (all tags with prefix cycleway should be copied)
-
 ## Features
 
 - angle snap in draw (45/90 degrees edit with a key like v3)
