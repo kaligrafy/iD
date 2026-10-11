@@ -1,5 +1,6 @@
 import { select as d3_select } from 'd3-selection';
 import { setTimeout } from 'node:timers/promises';
+import { includeIssueInChangeset } from '../../../modules/validations/outdated_tags.js';
 
 describe('iD.validations.outdated_tags', function () {
     var context;
@@ -54,6 +55,49 @@ describe('iD.validations.outdated_tags', function () {
             tags: { highway: 'unclassified' },
             fields: ['surface'],
             name: 'Unclassified Road'
+        },
+        'highway/service': {
+            geometry: ['line'],
+            tags: { highway: 'service' },
+            fields: ['surface'],
+            name: 'Service Road'
+        },
+        'highway/service/driveway': {
+            geometry: ['line'],
+            tags: { highway: 'service', service: 'driveway' },
+            fields: ['surface'],
+            name: 'Driveway'
+        },
+        'highway/path': {
+            geometry: ['line'],
+            tags: { highway: 'path' },
+            fields: ['surface'],
+            name: 'Path'
+        },
+        'highway/path/lit': {
+            geometry: ['line'],
+            tags: { highway: 'path', lit: 'yes' },
+            addTags: { highway: 'path', lit: 'yes', surface: 'asphalt', width: '2' },
+            fields: ['surface'],
+            name: 'Lit Path'
+        },
+        'highway/footway': {
+            geometry: ['line'],
+            tags: { highway: 'footway' },
+            fields: ['surface'],
+            name: 'Foot Path'
+        },
+        'highway/cycleway': {
+            geometry: ['line'],
+            tags: { highway: 'cycleway' },
+            fields: ['surface'],
+            name: 'Cycle Path'
+        },
+        'highway/steps': {
+            geometry: ['line'],
+            tags: { highway: 'steps' },
+            fields: ['surface'],
+            name: 'Steps'
         }
     };
 
@@ -123,6 +167,7 @@ describe('iD.validations.outdated_tags', function () {
 
     it.each([
         ['missing surface', { highway: 'residential' }, { highway: 'residential', surface: 'asphalt' }],
+        ['missing surface on a service road', { highway: 'service' }, { highway: 'service', surface: 'asphalt' }],
         ['surface=paved', { highway: 'primary', surface: 'paved' }, { highway: 'primary', surface: 'asphalt' }]
     ])('flags imprecise surface (%s) with its own subtype, excluded from changeset warnings', async (_label, tags, expected) => {
         createWay(tags);
@@ -138,6 +183,62 @@ describe('iD.validations.outdated_tags', function () {
         });
         issues[0].dynamicFixes()[0].onClick(context);
         expect(context.graph().entity('w-1').tags).toStrictEqual(expected);
+    });
+
+    it.each([
+        ['service driveway', { highway: 'service', service: 'driveway' }],
+        ['path', { highway: 'path' }],
+        ['path with surface=paved', { highway: 'path', surface: 'paved' }],
+        ['footway', { highway: 'footway' }],
+        ['cycleway', { highway: 'cycleway' }],
+        ['steps', { highway: 'steps' }]
+    ])('flags a missing surface on a %s that the preset does not suggest', async (_label, tags) => {
+        createWay(tags);
+        const validator = iD.validationOutdatedTags(context);
+        await setTimeout(20);
+        const issues = validate(validator);
+        expect(issues).toHaveLength(1);
+        expect(issues[0]).toMatchObject({
+            type: 'outdated_tags',
+            subtype: 'imprecise_surface',
+            severity: 'warning',
+            entityIds: ['w-1']
+        });
+        issues[0].dynamicFixes()[0].onClick(context);
+        expect(context.graph().entity('w-1').tags).toStrictEqual({ ...tags, surface: 'asphalt' });
+    });
+
+    it.each([
+        ['private footway', { highway: 'footway', access: 'private' }],
+        ['path that already has a surface', { highway: 'path', surface: 'asphalt' }]
+    ])('does not flag surface on a %s', async (_label, tags) => {
+        createWay(tags);
+        const validator = iD.validationOutdatedTags(context);
+        await setTimeout(20);
+        expect(validate(validator)).toHaveLength(0);
+    });
+
+    it('keeps a path surface hint separate from other missing preset tags', async () => {
+        createWay({ highway: 'path', lit: 'yes' });
+        const validator = iD.validationOutdatedTags(context);
+        await setTimeout(20);
+        const issues = validate(validator);
+        expect(issues.map(issue => issue.subtype).sort()).toEqual(['imprecise_surface', 'incomplete_tags']);
+        issues.find(issue => issue.subtype === 'imprecise_surface').dynamicFixes()[0].onClick(context);
+        expect(context.graph().entity('w-1').tags).toStrictEqual({
+            highway: 'path',
+            lit: 'yes',
+            surface: 'asphalt'
+        });
+    });
+
+    it.each([
+        [{ type: 'outdated_tags', subtype: 'imprecise_surface' }, false],
+        [{ type: 'outdated_tags', subtype: 'incomplete_tags' }, true],
+        [{ type: 'help_request' }, false],
+        [{ type: 'missing_tag' }, true]
+    ])('includeIssueInChangeset(%j) → %s', (issue, included) => {
+        expect(includeIssueInChangeset(issue)).toBe(included);
     });
 
     it('flags deprecated tag with replacement', async () => {

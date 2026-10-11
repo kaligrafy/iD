@@ -4,6 +4,7 @@ import { t } from '../core/localizer';
 import { svgIcon } from '../svg/icon';
 import { uiTooltip } from './tooltip';
 import { utilEntityOrMemberSelector } from '../util';
+import { includeIssueInChangeset } from '../validations/outdated_tags';
 
 
 export function uiCommitWarnings(context) {
@@ -18,8 +19,8 @@ export function uiCommitWarnings(context) {
 
             var issues = issuesBySeverity[severity];
 
-            if (severity !== 'error') {      // exclude 'fixme' and similar - #8603
-                issues = issues.filter(function(issue) { return issue.type !== 'help_request'; });
+            if (severity !== 'error') {
+                issues = issues.filter(includeIssueInChangeset);
             }
 
             var section = severity + '-section';
