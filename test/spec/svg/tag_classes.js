@@ -374,6 +374,12 @@ describe('iD.svgTagClasses', function () {
         ['tag-cycleway-sides-missing', { highway: 'primary' }],
         ['tag-cycleway-sides-missing', { highway: 'primary', cycleway: 'lane' }],
         ['tag-cycleway-sides-missing', { highway: 'residential', 'cycleway:left': 'lane' }],
+        ['tag-cycleway-sides-missing', {
+            highway: 'residential',
+            cycleway: 'separate',
+            'cycleway:left': 'no',
+            'cycleway:right': 'separate'
+        }],
         ['tag-maxspeed-advisory-only', { highway: 'primary', 'maxspeed:advisory': '50' }],
         ['tag-maxspeed-advisory-only', { highway: 'trunk_link', 'maxspeed:advisory:forward': '40' }],
         ['tag-lanes-undefined', { highway: 'primary' }],

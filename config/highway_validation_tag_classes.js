@@ -3,7 +3,7 @@
  * Used by lenses/quebec.css and lenses/quebec-surfaces.css.
  */
 
-import { missingCyclewaySides } from '../modules/osm/cycleway_sides.js';
+import { cyclewaySidesError } from '../modules/osm/cycleway_sides.js';
 import { hasAdvisoryWithoutMaxspeed } from '../modules/validations/advisory_maxspeed.js';
 import { cyclewaySidesCheckEnabled, surfaceErrorCheckEnabled } from '../modules/validations/map_validation_prefs.js';
 import { getLaneConsistencyIssues, laneConsistencyTagClasses } from '../modules/osm/lane_tag_consistency.js';
@@ -159,7 +159,7 @@ export function appendHighwayValidationTagClasses(classes, t) {
         }
     }
 
-    if (cyclewaySidesCheckEnabled() && missingCyclewaySides(t)) {
+    if (cyclewaySidesCheckEnabled() && cyclewaySidesError(t)) {
         classes.push('tag-cycleway-sides-missing');
     }
 

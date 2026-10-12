@@ -365,7 +365,11 @@
                 "title": "Côtés de piste cyclable manquants",
                 "tip": "Repérer les routes sans cycleway:both et sans la paire cycleway:left et cycleway:right.",
                 "message": "{feature} n'a pas cycleway:both, et il manque cycleway:left ou cycleway:right.",
-                "reference": "Le tag cycleway seul ne suffit pas. Utiliser cycleway:both, ou cycleway:left et cycleway:right ensemble."
+                "reference": "Le tag cycleway seul ne suffit pas. Utiliser cycleway:both, ou cycleway:left et cycleway:right ensemble.",
+                "repeated": {
+                    "message": "{feature} répète « {value} » sur cycleway et sur {sides}.",
+                    "reference": "Ne pas recopier une valeur de cycleway sur cycleway:both, cycleway:left ou cycleway:right. La garder seulement sur les tags de côté."
+                }
             },
             "advisory_maxspeed": {
                 "title": "Vitesse conseillée sans vitesse maximale",

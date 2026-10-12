@@ -24,3 +24,26 @@ export function missingCyclewaySides(tags) {
     if (tagged(tags, 'cycleway:left') && tagged(tags, 'cycleway:right')) return false;
     return true;
 }
+
+const SIDE_KEYS = ['cycleway:both', 'cycleway:left', 'cycleway:right'];
+
+/**
+ * Side keys that copy the plain `cycleway` value, such as `cycleway=separate` with `cycleway:right=separate`.
+ * @param {Record<string, string>|undefined} tags
+ * @returns {string[]}
+ */
+export function repeatedCyclewaySides(tags) {
+    if (!tags || !CAR_HIGHWAYS.has(tags.highway)) return [];
+    const value = tags.cycleway;
+    if (value === undefined || value === '') return [];
+    return SIDE_KEYS.filter(key => tags[key] === value);
+}
+
+/**
+ * True when the pink cycleway warning applies: missing sides, or a plain value repeated on a side.
+ * @param {Record<string, string>|undefined} tags
+ * @returns {boolean}
+ */
+export function cyclewaySidesError(tags) {
+    return missingCyclewaySides(tags) || repeatedCyclewaySides(tags).length > 0;
+}
