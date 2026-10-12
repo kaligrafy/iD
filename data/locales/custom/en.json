@@ -345,6 +345,14 @@
                     "reference": "Per-lane tags (turn:lanes*, change:lanes*, width:lanes*) use one `|`-separated value per lane counted in the matching lanes* tag."
                 }
             },
+            "quebec_motorway_minspeed": {
+                "title": "Minimum Speed Missing on a 100 km/h Motorway",
+                "tip": "Find one-way Québec motorways posted at 100 km/h without minspeed=60.",
+                "message": "{feature} is a one-way motorway in Québec at 100 km/h without minspeed=60.",
+                "reference": "In Québec, a one-way motorway with maxspeed=100 is also tagged minspeed=60. Ramps (motorway_link) are not included.",
+                "fix": "Set minspeed to 60",
+                "annotation": "Added minspeed=60"
+            },
             "advisory_maxspeed": {
                 "title": "Advisory Speed Without a Legal Speed",
                 "tip": "Find features tagged with maxspeed:advisory but no maxspeed.",

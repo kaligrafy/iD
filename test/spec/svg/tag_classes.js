@@ -446,6 +446,20 @@ describe('iD.svgTagClasses', function () {
         expect(selection.classed('tag-name-no')).to.be.false;
     });
 
+    it.each([
+        ['Montréal motorway at 100', { highway: 'motorway', maxspeed: '100' }, [-73.5673, 45.5017], true],
+        ['minspeed already 60', { highway: 'motorway', maxspeed: '100', minspeed: '60' }, [-73.5673, 45.5017], false],
+        ['motorway link', { highway: 'motorway_link', maxspeed: '100' }, [-73.5673, 45.5017], false],
+        ['Toronto', { highway: 'motorway', maxspeed: '100' }, [-79.3832, 43.6532], false]
+    ])('tag-minspeed-missing: %s', function(_label, tags, loc, expected) {
+        const node = new iD.osmNode({ id: 'n-qc', loc: loc });
+        const way = new iD.osmWay({ id: 'w-qc', nodes: [node.id], tags: tags });
+        const graph = new iD.coreGraph([node, way]);
+        const sel = d3_select(document.createElement('div'));
+        sel.datum(way).call(iD.svgTagClasses().graph(graph));
+        expect(sel.classed('tag-minspeed-missing')).to.equal(expected);
+    });
+
     it('does not mark advisory speed when maxspeed is set', function() {
         const sel = d3_select(document.createElement('div'));
         sel
