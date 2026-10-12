@@ -14,6 +14,7 @@ export { validationMutuallyExclusiveTags } from './mutually_exclusive_tags';
 export { validationOsmApiLimits } from './osm_api_limits';
 export { validationOutdatedTags } from './outdated_tags';
 export { validationPrivateData } from './private_data';
+export { validationQuebecMotorwayMinspeed } from './quebec_motorway_minspeed';
 export { validationRedundantDirectionalTag } from './redundant_directional_tag';
 export { validationMismatchedLanes } from './mismatched_lanes';
 export { validationSuspiciousName } from './suspicious_name';

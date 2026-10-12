@@ -6,6 +6,7 @@ import {
 } from '../../config/tag_classes_custom.js';
 import { appendLensTagClasses, stripStructureClassesForMaxspeedLens } from '../core/lenses';
 import { osmPathHighwayTagValues, osmPavedTags, osmSemipavedTags, osmLifecyclePrefixes } from '../osm/tags';
+import { QUEBEC_MINSPEED_TAG_CLASS, wayMissingQuebecMotorwayMinspeed } from '../osm/quebec_motorway_minspeed';
 
 export type TagGetter<T> = (entity: T) => Tags;
 
@@ -27,6 +28,7 @@ export function svgTagClasses<T>() {
 
     // this function is the default callback, but it can be overridden
     var _tags: TagGetter<any> = function(entity) { return entity.tags; };
+    var _graph: { hasEntity(id: string): { loc?: number[] } | undefined } | null = null;
 
 
     const tagClasses = function(selection: d3.Selection<SVGGElement>) {
@@ -40,6 +42,9 @@ export function svgTagClasses<T>() {
             var t = _tags(entity);
 
             var computed = tagClasses.getClassesString(t, value);
+            if (_graph && wayMissingQuebecMotorwayMinspeed(entity, _graph)) {
+                computed = `${computed} ${QUEBEC_MINSPEED_TAG_CLASS}`.trim();
+            }
 
             if (computed !== value) {
                 d3_select(this).attr('class', computed);
@@ -188,6 +193,13 @@ export function svgTagClasses<T>() {
         return tagClasses;
     };
     tagClasses.tags = tags;
+
+    function graph(val?: typeof _graph) {
+        if (!arguments.length) return _graph;
+        _graph = val ?? null;
+        return tagClasses;
+    }
+    tagClasses.graph = graph;
 
     return tagClasses;
 }

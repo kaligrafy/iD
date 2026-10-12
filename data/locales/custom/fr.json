@@ -345,6 +345,14 @@
                     "reference": "Les tags par voie (turn:lanes*, change:lanes*, width:lanes*) utilisent une valeur par voie, séparée par |, selon le tag lanes* correspondant."
                 }
             },
+            "quebec_motorway_minspeed": {
+                "title": "Vitesse minimale manquante sur une autoroute à 100 km/h",
+                "tip": "Repérer les autoroutes à sens unique au Québec limitées à 100 km/h sans minspeed=60.",
+                "message": "{feature} est une autoroute à sens unique au Québec à 100 km/h sans minspeed=60.",
+                "reference": "Au Québec, une autoroute à sens unique avec maxspeed=100 porte aussi minspeed=60. Les bretelles (motorway_link) sont exclues.",
+                "fix": "Mettre minspeed à 60",
+                "annotation": "Ajout de minspeed=60"
+            },
             "advisory_maxspeed": {
                 "title": "Vitesse conseillée sans vitesse maximale",
                 "tip": "Repérer les objets tagués maxspeed:advisory sans maxspeed.",

@@ -201,12 +201,12 @@ export function svgLines(projection, context) {
                         base.entities[d.id] &&
                         !deepEqual(graph.entities[d.id].tags, base.entities[d.id].tags);
                 })
-                .call(svgTagClasses())
+                .call(svgTagClasses().graph(graph))
                 .merge(lines)
                 .sort(waystack)
                 .attr('d', getPath)
                 .classed('selected', !isDrawing && isSelected)
-                .call(svgTagClasses().tags(svgRelationMemberTags(graph)));
+                .call(svgTagClasses().tags(svgRelationMemberTags(graph)).graph(graph));
 
             return selection;
         }

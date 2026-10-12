@@ -523,6 +523,7 @@ path.line.casing.tag-highway.tag-lanes-error-count-lanes,
 path.line.casing.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
 path.line.casing.tag-highway.tag-lanes-error-lane-tags,
 path.line.casing.tag-highway.tag-maxspeed-advisory-only,
+path.line.casing.tag-highway.tag-minspeed-missing,
 path.line.casing.tag-highway.tag-fixme {
   stroke: rgb(0, 0, 0);
   stroke-dasharray: none;
@@ -539,6 +540,7 @@ path.line.casing.tag-highway.tag-fixme {
 .high-zoom path.line.casing.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
 .high-zoom path.line.casing.tag-highway.tag-lanes-error-lane-tags,
 .high-zoom path.line.casing.tag-highway.tag-maxspeed-advisory-only,
+.high-zoom path.line.casing.tag-highway.tag-minspeed-missing,
 .high-zoom path.line.casing.tag-highway.tag-fixme {
   stroke-width: 3;
   opacity: 0.5;
@@ -557,6 +559,7 @@ path.line.casing.tag-highway.tag-fixme {
 .high-zoom path.line.stroke.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
 .high-zoom path.line.stroke.tag-highway.tag-lanes-error-lane-tags,
 .high-zoom path.line.stroke.tag-highway.tag-maxspeed-advisory-only,
+.high-zoom path.line.stroke.tag-highway.tag-minspeed-missing,
 .high-zoom path.line.stroke.tag-highway.tag-fixme {
   stroke-width: 2;
   opacity: 0.5;
@@ -569,7 +572,8 @@ path.line.stroke.tag-highway.tag-fixme {
 path.line.stroke.tag-highway.tag-lanes-error-count-lanes,
 path.line.stroke.tag-highway.tag-lanes-error-count-lanes-total-mismatch,
 path.line.stroke.tag-highway.tag-lanes-error-lane-tags,
-path.line.stroke.tag-highway.tag-maxspeed-advisory-only {
+path.line.stroke.tag-highway.tag-maxspeed-advisory-only,
+path.line.stroke.tag-highway.tag-minspeed-missing {
   stroke: rgb(169, 0, 166);
   stroke-dasharray: 2, 2;
   stroke-linecap: butt;
