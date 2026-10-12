@@ -129,6 +129,23 @@ path.line.stroke.tag-highway.tag-maxspeed-more_than_70.tag-highway-residential {
     stroke-linecap: butt;
 }
 
+path.line.casing.tag-highway.tag-cycleway-sides-missing {
+    stroke: rgb(0, 0, 0);
+    stroke-dasharray: none;
+}
+.high-zoom path.line.casing.tag-highway.tag-cycleway-sides-missing {
+    stroke-width: 3;
+    opacity: 0.5;
+}
+.high-zoom path.line.stroke.tag-highway.tag-cycleway-sides-missing {
+    stroke-width: 2;
+    opacity: 0.5;
+}
+path.line.stroke.tag-highway.tag-cycleway-sides-missing {
+    stroke: rgb(255, 0, 153);
+    stroke-dasharray: 2, 2;
+    stroke-linecap: butt;
+}
 path.line.stroke.tag-highway.tag-surface-undefined,
 path.line.stroke.tag-highway.tag-surface-paved {
     stroke: rgb(0, 128, 255);

@@ -6,6 +6,7 @@ import { geoExtent } from '../geo/extent';
 import { modeSelect } from '../modes/select';
 import { utilArrayChunk, utilArrayDifference, utilArrayGroupBy, utilArrayIntersection, utilArrayUnion, utilEntityAndDeepMemberIDs, utilRebind } from '../util';
 import * as Validations from '../validations/index';
+import { mapValidationIssueVisible } from '../validations/map_validation_prefs';
 
 
 export function coreValidator(context) {
@@ -223,6 +224,7 @@ export function coreValidator(context) {
     // because that is the graph that the calling code will be using.
     function filter(issue) {
       if (!issue) return false;
+      if (!mapValidationIssueVisible(issue)) return false;
       if (seen.has(issue.id)) return false;
       if (_resolvedIssueIDs.has(issue.id)) return false;
       if (opts.includeDisabledRules === 'only' && !_disabledRules[issue.type]) return false;

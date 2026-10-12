@@ -3,7 +3,9 @@
  * Used by lenses/quebec.css and lenses/quebec-surfaces.css.
  */
 
+import { missingCyclewaySides } from '../modules/osm/cycleway_sides.js';
 import { hasAdvisoryWithoutMaxspeed } from '../modules/validations/advisory_maxspeed.js';
+import { cyclewaySidesCheckEnabled, surfaceErrorCheckEnabled } from '../modules/validations/map_validation_prefs.js';
 import { getLaneConsistencyIssues, laneConsistencyTagClasses } from '../modules/osm/lane_tag_consistency.js';
 
 /** Highways excluded from sidewalk validation (v5 parity). */
@@ -157,7 +159,11 @@ export function appendHighwayValidationTagClasses(classes, t) {
         }
     }
 
-    if (!(access === 'private' && PRIVATE_SURFACE_EXCLUDE_HIGHWAYS.has(highway))) {
+    if (cyclewaySidesCheckEnabled() && missingCyclewaySides(t)) {
+        classes.push('tag-cycleway-sides-missing');
+    }
+
+    if (surfaceErrorCheckEnabled() && !(access === 'private' && PRIVATE_SURFACE_EXCLUDE_HIGHWAYS.has(highway))) {
         // Missing surface or generic `paved` — not precise enough for validation.
         if ((!surface || surface === 'paved') && indoor !== 'yes') {
             classes.push('tag-surface-undefined');

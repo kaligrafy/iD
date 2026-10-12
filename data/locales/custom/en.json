@@ -314,6 +314,14 @@
                 "dense": {
                     "title": "Compact feature editor",
                     "description": "Reduce padding and row height in the feature editor so more tags fit on screen."
+                },
+                "cycleway_sides": {
+                    "title": "Missing cycleway sides",
+                    "description": "Draw a pink dashed stroke and raise a warning when a road has no cycleway:both and is missing cycleway:left or cycleway:right. A plain cycleway tag is not enough. Service roads and motorways are skipped. The warning is included in the changeset."
+                },
+                "surface_error": {
+                    "title": "Missing surface",
+                    "description": "Draw the surface error stroke and raise a warning when surface is missing or only tagged paved. The warning stays out of the changeset."
                 }
             },
             "backup": {
@@ -352,6 +360,12 @@
                 "reference": "In Québec, a one-way motorway with maxspeed=100 is also tagged minspeed=60. Ramps (motorway_link) are not included.",
                 "fix": "Set minspeed to 60",
                 "annotation": "Added minspeed=60"
+            },
+            "missing_cycleway_sides": {
+                "title": "Missing Cycleway Sides",
+                "tip": "Find roads with no cycleway:both and without both cycleway:left and cycleway:right.",
+                "message": "{feature} has no cycleway:both, and is missing cycleway:left or cycleway:right.",
+                "reference": "A plain cycleway tag is not enough. Tag cycleway:both, or both cycleway:left and cycleway:right."
             },
             "advisory_maxspeed": {
                 "title": "Advisory Speed Without a Legal Speed",

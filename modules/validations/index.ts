@@ -9,6 +9,7 @@ export { validationImpossibleOneway } from './impossible_oneway';
 export { validationIncompatibleSource } from './incompatible_source';
 export { validationMismatchedGeometry } from './mismatched_geometry';
 export { validationMissingRole } from './missing_role';
+export { validationMissingCyclewaySides } from './missing_cycleway_sides';
 export { validationMissingTag } from './missing_tag';
 export { validationMutuallyExclusiveTags } from './mutually_exclusive_tags';
 export { validationOsmApiLimits } from './osm_api_limits';

@@ -1,4 +1,6 @@
 import { setLensSecondaryTagKeys } from '../../../modules/core/lenses';
+import { prefs } from '../../../modules/core/preferences';
+import { CYCLEWAY_SIDES_PREF, SURFACE_ERROR_PREF } from '../../../modules/validations/map_validation_prefs';
 import { select as d3_select } from 'd3-selection';
 
 describe('iD.svgTagClasses', function () {
@@ -72,7 +74,7 @@ describe('iD.svgTagClasses', function () {
         selection
             .datum(new iD.osmWay({tags: {highway: 'path', abandoned: 'railway'}}))
             .call(iD.svgTagClasses());
-        expect(selection.attr('class')).toEqual('tag-highway tag-highway-path tag-surface-undefined');
+        expect(selection.attr('class')).toEqual('tag-highway tag-highway-path tag-cycleway-sides-missing tag-surface-undefined');
     });
 
     it('adds secondary tags', function() {
@@ -369,6 +371,9 @@ describe('iD.svgTagClasses', function () {
 
     const validationCases = [
         ['tag-maxspeed-undefined', { highway: 'residential' }],
+        ['tag-cycleway-sides-missing', { highway: 'primary' }],
+        ['tag-cycleway-sides-missing', { highway: 'primary', cycleway: 'lane' }],
+        ['tag-cycleway-sides-missing', { highway: 'residential', 'cycleway:left': 'lane' }],
         ['tag-maxspeed-advisory-only', { highway: 'primary', 'maxspeed:advisory': '50' }],
         ['tag-maxspeed-advisory-only', { highway: 'trunk_link', 'maxspeed:advisory:forward': '40' }],
         ['tag-lanes-undefined', { highway: 'primary' }],
@@ -458,6 +463,32 @@ describe('iD.svgTagClasses', function () {
         const sel = d3_select(document.createElement('div'));
         sel.datum(way).call(iD.svgTagClasses().graph(graph));
         expect(sel.classed('tag-minspeed-missing')).to.equal(expected);
+    });
+
+    it.each([
+        ['cycleway:both', { highway: 'primary', 'cycleway:both': 'lane' }],
+        ['left and right', { highway: 'primary', 'cycleway:left': 'lane', 'cycleway:right': 'lane' }],
+        ['service', { highway: 'service' }],
+        ['motorway', { highway: 'motorway' }],
+        ['motorway link', { highway: 'motorway_link' }]
+    ])('does not mark missing cycleway sides for %s', function(_label, tags) {
+        const sel = d3_select(document.createElement('div'));
+        sel.datum(new iD.osmWay({ tags: tags })).call(iD.svgTagClasses());
+        expect(sel.classed('tag-cycleway-sides-missing')).to.be.false;
+    });
+
+    it('hides the cycleway and surface error styles when their preferences are off', function() {
+        prefs(CYCLEWAY_SIDES_PREF, 'false');
+        prefs(SURFACE_ERROR_PREF, 'false');
+        try {
+            const sel = d3_select(document.createElement('div'));
+            sel.datum(new iD.osmWay({ tags: { highway: 'primary' } })).call(iD.svgTagClasses());
+            expect(sel.classed('tag-cycleway-sides-missing')).to.be.false;
+            expect(sel.classed('tag-surface-undefined')).to.be.false;
+        } finally {
+            prefs(CYCLEWAY_SIDES_PREF, null);
+            prefs(SURFACE_ERROR_PREF, null);
+        }
     });
 
     it('does not mark advisory speed when maxspeed is set', function() {
