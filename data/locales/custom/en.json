@@ -365,7 +365,11 @@
                 "title": "Missing Cycleway Sides",
                 "tip": "Find roads with no cycleway:both and without both cycleway:left and cycleway:right.",
                 "message": "{feature} has no cycleway:both, and is missing cycleway:left or cycleway:right.",
-                "reference": "A plain cycleway tag is not enough. Tag cycleway:both, or both cycleway:left and cycleway:right."
+                "reference": "A plain cycleway tag is not enough. Tag cycleway:both, or both cycleway:left and cycleway:right.",
+                "repeated": {
+                    "message": "{feature} repeats \"{value}\" on cycleway and on {sides}.",
+                    "reference": "Do not copy a cycleway value onto cycleway:both, cycleway:left, or cycleway:right. Keep it on the side tags only."
+                }
             },
             "advisory_maxspeed": {
                 "title": "Advisory Speed Without a Legal Speed",

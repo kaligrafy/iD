@@ -16,6 +16,12 @@ describe('iD.validations.missing_cycleway_sides', function() {
         ['empty both', { highway: 'primary', 'cycleway:both': '' }, 1],
         ['both', { highway: 'primary', 'cycleway:both': 'no' }, 0],
         ['left and right', { highway: 'primary', 'cycleway:left': 'lane', 'cycleway:right': 'separate' }, 0],
+        ['separate repeated on the right', {
+            highway: 'residential',
+            cycleway: 'separate',
+            'cycleway:left': 'no',
+            'cycleway:right': 'separate'
+        }, 1],
         ['trunk', { highway: 'trunk' }, 1],
         ['unclassified', { highway: 'unclassified' }, 1],
         ['service', { highway: 'service' }, 0],
@@ -32,6 +38,7 @@ describe('iD.validations.missing_cycleway_sides', function() {
         if (!expected) return;
         expect(issues[0]).toMatchObject({
             type: 'missing_cycleway_sides',
+            subtype: tags.cycleway && (tags['cycleway:left'] === tags.cycleway || tags['cycleway:right'] === tags.cycleway || tags['cycleway:both'] === tags.cycleway) ? 'repeated' : undefined,
             severity: 'warning',
             entityIds: ['w1']
         });

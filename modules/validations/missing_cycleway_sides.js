@@ -1,6 +1,6 @@
 import { t } from '../core/localizer';
 import { validationIssue } from '../core/validation';
-import { missingCyclewaySides } from '../osm/cycleway_sides';
+import { missingCyclewaySides, repeatedCyclewaySides } from '../osm/cycleway_sides';
 import { utilDisplayLabel } from '../util/utilDisplayLabel';
 
 /**
@@ -12,26 +12,42 @@ export function validationMissingCyclewaySides(/* context */) {
     const type = 'missing_cycleway_sides';
 
     const validation = function checkMissingCyclewaySides(entity /*, graph */) {
-        if (entity.type !== 'way' || !missingCyclewaySides(entity.tags)) return [];
+        if (entity.type !== 'way') return [];
+        const tags = entity.tags || {};
+        const issues = [];
+        if (missingCyclewaySides(tags)) issues.push(issue());
+        const repeated = repeatedCyclewaySides(tags);
+        if (repeated.length) {
+            issues.push(issue('repeated', { value: tags.cycleway, sides: repeated.join(', ') }));
+        }
+        return issues;
 
-        return [new validationIssue({
-            type,
-            severity: 'warning',
-            message(context) {
-                const current = context.hasEntity(this.entityIds[0]);
-                if (!current) return '';
-                return t.append(`issues.${type}.message`, {
-                    feature: utilDisplayLabel(current, context.graph())
-                });
-            },
-            reference: selection => selection.selectAll('.issue-reference')
-                .data([0])
-                .enter()
-                .append('div')
-                .attr('class', 'issue-reference')
-                .call(t.append(`issues.${type}.reference`)),
-            entityIds: [entity.id]
-        })];
+        /**
+         * @param {string} [subtype]
+         * @param {Record<string, string>} [extra]
+         */
+        function issue(subtype, extra) {
+            const stringId = subtype ? `issues.${type}.${subtype}` : `issues.${type}`;
+            return new validationIssue({
+                type,
+                subtype,
+                severity: 'warning',
+                message(context) {
+                    const current = context.hasEntity(this.entityIds[0]);
+                    if (!current) return '';
+                    return t.append(`${stringId}.message`, Object.assign({
+                        feature: utilDisplayLabel(current, context.graph())
+                    }, extra));
+                },
+                reference: selection => selection.selectAll('.issue-reference')
+                    .data([0])
+                    .enter()
+                    .append('div')
+                    .attr('class', 'issue-reference')
+                    .call(t.append(`${stringId}.reference`)),
+                entityIds: [entity.id]
+            });
+        }
     };
 
     validation.type = type;
