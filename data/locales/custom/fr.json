@@ -317,7 +317,7 @@
                 },
                 "cycleway_sides": {
                     "title": "Côtés de piste cyclable manquants",
-                    "description": "Trait rose pointillé et avertissement quand une route n'a pas cycleway:both et qu'il manque cycleway:left ou cycleway:right. Le tag cycleway seul ne suffit pas. Les voies de service et les autoroutes sont ignorées. L'avertissement est inclus dans le changeset."
+                    "description": "Trait rose pointillé et avertissement sur les routes pour voitures, de residential à trunk, sans cycleway:both et sans cycleway:left ou cycleway:right. Le tag cycleway seul ne suffit pas. L'avertissement est inclus dans le changeset."
                 },
                 "surface_error": {
                     "title": "Surface manquante",

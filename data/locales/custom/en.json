@@ -317,7 +317,7 @@
                 },
                 "cycleway_sides": {
                     "title": "Missing cycleway sides",
-                    "description": "Draw a pink dashed stroke and raise a warning when a road has no cycleway:both and is missing cycleway:left or cycleway:right. A plain cycleway tag is not enough. Service roads and motorways are skipped. The warning is included in the changeset."
+                    "description": "Draw a pink dashed stroke and raise a warning on car roads from residential to trunk when cycleway:both is missing and cycleway:left or cycleway:right is missing. A plain cycleway tag is not enough. The warning is included in the changeset."
                 },
                 "surface_error": {
                     "title": "Missing surface",

@@ -1,5 +1,7 @@
-/** Roads that are not required to carry cycleway side tags. */
-const EXCLUDED_HIGHWAYS = new Set(['service', 'motorway', 'motorway_link']);
+/** Car roads from residential through trunk. Paths, cycleways, service and motorways are not included. */
+const CAR_HIGHWAYS = new Set([
+    'residential', 'unclassified', 'tertiary', 'secondary', 'primary', 'trunk'
+]);
 
 /**
  * @param {Record<string, string>} tags
@@ -11,13 +13,13 @@ function tagged(tags, key) {
 }
 
 /**
- * True when a highway has neither `cycleway:both` nor both `cycleway:left` and `cycleway:right`.
- * A plain `cycleway` tag does not count. Service roads and motorways are excluded.
+ * True when a car road from residential through trunk has neither `cycleway:both`
+ * nor both `cycleway:left` and `cycleway:right`. A plain `cycleway` tag does not count.
  * @param {Record<string, string>|undefined} tags
  * @returns {boolean}
  */
 export function missingCyclewaySides(tags) {
-    if (!tags || !tags.highway || EXCLUDED_HIGHWAYS.has(tags.highway)) return false;
+    if (!tags || !CAR_HIGHWAYS.has(tags.highway)) return false;
     if (tagged(tags, 'cycleway:both')) return false;
     if (tagged(tags, 'cycleway:left') && tagged(tags, 'cycleway:right')) return false;
     return true;

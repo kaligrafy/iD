@@ -74,7 +74,7 @@ describe('iD.svgTagClasses', function () {
         selection
             .datum(new iD.osmWay({tags: {highway: 'path', abandoned: 'railway'}}))
             .call(iD.svgTagClasses());
-        expect(selection.attr('class')).toEqual('tag-highway tag-highway-path tag-cycleway-sides-missing tag-surface-undefined');
+        expect(selection.attr('class')).toEqual('tag-highway tag-highway-path tag-surface-undefined');
     });
 
     it('adds secondary tags', function() {
@@ -470,7 +470,9 @@ describe('iD.svgTagClasses', function () {
         ['left and right', { highway: 'primary', 'cycleway:left': 'lane', 'cycleway:right': 'lane' }],
         ['service', { highway: 'service' }],
         ['motorway', { highway: 'motorway' }],
-        ['motorway link', { highway: 'motorway_link' }]
+        ['footway', { highway: 'footway' }],
+        ['path', { highway: 'path' }],
+        ['cycleway', { highway: 'cycleway' }]
     ])('does not mark missing cycleway sides for %s', function(_label, tags) {
         const sel = d3_select(document.createElement('div'));
         sel.datum(new iD.osmWay({ tags: tags })).call(iD.svgTagClasses());
