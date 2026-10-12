@@ -1,10 +1,8 @@
-import quebecRaw from '../../data/polygons/quebec.geojson?raw';
+import quebec from '../../data/polygons/quebec.geojson';
 import { geoPointInPolygon } from '../geo/geom';
 
 /** Map class for the violet stroke shared with an advisory speed that has no maxspeed. */
 export const QUEBEC_MINSPEED_TAG_CLASS = 'tag-minspeed-missing';
-
-const quebec = JSON.parse(quebecRaw);
 
 /** @type {number[][][]|null} */
 let rings = null;
