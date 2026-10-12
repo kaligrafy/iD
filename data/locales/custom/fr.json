@@ -369,6 +369,10 @@
                 "repeated": {
                     "message": "{feature} répète « {value} » sur cycleway et sur {sides}.",
                     "reference": "Ne pas recopier une valeur de cycleway sur cycleway:both, cycleway:left ou cycleway:right. La garder seulement sur les tags de côté."
+                },
+                "with_both": {
+                    "message": "{feature} a cycleway et cycleway:both en même temps.",
+                    "reference": "Utiliser cycleway:both ou le tag cycleway, pas les deux à la fois."
                 }
             },
             "advisory_maxspeed": {
