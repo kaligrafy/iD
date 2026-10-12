@@ -4,7 +4,7 @@ import { missingCyclewaySides } from '../osm/cycleway_sides';
 import { utilDisplayLabel } from '../util/utilDisplayLabel';
 
 /**
- * Warn when a highway has no `cycleway:both` and is missing a left/right pair.
+ * Warn when a car road from residential through trunk has no `cycleway:both` and is missing a left/right pair.
  * The warning is listed on the changeset unless the preference hides it.
  * @returns {Function} validator
  */

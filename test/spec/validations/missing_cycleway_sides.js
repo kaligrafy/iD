@@ -16,9 +16,16 @@ describe('iD.validations.missing_cycleway_sides', function() {
         ['empty both', { highway: 'primary', 'cycleway:both': '' }, 1],
         ['both', { highway: 'primary', 'cycleway:both': 'no' }, 0],
         ['left and right', { highway: 'primary', 'cycleway:left': 'lane', 'cycleway:right': 'separate' }, 0],
+        ['trunk', { highway: 'trunk' }, 1],
+        ['unclassified', { highway: 'unclassified' }, 1],
         ['service', { highway: 'service' }, 0],
         ['motorway', { highway: 'motorway' }, 0],
-        ['motorway link', { highway: 'motorway_link', cycleway: 'lane' }, 0]
+        ['motorway link', { highway: 'motorway_link', cycleway: 'lane' }, 0],
+        ['trunk link', { highway: 'trunk_link' }, 0],
+        ['footway', { highway: 'footway' }, 0],
+        ['path', { highway: 'path' }, 0],
+        ['cycleway', { highway: 'cycleway' }, 0],
+        ['track', { highway: 'track' }, 0]
     ])('%s -> %i', function(_label, tags, expected) {
         const issues = issuesFor(tags);
         expect(issues).toHaveLength(expected);
