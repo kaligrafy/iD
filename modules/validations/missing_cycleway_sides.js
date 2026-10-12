@@ -1,6 +1,6 @@
 import { t } from '../core/localizer';
 import { validationIssue } from '../core/validation';
-import { missingCyclewaySides, repeatedCyclewaySides } from '../osm/cycleway_sides';
+import { missingCyclewaySides, plainCyclewayWithBoth, repeatedCyclewaySides } from '../osm/cycleway_sides';
 import { utilDisplayLabel } from '../util/utilDisplayLabel';
 
 /**
@@ -16,7 +16,8 @@ export function validationMissingCyclewaySides(/* context */) {
         const tags = entity.tags || {};
         const issues = [];
         if (missingCyclewaySides(tags)) issues.push(issue());
-        const repeated = repeatedCyclewaySides(tags);
+        if (plainCyclewayWithBoth(tags)) issues.push(issue('with_both'));
+        const repeated = repeatedCyclewaySides(tags).filter(key => key !== 'cycleway:both');
         if (repeated.length) {
             issues.push(issue('repeated', { value: tags.cycleway, sides: repeated.join(', ') }));
         }

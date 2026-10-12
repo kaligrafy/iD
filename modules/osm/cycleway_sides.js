@@ -40,10 +40,21 @@ export function repeatedCyclewaySides(tags) {
 }
 
 /**
- * True when the pink cycleway warning applies: missing sides, or a plain value repeated on a side.
+ * True when the plain `cycleway` tag is set together with `cycleway:both`.
+ * @param {Record<string, string>|undefined} tags
+ * @returns {boolean}
+ */
+export function plainCyclewayWithBoth(tags) {
+    if (!tags || !CAR_HIGHWAYS.has(tags.highway)) return false;
+    return tagged(tags, 'cycleway') && tagged(tags, 'cycleway:both');
+}
+
+/**
+ * True when the pink cycleway warning applies: missing sides, a plain value repeated on a side,
+ * or `cycleway` set together with `cycleway:both`.
  * @param {Record<string, string>|undefined} tags
  * @returns {boolean}
  */
 export function cyclewaySidesError(tags) {
-    return missingCyclewaySides(tags) || repeatedCyclewaySides(tags).length > 0;
+    return missingCyclewaySides(tags) || plainCyclewayWithBoth(tags) || repeatedCyclewaySides(tags).length > 0;
 }

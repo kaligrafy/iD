@@ -22,6 +22,12 @@ describe('iD.validations.missing_cycleway_sides', function() {
             'cycleway:left': 'no',
             'cycleway:right': 'separate'
         }, 1],
+        ['cycleway and cycleway:both, same value', {
+            highway: 'primary', cycleway: 'lane', 'cycleway:both': 'lane'
+        }, 1],
+        ['cycleway and cycleway:both, different values', {
+            highway: 'primary', cycleway: 'lane', 'cycleway:both': 'separate'
+        }, 1],
         ['trunk', { highway: 'trunk' }, 1],
         ['unclassified', { highway: 'unclassified' }, 1],
         ['service', { highway: 'service' }, 0],
@@ -31,6 +37,7 @@ describe('iD.validations.missing_cycleway_sides', function() {
         ['footway', { highway: 'footway' }, 0],
         ['path', { highway: 'path' }, 0],
         ['cycleway', { highway: 'cycleway' }, 0],
+        ['footway with both tags', { highway: 'footway', cycleway: 'lane', 'cycleway:both': 'lane' }, 0],
         ['track', { highway: 'track' }, 0]
     ])('%s -> %i', function(_label, tags, expected) {
         const issues = issuesFor(tags);
@@ -38,7 +45,9 @@ describe('iD.validations.missing_cycleway_sides', function() {
         if (!expected) return;
         expect(issues[0]).toMatchObject({
             type: 'missing_cycleway_sides',
-            subtype: tags.cycleway && (tags['cycleway:left'] === tags.cycleway || tags['cycleway:right'] === tags.cycleway || tags['cycleway:both'] === tags.cycleway) ? 'repeated' : undefined,
+            subtype: tags.cycleway && tags['cycleway:both'] ? 'with_both'
+                : tags.cycleway && (tags['cycleway:left'] === tags.cycleway || tags['cycleway:right'] === tags.cycleway) ? 'repeated'
+                : undefined,
             severity: 'warning',
             entityIds: ['w1']
         });
