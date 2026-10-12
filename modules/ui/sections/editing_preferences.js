@@ -8,6 +8,7 @@ import { uiSection } from '../section';
 import { SEGMENT_LENGTH, MAX_VERTICES } from '../../actions/circularize';
 import { DELETE_OUTSIDE_VIEW } from '../../operations/delete';
 import { DENSE_INSPECTOR } from '../dense_inspector';
+import { CYCLEWAY_SIDES_PREF, SURFACE_ERROR_PREF } from '../../validations/map_validation_prefs';
 
 
 /**
@@ -47,6 +48,21 @@ export function uiSectionEditingPreferences(context) {
         return prefs(DENSE_INSPECTOR) === 'true';
     }
 
+    /** Map error styles default to on. A stored `'false'` is the only off state. */
+    function mapCheckEnabled(key) {
+        return prefs(key) !== 'false';
+    }
+
+    /**
+     * @param {string} key
+     * @param {boolean} checked
+     */
+    function setMapCheck(key, checked) {
+        prefs(key, checked ? 'true' : 'false');
+        if (context.map()) context.map().pan([0, 0]);
+        context.validator().validate();
+    }
+
     function renderDisclosureContent(selection) {
         let container = selection.selectAll('.editing-options-container')
             .data([0]);
@@ -82,6 +98,9 @@ export function uiSectionEditingPreferences(context) {
             .append('div')
             .attr('class', 'editing-option-description')
             .call(t.append('preferences.editing.dense.description'));
+
+        appendMapCheck(containerEnter, 'cycleway-sides', CYCLEWAY_SIDES_PREF, 'preferences.editing.cycleway_sides');
+        appendMapCheck(containerEnter, 'surface-error', SURFACE_ERROR_PREF, 'preferences.editing.surface_error');
 
         const circularizeGroup = containerEnter
             .append('div')
@@ -179,6 +198,12 @@ export function uiSectionEditingPreferences(context) {
         container.selectAll('.dense-inspector-input')
             .property('checked', denseInspector());
 
+        container.selectAll('.cycleway-sides-input')
+            .property('checked', mapCheckEnabled(CYCLEWAY_SIDES_PREF));
+
+        container.selectAll('.surface-error-input')
+            .property('checked', mapCheckEnabled(SURFACE_ERROR_PREF));
+
         container.selectAll('.delete-outside-view-input')
             .property('checked', deleteOutsideView());
 
@@ -195,6 +220,40 @@ export function uiSectionEditingPreferences(context) {
     prefs.onChange(SEGMENT_LENGTH.pref, section.reRender);
     prefs.onChange(DELETE_OUTSIDE_VIEW, section.reRender);
     prefs.onChange(DENSE_INSPECTOR, section.reRender);
+    prefs.onChange(CYCLEWAY_SIDES_PREF, section.reRender);
+    prefs.onChange(SURFACE_ERROR_PREF, section.reRender);
+
+    /**
+     * Checkbox that toggles a map error style and its warning together.
+     * @param {import('d3-selection').Selection} parent
+     * @param {string} name
+     * @param {string} prefKey
+     * @param {string} stringId
+     */
+    function appendMapCheck(parent, name, prefKey, stringId) {
+        const group = parent
+            .append('div')
+            .attr('class', 'editing-pref');
+
+        const control = group
+            .append('label')
+            .attr('class', 'display-control ' + name + '-control');
+
+        control
+            .append('input')
+            .attr('type', 'checkbox')
+            .attr('class', name + '-input')
+            .on('change', function() {
+                setMapCheck(prefKey, d3_select(this).property('checked'));
+            });
+
+        control.call(t.append(stringId + '.title'));
+
+        group
+            .append('div')
+            .attr('class', 'editing-option-description')
+            .call(t.append(stringId + '.description'));
+    }
 
     return section;
 }

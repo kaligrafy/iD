@@ -314,6 +314,14 @@
                 "dense": {
                     "title": "Éditeur d'objet compact",
                     "description": "Réduit l'espacement et la hauteur des rangées dans l'éditeur d'objet pour afficher plus de tags à l'écran."
+                },
+                "cycleway_sides": {
+                    "title": "Côtés de piste cyclable manquants",
+                    "description": "Trait rose pointillé et avertissement quand une route n'a pas cycleway:both et qu'il manque cycleway:left ou cycleway:right. Le tag cycleway seul ne suffit pas. Les voies de service et les autoroutes sont ignorées. L'avertissement est inclus dans le changeset."
+                },
+                "surface_error": {
+                    "title": "Surface manquante",
+                    "description": "Trait d'erreur de surface et avertissement quand surface est absente ou vaut seulement paved. L'avertissement reste hors du changeset."
                 }
             },
             "backup": {
@@ -352,6 +360,12 @@
                 "reference": "Au Québec, une autoroute à sens unique avec maxspeed=100 porte aussi minspeed=60. Les bretelles (motorway_link) sont exclues.",
                 "fix": "Mettre minspeed à 60",
                 "annotation": "Ajout de minspeed=60"
+            },
+            "missing_cycleway_sides": {
+                "title": "Côtés de piste cyclable manquants",
+                "tip": "Repérer les routes sans cycleway:both et sans la paire cycleway:left et cycleway:right.",
+                "message": "{feature} n'a pas cycleway:both, et il manque cycleway:left ou cycleway:right.",
+                "reference": "Le tag cycleway seul ne suffit pas. Utiliser cycleway:both, ou cycleway:left et cycleway:right ensemble."
             },
             "advisory_maxspeed": {
                 "title": "Vitesse conseillée sans vitesse maximale",

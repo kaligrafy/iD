@@ -235,6 +235,7 @@ describe('iD.validations.outdated_tags', function () {
     it.each([
         [{ type: 'outdated_tags', subtype: 'imprecise_surface' }, false],
         [{ type: 'outdated_tags', subtype: 'incomplete_tags' }, true],
+        [{ type: 'missing_cycleway_sides' }, true],
         [{ type: 'help_request' }, false],
         [{ type: 'missing_tag' }, true]
     ])('includeIssueInChangeset(%j) → %s', (issue, included) => {

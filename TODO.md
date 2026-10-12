@@ -16,7 +16,6 @@
 - hard to see the difference between traffic signals crossings for cycleways and regular cycle ways.
 - cycleway segregated=yes should be different from segregated=no (use distinct dash pattern)
 - access=no should be easily seen on map on any theme.
-- show new error color when cycleway:both/left/right is not present on highway (all highways except service, motorways and motorway_link)
 
 ## Presets
 
