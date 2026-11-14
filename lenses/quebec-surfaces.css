@@ -295,9 +295,10 @@ path.line.casing.tag-highway-path {
   stroke-dasharray: none;
   stroke-width: 4;
 }
-/* bicycle=yes (blue) / bicycle=dismount (mauve) — footway & path, not only sidewalk */
+/* bicycle=yes (blue) / bicycle=dismount (mauve) — footway, path & steps, not only sidewalk */
 path.line.casing.tag-highway-footway.tag-bicycle-dismount,
-path.line.casing.tag-highway-path.tag-bicycle-dismount {
+path.line.casing.tag-highway-path.tag-bicycle-dismount,
+path.line.casing.tag-highway-steps.tag-bicycle-dismount {
   stroke: rgb(146, 106, 255);
 }
 path.line.casing.tag-highway-footway.tag-bicycle-yes,
