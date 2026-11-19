@@ -48,7 +48,7 @@ describe('access grid', function() {
         ['highway/service/business_driveway', 'fr', 'Entrée charretière commerciale sans transit'],
         ['highway/service/destination_drive_through', 'fr', 'Service au volant public sans transit'],
         ['highway/service/customers_unpaved_parking_aisle', 'fr', 'Allée de stationnement clients seulement, non revêtue'],
-        ['highway/footway/destination', 'fr', 'Chemin piéton public sans transit'],
+        ['highway/footway/private_ownership', 'fr', 'Chemin piéton propriété privée'],
         ['highway/service/private_sidewalk_both', 'en', 'Service road strictly private (separate sidewalk, both sides)']
     ].forEach(function([id, locale, name]) {
         it(`names ${id} "${name}" in ${locale}`, function() {

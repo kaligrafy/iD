@@ -36,7 +36,7 @@ describe('custom presets — footway', function() {
 
     it('offers only the pedestrian access categories on footways', function() {
         const categories = new Set(footwayGridEntries().map((entry) => entry.category.id));
-        expect([...categories]).to.eql(['private', 'customers', 'permissive', 'private_property', 'destination', 'private_ownership']);
+        expect([...categories]).to.eql(['private', 'customers', 'permissive', 'private_property', 'private_ownership']);
     });
 
     it('defines restricted informal path and sidewalk presets', function() {

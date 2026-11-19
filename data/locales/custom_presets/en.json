@@ -1910,90 +1910,6 @@
         "name": "Informal path private ownership",
         "terms": "private, ownership, informal path, desire path"
     },
-    "highway/footway/destination": {
-        "name": "Footway public no transit",
-        "terms": "public, destination, no through traffic, footway, foot path"
-    },
-    "highway/footway/destination_concrete": {
-        "name": "Footway public no transit, concrete",
-        "terms": "public, destination, no through traffic, footway, foot path, concrete"
-    },
-    "highway/footway/destination_unpaved": {
-        "name": "Footway public no transit, unpaved",
-        "terms": "public, destination, no through traffic, footway, foot path, unpaved"
-    },
-    "highway/footway/destination_asphalt_sidewalk": {
-        "name": "Sidewalk public no transit, asphalt",
-        "terms": "public, destination, no through traffic, sidewalk, asphalt"
-    },
-    "highway/footway/destination_sidewalk": {
-        "name": "Sidewalk public no transit",
-        "terms": "public, destination, no through traffic, sidewalk"
-    },
-    "highway/footway/destination_unpaved_sidewalk": {
-        "name": "Sidewalk public no transit, unpaved",
-        "terms": "public, destination, no through traffic, sidewalk, unpaved"
-    },
-    "highway/footway/destination_access_aisle": {
-        "name": "Access aisle public no transit",
-        "terms": "public, destination, no through traffic, access aisle, striped zone"
-    },
-    "highway/footway/destination_concrete_access_aisle": {
-        "name": "Access aisle public no transit, concrete",
-        "terms": "public, destination, no through traffic, access aisle, striped zone, concrete"
-    },
-    "highway/footway/destination_unpaved_access_aisle": {
-        "name": "Access aisle public no transit, unpaved",
-        "terms": "public, destination, no through traffic, access aisle, striped zone, unpaved"
-    },
-    "highway/footway/destination_footway_link": {
-        "name": "Footway link public no transit",
-        "terms": "public, destination, no through traffic, footway link, connector"
-    },
-    "highway/footway/destination_concrete_footway_link": {
-        "name": "Footway link public no transit, concrete",
-        "terms": "public, destination, no through traffic, footway link, connector, concrete"
-    },
-    "highway/footway/destination_unpaved_footway_link": {
-        "name": "Footway link public no transit, unpaved",
-        "terms": "public, destination, no through traffic, footway link, connector, unpaved"
-    },
-    "highway/steps_destination_asphalt": {
-        "name": "Steps public no transit, asphalt",
-        "terms": "public, destination, no through traffic, steps, stairs, asphalt"
-    },
-    "highway/steps_destination": {
-        "name": "Steps public no transit",
-        "terms": "public, destination, no through traffic, steps, stairs"
-    },
-    "highway/steps_destination_unpaved": {
-        "name": "Steps public no transit, unpaved",
-        "terms": "public, destination, no through traffic, steps, stairs, unpaved"
-    },
-    "highway/footway/destination_asphalt_path": {
-        "name": "Path public no transit, asphalt",
-        "terms": "public, destination, no through traffic, path, trail, asphalt"
-    },
-    "highway/footway/destination_concrete_path": {
-        "name": "Path public no transit, concrete",
-        "terms": "public, destination, no through traffic, path, trail, concrete"
-    },
-    "highway/footway/destination_path": {
-        "name": "Path public no transit",
-        "terms": "public, destination, no through traffic, path, trail"
-    },
-    "highway/footway/destination_asphalt_informal": {
-        "name": "Informal path public no transit, asphalt",
-        "terms": "public, destination, no through traffic, informal path, desire path, asphalt"
-    },
-    "highway/footway/destination_concrete_informal": {
-        "name": "Informal path public no transit, concrete",
-        "terms": "public, destination, no through traffic, informal path, desire path, concrete"
-    },
-    "highway/footway/destination_informal": {
-        "name": "Informal path public no transit",
-        "terms": "public, destination, no through traffic, informal path, desire path"
-    },
     "highway/service/private_paving_stones": {
         "name": "Service road strictly private, paving stones",
         "terms": "private, no access, service road, paving stones"
@@ -2233,34 +2149,6 @@
     "highway/footway/private_property_paving_stones_informal": {
         "name": "Informal path private ownership no transit, paving stones",
         "terms": "private, ownership, destination, residential, informal path, desire path, paving stones"
-    },
-    "highway/footway/destination_paving_stones": {
-        "name": "Footway public no transit, paving stones",
-        "terms": "public, destination, no through traffic, footway, foot path, paving stones"
-    },
-    "highway/footway/destination_paving_stones_sidewalk": {
-        "name": "Sidewalk public no transit, paving stones",
-        "terms": "public, destination, no through traffic, sidewalk, paving stones"
-    },
-    "highway/footway/destination_paving_stones_access_aisle": {
-        "name": "Access aisle public no transit, paving stones",
-        "terms": "public, destination, no through traffic, access aisle, striped zone, paving stones"
-    },
-    "highway/footway/destination_paving_stones_footway_link": {
-        "name": "Footway link public no transit, paving stones",
-        "terms": "public, destination, no through traffic, footway link, connector, paving stones"
-    },
-    "highway/steps_destination_paving_stones": {
-        "name": "Steps public no transit, paving stones",
-        "terms": "public, destination, no through traffic, steps, stairs, paving stones"
-    },
-    "highway/footway/destination_paving_stones_path": {
-        "name": "Path public no transit, paving stones",
-        "terms": "public, destination, no through traffic, path, trail, paving stones"
-    },
-    "highway/footway/destination_paving_stones_informal": {
-        "name": "Informal path public no transit, paving stones",
-        "terms": "public, destination, no through traffic, informal path, desire path, paving stones"
     },
     "highway/footway/private_ownership_paving_stones": {
         "name": "Footway private ownership, paving stones",
