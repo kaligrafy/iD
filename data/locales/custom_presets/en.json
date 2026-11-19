@@ -976,6 +976,11 @@
         "terms": "std, dismount, bicycle, steps, stairs, staircase, stairway",
         "aliases": "std"
     },
+    "highway/steps_dismount_paving_stones": {
+        "name": "Steps (dismount bicycle, paving stones)",
+        "terms": "stdp, dismount, bicycle, paving stones, pavers, steps, stairs, staircase, stairway",
+        "aliases": "stdp"
+    },
     "highway/crossing/traffic_signals": {
         "name": "Traffic Signals Crossing (no markings) (node)",
         "terms": "tsn, ts, traffic, crossing node, traffic signals crossing, traffic signals crosswalk, traffic signals pedestrian crossing, no marking crossing",

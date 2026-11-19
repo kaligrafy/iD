@@ -24,4 +24,16 @@ describe('custom presets — steps variants', function() {
             expect(found).to.include(id);
         });
     });
+
+    it('defines highway/steps_dismount_paving_stones with its paving stones surface', function() {
+        const preset = iD.presetManager.item('highway/steps_dismount_paving_stones');
+        expect(preset.tags).to.eql({ highway: 'steps', bicycle: 'dismount', surface: 'paving_stones' });
+        expect(preset.addTags).to.eql(preset.tags);
+    });
+
+    it('finds highway/steps_dismount_paving_stones by alias stdp', function() {
+        const pool = iD.presetManager.matchAllGeometry(['line']);
+        const found = pool.search('stdp', 'line').collection.map((p) => p.id);
+        expect(found).to.include('highway/steps_dismount_paving_stones');
+    });
 });

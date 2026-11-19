@@ -976,6 +976,11 @@
         "terms": "std, vélo à pied, descendre du vélo, escalier, escaliers, marches",
         "aliases": "std"
     },
+    "highway/steps_dismount_paving_stones": {
+        "name": "Escalier (vélo à pied, pavés)",
+        "terms": "stdp, vélo à pied, descendre du vélo, pavés, pavé uni, escalier, escaliers, marches",
+        "aliases": "stdp"
+    },
     "highway/crossing/traffic_signals": {
         "name": "Traversée (nœud) — Feux, sans marquage",
         "terms": "tsn, ts, nœud, jonction, traversée, passage piéton, feux, feux de circulation, sans marquage",
