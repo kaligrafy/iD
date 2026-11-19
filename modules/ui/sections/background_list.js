@@ -8,6 +8,11 @@ import { uiTooltip } from '../tooltip';
 import { svgIcon } from '../../svg/icon';
 import { uiCmd } from '../cmd';
 import { uiSettingsCustomBackground } from '../settings/custom_background';
+import {
+    customBackgroundCurrentEntry,
+    customBackgroundEntries,
+    customBackgroundSetCurrent
+} from '../../renderer/background_custom_entries';
 import { uiMapInMap } from '../map_in_map';
 import { uiSection } from '../section';
 
@@ -137,7 +142,7 @@ export function uiSectionBackgroundList(context) {
     function setTooltips(selection) {
         selection.each(function(d, i, nodes) {
             const item = d3_select(this).select('label');
-            const select = d3_select(this).select('select').node();
+            const select = d3_select(this).select('select.layer-variants').node();
             if (select) {
                 d = d.variants[select.selectedIndex].source;
             }
@@ -242,6 +247,7 @@ export function uiSectionBackgroundList(context) {
                 if (d.variants.length > 1) {
                     self.append('span').text(d.prefix + ' ');
                     self.append('select')
+                        .attr('class', 'layer-variants')
                         .on('change', function(d3_event, d) {
                             change(d3_event, d.variants[this.selectedIndex].source);
                         })
@@ -281,7 +287,62 @@ export function uiSectionBackgroundList(context) {
             .text('★');
 
         layerList
-            .call(updateLayerSelections);
+            .call(updateLayerSelections)
+            .call(updateCustomEntries);
+    }
+
+    /**
+     * Name of the saved custom background shown as selected: the entry the
+     * active settings come from, if its template is still the active one (a
+     * `custom:` URL in the hash can replace it), else the first entry with the
+     * active template.
+     * @param {object[]} entries - saved custom backgrounds
+     * @returns {string} entry name, or '' when no entry matches
+     */
+    function selectedCustomEntryName(entries) {
+        const current = customBackgroundCurrentEntry();
+        const match = entries.find((entry) => entry.name === current.name && entry.template === current.template) ||
+            entries.find((entry) => entry.template === current.template);
+        return match?.name || '';
+    }
+
+    /** Draw the menu of saved custom backgrounds in the Custom item, when there is one. */
+    function updateCustomEntries(layerList) {
+        const entries = customBackgroundEntries();
+
+        let select = layerList.selectAll('li.layer-custom label > span')
+            .selectAll('select.custom-entries')
+            .data(entries.length ? [0] : []);
+
+        select.exit()
+            .remove();
+
+        select = select.enter()
+            .append('select')
+            .attr('class', 'custom-entries')
+            .on('change', function() {
+                const entry = customBackgroundEntries().find((e) => e.name === this.value);
+                if (!entry) return;
+                customBackgroundSetCurrent(entry);
+                customChanged({ template: entry.template });
+            })
+            .merge(select);
+
+        const options = select.selectAll('option')
+            .data(entries, (entry) => entry.name);
+
+        options.exit()
+            .remove();
+
+        options.enter()
+            .append('option')
+            .merge(options)
+            .attr('value', (entry) => entry.name)
+            .text((entry) => entry.name);
+
+        select
+            .order()
+            .property('value', selectedCustomEntryName(entries));
     }
 
     function updateLayerSelections(selection) {
@@ -298,7 +359,7 @@ export function uiSectionBackgroundList(context) {
         item.selectAll('input')
             .property('checked', active);
         item.filter(active)
-            .selectAll('select')
+            .selectAll('select.layer-variants')
             .property('selectedIndex', (d) =>
                 d.variants.findIndex((variant) =>
                     context.background().showsLayer(variant.source)));
@@ -335,6 +396,7 @@ export function uiSectionBackgroundList(context) {
             // private-url checkbox changed; refresh imagery_used
             chooseBackground(customSource);
         }
+        _backgroundList.call(updateCustomEntries);
     }
 
 

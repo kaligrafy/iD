@@ -254,10 +254,20 @@
                     "label": "URL privée / serveur cache",
                     "description": "Ne pas inclure l'URL des tuiles dans le tag imagery_used du changeset OpenStreetMap.",
                     "imagery_used_name": {
-                        "label": "Nom",
+                        "label": "Nom dans le changeset",
                         "placeholder": "Nom de l'imagerie",
                         "description": "Nom écrit dans imagery_used pour le changeset"
                     }
+                },
+                "entry_name": {
+                    "label": "Nom du fond",
+                    "placeholder": "Nom de ce fond, pour le retrouver dans la liste",
+                    "exists": "Un fond enregistré porte déjà ce nom"
+                },
+                "save_new": "Enregistrer comme nouveau",
+                "delete": "Supprimer",
+                "template": {
+                    "label": "URL des tuiles"
                 }
             },
             "custom_street_level_imagery": {
