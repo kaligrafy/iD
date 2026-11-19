@@ -124,10 +124,12 @@ describe('custom presets — footway', function() {
     it('defines bicycle dismount footway presets by surface', function() {
         const asphalt = iD.presetManager.item('highway/footway/bicycle_dismount_asphalt');
         const concrete = iD.presetManager.item('highway/footway/bicycle_dismount_concrete');
+        const pavingStones = iD.presetManager.item('highway/footway/bicycle_dismount_paving_stones');
         const unpaved = iD.presetManager.item('highway/footway/bicycle_dismount_unpaved');
         const other = iD.presetManager.item('highway/footway/bicycle_dismount_other');
         expect(asphalt.tags).to.include({ highway: 'footway', bicycle: 'dismount', surface: 'asphalt' });
         expect(concrete.tags).to.include({ surface: 'concrete' });
+        expect(pavingStones.tags).to.include({ highway: 'footway', bicycle: 'dismount', surface: 'paving_stones' });
         expect(unpaved.tags).to.include({ surface: 'unpaved' });
         expect(other.tags).to.include({ bicycle: 'dismount' });
         expect(other.tags).to.not.have.property('surface');

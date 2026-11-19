@@ -29,7 +29,7 @@ describe('custom presets — service roads', function() {
         });
 
         it(`matches ${id} after a surface change`, function() {
-            const matched = iD.presetManager.matchTags({ ...tags, surface: 'paving_stones' }, 'line');
+            const matched = iD.presetManager.matchTags({ ...tags, surface: 'gravel' }, 'line');
             expect(matched.id).to.equal(id);
         });
     });

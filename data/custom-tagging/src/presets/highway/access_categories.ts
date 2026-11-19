@@ -166,13 +166,14 @@ export const ACCESS_CATEGORIES: AccessCategory[] = [
 ];
 
 /** Surfaces offered as separate presets for every way kind. */
-export const GRID_SURFACES = ['asphalt', 'concrete', 'unpaved'] as const;
+export const GRID_SURFACES = ['asphalt', 'concrete', 'paving_stones', 'unpaved'] as const;
 export type GridSurface = (typeof GRID_SURFACES)[number];
 
 /** Surface labels, appended to the preset name of the non-default surfaces. */
 export const SURFACE_LABELS: Record<GridSurface, Labels> = {
     asphalt: { en: 'asphalt', fr: 'asphalte' },
     concrete: { en: 'concrete', fr: 'béton' },
+    paving_stones: { en: 'paving stones', fr: 'pavés' },
     unpaved: { en: 'unpaved', fr: { m: 'non revêtu', f: 'non revêtue' } }
 };
 
@@ -183,7 +184,7 @@ export interface WayKind {
     tags: Record<string, string>;
     /**
      * Surface added on creation only, so a way keeps the plain preset when its
-     * surface changes to any value outside the grid (paving_stones, gravel…).
+     * surface changes to any value outside the grid (gravel, sett…).
      */
     defaultSurface: GridSurface;
     label: Labels;

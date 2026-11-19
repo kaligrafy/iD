@@ -471,6 +471,11 @@
         "terms": "bdc, footway, foot path, pedestrian path, bicycle dismount, dismount, concrete",
         "aliases": "bdc"
     },
+    "highway/footway/bicycle_dismount_paving_stones": {
+        "name": "Foot path (bicycle dismount paving stones)",
+        "terms": "bdp, footway, foot path, pedestrian path, bicycle dismount, dismount, paving stones, pavers",
+        "aliases": "bdp"
+    },
     "highway/footway/bicycle_dismount_unpaved": {
         "name": "Foot path (bicycle dismount unpaved)",
         "terms": "bdu, footway, foot path, pedestrian path, bicycle dismount, dismount, unpaved, gravel, dirt",
@@ -1983,5 +1988,301 @@
     "highway/footway/destination_informal": {
         "name": "Informal path public no transit",
         "terms": "public, destination, no through traffic, informal path, desire path"
+    },
+    "highway/service/private_paving_stones": {
+        "name": "Service road strictly private, paving stones",
+        "terms": "private, no access, service road, paving stones"
+    },
+    "highway/service/private_paving_stones_parking_aisle": {
+        "name": "Parking aisle strictly private, paving stones",
+        "terms": "private, no access, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/private_paving_stones_driveway": {
+        "name": "Driveway strictly private, paving stones",
+        "terms": "private, no access, driveway, entrance, paving stones"
+    },
+    "highway/service/private_paving_stones_drive_through": {
+        "name": "Drive-through strictly private, paving stones",
+        "terms": "private, no access, drive-through, drive-thru, paving stones"
+    },
+    "highway/service/customers_paving_stones": {
+        "name": "Service road customers only, paving stones",
+        "terms": "customers, business, service road, paving stones"
+    },
+    "highway/service/customers_paving_stones_parking_aisle": {
+        "name": "Parking aisle customers only, paving stones",
+        "terms": "customers, business, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/customers_paving_stones_driveway": {
+        "name": "Driveway customers only, paving stones",
+        "terms": "customers, business, driveway, entrance, paving stones"
+    },
+    "highway/service/customers_paving_stones_drive_through": {
+        "name": "Drive-through customers only, paving stones",
+        "terms": "customers, business, drive-through, drive-thru, paving stones"
+    },
+    "highway/service/delivery_paving_stones": {
+        "name": "Service road delivery only, paving stones",
+        "terms": "delivery, loading, service road, paving stones"
+    },
+    "highway/service/delivery_paving_stones_parking_aisle": {
+        "name": "Parking aisle delivery only, paving stones",
+        "terms": "delivery, loading, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/delivery_paving_stones_driveway": {
+        "name": "Driveway delivery only, paving stones",
+        "terms": "delivery, loading, driveway, entrance, paving stones"
+    },
+    "highway/service/delivery_paving_stones_drive_through": {
+        "name": "Drive-through delivery only, paving stones",
+        "terms": "delivery, loading, drive-through, drive-thru, paving stones"
+    },
+    "highway/service/permissive_paving_stones": {
+        "name": "Service road permissive, paving stones",
+        "terms": "permissive, tolerated, service road, paving stones"
+    },
+    "highway/service/permissive_paving_stones_parking_aisle": {
+        "name": "Parking aisle permissive, paving stones",
+        "terms": "permissive, tolerated, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/permissive_paving_stones_driveway": {
+        "name": "Driveway permissive, paving stones",
+        "terms": "permissive, tolerated, driveway, entrance, paving stones"
+    },
+    "highway/service/permissive_paving_stones_drive_through": {
+        "name": "Drive-through permissive, paving stones",
+        "terms": "permissive, tolerated, drive-through, drive-thru, paving stones"
+    },
+    "highway/service/private_property_paving_stones": {
+        "name": "Service road private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, service road, paving stones"
+    },
+    "highway/service/private_property_paving_stones_parking_aisle": {
+        "name": "Parking aisle private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/private_property_paving_stones_driveway": {
+        "name": "Driveway private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, driveway, entrance, paving stones"
+    },
+    "highway/service/private_property_paving_stones_drive_through": {
+        "name": "Drive-through private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, drive-through, drive-thru, paving stones"
+    },
+    "highway/service/business_paving_stones": {
+        "name": "Service road business no transit, paving stones",
+        "terms": "business, commercial, destination, service road, paving stones"
+    },
+    "highway/service/business_paving_stones_parking_aisle": {
+        "name": "Parking aisle business no transit, paving stones",
+        "terms": "business, commercial, destination, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/business_paving_stones_driveway": {
+        "name": "Driveway business no transit, paving stones",
+        "terms": "business, commercial, destination, driveway, entrance, paving stones"
+    },
+    "highway/service/business_paving_stones_drive_through": {
+        "name": "Drive-through business no transit, paving stones",
+        "terms": "business, commercial, destination, drive-through, drive-thru, paving stones"
+    },
+    "highway/service/destination_paving_stones": {
+        "name": "Service road public no transit, paving stones",
+        "terms": "public, destination, no through traffic, service road, paving stones"
+    },
+    "highway/service/destination_paving_stones_parking_aisle": {
+        "name": "Parking aisle public no transit, paving stones",
+        "terms": "public, destination, no through traffic, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/destination_paving_stones_driveway": {
+        "name": "Driveway public no transit, paving stones",
+        "terms": "public, destination, no through traffic, driveway, entrance, paving stones"
+    },
+    "highway/service/destination_paving_stones_drive_through": {
+        "name": "Drive-through public no transit, paving stones",
+        "terms": "public, destination, no through traffic, drive-through, drive-thru, paving stones"
+    },
+    "highway/service/private_ownership_paving_stones": {
+        "name": "Service road private ownership, paving stones",
+        "terms": "private, ownership, service road, paving stones"
+    },
+    "highway/service/private_ownership_paving_stones_parking_aisle": {
+        "name": "Parking aisle private ownership, paving stones",
+        "terms": "private, ownership, parking aisle, parking lot, paving stones"
+    },
+    "highway/service/private_ownership_paving_stones_driveway": {
+        "name": "Driveway private ownership, paving stones",
+        "terms": "private, ownership, driveway, entrance, paving stones"
+    },
+    "highway/service/private_ownership_paving_stones_drive_through": {
+        "name": "Drive-through private ownership, paving stones",
+        "terms": "private, ownership, drive-through, drive-thru, paving stones"
+    },
+    "highway/footway/private_paving_stones": {
+        "name": "Footway strictly private, paving stones",
+        "terms": "private, no access, footway, foot path, paving stones"
+    },
+    "highway/footway/private_paving_stones_sidewalk": {
+        "name": "Sidewalk strictly private, paving stones",
+        "terms": "private, no access, sidewalk, paving stones"
+    },
+    "highway/footway/private_paving_stones_access_aisle": {
+        "name": "Access aisle strictly private, paving stones",
+        "terms": "private, no access, access aisle, striped zone, paving stones"
+    },
+    "highway/footway/private_paving_stones_footway_link": {
+        "name": "Footway link strictly private, paving stones",
+        "terms": "private, no access, footway link, connector, paving stones"
+    },
+    "highway/steps_private_paving_stones": {
+        "name": "Steps strictly private, paving stones",
+        "terms": "private, no access, steps, stairs, paving stones"
+    },
+    "highway/footway/private_paving_stones_path": {
+        "name": "Path strictly private, paving stones",
+        "terms": "private, no access, path, trail, paving stones"
+    },
+    "highway/footway/private_paving_stones_informal": {
+        "name": "Informal path strictly private, paving stones",
+        "terms": "private, no access, informal path, desire path, paving stones"
+    },
+    "highway/footway/customers_paving_stones": {
+        "name": "Footway customers only, paving stones",
+        "terms": "customers, business, footway, foot path, paving stones"
+    },
+    "highway/footway/customers_paving_stones_sidewalk": {
+        "name": "Sidewalk customers only, paving stones",
+        "terms": "customers, business, sidewalk, paving stones"
+    },
+    "highway/footway/customers_paving_stones_access_aisle": {
+        "name": "Access aisle customers only, paving stones",
+        "terms": "customers, business, access aisle, striped zone, paving stones"
+    },
+    "highway/footway/customers_paving_stones_footway_link": {
+        "name": "Footway link customers only, paving stones",
+        "terms": "customers, business, footway link, connector, paving stones"
+    },
+    "highway/steps_customers_paving_stones": {
+        "name": "Steps customers only, paving stones",
+        "terms": "customers, business, steps, stairs, paving stones"
+    },
+    "highway/footway/customers_paving_stones_path": {
+        "name": "Path customers only, paving stones",
+        "terms": "customers, business, path, trail, paving stones"
+    },
+    "highway/footway/customers_paving_stones_informal": {
+        "name": "Informal path customers only, paving stones",
+        "terms": "customers, business, informal path, desire path, paving stones"
+    },
+    "highway/footway/permissive_paving_stones": {
+        "name": "Footway permissive, paving stones",
+        "terms": "permissive, tolerated, footway, foot path, paving stones"
+    },
+    "highway/footway/permissive_paving_stones_sidewalk": {
+        "name": "Sidewalk permissive, paving stones",
+        "terms": "permissive, tolerated, sidewalk, paving stones"
+    },
+    "highway/footway/permissive_paving_stones_access_aisle": {
+        "name": "Access aisle permissive, paving stones",
+        "terms": "permissive, tolerated, access aisle, striped zone, paving stones"
+    },
+    "highway/footway/permissive_paving_stones_footway_link": {
+        "name": "Footway link permissive, paving stones",
+        "terms": "permissive, tolerated, footway link, connector, paving stones"
+    },
+    "highway/steps_permissive_paving_stones": {
+        "name": "Steps permissive, paving stones",
+        "terms": "permissive, tolerated, steps, stairs, paving stones"
+    },
+    "highway/footway/permissive_paving_stones_path": {
+        "name": "Path permissive, paving stones",
+        "terms": "permissive, tolerated, path, trail, paving stones"
+    },
+    "highway/footway/permissive_paving_stones_informal": {
+        "name": "Informal path permissive, paving stones",
+        "terms": "permissive, tolerated, informal path, desire path, paving stones"
+    },
+    "highway/footway/private_property_paving_stones": {
+        "name": "Footway private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, footway, foot path, paving stones"
+    },
+    "highway/footway/private_property_paving_stones_sidewalk": {
+        "name": "Sidewalk private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, sidewalk, paving stones"
+    },
+    "highway/footway/private_property_paving_stones_access_aisle": {
+        "name": "Access aisle private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, access aisle, striped zone, paving stones"
+    },
+    "highway/footway/private_property_paving_stones_footway_link": {
+        "name": "Footway link private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, footway link, connector, paving stones"
+    },
+    "highway/steps_private_property_paving_stones": {
+        "name": "Steps private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, steps, stairs, paving stones"
+    },
+    "highway/footway/private_property_paving_stones_path": {
+        "name": "Path private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, path, trail, paving stones"
+    },
+    "highway/footway/private_property_paving_stones_informal": {
+        "name": "Informal path private ownership no transit, paving stones",
+        "terms": "private, ownership, destination, residential, informal path, desire path, paving stones"
+    },
+    "highway/footway/destination_paving_stones": {
+        "name": "Footway public no transit, paving stones",
+        "terms": "public, destination, no through traffic, footway, foot path, paving stones"
+    },
+    "highway/footway/destination_paving_stones_sidewalk": {
+        "name": "Sidewalk public no transit, paving stones",
+        "terms": "public, destination, no through traffic, sidewalk, paving stones"
+    },
+    "highway/footway/destination_paving_stones_access_aisle": {
+        "name": "Access aisle public no transit, paving stones",
+        "terms": "public, destination, no through traffic, access aisle, striped zone, paving stones"
+    },
+    "highway/footway/destination_paving_stones_footway_link": {
+        "name": "Footway link public no transit, paving stones",
+        "terms": "public, destination, no through traffic, footway link, connector, paving stones"
+    },
+    "highway/steps_destination_paving_stones": {
+        "name": "Steps public no transit, paving stones",
+        "terms": "public, destination, no through traffic, steps, stairs, paving stones"
+    },
+    "highway/footway/destination_paving_stones_path": {
+        "name": "Path public no transit, paving stones",
+        "terms": "public, destination, no through traffic, path, trail, paving stones"
+    },
+    "highway/footway/destination_paving_stones_informal": {
+        "name": "Informal path public no transit, paving stones",
+        "terms": "public, destination, no through traffic, informal path, desire path, paving stones"
+    },
+    "highway/footway/private_ownership_paving_stones": {
+        "name": "Footway private ownership, paving stones",
+        "terms": "private, ownership, footway, foot path, paving stones"
+    },
+    "highway/footway/private_ownership_paving_stones_sidewalk": {
+        "name": "Sidewalk private ownership, paving stones",
+        "terms": "private, ownership, sidewalk, paving stones"
+    },
+    "highway/footway/private_ownership_paving_stones_access_aisle": {
+        "name": "Access aisle private ownership, paving stones",
+        "terms": "private, ownership, access aisle, striped zone, paving stones"
+    },
+    "highway/footway/private_ownership_paving_stones_footway_link": {
+        "name": "Footway link private ownership, paving stones",
+        "terms": "private, ownership, footway link, connector, paving stones"
+    },
+    "highway/steps_private_ownership_paving_stones": {
+        "name": "Steps private ownership, paving stones",
+        "terms": "private, ownership, steps, stairs, paving stones"
+    },
+    "highway/footway/private_ownership_paving_stones_path": {
+        "name": "Path private ownership, paving stones",
+        "terms": "private, ownership, path, trail, paving stones"
+    },
+    "highway/footway/private_ownership_paving_stones_informal": {
+        "name": "Informal path private ownership, paving stones",
+        "terms": "private, ownership, informal path, desire path, paving stones"
     }
 }
