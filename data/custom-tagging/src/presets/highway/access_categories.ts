@@ -141,12 +141,13 @@ export const ACCESS_CATEGORIES: AccessCategory[] = [
     },
     {
         // motor_vehicle only on motor roads, so pedestrians and cyclists keep their
-        // default access; access=destination on footways, steps and paths
+        // default access; footways, steps and paths with access=destination get the
+        // same color, without presets (the base presets are enough)
         id: 'destination',
         tags: { motor_vehicle: 'destination' },
         footwayTags: { access: 'destination' },
         wide: false,
-        footways: true,
+        footways: false,
         label: { en: 'public no transit', fr: { m: 'public sans transit', f: 'publique sans transit' } },
         terms: { en: ['public', 'destination', 'no through traffic'], fr: ['public', 'destination', 'sans transit'] },
         wiki: [

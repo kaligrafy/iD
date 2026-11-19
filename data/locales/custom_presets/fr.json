@@ -1910,90 +1910,6 @@
         "name": "Sentier informel propriété privée",
         "terms": "privé, propriété, sentier informel, chemin de traverse"
     },
-    "highway/footway/destination": {
-        "name": "Chemin piéton public sans transit",
-        "terms": "public, destination, sans transit, chemin piéton, sentier"
-    },
-    "highway/footway/destination_concrete": {
-        "name": "Chemin piéton public sans transit, béton",
-        "terms": "public, destination, sans transit, chemin piéton, sentier, béton"
-    },
-    "highway/footway/destination_unpaved": {
-        "name": "Chemin piéton public sans transit, non revêtu",
-        "terms": "public, destination, sans transit, chemin piéton, sentier, non revêtu"
-    },
-    "highway/footway/destination_asphalt_sidewalk": {
-        "name": "Trottoir public sans transit, asphalte",
-        "terms": "public, destination, sans transit, trottoir, asphalte"
-    },
-    "highway/footway/destination_sidewalk": {
-        "name": "Trottoir public sans transit",
-        "terms": "public, destination, sans transit, trottoir"
-    },
-    "highway/footway/destination_unpaved_sidewalk": {
-        "name": "Trottoir public sans transit, non revêtu",
-        "terms": "public, destination, sans transit, trottoir, non revêtu"
-    },
-    "highway/footway/destination_access_aisle": {
-        "name": "Voie de circulation publique sans transit",
-        "terms": "public, destination, sans transit, voie de circulation, zone hachurée"
-    },
-    "highway/footway/destination_concrete_access_aisle": {
-        "name": "Voie de circulation publique sans transit, béton",
-        "terms": "public, destination, sans transit, voie de circulation, zone hachurée, béton"
-    },
-    "highway/footway/destination_unpaved_access_aisle": {
-        "name": "Voie de circulation publique sans transit, non revêtue",
-        "terms": "public, destination, sans transit, voie de circulation, zone hachurée, non revêtue"
-    },
-    "highway/footway/destination_footway_link": {
-        "name": "Lien piétonnier public sans transit",
-        "terms": "public, destination, sans transit, lien piétonnier, connecteur"
-    },
-    "highway/footway/destination_concrete_footway_link": {
-        "name": "Lien piétonnier public sans transit, béton",
-        "terms": "public, destination, sans transit, lien piétonnier, connecteur, béton"
-    },
-    "highway/footway/destination_unpaved_footway_link": {
-        "name": "Lien piétonnier public sans transit, non revêtu",
-        "terms": "public, destination, sans transit, lien piétonnier, connecteur, non revêtu"
-    },
-    "highway/steps_destination_asphalt": {
-        "name": "Escalier public sans transit, asphalte",
-        "terms": "public, destination, sans transit, escalier, marches, asphalte"
-    },
-    "highway/steps_destination": {
-        "name": "Escalier public sans transit",
-        "terms": "public, destination, sans transit, escalier, marches"
-    },
-    "highway/steps_destination_unpaved": {
-        "name": "Escalier public sans transit, non revêtu",
-        "terms": "public, destination, sans transit, escalier, marches, non revêtu"
-    },
-    "highway/footway/destination_asphalt_path": {
-        "name": "Sentier public sans transit, asphalte",
-        "terms": "public, destination, sans transit, sentier, asphalte"
-    },
-    "highway/footway/destination_concrete_path": {
-        "name": "Sentier public sans transit, béton",
-        "terms": "public, destination, sans transit, sentier, béton"
-    },
-    "highway/footway/destination_path": {
-        "name": "Sentier public sans transit",
-        "terms": "public, destination, sans transit, sentier"
-    },
-    "highway/footway/destination_asphalt_informal": {
-        "name": "Sentier informel public sans transit, asphalte",
-        "terms": "public, destination, sans transit, sentier informel, chemin de traverse, asphalte"
-    },
-    "highway/footway/destination_concrete_informal": {
-        "name": "Sentier informel public sans transit, béton",
-        "terms": "public, destination, sans transit, sentier informel, chemin de traverse, béton"
-    },
-    "highway/footway/destination_informal": {
-        "name": "Sentier informel public sans transit",
-        "terms": "public, destination, sans transit, sentier informel, chemin de traverse"
-    },
     "highway/service/private_paving_stones": {
         "name": "Voie de service strictement privée, pavés",
         "terms": "privé, accès interdit, voie de service, pavés"
@@ -2233,34 +2149,6 @@
     "highway/footway/private_property_paving_stones_informal": {
         "name": "Sentier informel propriété privée sans transit, pavés",
         "terms": "privé, propriété, destination, résidentiel, sentier informel, chemin de traverse, pavés"
-    },
-    "highway/footway/destination_paving_stones": {
-        "name": "Chemin piéton public sans transit, pavés",
-        "terms": "public, destination, sans transit, chemin piéton, sentier, pavés"
-    },
-    "highway/footway/destination_paving_stones_sidewalk": {
-        "name": "Trottoir public sans transit, pavés",
-        "terms": "public, destination, sans transit, trottoir, pavés"
-    },
-    "highway/footway/destination_paving_stones_access_aisle": {
-        "name": "Voie de circulation publique sans transit, pavés",
-        "terms": "public, destination, sans transit, voie de circulation, zone hachurée, pavés"
-    },
-    "highway/footway/destination_paving_stones_footway_link": {
-        "name": "Lien piétonnier public sans transit, pavés",
-        "terms": "public, destination, sans transit, lien piétonnier, connecteur, pavés"
-    },
-    "highway/steps_destination_paving_stones": {
-        "name": "Escalier public sans transit, pavés",
-        "terms": "public, destination, sans transit, escalier, marches, pavés"
-    },
-    "highway/footway/destination_paving_stones_path": {
-        "name": "Sentier public sans transit, pavés",
-        "terms": "public, destination, sans transit, sentier, pavés"
-    },
-    "highway/footway/destination_paving_stones_informal": {
-        "name": "Sentier informel public sans transit, pavés",
-        "terms": "public, destination, sans transit, sentier informel, chemin de traverse, pavés"
     },
     "highway/footway/private_ownership_paving_stones": {
         "name": "Chemin piéton propriété privée, pavés",
