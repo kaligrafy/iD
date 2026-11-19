@@ -7,12 +7,13 @@ const BICYCLE_YES_REFERENCE = { key: 'footway', value: 'footway_bicycle_yes' } a
 
 interface BicycleDismountVariant {
     id: string;
-    surface?: 'asphalt' | 'concrete' | 'unpaved';
+    surface?: 'asphalt' | 'concrete' | 'paving_stones' | 'unpaved';
 }
 
 const BICYCLE_DISMOUNT_VARIANTS: BicycleDismountVariant[] = [
     { id: 'highway/footway/bicycle_dismount_asphalt', surface: 'asphalt' },
     { id: 'highway/footway/bicycle_dismount_concrete', surface: 'concrete' },
+    { id: 'highway/footway/bicycle_dismount_paving_stones', surface: 'paving_stones' },
     { id: 'highway/footway/bicycle_dismount_unpaved', surface: 'unpaved' },
     { id: 'highway/footway/bicycle_dismount_other' }
 ];

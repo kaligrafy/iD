@@ -471,6 +471,11 @@
         "terms": "bdc, footway, chemin piéton, sentier, vélo à pied, béton",
         "aliases": "bdc"
     },
+    "highway/footway/bicycle_dismount_paving_stones": {
+        "name": "Chemin piéton (vélo à pied, pavés)",
+        "terms": "bdp, footway, chemin piéton, sentier, vélo à pied, pavés, pavé uni",
+        "aliases": "bdp"
+    },
     "highway/footway/bicycle_dismount_unpaved": {
         "name": "Chemin piéton (vélo à pied, non revêtu)",
         "terms": "bdu, footway, chemin piéton, sentier, vélo à pied, non revêtu, gravelle, terre",
@@ -1983,5 +1988,301 @@
     "highway/footway/destination_informal": {
         "name": "Sentier informel public sans transit",
         "terms": "public, destination, sans transit, sentier informel, chemin de traverse"
+    },
+    "highway/service/private_paving_stones": {
+        "name": "Voie de service strictement privée, pavés",
+        "terms": "privé, accès interdit, voie de service, pavés"
+    },
+    "highway/service/private_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement strictement privée, pavés",
+        "terms": "privé, accès interdit, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/private_paving_stones_driveway": {
+        "name": "Entrée charretière strictement privée, pavés",
+        "terms": "privé, accès interdit, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/private_paving_stones_drive_through": {
+        "name": "Service au volant strictement privé, pavés",
+        "terms": "privé, accès interdit, service au volant, drive-thru, pavés"
+    },
+    "highway/service/customers_paving_stones": {
+        "name": "Voie de service clients seulement, pavés",
+        "terms": "clients, commerce, voie de service, pavés"
+    },
+    "highway/service/customers_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement clients seulement, pavés",
+        "terms": "clients, commerce, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/customers_paving_stones_driveway": {
+        "name": "Entrée charretière clients seulement, pavés",
+        "terms": "clients, commerce, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/customers_paving_stones_drive_through": {
+        "name": "Service au volant clients seulement, pavés",
+        "terms": "clients, commerce, service au volant, drive-thru, pavés"
+    },
+    "highway/service/delivery_paving_stones": {
+        "name": "Voie de service livraisons seulement, pavés",
+        "terms": "livraison, débarcadère, voie de service, pavés"
+    },
+    "highway/service/delivery_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement livraisons seulement, pavés",
+        "terms": "livraison, débarcadère, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/delivery_paving_stones_driveway": {
+        "name": "Entrée charretière livraisons seulement, pavés",
+        "terms": "livraison, débarcadère, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/delivery_paving_stones_drive_through": {
+        "name": "Service au volant livraisons seulement, pavés",
+        "terms": "livraison, débarcadère, service au volant, drive-thru, pavés"
+    },
+    "highway/service/permissive_paving_stones": {
+        "name": "Voie de service permissive, pavés",
+        "terms": "permissif, toléré, voie de service, pavés"
+    },
+    "highway/service/permissive_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement permissive, pavés",
+        "terms": "permissif, toléré, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/permissive_paving_stones_driveway": {
+        "name": "Entrée charretière permissive, pavés",
+        "terms": "permissif, toléré, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/permissive_paving_stones_drive_through": {
+        "name": "Service au volant permissif, pavés",
+        "terms": "permissif, toléré, service au volant, drive-thru, pavés"
+    },
+    "highway/service/private_property_paving_stones": {
+        "name": "Voie de service propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, voie de service, pavés"
+    },
+    "highway/service/private_property_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/private_property_paving_stones_driveway": {
+        "name": "Entrée charretière propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/private_property_paving_stones_drive_through": {
+        "name": "Service au volant propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, service au volant, drive-thru, pavés"
+    },
+    "highway/service/business_paving_stones": {
+        "name": "Voie de service commerciale sans transit, pavés",
+        "terms": "commerce, commercial, destination, voie de service, pavés"
+    },
+    "highway/service/business_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement commerciale sans transit, pavés",
+        "terms": "commerce, commercial, destination, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/business_paving_stones_driveway": {
+        "name": "Entrée charretière commerciale sans transit, pavés",
+        "terms": "commerce, commercial, destination, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/business_paving_stones_drive_through": {
+        "name": "Service au volant commercial sans transit, pavés",
+        "terms": "commerce, commercial, destination, service au volant, drive-thru, pavés"
+    },
+    "highway/service/destination_paving_stones": {
+        "name": "Voie de service publique sans transit, pavés",
+        "terms": "public, destination, sans transit, voie de service, pavés"
+    },
+    "highway/service/destination_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement publique sans transit, pavés",
+        "terms": "public, destination, sans transit, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/destination_paving_stones_driveway": {
+        "name": "Entrée charretière publique sans transit, pavés",
+        "terms": "public, destination, sans transit, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/destination_paving_stones_drive_through": {
+        "name": "Service au volant public sans transit, pavés",
+        "terms": "public, destination, sans transit, service au volant, drive-thru, pavés"
+    },
+    "highway/service/private_ownership_paving_stones": {
+        "name": "Voie de service propriété privée, pavés",
+        "terms": "privé, propriété, voie de service, pavés"
+    },
+    "highway/service/private_ownership_paving_stones_parking_aisle": {
+        "name": "Allée de stationnement propriété privée, pavés",
+        "terms": "privé, propriété, allée de stationnement, stationnement, pavés"
+    },
+    "highway/service/private_ownership_paving_stones_driveway": {
+        "name": "Entrée charretière propriété privée, pavés",
+        "terms": "privé, propriété, entrée charretière, entrée, allée, pavés"
+    },
+    "highway/service/private_ownership_paving_stones_drive_through": {
+        "name": "Service au volant propriété privée, pavés",
+        "terms": "privé, propriété, service au volant, drive-thru, pavés"
+    },
+    "highway/footway/private_paving_stones": {
+        "name": "Chemin piéton strictement privé, pavés",
+        "terms": "privé, accès interdit, chemin piéton, sentier, pavés"
+    },
+    "highway/footway/private_paving_stones_sidewalk": {
+        "name": "Trottoir strictement privé, pavés",
+        "terms": "privé, accès interdit, trottoir, pavés"
+    },
+    "highway/footway/private_paving_stones_access_aisle": {
+        "name": "Voie de circulation strictement privée, pavés",
+        "terms": "privé, accès interdit, voie de circulation, zone hachurée, pavés"
+    },
+    "highway/footway/private_paving_stones_footway_link": {
+        "name": "Lien piétonnier strictement privé, pavés",
+        "terms": "privé, accès interdit, lien piétonnier, connecteur, pavés"
+    },
+    "highway/steps_private_paving_stones": {
+        "name": "Escalier strictement privé, pavés",
+        "terms": "privé, accès interdit, escalier, marches, pavés"
+    },
+    "highway/footway/private_paving_stones_path": {
+        "name": "Sentier strictement privé, pavés",
+        "terms": "privé, accès interdit, sentier, pavés"
+    },
+    "highway/footway/private_paving_stones_informal": {
+        "name": "Sentier informel strictement privé, pavés",
+        "terms": "privé, accès interdit, sentier informel, chemin de traverse, pavés"
+    },
+    "highway/footway/customers_paving_stones": {
+        "name": "Chemin piéton clients seulement, pavés",
+        "terms": "clients, commerce, chemin piéton, sentier, pavés"
+    },
+    "highway/footway/customers_paving_stones_sidewalk": {
+        "name": "Trottoir clients seulement, pavés",
+        "terms": "clients, commerce, trottoir, pavés"
+    },
+    "highway/footway/customers_paving_stones_access_aisle": {
+        "name": "Voie de circulation clients seulement, pavés",
+        "terms": "clients, commerce, voie de circulation, zone hachurée, pavés"
+    },
+    "highway/footway/customers_paving_stones_footway_link": {
+        "name": "Lien piétonnier clients seulement, pavés",
+        "terms": "clients, commerce, lien piétonnier, connecteur, pavés"
+    },
+    "highway/steps_customers_paving_stones": {
+        "name": "Escalier clients seulement, pavés",
+        "terms": "clients, commerce, escalier, marches, pavés"
+    },
+    "highway/footway/customers_paving_stones_path": {
+        "name": "Sentier clients seulement, pavés",
+        "terms": "clients, commerce, sentier, pavés"
+    },
+    "highway/footway/customers_paving_stones_informal": {
+        "name": "Sentier informel clients seulement, pavés",
+        "terms": "clients, commerce, sentier informel, chemin de traverse, pavés"
+    },
+    "highway/footway/permissive_paving_stones": {
+        "name": "Chemin piéton permissif, pavés",
+        "terms": "permissif, toléré, chemin piéton, sentier, pavés"
+    },
+    "highway/footway/permissive_paving_stones_sidewalk": {
+        "name": "Trottoir permissif, pavés",
+        "terms": "permissif, toléré, trottoir, pavés"
+    },
+    "highway/footway/permissive_paving_stones_access_aisle": {
+        "name": "Voie de circulation permissive, pavés",
+        "terms": "permissif, toléré, voie de circulation, zone hachurée, pavés"
+    },
+    "highway/footway/permissive_paving_stones_footway_link": {
+        "name": "Lien piétonnier permissif, pavés",
+        "terms": "permissif, toléré, lien piétonnier, connecteur, pavés"
+    },
+    "highway/steps_permissive_paving_stones": {
+        "name": "Escalier permissif, pavés",
+        "terms": "permissif, toléré, escalier, marches, pavés"
+    },
+    "highway/footway/permissive_paving_stones_path": {
+        "name": "Sentier permissif, pavés",
+        "terms": "permissif, toléré, sentier, pavés"
+    },
+    "highway/footway/permissive_paving_stones_informal": {
+        "name": "Sentier informel permissif, pavés",
+        "terms": "permissif, toléré, sentier informel, chemin de traverse, pavés"
+    },
+    "highway/footway/private_property_paving_stones": {
+        "name": "Chemin piéton propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, chemin piéton, sentier, pavés"
+    },
+    "highway/footway/private_property_paving_stones_sidewalk": {
+        "name": "Trottoir propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, trottoir, pavés"
+    },
+    "highway/footway/private_property_paving_stones_access_aisle": {
+        "name": "Voie de circulation propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, voie de circulation, zone hachurée, pavés"
+    },
+    "highway/footway/private_property_paving_stones_footway_link": {
+        "name": "Lien piétonnier propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, lien piétonnier, connecteur, pavés"
+    },
+    "highway/steps_private_property_paving_stones": {
+        "name": "Escalier propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, escalier, marches, pavés"
+    },
+    "highway/footway/private_property_paving_stones_path": {
+        "name": "Sentier propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, sentier, pavés"
+    },
+    "highway/footway/private_property_paving_stones_informal": {
+        "name": "Sentier informel propriété privée sans transit, pavés",
+        "terms": "privé, propriété, destination, résidentiel, sentier informel, chemin de traverse, pavés"
+    },
+    "highway/footway/destination_paving_stones": {
+        "name": "Chemin piéton public sans transit, pavés",
+        "terms": "public, destination, sans transit, chemin piéton, sentier, pavés"
+    },
+    "highway/footway/destination_paving_stones_sidewalk": {
+        "name": "Trottoir public sans transit, pavés",
+        "terms": "public, destination, sans transit, trottoir, pavés"
+    },
+    "highway/footway/destination_paving_stones_access_aisle": {
+        "name": "Voie de circulation publique sans transit, pavés",
+        "terms": "public, destination, sans transit, voie de circulation, zone hachurée, pavés"
+    },
+    "highway/footway/destination_paving_stones_footway_link": {
+        "name": "Lien piétonnier public sans transit, pavés",
+        "terms": "public, destination, sans transit, lien piétonnier, connecteur, pavés"
+    },
+    "highway/steps_destination_paving_stones": {
+        "name": "Escalier public sans transit, pavés",
+        "terms": "public, destination, sans transit, escalier, marches, pavés"
+    },
+    "highway/footway/destination_paving_stones_path": {
+        "name": "Sentier public sans transit, pavés",
+        "terms": "public, destination, sans transit, sentier, pavés"
+    },
+    "highway/footway/destination_paving_stones_informal": {
+        "name": "Sentier informel public sans transit, pavés",
+        "terms": "public, destination, sans transit, sentier informel, chemin de traverse, pavés"
+    },
+    "highway/footway/private_ownership_paving_stones": {
+        "name": "Chemin piéton propriété privée, pavés",
+        "terms": "privé, propriété, chemin piéton, sentier, pavés"
+    },
+    "highway/footway/private_ownership_paving_stones_sidewalk": {
+        "name": "Trottoir propriété privée, pavés",
+        "terms": "privé, propriété, trottoir, pavés"
+    },
+    "highway/footway/private_ownership_paving_stones_access_aisle": {
+        "name": "Voie de circulation propriété privée, pavés",
+        "terms": "privé, propriété, voie de circulation, zone hachurée, pavés"
+    },
+    "highway/footway/private_ownership_paving_stones_footway_link": {
+        "name": "Lien piétonnier propriété privée, pavés",
+        "terms": "privé, propriété, lien piétonnier, connecteur, pavés"
+    },
+    "highway/steps_private_ownership_paving_stones": {
+        "name": "Escalier propriété privée, pavés",
+        "terms": "privé, propriété, escalier, marches, pavés"
+    },
+    "highway/footway/private_ownership_paving_stones_path": {
+        "name": "Sentier propriété privée, pavés",
+        "terms": "privé, propriété, sentier, pavés"
+    },
+    "highway/footway/private_ownership_paving_stones_informal": {
+        "name": "Sentier informel propriété privée, pavés",
+        "terms": "privé, propriété, sentier informel, chemin de traverse, pavés"
     }
 }
