@@ -4034,6 +4034,13 @@ div.full-screen > button:focus {
     padding-left: 0px;
     padding-right: 4px;
 }
+.layer-list .layer-custom select.custom-entries {
+    margin-left: 8px;
+}
+.ideditor[dir='rtl'] .layer-list .layer-custom select.custom-entries {
+    margin-left: 0;
+    margin-right: 8px;
+}
 
 .map-data-pane .vectortile-container .vectortile-header {
     padding-bottom: 5px;
@@ -6095,6 +6102,39 @@ img.tile-debug {
     margin: 6px 0 0;
     font-size: 12px;
     color: #666;
+}
+.settings-custom-background .field-entry-name-label {
+    display: block;
+    margin-bottom: 12px;
+}
+.settings-custom-background .field-entry-name-label span {
+    display: block;
+    margin-bottom: 4px;
+}
+.settings-custom-background .field-entry-name {
+    width: 100%;
+}
+.settings-custom-background .field-template-label span {
+    display: block;
+    margin-bottom: 4px;
+}
+/* Delete on the left, the other buttons on the right, on one line */
+.settings-custom-background .modal-section.buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.settings-custom-background .modal-section.buttons button {
+    min-width: 0;
+    flex: 0 1 130px;
+    margin: 0;
+}
+.settings-custom-background .modal-section.buttons .delete-button {
+    margin-right: auto;
+}
+.ideditor[dir='rtl'] .settings-custom-background .modal-section.buttons .delete-button {
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .settings-custom-data .instructions-url {

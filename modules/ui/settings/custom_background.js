@@ -10,6 +10,7 @@ export function uiSettingsCustomBackground() {
         prefKey: 'background-custom-template',
         stringsKey: 'custom_background',
         privateUrlPrefKey: CUSTOM_PRIVATE_URL_PREF,
-        privateNamePrefKey: CUSTOM_IMAGERY_USED_NAME_PREF
+        privateNamePrefKey: CUSTOM_IMAGERY_USED_NAME_PREF,
+        savedEntries: true
     });
 }

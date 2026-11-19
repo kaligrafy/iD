@@ -254,10 +254,20 @@
                     "label": "Private or cached tile server",
                     "description": "For URL to private servers that should not be shared",
                     "imagery_used_name": {
-                        "label": "Name",
+                        "label": "Changeset name",
                         "placeholder": "Imagery name",
                         "description": "Name written to the imagery_used tag for the changeset"
                     }
+                },
+                "entry_name": {
+                    "label": "Background name",
+                    "placeholder": "Name of this background, to find it again in the list",
+                    "exists": "A saved background already has this name"
+                },
+                "save_new": "Save as new",
+                "delete": "Delete",
+                "template": {
+                    "label": "Tile URL"
                 }
             },
             "custom_street_level_imagery": {
