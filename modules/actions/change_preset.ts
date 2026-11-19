@@ -2,6 +2,7 @@ import type { Action } from '../core/history';
 import type { EntityId } from '../osm';
 import type { presetPreset } from '../presets';
 import { utilArrayDifference, utilObjectOmit } from '../util';
+import { accessCategoryTagSets, matchAccessCategory } from '../../data/custom-tagging/src/presets/highway/access_grid';
 
 // Presets that always start from a blank tag set when picked, instead of
 // preserving leftover tags from whatever the entity used to be. Used for
@@ -62,6 +63,16 @@ export function actionChangePreset(entityID: EntityId, oldPreset: presetPreset |
                     })
                     .filter(Boolean)
                     .forEach(key => preserveKeys!.push(key));
+
+                // The access category tags of an access grid preset (e.g. access=customers)
+                // are replaced by the tags of the new preset, not kept by its access field.
+                const oldAccessCategory = matchAccessCategory(oldPreset.tags);
+                if (oldAccessCategory) {
+                    const replacedKeys = accessCategoryTagSets(oldAccessCategory)
+                        .flatMap(tagSet => Object.keys(tagSet))
+                        .filter(key => newPreset.addTags[key] === undefined);
+                    preserveKeys = preserveKeys.filter(key => !replacedKeys.includes(key));
+                }
 
                 if (oldPreset.id !== newPreset.id) {
                     // 'field-keys' are keys used by fields (different to the keys used by preset itself)
