@@ -716,12 +716,6 @@ function promoteBuildingLevelFields(fields, moreFields) {
         anchorIndex = fields.indexOf(anchor);
         if (anchorIndex !== -1) break;
     }
-    if (anchorIndex === -1) {
-        for (const anchor of anchors) {
-            anchorIndex = moreFields.indexOf(anchor);
-            if (anchorIndex !== -1) break;
-        }
-    }
 
     const insertAt = anchorIndex === -1 ? fields.length : anchorIndex + 1;
     fields.splice(insertAt, 0, ...promotedFields);

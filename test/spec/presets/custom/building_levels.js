@@ -78,6 +78,14 @@ const UPSTREAM_BUILDING_PRESETS = {
         searchable: false,
         name: '{building/garages}'
     },
+    'power/generator/method/photovoltaic/building/roof': {
+        icon: 'fas-solar-panel',
+        fields: ['ref', 'operator', 'generator/output/electricity', 'layer_1'],
+        moreFields: ['colour', 'height', 'level', 'manufacturer'],
+        geometry: ['area'],
+        tags: { power: 'generator', 'generator:method': 'photovoltaic', building: 'roof' },
+        name: 'Solar Panel Roof'
+    },
     'highway/residential': {
         icon: 'fas-road',
         fields: ['name', 'oneway'],
@@ -160,6 +168,14 @@ describe('building level fields (custom_fields)', function() {
         const preset = iD.presetManager.item('building/hangar');
         const fields = preset.originalFields;
         expect(fields).to.eql(['name', 'building/levels', 'building/levels/underground', 'roof/levels']);
+    });
+
+    it('appends level fields when the height anchor is only in moreFields', function() {
+        const preset = iD.presetManager.item('power/generator/method/photovoltaic/building/roof');
+        expect(preset.originalFields).to.eql([
+            'ref', 'operator', 'generator/output/electricity', 'layer_1',
+            'building/levels', 'building/levels/underground', 'roof/levels'
+        ]);
     });
 
     const inheritsFromBuilding = [
