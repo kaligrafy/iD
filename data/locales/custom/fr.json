@@ -403,6 +403,12 @@
                 "tip": "Repérer les objets où un tag simple est supplanté par ses variantes directionnelles.",
                 "message": "{feature} a un tag « {tag} » simple en plus de ses variantes directionnelles",
                 "reference": "Le tag simple « {tag} » est rendu redondant par ses variantes directionnelles (« {tag}:both », ou « {tag}:left » et « {tag}:right »). Le tag simple devrait être retiré pour éviter l'ambiguïté."
+            },
+            "invalid_format": {
+                "addr_unit": {
+                    "message": "{feature} a plusieurs unités dans addr:unit : « {unit} »",
+                    "reference": "addr:unit contient l’unité d’une seule porte. Les unités accessibles par cette porte vont dans addr:flats, séparées par des points-virgules, avec des plages comme « 1-4;6 »."
+                }
             }
         }
     }

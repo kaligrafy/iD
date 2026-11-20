@@ -403,6 +403,12 @@
                 "tip": "Find features where a plain tag is overridden by its directional variants.",
                 "message": "{feature} has a plain \"{tag}\" tag alongside its directional variants",
                 "reference": "The plain \"{tag}\" tag is made redundant by its directional variants (\"{tag}:both\", or \"{tag}:left\" and \"{tag}:right\"). The plain tag should be removed to avoid ambiguity."
+            },
+            "invalid_format": {
+                "addr_unit": {
+                    "message": "{feature} has several units in addr:unit: \"{unit}\"",
+                    "reference": "addr:unit holds the unit of a single door. List the units reached through the door in addr:flats, separated by semicolons, with ranges such as \"1-4;6\"."
+                }
             }
         }
     }
