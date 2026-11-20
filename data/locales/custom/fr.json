@@ -5,7 +5,8 @@
                 "address": {
                     "placeholders": {
                         "borough": "Arrondissement",
-                        "postal_city": "Municipalité postale (Postes Canada)"
+                        "postal_city": "Municipalité postale (Postes Canada)",
+                        "flats": "Logements (1-4;6)"
                     }
                 },
                 "post_box/type": {
