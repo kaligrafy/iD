@@ -66,7 +66,7 @@ export function customBackgroundEntries() {
         const entries = JSON.parse(stored);
         return Array.isArray(entries) ? entries.filter(isValidEntry) : [];
     } catch (err) {
-        console.error(`Invalid ${CUSTOM_ENTRIES_PREF} preference`, err); // eslint-disable-line no-console
+        console.error(`Invalid ${CUSTOM_ENTRIES_PREF} preference`, err);
         return [];
     }
 }

@@ -60,6 +60,16 @@ export function rendererBackground(context) {
   let _contrast = 1;
   let _saturation = 1;
   let _sharpness = 1;
+  let _invert = false;
+
+
+  function visibleOverlayLayers() {
+    // if the LocatorOverlay is disabled, return everything except that layer
+    if (background.isLocatorOverlayDisabled()) {
+        return _overlayLayers.filter(layer => !layer.source().isLocatorOverlay());
+    }
+    return _overlayLayers;
+  }
 
 
   function ensureImageryIndex() {
@@ -156,6 +166,9 @@ export function rendererBackground(context) {
     if (_saturation !== 1) {
       baseFilter += ` saturate(${_saturation})`;
     }
+    if (_invert) {
+      baseFilter += ' invert(1)';
+    }
     if (_sharpness < 1) {  // gaussian blur
       const blur = d3_interpolateNumber(0.5, 5)(1 - _sharpness);
       baseFilter += ` blur(${blur}px)`;
@@ -211,7 +224,7 @@ export function rendererBackground(context) {
 
 
     let overlays = selection.selectAll('.layer-overlay')
-      .data(_overlayLayers, d => d.source().name());
+      .data(visibleOverlayLayers(), d => d.source().name());
 
     overlays.exit()
       .remove();
@@ -378,12 +391,20 @@ export function rendererBackground(context) {
   background.showsLayer = (d) => {
     const currSource = baseLayer.source();
     if (!d || !currSource) return false;
-    return d.id === currSource.id || _overlayLayers.some(layer => d.id === layer.source().id);
+    return d.id === currSource.id || visibleOverlayLayers().some(layer => d.id === layer.source().id);
   };
 
 
   background.overlayLayerSources = () => {
-    return _overlayLayers.map(layer => layer.source());
+    return visibleOverlayLayers().map(layer => layer.source());
+  };
+
+  /**
+   * if using a background layer that contains labels,
+   * disable the locator overlay to avoid overlapping labels.
+   */
+  background.isLocatorOverlayDisabled = () => {
+    return baseLayer.source()?.category === 'osmbasedmap';
   };
 
 
@@ -463,6 +484,13 @@ export function rendererBackground(context) {
   background.sharpness = function(d) {
     if (!arguments.length) return _sharpness;
     _sharpness = d;
+    if (context.mode()) dispatch.call('change');
+    return background;
+  };
+
+  background.invert = function(d) {
+    if (!arguments.length) return _invert;
+    _invert = d;
     if (context.mode()) dispatch.call('change');
     return background;
   };
@@ -550,9 +578,9 @@ export function rendererBackground(context) {
       }
     })
     .catch(err => {
-      /* eslint-disable no-console */
+
       console.error(err);
-      /* eslint-enable no-console */
+
     });
   };
 

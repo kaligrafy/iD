@@ -11,6 +11,7 @@ import {
 } from '../../renderer/background_custom_entries';
 import { uiConfirm } from '../confirm';
 import { utilNoAuto, utilRebind } from '../../util';
+import { utilSanitizeHTML } from '../../util/sanitize';
 
 
 /**
@@ -118,7 +119,7 @@ ${localizer.t_html(`settings.${stringsKey}.instructions.license_disclaimer`)}
         textSection
             .append('div')
             .attr('class', 'instructions-template')
-            .html(marked(instructions));
+            .html(utilSanitizeHTML(marked(instructions)));
 
         if (savedEntries) {
             const nameLabel = textSection

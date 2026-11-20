@@ -30,6 +30,8 @@ Come on in, the water's lovely. More help?
 
 Follow the steps in the [how to get started guide](https://github.com/openstreetmap/iD/wiki/How-to-get-started#build-and-test-instructions) on how to install, build and run iD locally.
 
+iD is also published as an [npm package](https://www.npmjs.com/package/@openstreetmap/id).
+
 ## Custom presets (Chaire Mobilité)
 
 This fork adds Québec-specific presets and fields on top of the upstream [id-tagging-schema](https://github.com/openstreetmap/id-tagging-schema) package (footway/cycleway links, `placement`, lane UI, and related strings).
