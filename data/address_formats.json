@@ -131,7 +131,7 @@
   {
     "countryCodes": ["ca"],
     "format": [
-      ["housenumber", "street", "unit"],
+      ["housenumber", "street", "unit", "flats"],
       ["city", "province", "postcode"],
       ["borough", { "id": "postal_city", "key": "contact:city" }]
     ]
