@@ -247,4 +247,28 @@ describe('iD.validations.invalid_format', function () {
             expect(issues[0].subtype).toEqual('email');
         });
     });
+
+    describe('addr:unit validation', function() {
+        [
+            { description: 'a single unit', unit: '3B' },
+            { description: 'a unit with a space', unit: 'Suite 200' }
+        ].forEach(function({ description, unit }) {
+            it(`does not flag ${description}`, function() {
+                const issues = validate(createPointWithTags({ 'addr:unit': unit }));
+                expect(issues).toHaveLength(0);
+            });
+        });
+
+        [
+            { description: 'units separated by a semicolon', unit: '1;2' },
+            { description: 'units separated by a comma', unit: '101, 102' }
+        ].forEach(function({ description, unit }) {
+            it(`flags ${description}`, function() {
+                const issues = validate(createPointWithTags({ 'addr:unit': unit }));
+                expect(issues).toHaveLength(1);
+                expect(issues[0].type).toEqual('invalid_format');
+                expect(issues[0].subtype).toEqual('addr_unit');
+            });
+        });
+    });
 });

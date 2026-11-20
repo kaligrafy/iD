@@ -272,6 +272,32 @@ export function validationFormatting(context) {
             }
         }
 
+        // addr:unit holds the unit of a single door; a list of units goes in addr:flats.
+        const unit = entity.tags['addr:unit'];
+        if (unit && /[;,]/.test(unit)) {
+            issues.push(new validationIssue({
+                type: type,
+                subtype: 'addr_unit',
+                severity: 'warning',
+                message: function(context) {
+                    const entity = context.hasEntity(this.entityIds[0]);
+                    return entity ? t.append('issues.invalid_format.addr_unit.message', {
+                        feature: utilDisplayLabel(entity, context.graph()), unit: unit
+                    }) : '';
+                },
+                reference: function(selection) {
+                    selection.selectAll('.issue-reference')
+                        .data([0])
+                        .enter()
+                        .append('div')
+                        .attr('class', 'issue-reference')
+                        .call(t.append('issues.invalid_format.addr_unit.reference'));
+                },
+                entityIds: [entity.id],
+                hash: unit
+            }));
+        }
+
         return issues;
     };
 
