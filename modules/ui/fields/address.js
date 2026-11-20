@@ -154,18 +154,6 @@ export function uiFieldAddress(field, context) {
         return utilArrayUniqBy(postcodes, item => item.value);
     }
 
-    // Like getNearValues, but for the `contact:city` tag (the postal municipality),
-    // since getNearValues hardcodes the `addr:` prefix.
-    function getNearContactCity() {
-        const tagKey = 'contact:city';
-
-        function hasTag(d) {
-            return _entityIDs.indexOf(d.id) === -1 && d.tags[tagKey];
-        }
-
-        return getNear(hasTag, 'postal_city', 200, tagKey);
-    }
-
     function getNearValues(key) {
         const tagKey = `${field.key}:${key}`;
 
@@ -231,7 +219,6 @@ export function uiFieldAddress(field, context) {
             'block_number',
             'borough',
             'city',
-            'postal_city',
             'country',
             'county',
             'district',
@@ -256,34 +243,23 @@ export function uiFieldAddress(field, context) {
             city: 2/3, state: 1/4, postcode: 1/3
         };
 
-        // A format entry is either a subfield id string (tag key defaults to
-        // `<field.key>:<id>`, e.g. `addr:city`) or an object `{ id, key }` that
-        // overrides the tag key, allowing cross-namespace subfields (e.g.
-        // `{ id: 'postal_city', key: 'contact:city' }`).
-        function entryId(entry) {
-            return typeof entry === 'string' ? entry : entry.id;
-        }
-
         function row(r) {
             // Normalize widths.
-            var total = r.reduce(function(sum, entry) {
-                return sum + (widths[entryId(entry)] || 0.5);
+            var total = r.reduce(function(sum, key) {
+                return sum + (widths[key] || 0.5);
             }, 0);
 
-            return r.map(function(entry) {
-                var id = entryId(entry);
-                var subfield = {
-                    id: id,
-                    width: (widths[id] || 0.5) / total
+            return r.map(function(key) {
+                return {
+                    id: key,
+                    width: (widths[key] || 0.5) / total
                 };
-                if (typeof entry !== 'string' && entry.key) subfield.key = entry.key;
-                return subfield;
             });
         }
 
         var rows = _wrap.selectAll('.addr-row')
             .data(addressFormat.format, function(d) {
-                return JSON.stringify(d);
+                return d.toString();
             });
 
         rows.exit()
@@ -328,9 +304,6 @@ export function uiFieldAddress(field, context) {
                 break;
                 case 'city':
                     nearValues = getNearCities;
-                break;
-                case 'postal_city':
-                    nearValues = getNearContactCity;
                 break;
                 case 'postcode':
                     nearValues = getNearPostcodes;
@@ -416,20 +389,13 @@ export function uiFieldAddress(field, context) {
     }
 
 
-    // Tag key for a subfield: an explicit override (e.g. `contact:city`) or the
-    // default `<field.key>:<subfield.id>` (e.g. `addr:city`).
-    function tagKey(subfield) {
-        return subfield.key || field.key + ':' + subfield.id;
-    }
-
-
     function change(onInput) {
         return function() {
             var tags = {};
 
             _wrap.selectAll('input')
                 .each(function (subfield) {
-                    var key = tagKey(subfield);
+                    var key = field.key + ':' + subfield.id;
 
                     var value = this.value;
                     if (!onInput) value = context.cleanTagValue(value);
@@ -458,7 +424,7 @@ export function uiFieldAddress(field, context) {
 
     function updatePlaceholder(inputSelection) {
         return inputSelection.attr('placeholder', function(subfield) {
-            if (_tags && Array.isArray(_tags[tagKey(subfield)])) {
+            if (_tags && Array.isArray(_tags[field.key + ':' + subfield.id])) {
                 return t('inspector.multiple_values');
             }
             if (subfield.isAutoStreetPlace) {
@@ -494,16 +460,16 @@ export function uiFieldAddress(field, context) {
                         subfield.id = 'place';
                     }
                 } else {
-                    val = tags[tagKey(subfield)];
+                    val = tags[`${field.key}:${subfield.id}`];
                 }
                 return typeof val === 'string' ? val : '';
             })
             .attr('title', function(subfield) {
-                var val = tags[tagKey(subfield)];
+                var val = tags[field.key + ':' + subfield.id];
                 return (val && Array.isArray(val)) ? val.filter(Boolean).join('\n') : undefined;
             })
             .classed('mixed', function(subfield) {
-                return Array.isArray(tags[tagKey(subfield)]);
+                return Array.isArray(tags[field.key + ':' + subfield.id]);
             })
             .call(updatePlaceholder);
     }
