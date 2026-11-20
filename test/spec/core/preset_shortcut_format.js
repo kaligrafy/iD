@@ -92,7 +92,13 @@ describe('core/preset_shortcut_format', function() {
             [['point', 'vertex'], 'point'],
             [['line'], 'line'],
             [['area'], 'area'],
-            [['vertex', 'line'], 'line'],
+            [['vertex', 'line'], 'point'],
+            [['point', 'vertex', 'line'], 'point'],
+            [['point', 'area'], 'point'],
+            [['line', 'area'], 'line'],
+            [['area', 'point', 'vertex'], 'area'],
+            [['relation', 'area'], 'area'],
+            [['relation'], null],
             [[], null]
         ];
 

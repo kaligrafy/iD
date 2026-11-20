@@ -60,17 +60,21 @@ export function shouldCapturePresetShortcutBuffer(buffer) {
 }
 
 /**
- * Drawing mode kind for a preset shortcut, or `null` when unsupported.
+ * Drawing mode of each preset geometry that can be drawn.
  * Vertex presets use point drawing mode (same as iD's add-point behavior).
+ */
+const DRAWING_MODE_BY_GEOMETRY = { point: 'point', vertex: 'point', line: 'line', area: 'area' };
+
+/**
+ * Drawing mode kind for a preset shortcut, or `null` when unsupported.
+ * The first geometry the preset lists is taken as its main one: a preset listing
+ * `point` before `line` is drawn as a point.
  * @param {{ geometry?: string[] }} preset
  * @returns {'point' | 'line' | 'area' | null}
  */
 export function presetShortcutDrawingGeometry(preset) {
-    const geometries = preset.geometry || [];
-    if (geometries.includes('line')) return 'line';
-    if (geometries.includes('area')) return 'area';
-    if (geometries.includes('point') || geometries.includes('vertex')) return 'point';
-    return null;
+    const drawable = (preset.geometry || []).find((geometry) => DRAWING_MODE_BY_GEOMETRY[geometry]);
+    return drawable ? DRAWING_MODE_BY_GEOMETRY[drawable] : null;
 }
 
 /**
