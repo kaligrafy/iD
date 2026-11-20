@@ -125,7 +125,7 @@ export interface coreContext extends Pick<Dispatch<object, EventMap>, 'on'> {
 
     copyGraph(): coreGraph;
     copyIDs: GetSet<coreContext, EntityId[]>;
-    copyLonLat: GetSet<coreContext, Vec2>;
+    copyLonLat: GetSet<coreContext, Vec2 | null>;
 
     background(): ReturnType<typeof rendererBackground>;
 
@@ -173,6 +173,7 @@ export interface coreContext extends Pick<Dispatch<object, EventMap>, 'on'> {
     undo: coreHistory['undo'];
     redo: coreHistory['redo'];
 
+    init(async: true): Promise<coreContext>;
     init(): coreContext;
 }
 
@@ -519,7 +520,7 @@ export function coreContext(this: object): coreContext {
     return context;
   } as coreContext['copyIDs'];
 
-  let _copyLonLat: Vec2;
+  let _copyLonLat: Vec2 | null;
   context.copyLonLat = function(val) {
     if (!arguments.length) return _copyLonLat;
     _copyLonLat = val;
@@ -686,12 +687,16 @@ export function coreContext(this: object): coreContext {
   context.redo = undefined!;
   context.on = undefined!;
 
-  context.init = () => {
+  function init(async: true): Promise<coreContext>;
+  function init(): coreContext;
+  function init(async?: true) {
+    const promises: Promise<unknown>[] = [];
 
     instantiateInternal();
 
     initializeDependents();
 
+    if (async) return Promise.allSettled(promises).then(() => context);
     return context;
 
     // Load variables and properties. No property of `context` should be accessed
@@ -747,13 +752,14 @@ export function coreContext(this: object): coreContext {
       prefs.onChange(UPLOADED_LENSES_PREF, onLensChange);
 
       // kick off some async work
-      localizer.ensureLoaded();
-      presetManager.ensureLoaded();
-      _background.ensureLoaded();
+      promises.push(localizer.ensureLoaded());
+      promises.push(presetManager.ensureLoaded());
+      promises.push(_background.ensureLoaded());
 
       Object.values(services).forEach(service => {
         if (service && typeof service.init === 'function') {
-          service.init();
+          const promise = service.init();
+          if (promise) promises.push(promise);
         }
       });
 
@@ -762,18 +768,19 @@ export function coreContext(this: object): coreContext {
       _features.init();
 
       // Migrate history data from localStorage to IndexedDB
-      _history.migrateHistoryData();
+      promises.push(_history.migrateHistoryData());
 
       // if the container isn't available, e.g. when testing, don't load the UI
       if (!context.container().empty()) {
-        _ui.ensureLoaded()
+        promises.push(_ui.ensureLoaded()
           .then(() => {
             _background.init();
             _photos.init();
-          });
+          }));
       }
     }
   };
+  context.init = init;
 
   return utilRebind(context, dispatch, 'on');
 }

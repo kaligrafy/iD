@@ -8,7 +8,7 @@ import { svgTagClasses } from './tag_classes';
 
 import { osmIdManager } from '../osm';
 import { utilArrayFlatten, utilArrayGroupBy } from '../util';
-import { utilDetect } from '../util/detect';
+import { utilIsDrawing } from '../util/util';
 
 /** @param {{ [key: string ]: string }} tags */
 function onewayArrowColour(tags) {
@@ -22,8 +22,6 @@ function onewayArrowColour(tags) {
 }
 
 export function svgLines(projection, context) {
-    var detected = utilDetect();
-
     var highway_stack = {
         motorway: 0,
         motorway_link: 1,
@@ -132,7 +130,7 @@ export function svgLines(projection, context) {
         function drawLineGroup(selection, klass, isSelected, wayFilter) {
             // Note: Don't add `.selected` class in draw modes
             var mode = context.mode();
-            var isDrawing = mode && /^draw/.test(mode.id);
+            var isDrawing = mode && utilIsDrawing(mode.id);
             var selectedClass = (!isDrawing && isSelected) ? 'selected ' : '';
 
             // Partial redraw only joins entities in the change set; clean up stragglers.
@@ -248,16 +246,12 @@ export function svgLines(projection, context) {
             markers.exit()
                 .remove();
 
-            markers = markers.enter()
+            markers.enter()
                 .append('path')
                 .attr('class', pathclass)
                 .merge(markers)
                 .attr('marker-mid', marker)
                 .attr('d', function(d) { return d.d; });
-
-            if (detected.ie) {
-                markers.each(function() { this.parentNode.insertBefore(this, this); });
-            }
         }
 
 
