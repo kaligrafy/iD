@@ -17,6 +17,7 @@ export { actionDeleteRelation } from './delete_relation';
 export { actionDeleteWay } from './delete_way';
 export { actionDiscardTags } from './discard_tags';
 export { actionDisconnect } from './disconnect';
+export { actionDisconnectRoads, actionDisconnectRoadsNodeIds } from './disconnect_roads';
 export { actionExtract } from './extract';
 export { actionFollowSegment } from './follow_segment';
 export { actionInsertWaypoint } from './insert_waypoint';
