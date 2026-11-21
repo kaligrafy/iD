@@ -348,6 +348,27 @@
                 "invalid_file": "Ce fichier n'est pas une sauvegarde de réglages valide."
             }
         },
+        "operations": {
+            "disconnect_roads": {
+                "title": "Séparer des routes",
+                "description": {
+                    "single": "Séparer cette zone des routes et des voies ferrées auxquelles elle est attachée. Elle reste connectée aux autres éléments.",
+                    "multiple": "Séparer ces zones des routes et des voies ferrées auxquelles elles sont attachées. Elles restent connectées aux autres éléments."
+                },
+                "annotation": {
+                    "one": "Zone séparée des routes.",
+                    "other": "{n} zones séparées des routes."
+                },
+                "not_downloaded": {
+                    "single": "Cette zone ne peut pas être séparée des routes, car elle n’est pas entièrement téléchargée.",
+                    "multiple": "Ces zones ne peuvent pas être séparées des routes, car elles ne sont pas entièrement téléchargées."
+                },
+                "connected_to_hidden": {
+                    "single": "Cette zone ne peut pas être séparée des routes, car elle est connectée à un élément masqué.",
+                    "multiple": "Ces zones ne peuvent pas être séparées des routes, car elles sont connectées à un élément masqué."
+                }
+            }
+        },
         "lanes": {
             "count_mismatch": "« {tag} » a {actual} voies, mais la route est taggée avec {count}.",
             "oneway_directional_tags": "Cette route à sens unique utilise des tags de voies directionnels ({tags}). Utilisez les tags non directionnels (lanes, turn:lanes, bus:lanes, motor_vehicle:lanes, etc.) sans :forward ni :backward."

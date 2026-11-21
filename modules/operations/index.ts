@@ -19,6 +19,7 @@ export { operationCopy } from './copy';
 export { operationCurverize } from './curverize';
 export { operationDelete } from './delete';
 export { operationDisconnect } from './disconnect';
+export { operationDisconnectRoads } from './disconnect_roads';
 export { operationDowngrade } from './downgrade';
 export { operationExtract } from './extract';
 export { operationFollowSegment } from './follow_segment';

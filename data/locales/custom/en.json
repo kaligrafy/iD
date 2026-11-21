@@ -348,6 +348,27 @@
                 "invalid_file": "This file is not a valid settings backup."
             }
         },
+        "operations": {
+            "disconnect_roads": {
+                "title": "Disconnect from Roads",
+                "description": {
+                    "single": "Disconnect this area from the roads and railways it is attached to. It stays connected to other features.",
+                    "multiple": "Disconnect these areas from the roads and railways they are attached to. They stay connected to other features."
+                },
+                "annotation": {
+                    "one": "Disconnected an area from roads.",
+                    "other": "Disconnected {n} areas from roads."
+                },
+                "not_downloaded": {
+                    "single": "This can't be disconnected from roads because parts of it have not yet been downloaded.",
+                    "multiple": "These can't be disconnected from roads because parts of them have not yet been downloaded."
+                },
+                "connected_to_hidden": {
+                    "single": "This can't be disconnected from roads because it is connected to a hidden feature.",
+                    "multiple": "These can't be disconnected from roads because they are connected to a hidden feature."
+                }
+            }
+        },
         "lanes": {
             "count_mismatch": "“{tag}” has {actual} lanes, but the road is tagged with {count}.",
             "oneway_directional_tags": "This one-way road uses directional lane tags ({tags}). Use the undirected tags (lanes, turn:lanes, bus:lanes, motor_vehicle:lanes, etc.) without :forward or :backward."
