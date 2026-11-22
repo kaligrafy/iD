@@ -1,7 +1,9 @@
 /**
  * Legends of the bundled lenses: the lenses that color the map by one
  * attribute (access, maxspeed, surfaces) list their colors, and the Québec
- * lens lists its error highlights only. The default lens has no legend.
+ * lens lists the styles it adds to those of iD (error highlights, access,
+ * dual carriageways, separate sidewalks), not the colors of the highway classes. The default lens
+ * has no legend.
  */
 
 import {
@@ -18,7 +20,19 @@ import {
  * @property {string} color - CSS color of the swatch
  * @property {string} labelKey - translation key of the label, under `map_data.lens.legend`
  * @property {Record<string, string>} [labelOptions] - values of the placeholders of the label
- * @property {boolean} [dashed] - the lens draws this entry as short dashes on black
+ * @property {'error'|'dashed'|'dotted'|'zebra'} [pattern] - how the lens draws the
+ * entry when it is not a solid line: `error` is short dashes of the color on
+ * black, `dashed` thin dashes of the color along the middle of the way,
+ * `dotted` small dots of the color, `zebra` alternating black and white dashes
+ * (the color is not used)
+ */
+
+/**
+ * One group of lines of a legend.
+ * @typedef {object} LensLegendSection
+ * @property {string} [titleKey] - translation key of the title of the group,
+ * under `map_data.lens.legend`; a legend with one group needs none
+ * @property {LensLegendEntry[]} entries - the lines of the group
  */
 
 /**
@@ -65,27 +79,66 @@ const SURFACES_LEGEND = [
     { color: 'rgb(255, 240, 103)', labelKey: 'surface.sand' },
     { color: 'rgb(113, 179, 0)', labelKey: 'surface.grass' },
     { color: 'rgb(167, 94, 0)', labelKey: 'surface.wood' },
-    { color: 'rgb(0, 128, 255)', labelKey: 'surface.undefined', dashed: true }
+    { color: 'rgb(0, 128, 255)', labelKey: 'surface.undefined', pattern: 'error' }
 ];
 
 /**
- * Legend of the Québec lens: only its error highlights, the highways drawn as
- * short dashes of one color on black. The colors are copied from the
- * "validation/error highlights" rules of lenses/quebec.css, for the same
- * reason as MAXSPEED_LEGEND and with the same test. When a highway has several
- * errors, the lens shows the color of the rule that comes last in that file.
+ * Error highlights of the Québec lens: the highways drawn as short dashes of
+ * one color on black. Two of them only show as a thin dashed line along the
+ * middle of the way: a shared cycleway without `segregated`, whose stroke is
+ * narrow, and a missing name, drawn on the over-stroke. The colors
+ * are copied from the "validation/error highlights" rules of lenses/quebec.css,
+ * for the same reason as MAXSPEED_LEGEND and with the same test. When a
+ * highway has several errors, the lens shows the color of the rule that comes
+ * last in that file.
  * @type {LensLegendEntry[]}
  */
 const QUEBEC_ERRORS_LEGEND = [
-    { color: 'rgb(255, 0, 0)', labelKey: 'error.maxspeed', dashed: true },
-    { color: 'rgb(255, 0, 0)', labelKey: 'error.segregated', dashed: true },
-    { color: 'rgb(0, 128, 255)', labelKey: 'error.surface', dashed: true },
-    { color: 'rgb(255, 230, 0)', labelKey: 'error.lanes', dashed: true },
-    { color: 'rgb(169, 0, 166)', labelKey: 'error.lanes_or_speed', dashed: true },
-    { color: 'rgb(101, 179, 12)', labelKey: 'error.sidewalk', dashed: true },
-    { color: 'rgb(255, 72, 0)', labelKey: 'error.sidewalk_separate', dashed: true },
-    { color: 'rgb(255, 0, 153)', labelKey: 'error.cycleway_sides', dashed: true },
-    { color: 'rgb(255, 123, 123)', labelKey: 'error.fixme', dashed: true }
+    { color: 'rgb(255, 0, 0)', labelKey: 'error.maxspeed', pattern: 'error' },
+    { color: 'rgb(0, 128, 255)', labelKey: 'error.surface', pattern: 'error' },
+    { color: 'rgb(255, 230, 0)', labelKey: 'error.lanes', pattern: 'error' },
+    { color: 'rgb(169, 0, 166)', labelKey: 'error.lanes_or_speed', pattern: 'error' },
+    { color: 'rgb(101, 179, 12)', labelKey: 'error.sidewalk', pattern: 'error' },
+    { color: 'rgb(255, 72, 0)', labelKey: 'error.sidewalk_separate', pattern: 'error' },
+    { color: 'rgb(255, 0, 153)', labelKey: 'error.cycleway_sides', pattern: 'error' },
+    { color: 'rgb(255, 123, 123)', labelKey: 'error.fixme', pattern: 'error' },
+    { color: 'rgb(255, 0, 0)', labelKey: 'error.segregated', pattern: 'dashed' },
+    { color: 'rgb(255, 81, 0)', labelKey: 'error.name', pattern: 'dashed' }
+];
+
+/**
+ * Access and structure styles that the Québec lens and the fork add to iD:
+ *   - the colors of the access categories and the zebra of `access=no`, from
+ *     css/30_highways.css (`tag-access-category-*`, `tag-access-no`);
+ *   - the casing colors of footways by `bicycle=*`, from lenses/quebec.css;
+ *   - the dots along dual carriageways, from css/20_map.css.
+ * The colors are copied from these files, with the same test as MAXSPEED_LEGEND.
+ * @type {LensLegendEntry[]}
+ */
+const QUEBEC_ACCESS_LEGEND = [
+    { color: 'rgb(205, 20, 20)', labelKey: 'quebec.private' },
+    { color: '#fc036f', labelKey: 'quebec.private_property' },
+    { color: 'rgb(255, 55, 188)', labelKey: 'quebec.destination' },
+    { color: 'rgb(255, 136, 0)', labelKey: 'quebec.customers' },
+    { color: 'rgb(63, 214, 156)', labelKey: 'quebec.delivery' },
+    { color: '#fcc203', labelKey: 'quebec.permissive' },
+    { color: '#000', labelKey: 'quebec.access_no', pattern: 'zebra' },
+    { color: 'rgb(22, 96, 255)', labelKey: 'quebec.bicycle_yes' },
+    { color: 'rgb(146, 106, 255)', labelKey: 'quebec.bicycle_dismount' },
+    { color: 'rgb(170, 170, 170)', labelKey: 'quebec.dual_carriageway', pattern: 'dotted' }
+];
+
+/**
+ * Casing colors of the roads whose sidewalks are mapped as separate ways
+ * (`sidewalk:both`, `sidewalk:left` and `sidewalk:right` with `separate`), by
+ * the sides that have one. Copied from the "sidewalk separate" rules of
+ * lenses/quebec.css, with the same test as MAXSPEED_LEGEND.
+ * @type {LensLegendEntry[]}
+ */
+const QUEBEC_SIDEWALKS_LEGEND = [
+    { color: 'rgb(26, 173, 46)', labelKey: 'quebec.sidewalk_both' },
+    { color: 'rgb(190, 196, 21)', labelKey: 'quebec.sidewalk_left' },
+    { color: 'rgb(190, 139, 255)', labelKey: 'quebec.sidewalk_right' }
 ];
 
 /**
@@ -96,21 +149,28 @@ function accessLegend(modeId) {
     return accessLensBuckets(modeId).map((bucket) => ({
         color: ACCESS_LENS_BUCKET_COLORS[bucket],
         labelKey: 'access.' + bucket,
-        ...(bucket === ACCESS_LENS_MISSING_BUCKET ? { dashed: true } : {})
+        ...(bucket === ACCESS_LENS_MISSING_BUCKET ? { pattern: 'error' } : {})
     }));
 }
 
-/** Legend of each bundled lens that has one, by lens id. */
+/**
+ * Legend of each bundled lens that has one, by lens id.
+ * @type {Record<string, LensLegendSection[]>}
+ */
 const LENS_LEGENDS = {
-    'bundled-quebec': QUEBEC_ERRORS_LEGEND,
-    'bundled-maxspeed-colors': MAXSPEED_LEGEND,
-    'bundled-quebec-surfaces': SURFACES_LEGEND,
-    ...Object.fromEntries(ACCESS_LENS_MODES.map((mode) => [accessLensId(mode.id), accessLegend(mode.id)]))
+    'bundled-quebec': [
+        { titleKey: 'section.errors', entries: QUEBEC_ERRORS_LEGEND },
+        { titleKey: 'section.access', entries: QUEBEC_ACCESS_LEGEND },
+        { titleKey: 'section.sidewalks', entries: QUEBEC_SIDEWALKS_LEGEND }
+    ],
+    'bundled-maxspeed-colors': [{ entries: MAXSPEED_LEGEND }],
+    'bundled-quebec-surfaces': [{ entries: SURFACES_LEGEND }],
+    ...Object.fromEntries(ACCESS_LENS_MODES.map((mode) => [accessLensId(mode.id), [{ entries: accessLegend(mode.id) }]]))
 };
 
 /**
  * @param {string} lensId - id of a lens
- * @returns {LensLegendEntry[]|undefined} the legend of the lens, `undefined` when it has none
+ * @returns {LensLegendSection[]|undefined} the groups of lines of the legend of the lens, `undefined` when it has none
  */
 export function lensLegend(lensId) {
     return LENS_LEGENDS[lensId];

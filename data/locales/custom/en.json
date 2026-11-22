@@ -316,6 +316,12 @@
                     "access_bus": "Access: buses"
                 },
                 "legend": {
+                    "title": "Legend",
+                    "section": {
+                        "errors": "Tagging errors",
+                        "access": "Access and dual carriageways",
+                        "sidewalks": "Separate sidewalks"
+                    },
                     "error": {
                         "maxspeed": "Maxspeed missing, or over 70 on a residential road",
                         "segregated": "Shared cycleway without segregated",
@@ -325,7 +331,23 @@
                         "sidewalk": "Sidewalk missing or invalid",
                         "sidewalk_separate": "Separate sidewalk without foot=use_sidepath",
                         "cycleway_sides": "Cycleway sides missing",
-                        "fixme": "Has a fixme"
+                        "fixme": "Has a fixme",
+                        "name": "Name missing on a sidewalk, crossing or cycleway"
+                    },
+                    "quebec": {
+                        "private": "Private (access or ownership)",
+                        "private_property": "Private property, destination only",
+                        "destination": "Destination only",
+                        "customers": "Customers or business",
+                        "delivery": "Delivery",
+                        "permissive": "Permissive",
+                        "access_no": "No access",
+                        "bicycle_yes": "Footway or path open to bicycles",
+                        "bicycle_dismount": "Bicycles must dismount",
+                        "dual_carriageway": "Dual carriageway",
+                        "sidewalk_both": "On both sides",
+                        "sidewalk_left": "On the left only",
+                        "sidewalk_right": "On the right only"
                     },
                     "access": {
                         "yes": "Allowed",

@@ -1,9 +1,17 @@
+import fs from 'node:fs';
+
 import { ACCESS_LENS_BUCKET_COLORS, ACCESS_LENS_MODES, accessLensBuckets, accessLensId } from '../../../config/access_lens.js';
 import { BUNDLED_LENSES } from '../../../config/bundled_lenses.js';
 import { lensLegend } from '../../../config/lens_legends.js';
 
 describe('lens legends', function() {
     const lensesWithLegend = ['bundled-quebec', 'bundled-maxspeed-colors', 'bundled-quebec-surfaces', ...ACCESS_LENS_MODES.map((mode) => accessLensId(mode.id))];
+    // core stylesheets that hold fork styles listed in the legend of the Québec lens
+    const coreCss = ['css/20_map.css', 'css/30_highways.css'].map((file) => fs.readFileSync(file, 'utf8')).join('\n');
+
+    function entriesOf(lensId) {
+        return lensLegend(lensId).flatMap((section) => section.entries);
+    }
 
     describe('lensLegend', function() {
         it.each([
@@ -13,22 +21,31 @@ describe('lens legends', function() {
             expect(lensLegend(lensId)).toBeUndefined();
         });
 
-        it.each(lensesWithLegend.map((lensId) => ({ lensId })))('every color of the legend of $lensId is in the CSS of the lens', function({ lensId }) {
-            const css = BUNDLED_LENSES.find((lens) => lens.id === lensId).css;
-            const legend = lensLegend(lensId);
-            expect(legend.length).toBeGreaterThan(0);
-            for (const entry of legend) {
+        it.each(lensesWithLegend.map((lensId) => ({ lensId })))('every color of the legend of $lensId is in the CSS of the lens or of the core', function({ lensId }) {
+            const css = BUNDLED_LENSES.find((lens) => lens.id === lensId).css + coreCss;
+            const entries = entriesOf(lensId);
+            expect(entries.length).toBeGreaterThan(0);
+            for (const entry of entries) {
                 expect(css).toContain(entry.color);
             }
         });
 
-        it('lists only dashed error highlights for the Québec lens', function() {
-            const legend = lensLegend('bundled-quebec');
-            expect(legend.every((entry) => entry.dashed && entry.labelKey.startsWith('error.'))).toBe(true);
+        it('gives the Québec lens titled groups of errors, access styles and sidewalks', function() {
+            const sections = lensLegend('bundled-quebec');
+            expect(sections.map((section) => section.titleKey)).toEqual(['section.errors', 'section.access', 'section.sidewalks']);
+            expect(sections[0].entries.every((entry) => entry.labelKey.startsWith('error.') && entry.pattern)).toBe(true);
+            expect(sections[1].entries.every((entry) => entry.labelKey.startsWith('quebec.'))).toBe(true);
+            expect(sections[2].entries.map((entry) => entry.labelKey)).toEqual(['quebec.sidewalk_both', 'quebec.sidewalk_left', 'quebec.sidewalk_right']);
+        });
+
+        it.each(lensesWithLegend.filter((lensId) => lensId !== 'bundled-quebec').map((lensId) => ({ lensId })))('gives $lensId one group without a title', function({ lensId }) {
+            const sections = lensLegend(lensId);
+            expect(sections.length).toBe(1);
+            expect(sections[0].titleKey).toBeUndefined();
         });
 
         it('gives the access legend one line per bucket of the mode', function() {
-            expect(lensLegend('bundled-access-bicycle')).toEqual([
+            expect(entriesOf('bundled-access-bicycle')).toEqual([
                 { color: ACCESS_LENS_BUCKET_COLORS.yes, labelKey: 'access.yes' },
                 { color: ACCESS_LENS_BUCKET_COLORS.permissive, labelKey: 'access.permissive' },
                 { color: ACCESS_LENS_BUCKET_COLORS.customers, labelKey: 'access.customers' },
@@ -37,7 +54,7 @@ describe('lens legends', function() {
                 { color: ACCESS_LENS_BUCKET_COLORS.dismount, labelKey: 'access.dismount' },
                 { color: ACCESS_LENS_BUCKET_COLORS.destination, labelKey: 'access.destination' },
                 { color: ACCESS_LENS_BUCKET_COLORS.delivery, labelKey: 'access.delivery' },
-                { color: ACCESS_LENS_BUCKET_COLORS.missing, labelKey: 'access.missing', dashed: true },
+                { color: ACCESS_LENS_BUCKET_COLORS.missing, labelKey: 'access.missing', pattern: 'error' },
                 { color: ACCESS_LENS_BUCKET_COLORS.other, labelKey: 'access.other' }
             ]);
         });
