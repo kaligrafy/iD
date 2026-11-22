@@ -348,6 +348,9 @@
                 "invalid_file": "This file is not a valid settings backup."
             }
         },
+        "preset_shortcut": {
+            "replace": "Replace"
+        },
         "operations": {
             "disconnect_roads": {
                 "title": "Disconnect from Roads",
