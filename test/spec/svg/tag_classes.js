@@ -91,6 +91,18 @@ describe('iD.svgTagClasses', function () {
         expect(selection.classed('tag-placement-transition')).to.be.true;
     });
 
+    it.each([
+        { description: 'access=no', tags: { highway: 'service', access: 'no' }, expected: true },
+        { description: 'another access value', tags: { highway: 'service', access: 'private' }, expected: false },
+        { description: 'no access tag', tags: { highway: 'service' }, expected: false },
+        { description: 'motor_vehicle=no only', tags: { highway: 'service', motor_vehicle: 'no' }, expected: false }
+    ])('tag-access-no class (custom fork) for $description: $expected', function({ tags, expected }) {
+        selection
+            .datum(new iD.osmWay({ tags }))
+            .call(iD.svgTagClasses());
+        expect(selection.classed('tag-access-no')).to.equal(expected);
+    });
+
     it('adds cycleway=link secondary classes (custom fork)', function() {
         selection
             .datum(new iD.osmWay({tags: {highway: 'cycleway', cycleway: 'link'}}))
