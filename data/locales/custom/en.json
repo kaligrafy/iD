@@ -316,6 +316,17 @@
                     "access_bus": "Access: buses"
                 },
                 "legend": {
+                    "error": {
+                        "maxspeed": "Maxspeed missing, or over 70 on a residential road",
+                        "segregated": "Shared cycleway without segregated",
+                        "surface": "Surface missing, or only “paved”",
+                        "lanes": "Lanes missing",
+                        "lanes_or_speed": "Lane count or lane tags error, advisory speed alone, or minspeed missing",
+                        "sidewalk": "Sidewalk missing or invalid",
+                        "sidewalk_separate": "Separate sidewalk without foot=use_sidepath",
+                        "cycleway_sides": "Cycleway sides missing",
+                        "fixme": "Has a fixme"
+                    },
                     "access": {
                         "yes": "Allowed",
                         "designated": "Designated",

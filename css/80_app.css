@@ -5284,7 +5284,9 @@ img.tile-debug {
 .over-map .lens-legend {
     position: absolute;
     left: 10px;
-    bottom: 10px;
+    /* above the imagery attribution shown at the bottom left of the map */
+    bottom: 30px;
+    max-width: 300px;
     padding: 6px 10px;
     border-radius: 4px;
     font-size: 12px;
@@ -5297,7 +5299,8 @@ img.tile-debug {
 }
 .lens-legend-item {
     display: flex;
-    align-items: center;
+    /* a label that wraps keeps its swatch on its first line */
+    align-items: baseline;
     gap: 8px;
 }
 .lens-legend-swatch {

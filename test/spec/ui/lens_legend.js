@@ -50,7 +50,7 @@ describe('uiLensLegend', function() {
         prefs(LENS_PREF, 'bundled-maxspeed-colors');
         expect(legend.selectAll('.lens-legend-item').size()).toBe(11);
 
-        prefs(LENS_PREF, 'bundled-quebec');
+        prefs(LENS_PREF, 'default');
         expect(legend.classed('hide')).toBe(true);
         expect(legend.selectAll('.lens-legend-item').size()).toBe(0);
     });
