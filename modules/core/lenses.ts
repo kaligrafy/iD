@@ -6,6 +6,7 @@ import {
     pickMaxspeedAdvisoryRaw,
     pickMaxspeedRaw
 } from '../../config/maxspeed_lens.js';
+import { ACCESS_LENS_KEY_PREFIX, ACCESS_LENS_MODES, accessLensBucket } from '../../config/access_lens.js';
 import { BUNDLED_LENSES, DEFAULT_BUNDLED_LENS_ID, SURFACE_COLOURS_LENS_ID } from '../../config/bundled_lenses.js';
 import { accessCategoryClassPrefix } from '../../config/tag_classes_custom.js';
 
@@ -31,7 +32,12 @@ export const DEFAULT_LENS_SHORTCUT = 'd';
 export const BUNDLED_LENS_SHORTCUTS: Readonly<Record<string, string>> = {
     q: 'bundled-quebec',
     s: 'bundled-quebec-surfaces',
-    m: 'bundled-maxspeed-colors'
+    m: 'bundled-maxspeed-colors',
+    f: 'bundled-access-foot',
+    b: 'bundled-access-bicycle',
+    v: 'bundled-access-motor-vehicle',
+    h: 'bundled-access-hgv',
+    u: 'bundled-access-bus'
 };
 /** Renamed bundled lens ids (local prefs may still hold the old values). */
 const LEGACY_BUNDLED_LENS_IDS: Record<string, string> = {
@@ -42,7 +48,7 @@ const LEGACY_BUNDLED_LENS_IDS: Record<string, string> = {
  * Letters that cannot be assigned to a lens because `⌥`+letter is already taken:
  *   - `w` -> global `⌥W` toggles the OSM layer (see modules/ui/init.js)
  *   - `d` -> reserved for the default lens (DEFAULT_LENS_SHORTCUT)
- *   - `q`, `s`, `m` -> reserved for bundled lenses (BUNDLED_LENS_SHORTCUTS)
+ *   - `q`, `s`, `m`, `f`, `b`, `v`, `h`, `u` -> reserved for bundled lenses (BUNDLED_LENS_SHORTCUTS)
  */
 export const RESERVED_LENS_SHORTCUTS = new Set([
     'w',
@@ -390,6 +396,13 @@ export function extractTagKeysFromCss(css: string): string[] {
 export function appendLensTagClasses(classes: string[], t: Record<string, string>): void {
     if (lensSecondaryTagKeys.size === 0) return;
 
+    for (const mode of ACCESS_LENS_MODES) {
+        const key = ACCESS_LENS_KEY_PREFIX + mode.id;
+        if (!lensSecondaryTagKeys.has(key)) continue;
+        const bucket = accessLensBucket(t, mode.id);
+        if (bucket) classes.push('tag-' + key + '-' + bucket);
+    }
+
     if (lensSecondaryTagKeys.has('maxspeed')) {
         appendMaxspeedLensClasses(classes, 'maxspeed', pickMaxspeedRaw(t), maxspeedColorBucket);
     }
@@ -473,6 +486,28 @@ export function stripStructureClassesForMaxspeedLens(classes: string[]): void {
         if (shouldStripClassForMaxspeedLens(classes[i])) {
             classes.splice(i, 1);
         }
+    }
+}
+
+/**
+ * With an access lens active, drop the tag classes of highways other than
+ * their `tag-highway*` classes and the access lens class. The core styles of
+ * the dropped classes (access categories, validation highlights, structures)
+ * would otherwise show through the lens: many of them are `!important`.
+ *
+ * @param classes - class list being built (mutated)
+ */
+export function stripCoreHighwayClassesForAccessLens(classes: string[]): void {
+    const accessLensActive = ACCESS_LENS_MODES.some((mode) => lensSecondaryTagKeys.has(ACCESS_LENS_KEY_PREFIX + mode.id));
+    if (!accessLensActive || !classes.includes('tag-highway')) return;
+
+    for (let i = classes.length - 1; i >= 0; i--) {
+        const klass = classes[i];
+        const isKept = !klass.startsWith('tag-')
+            || klass === 'tag-highway'
+            || klass.startsWith('tag-highway-')
+            || klass.startsWith('tag-' + ACCESS_LENS_KEY_PREFIX);
+        if (!isKept) classes.splice(i, 1);
     }
 }
 
