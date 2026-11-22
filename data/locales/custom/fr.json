@@ -315,6 +315,37 @@
                     "access_hgv": "Accès : poids lourds",
                     "access_bus": "Accès : autobus"
                 },
+                "legend": {
+                    "access": {
+                        "yes": "Permis",
+                        "designated": "Désigné",
+                        "permissive": "Toléré ou déconseillé",
+                        "customers": "Clients",
+                        "private": "Privé, agricole ou forestier",
+                        "no": "Interdit, ou voie parallèle à utiliser",
+                        "dismount": "Pied à terre",
+                        "destination": "Destination seulement",
+                        "delivery": "Livraison seulement",
+                        "missing": "Accès à préciser",
+                        "other": "Autre ou inconnu"
+                    },
+                    "maxspeed": {
+                        "speed": "{speed} km/h ({advisory})",
+                        "speed_or_more": "{speed} km/h ou plus",
+                        "none": "Sans maxspeed"
+                    },
+                    "surface": {
+                        "asphalt": "Asphalte",
+                        "concrete": "Béton",
+                        "paving_stones": "Pavés",
+                        "gravel": "Gravier ou compacté",
+                        "unpaved": "Non pavé, terre",
+                        "sand": "Sable",
+                        "grass": "Gazon",
+                        "wood": "Bois",
+                        "undefined": "Manquante, ou seulement « paved »"
+                    }
+                },
                 "shortcut": {
                     "label": "Lettre de raccourci (activée avec Alt + lettre)",
                     "placeholder": "touche",
