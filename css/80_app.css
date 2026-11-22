@@ -6879,6 +6879,42 @@ textarea:focus:dir(rtl)::-webkit-resizer {
     padding: 10px 0;
 }
 
+.obsolete-shortcuts {
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.obsolete-shortcut-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.obsolete-shortcut-label {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.obsolete-shortcut-delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 28px;
+    min-height: 28px;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+    background: #dc3545;
+    color: white;
+}
+
+.obsolete-shortcut-delete-btn:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+
 .shortcuts-list .shortcut-item {
     display: flex;
     align-items: center;

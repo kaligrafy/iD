@@ -369,6 +369,12 @@
                 }
             }
         },
+        "preset_shortcuts_list": {
+            "obsolete": {
+                "one": "This shortcut belongs to a preset that no longer exists:",
+                "other": "These {n} shortcuts belong to presets that no longer exist:"
+            }
+        },
         "lanes": {
             "count_mismatch": "“{tag}” has {actual} lanes, but the road is tagged with {count}.",
             "oneway_directional_tags": "This one-way road uses directional lane tags ({tags}). Use the undirected tags (lanes, turn:lanes, bus:lanes, motor_vehicle:lanes, etc.) without :forward or :backward."
