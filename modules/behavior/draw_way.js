@@ -10,12 +10,17 @@ import { actionAddMidpoint } from '../actions/add_midpoint';
 import { actionMoveNode } from '../actions/move_node';
 import { actionNoop } from '../actions/noop';
 import { behaviorDraw } from './draw';
-import { geoChooseEdge, geoHasSelfIntersections } from '../geo';
+import { geoChooseEdge, geoHasSelfIntersections, geoSnapToAngleStep } from '../geo';
 import { modeBrowse } from '../modes/browse';
 import { modeSelect } from '../modes/select';
 import { osmNode } from '../osm/node';
 import { utilRebind } from '../util/rebind';
 import { utilKeybinding } from '../util';
+
+// Angle between the directions a new segment snaps to while the Shift key is
+// held, measured from the previous segment of the way. Chosen by us: 45° gives
+// the straight continuation, the right angles and the diagonals.
+const ANGLE_SNAP_STEP_RADIANS = Math.PI / 4;
 
 export function behaviorDrawWay(context, wayID, mode, startGraph) {
     const keybinding = utilKeybinding('drawWay');
@@ -33,6 +38,9 @@ export function behaviorDrawWay(context, wayID, mode, startGraph) {
     var _annotation;
 
     var _pointerHasMoved = false;
+
+    // Whether the Shift key was held at the last pointer event
+    var _isAngleSnapping = false;
 
     // The osmNode to be placed.
     // This is temporary and just follows the mouse cursor until an "add" event occurs.
@@ -105,6 +113,31 @@ export function behaviorDrawWay(context, wayID, mode, startGraph) {
     }
 
 
+    // Snap `loc` to the nearest direction at a multiple of the angle snap step
+    // from the last segment of the way, the one that ends at the head node.
+    // Returns `loc` itself while the way has no segment yet.
+    function angleSnappedLoc(loc) {
+        var nodes = _origWay.nodes;
+        var previousNodeID;
+        if (typeof _nodeIndex === 'number') {
+            // the way grows before the head node, so its last segment comes after it
+            previousNodeID = nodes[_nodeIndex + 1];
+        } else {
+            // a closed way repeats its first node at the end, after the head node
+            previousNodeID = nodes[nodes.length - (_origWay.isClosed() ? 3 : 2)];
+        }
+        if (!previousNodeID) return loc;
+
+        var projection = context.projection;
+        return projection.invert(geoSnapToAngleStep(
+            projection(context.entity(previousNodeID).loc),
+            projection(context.entity(_headNodeID).loc),
+            projection(loc),
+            ANGLE_SNAP_STEP_RADIANS
+        ));
+    }
+
+
     // related code
     // - `mode/drag_node.js`     `doMove()`
     // - `behavior/draw.js`      `click()`
@@ -116,6 +149,7 @@ export function behaviorDrawWay(context, wayID, mode, startGraph) {
         if (!_drawNode) createDrawNode(loc);
 
         context.surface().classed('nope-disabled', d3_event.altKey);
+        _isAngleSnapping = d3_event.shiftKey;
 
         var targetLoc = datum && datum.properties && datum.properties.entity &&
             allowsVertex(datum.properties.entity) && datum.properties.entity.loc;
@@ -129,6 +163,8 @@ export function behaviorDrawWay(context, wayID, mode, startGraph) {
             if (choice) {
                 loc = choice.loc;
             }
+        } else if (_isAngleSnapping) {
+            loc = angleSnappedLoc(loc);
         }
 
         context.replace(actionMoveNode(_drawNode.id, loc), _annotation);
@@ -254,6 +290,7 @@ export function behaviorDrawWay(context, wayID, mode, startGraph) {
             'operations.continue.annotation.') + _wayGeometry
         );
         _pointerHasMoved = false;
+        _isAngleSnapping = false;
 
         // Push an annotated state for undo to return back to.
         // We must make sure to replace or remove it later.
@@ -368,7 +405,7 @@ export function behaviorDrawWay(context, wayID, mode, startGraph) {
 
     // Accept the current position of the drawing node
     drawWay.add = function(loc, d) {
-        attemptAdd(d, loc, function() {
+        attemptAdd(d, _isAngleSnapping ? angleSnappedLoc(loc) : loc, function() {
             // don't need to do anything extra
         });
     };
