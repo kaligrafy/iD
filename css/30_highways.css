@@ -895,6 +895,32 @@ path.line.shadow.related.tag-highway-path.tag-foot-permissive {
     stroke-opacity: 0.45 !important;
 }
 
+/* access=no: closed to everyone. Pale zebra of black and white dashes, with no
+   casing around it: the casing draws the white dashes in the gaps of the black
+   stroke, at the same width. Black and white together stay readable on light
+   and dark maps, and the zebra is unlike the single-color casings of the access
+   categories. One width for every highway class, wider than the casing of
+   footways and paths so that it is not taken for one of their dash patterns. */
+path.line.stroke.tag-highway.tag-access-no,
+path.line.casing.tag-highway.tag-access-no {
+    stroke-width: 8 !important;
+    stroke-dasharray: 16, 16 !important;
+    stroke-linecap: butt !important;
+    opacity: 0.3;
+}
+path.line.stroke.tag-highway.tag-access-no {
+    stroke: #000 !important;
+    stroke-dashoffset: 0 !important;
+}
+path.line.casing.tag-highway.tag-access-no {
+    stroke: #fff !important;
+    stroke-dashoffset: 16 !important;
+}
+.low-zoom path.line.stroke.tag-highway.tag-access-no,
+.low-zoom path.line.casing.tag-highway.tag-access-no {
+    stroke-width: 5 !important;
+}
+
 /* Access categories (tag-access-category-<id>, configured in
    data/custom-tagging/src/presets/highway/access_categories.ts): colored casing on
    motor roads, colored dash on a white casing for footways, paths and steps.

@@ -20,7 +20,8 @@ export const customSecondaryTagKeys = [
  * @type {{ key: string, value: string, class: string }[]}
  */
 export const customExactTagClasses = [
-    { key: 'placement', value: 'transition', class: 'placement-transition' }
+    { key: 'placement', value: 'transition', class: 'placement-transition' },
+    { key: 'access', value: 'no', class: 'access-no' }
 ];
 
 /**
