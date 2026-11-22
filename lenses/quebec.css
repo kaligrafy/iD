@@ -562,6 +562,10 @@ path.line.casing.tag-motor_vehicle-destination:not(.tag-highway-footway):not(.ta
 path.line.stroke.tag-sidewalk-separate {
   stroke-width: 8;
 }
+/* casing 2px wider than the stroke on each side, to show its side color */
+path.line.casing.tag-sidewalk-separate {
+  stroke-width: 12;
+}
 path.line.casing.tag-sidewalk-separate-both {
   stroke: rgb(26, 173, 46);
 }
