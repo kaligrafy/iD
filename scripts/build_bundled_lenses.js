@@ -14,7 +14,12 @@ const OUT = path.join(ROOT, 'config', 'bundled_lenses.js');
 const MANIFEST = [
     { id: 'bundled-quebec', nameKey: 'quebec', file: 'quebec.css' },
     { id: 'bundled-quebec-surfaces', nameKey: 'quebec_surfaces', file: 'quebec-surfaces.css' },
-    { id: 'bundled-maxspeed-colors', nameKey: 'maxspeed_colors', file: 'maxspeed-colors.css' }
+    { id: 'bundled-maxspeed-colors', nameKey: 'maxspeed_colors', file: 'maxspeed-colors.css' },
+    { id: 'bundled-access-foot', nameKey: 'access_foot', file: 'access-foot.css' },
+    { id: 'bundled-access-bicycle', nameKey: 'access_bicycle', file: 'access-bicycle.css' },
+    { id: 'bundled-access-motor-vehicle', nameKey: 'access_motor_vehicle', file: 'access-motor-vehicle.css' },
+    { id: 'bundled-access-hgv', nameKey: 'access_hgv', file: 'access-hgv.css' },
+    { id: 'bundled-access-bus', nameKey: 'access_bus', file: 'access-bus.css' }
 ];
 
 const DEFAULT_BUNDLED_LENS_ID = 'bundled-quebec';

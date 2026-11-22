@@ -308,7 +308,12 @@
                 "bundled": {
                     "quebec": "Québec v5",
                     "quebec_surfaces": "Québec v5 (surfaces)",
-                    "maxspeed_colors": "Couleurs de vitesse"
+                    "maxspeed_colors": "Couleurs de vitesse",
+                    "access_foot": "Accès : piétons",
+                    "access_bicycle": "Accès : vélos",
+                    "access_motor_vehicle": "Accès : véhicules motorisés",
+                    "access_hgv": "Accès : poids lourds",
+                    "access_bus": "Accès : autobus"
                 },
                 "shortcut": {
                     "label": "Lettre de raccourci (activée avec Alt + lettre)",
