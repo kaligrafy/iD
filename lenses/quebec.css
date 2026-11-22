@@ -110,10 +110,10 @@ svg#surface:not(.debug-surfaces) path.line.over-stroke.tag-highway-cycleway.tag-
 
 /* cycleways segregated and not segregated */
 path.line.stroke.tag-highway-cycleway.tag-segregated-yes {
-  stroke-dasharray: 12, 3, 2, 3;
+  stroke-dasharray: 12, 3, 2, 3 !important;
 }
 path.line.stroke.tag-crossing-marked.tag-highway-cycleway.tag-segregated-yes , path.line.stroke.tag-crossing-zebra.tag-highway-cycleway.tag-segregated-yes {
-  stroke-dasharray: 6, 2, 2, 2;
+  stroke-dasharray: 6, 2, 2, 2 !important;
 }
 
 path.line.stroke.tag-highway-cycleway.tag-foot-designated, path.line.stroke.tag-highway-cycleway.tag-foot-yes {
