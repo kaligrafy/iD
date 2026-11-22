@@ -5279,6 +5279,38 @@ img.tile-debug {
 .debug-legend-item {
     padding-right: 5px;
 }
+
+/* Legend of the active lens, at the bottom left of the map */
+.over-map .lens-legend {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 1.5;
+    pointer-events: none;
+}
+.lens-legend-title {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.lens-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.lens-legend-swatch {
+    flex: none;
+    width: 22px;
+    height: 6px;
+    background: var(--lens-legend-color);
+    /* thin light outline: keeps a black swatch visible on the dark legend */
+    outline: 1px solid rgba(255, 255, 255, 0.4);
+}
+.lens-legend-swatch-dashed {
+    background: repeating-linear-gradient(90deg, var(--lens-legend-color) 0 3px, #000 3px 6px);
+}
 .debug-legend-item:before {
     content: "\25A0";
     padding: 0 5px;

@@ -159,3 +159,29 @@ export function accessLensBucket(tags, modeId) {
     if (!value && mode.untaggedIsMissingOn.includes(tags.highway)) return ACCESS_LENS_MISSING_BUCKET;
     return mode.valueBuckets[value] || ACCESS_LENS_VALUE_BUCKETS[value] || ACCESS_LENS_OTHER_BUCKET;
 }
+
+/**
+ * Buckets a mode can show, in the order of ACCESS_LENS_BUCKET_COLORS.
+ * @param {string} modeId - `id` of one of ACCESS_LENS_MODES
+ * @returns {string[]} keys of ACCESS_LENS_BUCKET_COLORS; empty when the mode is unknown
+ */
+export function accessLensBuckets(modeId) {
+    const mode = ACCESS_LENS_MODES.find((candidate) => candidate.id === modeId);
+    if (!mode) return [];
+
+    const shown = new Set([
+        ...Object.values(ACCESS_LENS_VALUE_BUCKETS),
+        ...Object.values(mode.valueBuckets),
+        ACCESS_LENS_OTHER_BUCKET
+    ]);
+    if (mode.untaggedIsMissingOn.length) shown.add(ACCESS_LENS_MISSING_BUCKET);
+    return Object.keys(ACCESS_LENS_BUCKET_COLORS).filter((bucket) => shown.has(bucket));
+}
+
+/**
+ * @param {string} modeId - `id` of one of ACCESS_LENS_MODES
+ * @returns {string} id of the bundled access lens of the mode
+ */
+export function accessLensId(modeId) {
+    return 'bundled-access-' + modeId.replace(/_/g, '-');
+}

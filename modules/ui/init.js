@@ -23,6 +23,7 @@ import { uiFlash } from './flash';
 import { uiFullScreen } from './full_screen';
 import { uiGeolocate } from './geolocate';
 import { uiInfo } from './info';
+import { uiLensLegend } from './lens_legend';
 import { uiIntro } from './intro';
 import { uiIssuesInfo } from './issues_info';
 import { uiLoading } from './loading';
@@ -252,6 +253,9 @@ export function uiInit(context) {
 
         overMap
             .call(ui.info);
+
+        overMap
+            .call(uiLensLegend());
 
         overMap
             .append('div')
