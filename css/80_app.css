@@ -7019,6 +7019,21 @@ textarea:focus:dir(rtl)::-webkit-resizer {
     margin-top: 5px;
 }
 
+.shortcut-editor-container .shortcut-replace-btn {
+    align-self: flex-start;
+    padding: 4px 10px;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+    background: #dc3545;
+    color: white;
+    font-size: 12px;
+}
+
+.shortcut-editor-container .shortcut-replace-btn:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+
 .shortcut-buttons {
     display: flex;
     gap: 12px;

@@ -51,6 +51,15 @@ export function uiShortcutEditor() {
             .attr('class', 'shortcut-error')
             .style('display', 'none');
 
+        // Shown with the conflict error: assigns the shortcut anyway, which
+        // takes it away from the preset that has it
+        const replaceButton = editorContainer
+            .append('button')
+            .attr('class', 'shortcut-replace-btn')
+            .style('display', 'none')
+            .text(t('preset_shortcut.replace'))
+            .on('click', handleReplace);
+
         // Buttons section
         const buttonSection = editorContainer
             .append('div')
@@ -87,6 +96,11 @@ export function uiShortcutEditor() {
             shortcutInput.node().select();
         }
 
+        // The replace button is only valid for the value that was refused
+        shortcutInput.on('input', function() {
+            replaceButton.style('display', 'none');
+        });
+
         // Keyboard event handlers
         shortcutInput.on('keydown', function(d3_event) {
             if (d3_event.key === 'Enter') {
@@ -104,6 +118,7 @@ export function uiShortcutEditor() {
 
             // Clear previous errors
             errorContainer.style('display', 'none');
+            replaceButton.style('display', 'none');
 
             // Validate empty input
             if (!value) {
@@ -122,9 +137,18 @@ export function uiShortcutEditor() {
                 const conflictPreset = presetManager.item(existingPreset);
                 const conflictName = conflictPreset ? conflictPreset.name() : existingPreset;
                 showError(t('preset_shortcut.error_conflict', { shortcut: value, preset: conflictName }));
+                replaceButton.style('display', null);
                 return;
             }
 
+            saveShortcut(value);
+        }
+
+        function handleReplace() {
+            saveShortcut(normalizePresetShortcut(shortcutInput.property('value')));
+        }
+
+        function saveShortcut(value) {
             // Save the shortcut
             presetShortcuts.setShortcut(_preset.id, value);
 

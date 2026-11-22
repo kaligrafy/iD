@@ -348,6 +348,9 @@
                 "invalid_file": "Ce fichier n'est pas une sauvegarde de réglages valide."
             }
         },
+        "preset_shortcut": {
+            "replace": "Remplacer"
+        },
         "operations": {
             "disconnect_roads": {
                 "title": "Séparer des routes",
