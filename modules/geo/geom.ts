@@ -40,6 +40,30 @@ export function geoRotate(points: Vec2[], angle: number, around: Vec2): Vec2[] {
 }
 
 
+/**
+ * Snap a point to the nearest of the directions that leave `origin` at a
+ * multiple of `stepRadians` from the direction of the segment `from` → `origin`.
+ * The point is projected at a right angle onto that direction.
+ * @param from - start of the reference segment
+ * @param origin - end of the reference segment, where the directions start
+ * @param point - the point to snap
+ * @param stepRadians - angle between two directions, greater than 0
+ * @returns the snapped point, or `point` itself when `from` and `origin` are
+ * the same point: the reference segment then has no direction
+ */
+export function geoSnapToAngleStep(from: Vec2, origin: Vec2, point: Vec2, stepRadians: number): Vec2 {
+    if (geoVecEqual(from, origin)) return point;
+
+    const referenceAngle = geoVecAngle(from, origin);
+    const turn = geoVecAngle(origin, point) - referenceAngle;
+    const snappedAngle = referenceAngle + Math.round(turn / stepRadians) * stepRadians;
+    const direction: Vec2 = [Math.cos(snappedAngle), Math.sin(snappedAngle)];
+    const length = geoVecDot(geoVecSubtract(point, origin), direction);
+
+    return [origin[0] + direction[0] * length, origin[1] + direction[1] * length];
+}
+
+
 // Choose the edge with the minimal distance from `point` to its orthogonal
 // projection onto that edge, if such a projection exists, or the distance to
 // the closest vertex on that edge. Returns an object with the `index` of the

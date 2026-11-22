@@ -378,6 +378,13 @@
                 "other": "These {n} shortcuts belong to presets that no longer exist:"
             }
         },
+        "shortcuts": {
+            "editing": {
+                "drawing": {
+                    "angle_snap": "Snap the new segment to 45° steps from the previous one"
+                }
+            }
+        },
         "lanes": {
             "count_mismatch": "“{tag}” has {actual} lanes, but the road is tagged with {count}.",
             "oneway_directional_tags": "This one-way road uses directional lane tags ({tags}). Use the undirected tags (lanes, turn:lanes, bus:lanes, motor_vehicle:lanes, etc.) without :forward or :backward."

@@ -18,6 +18,7 @@ export { geoGetSmallestSurroundingRectangle } from './geom.js';
 export { geoHasLineIntersections } from './geom.js';
 export { geoHasSelfIntersections } from './geom.js';
 export { geoRotate } from './geom.js';
+export { geoSnapToAngleStep } from './geom.js';
 export { geoLineIntersection } from './geom.js';
 export { geoPathHasIntersections } from './geom.js';
 export { geoPathIntersections } from './geom.js';

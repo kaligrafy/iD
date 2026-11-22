@@ -24,6 +24,46 @@ describe('iD.geo - geometry', function() {
         });
     });
 
+    describe('geoSnapToAngleStep', function() {
+        // the reference segment goes from [0, 0] to [10, 0]: along the positive X axis
+        const from = [0, 0];
+        const origin = [10, 0];
+        const step = Math.PI / 4;
+
+        it.each([
+            { description: 'a point on the straight continuation', point: [15, 0], expected: [15, 0] },
+            { description: 'a point near the straight continuation', point: [15, 1], expected: [15, 0] },
+            { description: 'a point near the right angle on one side', point: [11, 5], expected: [10, 5] },
+            { description: 'a point near the right angle on the other side', point: [9, -5], expected: [10, -5] },
+            { description: 'a point near the 45° diagonal', point: [14, 6], expected: [15, 5] },
+            { description: 'a point near the 135° diagonal', point: [4, -4], expected: [5, -5] },
+            { description: 'a point back along the reference segment', point: [5, 1], expected: [5, 0] },
+            { description: 'the origin itself', point: [10, 0], expected: [10, 0] }
+        ])('snaps $description to $expected', function({ point, expected }) {
+            const result = iD.geoSnapToAngleStep(from, origin, point, step);
+            expect(result[0]).toBeCloseTo(expected[0], 6);
+            expect(result[1]).toBeCloseTo(expected[1], 6);
+        });
+
+        it('measures the steps from the direction of the reference segment', function() {
+            // reference along the 45° diagonal: its right angle is the other diagonal
+            const result = iD.geoSnapToAngleStep([0, 0], [10, 10], [5, 16], step);
+            expect(result[0]).toBeCloseTo(4.5, 6);
+            expect(result[1]).toBeCloseTo(15.5, 6);
+        });
+
+        it('uses the given step', function() {
+            // with right angles only, a point near the 45° diagonal goes to the nearest axis
+            const result = iD.geoSnapToAngleStep(from, origin, [14, 6], Math.PI / 2);
+            expect(result[0]).toBeCloseTo(10, 6);
+            expect(result[1]).toBeCloseTo(6, 6);
+        });
+
+        it('returns the point when the reference segment has no length', function() {
+            expect(iD.geoSnapToAngleStep(origin, origin, [14, 6], step)).toEqual([14, 6]);
+        });
+    });
+
     describe('geoRotate', function() {
         it('rotates points around [0, 0]', function() {
             var points = [[5, 0], [5, 1]];
