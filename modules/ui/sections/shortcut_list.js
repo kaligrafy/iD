@@ -18,6 +18,9 @@ export function uiSectionShortcutList(context) {
 
         // Group shortcuts by geometry type and sort
         var groupedShortcuts = [];
+        // Shortcuts of presets that are not in the preset list any more. They
+        // cannot be listed with a name and an icon, but they still hold their shortcut.
+        var obsoleteShortcuts = [];
 
         Object.keys(shortcuts).forEach(function(shortcut) {
             var presetId = shortcuts[shortcut];
@@ -30,6 +33,8 @@ export function uiSectionShortcutList(context) {
                     geometry: preset.geometry[0], // Take first geometry
                     shortcutNum: parseInt(shortcut, 10)
                 });
+            } else {
+                obsoleteShortcuts.push({ shortcut: shortcut, presetId: presetId });
             }
         });
 
@@ -52,6 +57,47 @@ export function uiSectionShortcutList(context) {
             .append('div')
             .attr('class', 'shortcuts-list-container')
             .merge(container);
+
+        var obsolete = container.selectAll('.obsolete-shortcuts')
+            .data(obsoleteShortcuts.length ? [0] : []);
+
+        obsolete.exit().remove();
+
+        var obsoleteEnter = obsolete.enter()
+            .insert('div', ':first-child')
+            .attr('class', 'obsolete-shortcuts');
+
+        obsoleteEnter
+            .append('div')
+            .attr('class', 'obsolete-shortcuts-message');
+
+        obsolete = obsoleteEnter.merge(obsolete);
+
+        obsolete.select('.obsolete-shortcuts-message')
+            .text(t('preset_shortcuts_list.obsolete', { n: obsoleteShortcuts.length }));
+
+        var obsoleteItems = obsolete.selectAll('.obsolete-shortcut-item')
+            .data(obsoleteShortcuts, function(d) { return d.shortcut; });
+
+        obsoleteItems.exit().remove();
+
+        var obsoleteItemsEnter = obsoleteItems.enter()
+            .append('div')
+            .attr('class', 'obsolete-shortcut-item');
+
+        obsoleteItemsEnter
+            .append('div')
+            .attr('class', 'obsolete-shortcut-label')
+            .text(function(d) { return d.shortcut + ' (' + d.presetId + ')'; });
+
+        obsoleteItemsEnter
+            .append('button')
+            .attr('class', 'obsolete-shortcut-delete-btn')
+            .attr('title', t('preset_shortcuts_list.delete_tooltip'))
+            .call(svgIcon('#iD-icon-close'))
+            .on('click', function(d3_event, d) {
+                presetShortcuts.removeShortcut(d.presetId);
+            });
 
         if (groupedShortcuts.length === 0) {
             var noShortcuts = container.selectAll('.no-shortcuts-message')
