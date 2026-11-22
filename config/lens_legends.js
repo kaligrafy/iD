@@ -1,7 +1,7 @@
 /**
- * Legends of the bundled lenses that color the map by one attribute: the
- * access lenses, the maxspeed lens and the surfaces lens. The other lenses
- * (default, Québec) have no legend.
+ * Legends of the bundled lenses: the lenses that color the map by one
+ * attribute (access, maxspeed, surfaces) list their colors, and the Québec
+ * lens lists its error highlights only. The default lens has no legend.
  */
 
 import {
@@ -69,6 +69,26 @@ const SURFACES_LEGEND = [
 ];
 
 /**
+ * Legend of the Québec lens: only its error highlights, the highways drawn as
+ * short dashes of one color on black. The colors are copied from the
+ * "validation/error highlights" rules of lenses/quebec.css, for the same
+ * reason as MAXSPEED_LEGEND and with the same test. When a highway has several
+ * errors, the lens shows the color of the rule that comes last in that file.
+ * @type {LensLegendEntry[]}
+ */
+const QUEBEC_ERRORS_LEGEND = [
+    { color: 'rgb(255, 0, 0)', labelKey: 'error.maxspeed', dashed: true },
+    { color: 'rgb(255, 0, 0)', labelKey: 'error.segregated', dashed: true },
+    { color: 'rgb(0, 128, 255)', labelKey: 'error.surface', dashed: true },
+    { color: 'rgb(255, 230, 0)', labelKey: 'error.lanes', dashed: true },
+    { color: 'rgb(169, 0, 166)', labelKey: 'error.lanes_or_speed', dashed: true },
+    { color: 'rgb(101, 179, 12)', labelKey: 'error.sidewalk', dashed: true },
+    { color: 'rgb(255, 72, 0)', labelKey: 'error.sidewalk_separate', dashed: true },
+    { color: 'rgb(255, 0, 153)', labelKey: 'error.cycleway_sides', dashed: true },
+    { color: 'rgb(255, 123, 123)', labelKey: 'error.fixme', dashed: true }
+];
+
+/**
  * @param {string} modeId - `id` of one of ACCESS_LENS_MODES
  * @returns {LensLegendEntry[]} one line per bucket the mode can show
  */
@@ -82,6 +102,7 @@ function accessLegend(modeId) {
 
 /** Legend of each bundled lens that has one, by lens id. */
 const LENS_LEGENDS = {
+    'bundled-quebec': QUEBEC_ERRORS_LEGEND,
     'bundled-maxspeed-colors': MAXSPEED_LEGEND,
     'bundled-quebec-surfaces': SURFACES_LEGEND,
     ...Object.fromEntries(ACCESS_LENS_MODES.map((mode) => [accessLensId(mode.id), accessLegend(mode.id)]))

@@ -316,6 +316,17 @@
                     "access_bus": "Accès : autobus"
                 },
                 "legend": {
+                    "error": {
+                        "maxspeed": "Maxspeed manquant, ou plus de 70 sur une rue résidentielle",
+                        "segregated": "Piste cyclable partagée sans segregated",
+                        "surface": "Surface manquante, ou seulement « paved »",
+                        "lanes": "Lanes manquant",
+                        "lanes_or_speed": "Erreur de nombre ou de tags de voies, vitesse conseillée seule, ou minspeed manquant",
+                        "sidewalk": "Sidewalk manquant ou invalide",
+                        "sidewalk_separate": "Trottoir séparé sans foot=use_sidepath",
+                        "cycleway_sides": "Côtés de cycleway manquants",
+                        "fixme": "Avec un fixme"
+                    },
                     "access": {
                         "yes": "Permis",
                         "designated": "Désigné",

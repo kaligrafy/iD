@@ -3,12 +3,11 @@ import { BUNDLED_LENSES } from '../../../config/bundled_lenses.js';
 import { lensLegend } from '../../../config/lens_legends.js';
 
 describe('lens legends', function() {
-    const lensesWithLegend = ['bundled-maxspeed-colors', 'bundled-quebec-surfaces', ...ACCESS_LENS_MODES.map((mode) => accessLensId(mode.id))];
+    const lensesWithLegend = ['bundled-quebec', 'bundled-maxspeed-colors', 'bundled-quebec-surfaces', ...ACCESS_LENS_MODES.map((mode) => accessLensId(mode.id))];
 
     describe('lensLegend', function() {
         it.each([
             { description: 'the default lens', lensId: 'default' },
-            { description: 'the Québec lens', lensId: 'bundled-quebec' },
             { description: 'an unknown lens', lensId: 'unknown' }
         ])('has no legend for $description', function({ lensId }) {
             expect(lensLegend(lensId)).toBeUndefined();
@@ -21,6 +20,11 @@ describe('lens legends', function() {
             for (const entry of legend) {
                 expect(css).toContain(entry.color);
             }
+        });
+
+        it('lists only dashed error highlights for the Québec lens', function() {
+            const legend = lensLegend('bundled-quebec');
+            expect(legend.every((entry) => entry.dashed && entry.labelKey.startsWith('error.'))).toBe(true);
         });
 
         it('gives the access legend one line per bucket of the mode', function() {
