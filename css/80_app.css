@@ -5286,16 +5286,47 @@ img.tile-debug {
     left: 10px;
     /* above the imagery attribution shown at the bottom left of the map */
     bottom: 30px;
-    max-width: 300px;
+    max-width: calc(100% - 20px);
     padding: 6px 10px;
     border-radius: 4px;
     font-size: 12px;
     line-height: 1.5;
+}
+.lens-legend-toggle {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font-weight: bold;
+}
+.lens-legend-toggle:hover,
+.lens-legend-toggle:focus {
+    background: none;
+    text-decoration: underline;
+}
+.lens-legend-body {
+    /* the map stays draggable through the lines of the legend */
     pointer-events: none;
 }
-.lens-legend-title {
+/* groups side by side: a legend with several groups grows wider, not taller */
+.lens-legend-sections {
+    display: flex;
+    /* on a map too narrow for every group, the last ones go below */
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0 16px;
+}
+.lens-legend-section {
+    max-width: 340px;
+}
+.lens-legend-lens-name,
+.lens-legend-section-title {
     font-weight: bold;
-    margin-bottom: 2px;
+    margin-top: 4px;
+}
+.lens-legend-section-title {
+    opacity: 0.8;
 }
 .lens-legend-item {
     display: flex;
@@ -5311,12 +5342,22 @@ img.tile-debug {
     /* thin light outline: keeps a black swatch visible on the dark legend */
     outline: 1px solid rgba(255, 255, 255, 0.4);
 }
-.lens-legend-swatch-dashed {
+.lens-legend-swatch-error {
     background: repeating-linear-gradient(90deg, var(--lens-legend-color) 0 3px, #000 3px 6px);
 }
-.debug-legend-item:before {
-    content: "\25A0";
-    padding: 0 5px;
+/* a thin line along the middle of the way, not its whole width */
+.lens-legend-swatch-dashed {
+    height: 2px;
+    align-self: center;
+    background: repeating-linear-gradient(90deg, var(--lens-legend-color) 0 4px, transparent 4px 7px);
+    outline: none;
+}
+.lens-legend-swatch-dotted {
+    background: radial-gradient(circle, var(--lens-legend-color) 1.5px, transparent 2px) 0 0 / 6px 6px;
+    outline: none;
+}
+.lens-legend-swatch-zebra {
+    background: repeating-linear-gradient(90deg, #000 0 5px, #fff 5px 10px);
 }
 
 

@@ -316,6 +316,12 @@
                     "access_bus": "Accès : autobus"
                 },
                 "legend": {
+                    "title": "Légende",
+                    "section": {
+                        "errors": "Erreurs de tags",
+                        "access": "Accès et chaussées séparées",
+                        "sidewalks": "Trottoirs séparés"
+                    },
                     "error": {
                         "maxspeed": "Maxspeed manquant, ou plus de 70 sur une rue résidentielle",
                         "segregated": "Piste cyclable partagée sans segregated",
@@ -325,7 +331,23 @@
                         "sidewalk": "Sidewalk manquant ou invalide",
                         "sidewalk_separate": "Trottoir séparé sans foot=use_sidepath",
                         "cycleway_sides": "Côtés de cycleway manquants",
-                        "fixme": "Avec un fixme"
+                        "fixme": "Avec un fixme",
+                        "name": "Name manquant sur un trottoir, une traverse ou une piste cyclable"
+                    },
+                    "quebec": {
+                        "private": "Privé (accès ou propriété)",
+                        "private_property": "Propriété privée, destination seulement",
+                        "destination": "Destination seulement",
+                        "customers": "Clients ou commerce",
+                        "delivery": "Livraison",
+                        "permissive": "Toléré",
+                        "access_no": "Accès interdit",
+                        "bicycle_yes": "Trottoir ou sentier permis aux vélos",
+                        "bicycle_dismount": "Vélos pied à terre",
+                        "dual_carriageway": "Chaussées séparées",
+                        "sidewalk_both": "Des deux côtés",
+                        "sidewalk_left": "À gauche seulement",
+                        "sidewalk_right": "À droite seulement"
                     },
                     "access": {
                         "yes": "Permis",
