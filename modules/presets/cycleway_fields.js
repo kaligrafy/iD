@@ -75,7 +75,8 @@ function build() {
             key: `${SIDE_TAGS[side]}:oneway`,
             type: 'radio',
             geometry: ['line'],
-            options: ['yes', 'no'],
+            // `-1`: one way against the direction of the way (contraflow lane)
+            options: ['yes', 'no', '-1'],
             prerequisiteTag: prereq(side, ['lane', 'share_busway'])
         };
         if (id !== onewayCanonical) def.stringsCrossReference = `{${onewayCanonical}}`;

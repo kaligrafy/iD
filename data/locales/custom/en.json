@@ -219,7 +219,8 @@
                     "label": "Left: Bicycle one way",
                     "options": {
                         "yes": "Yes",
-                        "no": "No"
+                        "no": "No",
+                        "-1": "Contraflow"
                     }
                 },
                 "cycleway_right_buffer": {
@@ -235,7 +236,8 @@
                     "label": "Right: Bicycle one way",
                     "options": {
                         "yes": "Yes",
-                        "no": "No"
+                        "no": "No",
+                        "-1": "Contraflow"
                     }
                 }
             }

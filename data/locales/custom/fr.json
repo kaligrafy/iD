@@ -219,7 +219,8 @@
                     "label": "Côté gauche : Sens unique vélo",
                     "options": {
                         "yes": "Oui",
-                        "no": "Non"
+                        "no": "Non",
+                        "-1": "Contresens"
                     }
                 },
                 "cycleway_right_buffer": {
@@ -235,7 +236,8 @@
                     "label": "Côté droit : Sens unique vélo",
                     "options": {
                         "yes": "Oui",
-                        "no": "Non"
+                        "no": "Non",
+                        "-1": "Contresens"
                     }
                 }
             }
