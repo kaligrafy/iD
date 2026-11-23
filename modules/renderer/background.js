@@ -9,6 +9,7 @@ import whichPolygon from 'which-polygon';
 import { prefs } from '../core/preferences';
 import { fileFetcher } from '../core/file_fetcher';
 import { geoMetersToOffset, geoOffsetToMeters, geoExtent } from '../geo';
+import { customBackgroundOffsetMeters, customBackgroundSaveOffset } from './background_custom_entries';
 import { rendererBackgroundSource } from './background_source';
 import { rendererTileLayer } from './tile_layer';
 import { utilAesDecrypt, utilStringQs } from '../util';
@@ -48,6 +49,27 @@ export function applyBingMontrealDefaultOffset(source, mapCenter) {
   if (x !== 0 || y !== 0) return;  // already nudged/offset - don't override
   if (!isGreaterMontreal(mapCenter)) return;
   source.offset(geoMetersToOffset(BING_MONTREAL_DEFAULT_OFFSET_METERS));
+}
+
+/**
+ * Give the custom source the offset saved for its background, so that each
+ * saved custom background has its own offset. A custom background that is not
+ * saved keeps the offset of the source.
+ * @param {ReturnType<typeof rendererBackgroundSource>} source
+ */
+function applyCustomEntryOffset(source) {
+  if (source.id !== 'custom') return;
+  const meters = customBackgroundOffsetMeters(source.template());
+  if (meters) source.offset(geoMetersToOffset(meters));
+}
+
+/**
+ * Save the offset of the custom source with its saved custom background.
+ * @param {ReturnType<typeof rendererBackgroundSource>} source
+ */
+function saveCustomEntryOffset(source) {
+  if (source.id !== 'custom') return;
+  customBackgroundSaveOffset(source.template(), geoOffsetToMeters(source.offset()));
 }
 
 export function rendererBackground(context) {
@@ -371,6 +393,7 @@ export function rendererBackground(context) {
 
     baseLayer.source(!fail ? d : background.findSource('none'));
     applyBingMontrealDefaultOffset(baseLayer.source(), context.map().center());
+    applyCustomEntryOffset(baseLayer.source());
     dispatch.call('change');
     background.updateImagery();
     return background;
@@ -436,6 +459,7 @@ export function rendererBackground(context) {
     const currSource = baseLayer.source();
     if (currSource) {
       currSource.nudge(d, zoom);
+      saveCustomEntryOffset(currSource);
       dispatch.call('change');
       background.updateImagery();
     }
@@ -450,6 +474,7 @@ export function rendererBackground(context) {
     }
     if (currSource) {
       currSource.offset(d);
+      saveCustomEntryOffset(currSource);
       dispatch.call('change');
       background.updateImagery();
     }
