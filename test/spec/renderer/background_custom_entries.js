@@ -6,8 +6,11 @@ import {
     CUSTOM_TEMPLATE_PREF,
     customBackgroundCurrentEntry,
     customBackgroundEntries,
+    customBackgroundEntryForTemplate,
+    customBackgroundOffsetMeters,
     customBackgroundRemoveEntry,
     customBackgroundSaveEntry,
+    customBackgroundSaveOffset,
     customBackgroundSetCurrent
 } from '../../../modules/renderer/background_custom_entries';
 
@@ -97,6 +100,75 @@ describe('renderer/background_custom_entries', function() {
             customBackgroundSaveEntry(LIDAR);
             customBackgroundSaveEntry({ ...OSM, name: 'Lidar' }, 'OSM');
             expect(customBackgroundEntries()).toEqual([{ ...OSM, name: 'Lidar' }, ORTHO]);
+        });
+
+        it('keeps the offset of the replaced entry', function() {
+            customBackgroundSaveEntry({ ...OSM, offsetMeters: [1.5, -2] });
+            customBackgroundSaveEntry({ ...OSM, name: 'OSM Carto' }, 'OSM');
+            expect(customBackgroundEntries()).toEqual([{ ...OSM, name: 'OSM Carto', offsetMeters: [1.5, -2] }]);
+        });
+    });
+
+    describe('customBackgroundEntryForTemplate', function() {
+        // Two saved backgrounds with the same template
+        const ORTHO_COPY = { ...ORTHO, name: 'Ortho copy' };
+
+        beforeEach(function() {
+            customBackgroundSaveEntry(OSM);
+            customBackgroundSaveEntry(ORTHO);
+            customBackgroundSaveEntry(ORTHO_COPY);
+        });
+
+        test.each([
+            { description: 'the active entry when it has the template', activeName: 'Ortho copy', template: ORTHO.template, expected: ORTHO_COPY },
+            { description: 'the first entry with the template when the active entry has another one', activeName: 'OSM', template: ORTHO.template, expected: ORTHO },
+            { description: 'the first entry with the template when no entry is active', activeName: '', template: ORTHO.template, expected: ORTHO },
+            { description: 'undefined when no entry has the template', activeName: 'OSM', template: LIDAR.template, expected: undefined },
+            { description: 'undefined for an empty template', activeName: 'OSM', template: '', expected: undefined }
+        ])('returns $description', function({ activeName, template, expected }) {
+            prefs(CUSTOM_ENTRY_NAME_PREF, activeName);
+            expect(customBackgroundEntryForTemplate(template)).toEqual(expected);
+        });
+    });
+
+    describe('customBackgroundOffsetMeters', function() {
+        test.each([
+            { description: 'the saved offset', offsetMeters: [1.5, -2], expected: [1.5, -2] },
+            { description: 'no offset for an entry without one', offsetMeters: undefined, expected: [0, 0] },
+            { description: 'no offset for a null offset', offsetMeters: null, expected: [0, 0] },
+            { description: 'no offset for a single number', offsetMeters: [1.5], expected: [0, 0] },
+            { description: 'no offset for three numbers', offsetMeters: [1, 2, 3], expected: [0, 0] },
+            { description: 'no offset for strings', offsetMeters: ['1', '2'], expected: [0, 0] },
+            { description: 'no offset for a missing coordinate', offsetMeters: [1, null], expected: [0, 0] }
+        ])('returns $description', function({ offsetMeters, expected }) {
+            prefs(CUSTOM_ENTRIES_PREF, JSON.stringify([{ ...OSM, offsetMeters }]));
+            expect(customBackgroundOffsetMeters(OSM.template)).toEqual(expected);
+        });
+
+        it('returns undefined when no entry has the template', function() {
+            customBackgroundSaveEntry(OSM);
+            expect(customBackgroundOffsetMeters(LIDAR.template)).toBeUndefined();
+        });
+    });
+
+    describe('customBackgroundSaveOffset', function() {
+        it('saves the offset in the entry with the template, not in the others', function() {
+            customBackgroundSaveEntry(OSM);
+            customBackgroundSaveEntry(ORTHO);
+            customBackgroundSaveOffset(ORTHO.template, [1.5, -2]);
+            expect(customBackgroundEntries()).toEqual([OSM, { ...ORTHO, offsetMeters: [1.5, -2] }]);
+        });
+
+        it('replaces the saved offset', function() {
+            customBackgroundSaveEntry({ ...OSM, offsetMeters: [1.5, -2] });
+            customBackgroundSaveOffset(OSM.template, [0, 0]);
+            expect(customBackgroundEntries()).toEqual([{ ...OSM, offsetMeters: [0, 0] }]);
+        });
+
+        it('saves nothing when no entry has the template', function() {
+            customBackgroundSaveEntry(OSM);
+            customBackgroundSaveOffset(LIDAR.template, [1.5, -2]);
+            expect(customBackgroundEntries()).toEqual([OSM]);
         });
     });
 

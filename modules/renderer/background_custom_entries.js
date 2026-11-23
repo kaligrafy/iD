@@ -24,6 +24,8 @@ export const CUSTOM_ENTRY_NAME_PREF = 'background-custom-entry-name';
  * @property {string} template - TMS/WMS URL template
  * @property {boolean} privateUrl - when `true`, the URL is left out of `imagery_used`
  * @property {string} imageryUsedName - `imagery_used` label when `privateUrl` is `true`
+ * @property {number[]} [offsetMeters] - imagery offset of this background, as [east, north] in meters;
+ *   no offset when missing
  */
 
 /**
@@ -72,6 +74,46 @@ export function customBackgroundEntries() {
 }
 
 /**
+ * Saved entry of the custom background that uses `template`: the entry the
+ * active settings come from, if it has this template (a `custom:` URL in the
+ * hash can replace the template), else the first entry with this template.
+ * @param {string} template - URL template of the custom background
+ * @returns {CustomBackgroundEntry|undefined} the entry, or undefined when none has this template
+ */
+export function customBackgroundEntryForTemplate(template) {
+    const entries = customBackgroundEntries();
+    const name = prefs(CUSTOM_ENTRY_NAME_PREF) || '';
+    return entries.find((entry) => entry.name === name && entry.template === template) ||
+        entries.find((entry) => entry.template === template);
+}
+
+/**
+ * Imagery offset saved for the custom background that uses `template`.
+ * @param {string} template - URL template of the custom background
+ * @returns {number[]|undefined} [east, north] in meters, [0, 0] when the entry has no valid
+ *   offset; undefined when no saved entry has this template
+ */
+export function customBackgroundOffsetMeters(template) {
+    const entry = customBackgroundEntryForTemplate(template);
+    if (!entry) return undefined;
+    const offset = entry.offsetMeters;
+    const isValid = Array.isArray(offset) && offset.length === 2 && offset.every(Number.isFinite);
+    return isValid ? offset : [0, 0];
+}
+
+/**
+ * Save the imagery offset of the custom background that uses `template` in its
+ * saved entry. Does nothing when no saved entry has this template.
+ * @param {string} template - URL template of the custom background
+ * @param {number[]} offsetMeters - [east, north] in meters
+ */
+export function customBackgroundSaveOffset(template, offsetMeters) {
+    const entry = customBackgroundEntryForTemplate(template);
+    if (!entry) return;
+    customBackgroundSaveEntry({ ...entry, offsetMeters }, entry.name);
+}
+
+/**
  * Make `entry` the active custom background settings.
  * @param {CustomBackgroundEntry} entry
  */
@@ -85,6 +127,8 @@ export function customBackgroundSetCurrent(entry) {
 /**
  * Save `entry`, replacing the entry named `replacedName` (a rename keeps its
  * position) and any other entry with the same name; otherwise append it.
+ * The replaced entry keeps the properties that `entry` does not have, such as
+ * its offset.
  * @param {CustomBackgroundEntry} entry - entry with a non-empty `name`
  * @param {string} [replacedName] - name of the entry being edited
  */
@@ -96,7 +140,7 @@ export function customBackgroundSaveEntry(entry, replacedName) {
     if (index === -1) {
         entries.push(entry);
     } else {
-        entries[index] = entry;
+        entries[index] = { ...entries[index], ...entry };
     }
     prefs(CUSTOM_ENTRIES_PREF, JSON.stringify(entries));
 }
