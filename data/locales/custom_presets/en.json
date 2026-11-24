@@ -151,6 +151,11 @@
         "terms": "cs, bicycle and foot path, bike and pedestrian path, greenway, mixed-use trail, multi-use trail, segregated",
         "aliases": "cs"
     },
+    "highway/cycleway/oneway_no_foot": {
+        "name": "One-Way Cycle Path (no foot)",
+        "terms": "cnfo, bicycle path, bike path, cycling path, cycle path, no foot, one way, oneway",
+        "aliases": "cnfo"
+    },
     "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
         "name": "Traffic Signals Dashes Cycleway Crossing No Foot",
         "terms": "ctsdcnf, ctsd, cycleway crossing, traffic signals cycleway crossing, traffic signals crosswalk, traffic signals bicycle crossing, dashes crossing, dashes, no foot",
