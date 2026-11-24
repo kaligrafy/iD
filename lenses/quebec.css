@@ -212,7 +212,8 @@ path.line.casing.tag-crossing-traffic_signals {
 }
 path.line.stroke.tag-crossing-traffic_signals,
 path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-designated,
-path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-yes {
+path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway.tag-foot-yes,
+path.line.stroke.tag-crossing-traffic_signals.tag-highway-cycleway:not(.tag-foot-designated):not(.tag-foot-yes) {
   stroke:rgb(129, 255, 160);
   opacity: 0.8;
   stroke-linecap: butt;
