@@ -21,6 +21,11 @@ const CYCLEWAY_PATH_VARIANTS: CyclewayPathVariant[] = [
         icon: 'fas-biking'
     },
     {
+        id: 'highway/cycleway/oneway_no_foot',
+        tags: { highway: 'cycleway', foot: 'no', oneway: 'yes', 'oneway:bicycle': 'yes' },
+        icon: 'fas-biking'
+    },
+    {
         id: 'highway/cycleway/bicycle_foot',
         tags: { highway: 'cycleway', foot: 'designated', segregated: 'no' },
         icon: 'temaki-pedestrian_and_cyclist'

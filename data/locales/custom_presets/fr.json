@@ -151,6 +151,11 @@
         "terms": "cs, piste cyclable et piétons, voie mixte, sentier polyvalent, ségréguée",
         "aliases": "cs"
     },
+    "highway/cycleway/oneway_no_foot": {
+        "name": "Piste cyclable à sens unique (sans piétons)",
+        "terms": "cnfo, piste cyclable, voie cyclable, sans piétons, piétons interdits, sens unique, unidirectionnelle",
+        "aliases": "cnfo"
+    },
     "highway/cycleway/crossing/traffic_signals-dashes_no_foot": {
         "name": "Traversée cyclable — Feux, tirets, sans piétons",
         "terms": "ctsdcnf, tsdashnf, traversée cyclable, passage cyclable, passage pour vélo, traversée, feux, feux de circulation, signalisation, tirets, marquage en tirets, sans piétons, piétons interdits",

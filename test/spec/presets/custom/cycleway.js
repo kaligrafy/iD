@@ -2,6 +2,7 @@ import { loadCustomPresets } from './setup.js';
 
 const CYCLEWAY_PATH_CASES = [
     ['highway/cycleway', { highway: 'cycleway', foot: 'no' }, { surface: 'asphalt' }],
+    ['highway/cycleway/oneway_no_foot', { highway: 'cycleway', foot: 'no', oneway: 'yes', 'oneway:bicycle': 'yes' }, { surface: 'asphalt' }],
     ['highway/cycleway/bicycle_foot', { highway: 'cycleway', foot: 'designated', segregated: 'no' }, { surface: 'asphalt' }],
     ['highway/cycleway/bicycle_foot_segregated', { highway: 'cycleway', foot: 'designated', segregated: 'yes' }, { surface: 'asphalt' }]
 ];
@@ -34,6 +35,7 @@ describe('custom presets — cycleway', function() {
 
     for (const id of [
         'highway/cycleway',
+        'highway/cycleway/oneway_no_foot',
         'highway/cycleway/bicycle_foot',
         'highway/cycleway/bicycle_foot_segregated',
         'highway/cycleway/cycleway_link'
@@ -55,8 +57,22 @@ describe('custom presets — cycleway', function() {
     it('finds cycleway path presets via search aliases', function() {
         const pool = iD.presetManager.matchAllGeometry(['line']);
         expect(pool.search('cnf', 'line').collection.map((p) => p.id)).to.include('highway/cycleway');
+        expect(pool.search('cnfo', 'line').collection.map((p) => p.id)).to.include('highway/cycleway/oneway_no_foot');
         expect(pool.search('cns', 'line').collection.map((p) => p.id)).to.include('highway/cycleway/bicycle_foot');
         expect(pool.search('cs', 'line').collection.map((p) => p.id)).to.include('highway/cycleway/bicycle_foot_segregated');
+    });
+
+    it('matches a one-way cycleway without foot to the one-way preset only', function() {
+        const oneway = new iD.osmWay({ tags: { highway: 'cycleway', foot: 'no', oneway: 'yes', 'oneway:bicycle': 'yes', surface: 'asphalt' } });
+        const twoWay = new iD.osmWay({ tags: { highway: 'cycleway', foot: 'no', surface: 'asphalt' } });
+        const graph = new iD.coreGraph([oneway, twoWay]);
+        expect(iD.presetManager.match(oneway, graph).id).to.equal('highway/cycleway/oneway_no_foot');
+        expect(iD.presetManager.match(twoWay, graph).id).to.equal('highway/cycleway');
+    });
+
+    it('removes the one-way tags when switching to the two-way preset', function() {
+        const oneway = iD.presetManager.item('highway/cycleway/oneway_no_foot');
+        expect(oneway.removeTags).to.include({ oneway: 'yes', 'oneway:bicycle': 'yes' });
     });
 
     it('loads cycleway link preset with expected name', function() {
