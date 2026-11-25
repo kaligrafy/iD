@@ -573,6 +573,7 @@ describe('iD.svgTagClasses', function () {
         [{ highway: 'service', motor_vehicle: 'destination' }, 'destination', false],
         [{ highway: 'service', access: 'destination' }, 'destination', false],
         [{ highway: 'footway', access: 'destination' }, 'destination', false],
+        [{ highway: 'service', motor_vehicle: 'destination', ownership: 'private' }, 'private_ownership', false],
         [{ highway: 'service', ownership: 'private' }, 'private_ownership', false],
         [{ highway: 'footway', ownership: 'private' }, 'private_ownership', false]
     ];

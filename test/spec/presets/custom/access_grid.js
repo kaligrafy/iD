@@ -77,10 +77,16 @@ describe('access grid preset change', function() {
             }
         },
         {
-            description: 'replaces access=private with ownership=private',
+            description: 'replaces access=private with ownership=private and motor_vehicle=destination',
             oldId: 'highway/service/private_driveway',
             newId: 'highway/service/private_ownership_driveway',
-            expected: { highway: 'service', service: 'driveway', surface: 'asphalt', ownership: 'private' }
+            expected: {
+                highway: 'service',
+                service: 'driveway',
+                surface: 'asphalt',
+                motor_vehicle: 'destination',
+                ownership: 'private'
+            }
         },
         {
             description: 'replaces access=private with ownership=private on a footway',
