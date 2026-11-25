@@ -141,6 +141,21 @@ export const ACCESS_CATEGORIES: AccessCategory[] = [
     },
     {
         // motor_vehicle only on motor roads, so pedestrians and cyclists keep their
+        // default access; footways, steps and paths only carry the ownership
+        id: 'private_ownership',
+        tags: { motor_vehicle: 'destination', ownership: 'private' },
+        footwayTags: { ownership: 'private' },
+        wide: false,
+        footways: true,
+        label: { en: 'private ownership', fr: 'propriété privée' },
+        terms: { en: ['private', 'ownership'], fr: ['privé', 'propriété'] },
+        wiki: [
+            'https://wiki.openstreetmap.org/wiki/Key:motor_vehicle',
+            'https://wiki.openstreetmap.org/wiki/Key:ownership'
+        ]
+    },
+    {
+        // motor_vehicle only on motor roads, so pedestrians and cyclists keep their
         // default access; footways, steps and paths with access=destination get the
         // same color, without presets (the base presets are enough)
         id: 'destination',
@@ -154,15 +169,6 @@ export const ACCESS_CATEGORIES: AccessCategory[] = [
             'https://wiki.openstreetmap.org/wiki/Key:motor_vehicle',
             'https://wiki.openstreetmap.org/wiki/Tag:access%3Ddestination'
         ]
-    },
-    {
-        id: 'private_ownership',
-        tags: { ownership: 'private' },
-        wide: false,
-        footways: true,
-        label: { en: 'private ownership', fr: 'propriété privée' },
-        terms: { en: ['private', 'ownership'], fr: ['privé', 'propriété'] },
-        wiki: ['https://wiki.openstreetmap.org/wiki/Key:ownership']
     }
 ];
 

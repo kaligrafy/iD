@@ -3,7 +3,7 @@ import { serviceGridEntries } from '../../../../data/custom-tagging/src/presets/
 
 /** Driveway access categories as specified for the map colors: [preset id, category tags]. */
 const DRIVEWAY_CASES = [
-    ['highway/service/private_ownership_driveway', { ownership: 'private' }],
+    ['highway/service/private_ownership_driveway', { motor_vehicle: 'destination', ownership: 'private' }],
     ['highway/service/private_property_driveway', { access: 'destination', ownership: 'private' }],
     [
         'highway/service/business_driveway',
