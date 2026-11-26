@@ -18,5 +18,6 @@ export { validationPrivateData } from './private_data';
 export { validationQuebecMotorwayMinspeed } from './quebec_motorway_minspeed';
 export { validationRedundantDirectionalTag } from './redundant_directional_tag';
 export { validationMismatchedLanes } from './mismatched_lanes';
+export { validationSimpleMultipolygon } from './simple_multipolygon';
 export { validationSuspiciousName } from './suspicious_name';
 export { validationUnsquareWay } from './unsquare_way';

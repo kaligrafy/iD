@@ -477,6 +477,14 @@
                     "reference": "Per-lane tags (turn:lanes*, change:lanes*, width:lanes*) use one `|`-separated value per lane counted in the matching lanes* tag."
                 }
             },
+            "simple_multipolygon": {
+                "title": "Multipolygon With a Single Closed Way",
+                "tip": "Find multipolygons that could be a basic area.",
+                "message": "{feature} is a multipolygon with a single closed way.",
+                "reference": "A multipolygon whose only member is a closed way should be that way, tagged as an area. The fix keeps the way with its id and history, moves the tags onto it and deletes the relation.",
+                "fix": "Convert to a basic area",
+                "annotation": "Converted a single-way multipolygon to a basic area."
+            },
             "quebec_motorway_minspeed": {
                 "title": "Minimum Speed Missing on a 100 km/h Motorway",
                 "tip": "Find one-way Québec motorways posted at 100 km/h without minspeed=60.",

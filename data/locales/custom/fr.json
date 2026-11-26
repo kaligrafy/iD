@@ -477,6 +477,14 @@
                     "reference": "Les tags par voie (turn:lanes*, change:lanes*, width:lanes*) utilisent une valeur par voie, séparée par |, selon le tag lanes* correspondant."
                 }
             },
+            "simple_multipolygon": {
+                "title": "Multipolygone avec une seule ligne fermée",
+                "tip": "Repérer les multipolygones qui pourraient être une surface simple.",
+                "message": "{feature} est un multipolygone avec une seule ligne fermée.",
+                "reference": "Un multipolygone dont le seul membre est une ligne fermée devrait être cette ligne, étiquetée comme surface. La correction garde la ligne avec son id et son historique, y déplace les tags et supprime la relation.",
+                "fix": "Convertir en surface simple",
+                "annotation": "Conversion d'un multipolygone à une seule ligne en surface simple."
+            },
             "quebec_motorway_minspeed": {
                 "title": "Vitesse minimale manquante sur une autoroute à 100 km/h",
                 "tip": "Repérer les autoroutes à sens unique au Québec limitées à 100 km/h sans minspeed=60.",
