@@ -8,6 +8,7 @@ export { actionChangePreset } from './change_preset';
 export { actionChangeTags } from './change_tags';
 export { actionCircularize } from './circularize';
 export { actionClone } from './clone';
+export { actionCollapseSimpleMultipolygon } from './collapse_simple_multipolygon';
 export { actionConnect } from './connect';
 export { actionCopyEntities } from './copy_entities';
 export { actionDeleteMember } from './delete_member';
